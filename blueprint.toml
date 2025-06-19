@@ -1,0 +1,7 @@
+title = "Partitions mod p"
+root = "Main"
+
+[[sections]]
+id = "section_1"
+title = "Core Results"
+entries = ["convergesTo", "converges"]
