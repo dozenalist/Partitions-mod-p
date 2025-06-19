@@ -1,7 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1750349237.94773 "print.tex" "C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/print.pdf" "print" 1750349239.83602 0
-  "C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/print.aux" 1750349239 594 c4ed1fbe466753dd079e97cdcd90d111 "pdflatex"
-  "C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/print.out" 1750349239 185 6b60783d111d6189ac05b5eb5620e3fe "pdflatex"
+["pdflatex"] 1750366048.27452 "print.tex" "C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/print.pdf" "print" 1750366052.76457 0
+  "C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/print.aux" 1750366050 594 c4ed1fbe466753dd079e97cdcd90d111 "pdflatex"
+  "C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/print.out" 1750366050 185 6b60783d111d6189ac05b5eb5620e3fe "pdflatex"
   "c:/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1749158670 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/adobe/zapfding/pzdr.tfm" 1749166932 1528 7e12f4c0fcf5a072cebdcfbfc610f54c ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm" 1749156498 916 f87d7c45f9c908e672703b83b72241a3 ""
@@ -83,7 +83,7 @@
   "c:/texlive/2025/texmf-dist/web2c/texmf.cnf" 1749156342 42148 61becc7c670cd061bb319c643c27fdd4 ""
   "c:/texlive/2025/texmf-var/web2c/xetex/xelatex.fmt" 1749167090 5890108 9fe61e3d9965bab3584e80916f40d468 ""
   "c:/texlive/2025/texmf.cnf" 1749166961 713 e69b156964470283e0530f5060668171 ""
-  "content.tex" 1750349224 1462 777019b7e05ceeb95f5adf2fee0c8b47 ""
+  "content.tex" 1750366029 1463 bdd29493796f0813d2aa5d7f1bd527ce ""
   "macros/common.tex" 1750298264 820 60fafcc3aa944a5e60030581a943ef6b ""
   "macros/print.tex" 1750298264 1101 87627b2ec24fef68edc71c13f43f7bab ""
   "print.tex" 1750298264 1145 5bcb66c22642dbf3f1af0b3d58cbddbe ""
