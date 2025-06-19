@@ -1,2 +1,5 @@
 convergesTo
 converges
+convergesTo_scalar_mul
+convergesTo_add
+test

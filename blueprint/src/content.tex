@@ -30,9 +30,24 @@
 
 \begin{theorem}[Limit Laws]
   \label{thm:limit_laws}
+  \uses{def:convergence, def:sequence}
+  \lean{convergesTo_scalar_mul, convergesTo_add}
+  \leanok
+
 
   Let $C \in \mathbb{R}$. Suppose $\{a_n\}$ converges to $L$ and $\{b_n\}$ converges to $K$. Then \\ \\
   (i) $\{C a_n\}$ converges to $C L$ \\
   (ii) $\{a_n + b_n\}$ converges to $L + K. hey everyone$ 
+
+\end{theorem}
+
+
+\begin{theorem}[Test]
+  \label{thm:test}
+  \uses{def:convergence, thm:limit_laws}
+  \lean{test}
+  \leanok
+
+  Testing Testing.
 
 \end{theorem}

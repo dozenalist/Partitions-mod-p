@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.6.5)  18 JUN 2025 22:20
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.6.5)  19 JUN 2025 10:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -940,7 +940,7 @@ LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 (Font)              scaled to size 4.99947pt on input line 13.
 
-Underfull \hbox (badness 10000) in paragraph at lines 34--37
+Underfull \hbox (badness 10000) in paragraph at lines 38--41
 
  []
 
@@ -955,10 +955,10 @@ Package rerunfilecheck Info: File `print.out' has not changed.
 (rerunfilecheck)             Checksum: 6B60783D111D6189AC05B5EB5620E3FE;185.
  ) 
 Here is how much of TeX's memory you used:
- 16699 strings out of 468533
- 306271 string characters out of 5451482
- 899630 words of memory out of 5000000
- 44869 multiletter control sequences out of 15000+600000
+ 16700 strings out of 468533
+ 306281 string characters out of 5451482
+ 900630 words of memory out of 5000000
+ 44870 multiletter control sequences out of 15000+600000
  632156 words of font info for 84 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  90i,6n,107p,542b,425s stack positions out of 10000i,1000n,20000p,200000b,200000s
