@@ -1,45 +1,49 @@
+import os
 import re
 
-# --- Customize this section ---
+# === Configuration ===
 GITHUB_REPO = "dozenalist/Partitions-mod-p"
-COMMIT_HASH = "ae225b168cfa378e0c0bd079d9e842d37f849c54"  # Replace with your actual commit
-LEAN_PATH = "PartitionsLeanblueprint"  # Replace with the path to your Lean files
+COMMIT_HASH = "ae225b168cfa378e0c0bd079d9e842d37f849c54"  # or 'main'
+LEAN_DECLS_PATH = "blueprint/lean_decls"
+LEAN_SOURCE_DIR = "PartitionsLeanblueprint"  # adjust if your .lean files live elsewhere
+INDEX_HTML_PATH = "docs/index.html"
 
-# Map from declaration name to (file, line number)
-DECLARATION_LINKS = {
-    "convergesTo": ("IVT.lean", 4),
-    "converges": ("IVT.lean", 12),
-    "myTheorem": ("Section1.lean", 23),
-    # Add more entries as needed
-}
+# === Step 1: Load theorem names ===
+with open(LEAN_DECLS_PATH, "r", encoding="utf-8") as f:
+    decl_names = [line.strip() for line in f if line.strip()]
 
-# --- Processing ---
+# === Step 2: Find declarations in .lean files ===
+decl_lookup = {}
 
-def github_url(decl_name):
-    if decl_name not in DECLARATION_LINKS:
-        return None
-    file, line = DECLARATION_LINKS[decl_name]
-    return f"https://github.com/{GITHUB_REPO}/blob/{COMMIT_HASH}/{LEAN_PATH}/{file}#L{line}"
+for root, _, files in os.walk(LEAN_SOURCE_DIR):
+    for file in files:
+        if not file.endswith(".lean"):
+            continue
+        path = os.path.join(root, file)
+        rel_path = os.path.relpath(path, start=".")
+        with open(path, "r", encoding="utf-8") as f:
+            for i, line in enumerate(f, start=1):
+                for name in decl_names:
+                    # Look for `theorem name`, `def name`, or `lemma name`
+                    if re.match(rf"\s*(theorem|def|lemma)\s+{re.escape(name)}\b", line):
+                        if name not in decl_lookup:
+                            decl_lookup[name] = f"https://github.com/{GITHUB_REPO}/blob/{COMMIT_HASH}/{rel_path.replace(os.sep, '/')}" + f"#L{i}"
 
-def patch_index_html(file_path="docs/index.html"):
-    with open(file_path, "r", encoding="utf-8") as f:
-        content = f.read()
+# === Step 3: Patch index.html ===
+with open(INDEX_HTML_PATH, "r", encoding="utf-8") as f:
+    html = f.read()
 
-    def replacer(match):
-        decl = match.group(1)
-        url = github_url(decl)
-        if url:
-            return f'href="{url}"'
-        else:
-            print(f"⚠️  No GitHub link found for '{decl}', leaving it unchanged.")
-            return match.group(0)
+def replacer(match):
+    name = match.group(1)
+    if name in decl_lookup:
+        return f'href="{decl_lookup[name]}"'
+    else:
+        print(f"⚠️ Could not find declaration '{name}', leaving as-is.")
+        return match.group(0)
 
-    new_content = re.sub(r'href="#doc/(\w+)"', replacer, content)
+html = re.sub(r'href="#doc/(\w+)"', replacer, html)
 
-    with open(file_path, "w", encoding="utf-8") as f:
-        f.write(new_content)
+with open(INDEX_HTML_PATH, "w", encoding="utf-8") as f:
+    f.write(html)
 
-    print("✅ Links patched in docs/index.html")
-
-if __name__ == "__main__":
-    patch_index_html()
+print(f"✅ Patched links for {len(decl_lookup)} declarations in index.html.")
