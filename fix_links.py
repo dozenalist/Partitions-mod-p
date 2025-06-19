@@ -41,7 +41,11 @@ def replacer(match):
         print(f"⚠️ Could not find declaration '{name}', leaving as-is.")
         return match.group(0)
 
-html = re.sub(r'href="#doc/(\w+)"', replacer, html)
+html = re.sub(
+    r'href="https://github\.com/[^/]+/[^/]+/find/#doc/(\w+)"',
+    replacer,
+    html
+)
 
 with open(INDEX_HTML_PATH, "w", encoding="utf-8") as f:
     f.write(html)
