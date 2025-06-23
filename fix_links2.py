@@ -3,7 +3,7 @@ import re
 
 # === Configuration ===
 GITHUB_REPO = "dozenalist/Partitions-mod-p"
-COMMIT_HASH = "ae225b168cfa378e0c0bd079d9e842d37f849c54"  # Use 'main' if preferred
+COMMIT_HASH = "main"  # Use 'main' if preferred
 LEAN_DECLS_PATH = "blueprint/lean_decls"
 LEAN_SOURCE_DIR = "PartitionsLeanblueprint"  # Change if your .lean files live elsewhere
 PROJECT_ROOT = "."  # Replace with the path to your root directory if needed
