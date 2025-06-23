@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.6.5)  19 JUN 2025 14:47
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.6.5)  23 JUN 2025 13:42
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -940,28 +940,55 @@ LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 (Font)              scaled to size 4.99947pt on input line 14.
 
-Underfull \hbox (badness 10000) in paragraph at lines 39--42
+Underfull \hbox (badness 10000) in paragraph at lines 38--41
 
  []
 
+
+LaTeX Warning: Reference `lem:converges_nonneg' on page 1 undefined on input li
+ne 55.
+
 )
+
+! LaTeX Error: \begin{theorem} on input line 53 ended by \end{document}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.33 \end{document}
+                   
+? 
+
 
 [1] (C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/print.aux)
  ***********
 LaTeX2e <2025-06-01>
 L3 programming layer <2025-05-26>
  ***********
+
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
 Package rerunfilecheck Info: File `print.out' has not changed.
 (rerunfilecheck)             Checksum: 6B60783D111D6189AC05B5EB5620E3FE;185.
- ) 
+ )
+(\end occurred inside a group at level 2)
+
+### semi simple group (level 2) entered at line 53 (\begingroup)
+### semi simple group (level 1) entered at line 44 (\begingroup)
+### bottom level 
 Here is how much of TeX's memory you used:
- 16700 strings out of 468533
- 306281 string characters out of 5451482
- 900630 words of memory out of 5000000
- 44870 multiletter control sequences out of 15000+600000
- 632156 words of font info for 84 fonts, out of 8000000 for 9000
+ 16708 strings out of 468533
+ 306488 string characters out of 5451482
+ 902630 words of memory out of 5000000
+ 44874 multiletter control sequences out of 15000+600000
+ 632172 words of font info for 86 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 90i,6n,107p,542b,425s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 90i,6n,107p,542b,619s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 Output written on C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/
 print.pdf (2 pages).
