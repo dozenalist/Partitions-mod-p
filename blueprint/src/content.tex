@@ -35,20 +35,27 @@
   \lean{convergesTo_scalar_mul, convergesTo_add}
   \leanok
 
-
   Let $C \in \mathbb{R}$. Suppose $\{a_n\}$ converges to $L$ and $\{b_n\}$ converges to $K$. Then \\ \\
   (i) $\{C a_n\}$ converges to $C L$ \\
-  (ii) $\{a_n + b_n\}$ converges to $L + K. hey everyone$ 
+  (ii) $\{a_n + b_n\}$ converges to $L + K.$ 
 
 \end{theorem}
 
-
-\begin{theorem}[Test]
-  \label{thm:test}
+\begin{lemma}
+\label{lem:converges_nonneg}
   \uses{def:convergence, thm:limit_laws}
-  \lean{test}
+  \lean{convergesTo_nonneg}
   \leanok
 
-  Testing Testing.
+  Suppose that there exists an $N \in ℕ$ such that for all $n \ge N$, $a_n ≥ 0$.
+  Then $\lim_{n \to \infty} a_n ≥ 0$.
 
-\end{theorem}
+\begin{theorem}[Order Limit Theorem]
+  \label{thm:order_limit}
+  \uses{lem:converges_nonneg}
+  \lean{le_convergesTo_of_le}
+  \leanok
+
+  Let $\{a_n\}$ and $\{b_n\}$ be sequences. 
+  Suppose that there exists an $N ∈ ℕ$ such that for all $n ≥ N$, $a_n ≤ b_n$.
+  Then $\lim_{n \to \infty} a_n \le \lim_{n \to \infty} b_n$.

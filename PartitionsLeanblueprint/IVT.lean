@@ -47,5 +47,9 @@ convergesTo (fun n ↦ a n + b n) (L + K) := by
         ring
 
 
+lemma convergesTo_nonneg (ha : convergesTo a L) (h : ∃ (N : ℕ), ∀ n ≥ N, a n ≥ 0) : L ≥ 0 := by
+    sorry
 
-#check le_max_of_le_left
+
+theorem le_convergesTo_of_le (ha : convergesTo a L) (hb : convergesTo b K) (h : ∃ (N : ℕ), ∀ n ≥ N, a n ≤ b n) : L ≤ K := by
+    sorry
