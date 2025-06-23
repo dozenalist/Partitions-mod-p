@@ -173,17 +173,16 @@
   </div>
   <div class="theorem_thmcontent">
   
-<p>Let \(C \in \mathbb {R}\). Suppose \(\{ a_n\} \) converges to \(L\) and \(\{ b_n\} \) converges to \(K\). Then <br /><br />(i) \(\{ C a_n\} \) converges to \(C L\) <br />(ii) \(\{ a_n + b_n\} \) converges to \(L + K. hey everyone\) </p>
+<p>Let \(C \in \mathbb {R}\). Suppose \(\{ a_n\} \) converges to \(L\) and \(\{ b_n\} \) converges to \(K\). Then <br /><br />(i) \(\{ C a_n\} \) converges to \(C L\) <br />(ii) \(\{ a_n + b_n\} \) converges to \(L + K.\) </p>
 
   </div>
 </div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:test">
-  <div class="theorem_thmheading">
-    <span class="theorem_thmcaption">
-    Theorem
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:converges_nonneg">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
     </span>
-    <span class="theorem_thmlabel">4</span>
-    <span class="theorem_thmtitle">Test</span>
+    <span class="lemma_thmlabel">4</span>
     <div class="thm_header_extras">
 
     
@@ -191,7 +190,7 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="index.html#thm:test">#</a>
+    <a class="icon proof" href="index.html#lem:converges_nonneg">#</a>
     
     
     <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
@@ -228,7 +227,72 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/find/#doc/test" class="lean_decl">test</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/ae225b168cfa378e0c0bd079d9e842d37f849c54/PartitionsLeanblueprint/IVT.lean#L50" class="lean_decl">convergesTo_nonneg</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  
+<p>Suppose that there exists an \(N \in ℕ\) such that for all \(n \ge N\), \(a_n ≥ 0\). Then \(\lim _{n \to \infty } a_n ≥ 0\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:order_limit">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">5</span>
+    <span class="theorem_thmtitle">Order Limit Theorem</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#thm:order_limit">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#lem:converges_nonneg">Lemma 4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/ae225b168cfa378e0c0bd079d9e842d37f849c54/PartitionsLeanblueprint/IVT.lean#L54" class="lean_decl">le_convergesTo_of_le</a></li>
           
         </ul>
     
@@ -240,7 +304,7 @@
   </div>
   <div class="theorem_thmcontent">
   
-<p>Testing Testing. </p>
+<p>Let \(\{ a_n\} \) and \(\{ b_n\} \) be sequences. Suppose that there exists an \(N ∈ ℕ\) such that for all \(n ≥ N\), \(a_n ≤ b_n\). Then \(\lim _{n \to \infty } a_n \le \lim _{n \to \infty } b_n\). </p>
 
   </div>
 </div>

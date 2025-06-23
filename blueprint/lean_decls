@@ -2,4 +2,5 @@ convergesTo
 converges
 convergesTo_scalar_mul
 convergesTo_add
-test
+convergesTo_nonneg
+le_convergesTo_of_le
