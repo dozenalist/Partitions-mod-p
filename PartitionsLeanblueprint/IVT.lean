@@ -15,7 +15,7 @@ variable {L K c : ℝ}
 theorem convergesTo_scalar_mul (h: convergesTo a L) :
 convergesTo (fun n ↦ c * a n) (c * L) := by
     intro ε εpos
-    by_cases hc : c = 0
+    rcases eq_or_ne c 0 with hc | hc
     use 0; intro n hn; rw[hc]; simp; exact εpos
     obtain ⟨N, hN⟩ := h (ε / |c|) (by apply div_pos εpos (abs_pos.2 hc))
     use N; intro n hn; dsimp

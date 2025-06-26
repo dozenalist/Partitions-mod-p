@@ -251,7 +251,7 @@ graphContainer.graphviz({useWorker: true})
     .width(width)
     .height(height)
     .fit(true)
-    .renderDot(`strict digraph "" {	graph [bgcolor=transparent];	node [label="\N",		penwidth=1.8	];	edge [arrowhead=vee];	"def:sequence"	[color=blue,		fillcolor="#A3D6FF",		label=sequence,		shape=box,		style=filled];	"thm:limit_laws"	[color=green,		label=limit_laws,		shape=ellipse];	"def:sequence" -> "thm:limit_laws"	[style=dashed];	"lem:converges_nonneg"	[color=green,		label=converges_nonneg,		shape=ellipse];	"thm:limit_laws" -> "lem:converges_nonneg"	[style=dashed];	"thm:order_limit"	[color=green,		label=order_limit,		shape=ellipse];	"lem:converges_nonneg" -> "thm:order_limit"	[style=dashed];	"def:convergence"	[color=green,		fillcolor="#B0ECA3",		label=convergence,		shape=box,		style=filled];	"def:convergence" -> "thm:limit_laws"	[style=dashed];}`)
+    .renderDot(`strict digraph "" {	graph [bgcolor=transparent];	node [label="\N",		penwidth=1.8	];	edge [arrowhead=vee];	"def:sequence"	[color=blue,		fillcolor="#A3D6FF",		label=sequence,		shape=box,		style=filled];	"thm:limit_laws"	[color=green,		fillcolor="#1CAC78",		label=limit_laws,		shape=ellipse,		style=filled];	"def:sequence" -> "thm:limit_laws"	[style=dashed];	"lem:converges_nonneg"	[color=green,		label=converges_nonneg,		shape=ellipse];	"thm:limit_laws" -> "lem:converges_nonneg"	[style=dashed];	"thm:order_limit"	[color=green,		label=order_limit,		shape=ellipse];	"lem:converges_nonneg" -> "thm:order_limit"	[style=dashed];	"def:convergence"	[color=green,		fillcolor="#B0ECA3",		label=convergence,		shape=box,		style=filled];	"def:convergence" -> "thm:limit_laws"	[style=dashed];}`)
     .on("end", interactive);
 
 latexLabelEscaper = function(label) {
