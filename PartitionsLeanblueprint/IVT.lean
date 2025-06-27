@@ -119,7 +119,7 @@ theorem intermediate_value {f : ℝ → ℝ} {a b y: ℝ} (h : continuous f ) (h
 
     have upper_bound_K : upper_bound K (c - δ / 2) := by
         intro x hx; specialize aux x hx; linarith
-    have c_le_c_minus_delta : c ≤ c - δ / 2 := (isLUB_le_iff hc).mpr upper_bound_K
+    have c_le_c_minus_delta : c ≤ c - δ / 2 := by apply hc.2; exact upper_bound_K
     linarith
 
     -- f c ≥ y
