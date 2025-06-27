@@ -114,3 +114,16 @@
   Suppose that $f(a) < f(b)$ and let $y \in [f(a), f(b)]$.
   Then there exists a $c ∈ [a, b]$ such that $f(c) = y$.
 \end{theorem}
+
+\begin{proof}
+  \leanok
+  Sketch: \\
+  Let $K = \{x \in [a, b] | f(x) \le y\}$.
+  Then $K$ is non-empty and bounded above by $b$, so it has a supremum $c \in \mathbb{R}$.
+  If $f(c) < y$, then by continuity of $f$, there exists a $\delta > 0$ such that for all $x ∈ (c - \delta, c + \delta)$, $f(x) < y$.
+  Choose $x = c + \delta/2$.Then $x ∈ K$ and $x > c$, so $c$ is not an upper bound for $K$.
+  If $f(c) > y$, then by continuity of $f$, there exists a $\delta > 0$ such that for all $x ∈ (c - \delta, c + \delta)$, $f(x) > y$.
+  Choose $x = c - \delta/2$. Then $x$ is an upper bound for $K$ and $x < c$, so $c$ is not the supremum of $K$.
+  Thus, $f(c) = y$.
+
+\end{proof}

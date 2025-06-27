@@ -1,5 +1,6 @@
 import Mathlib.Data.Real.Basic
 import Mathlib.Tactic
+set_option push_neg.use_distrib true
 
 def convergesTo (a : ℕ → ℝ) (L : ℝ) :=
     ∀ ε > 0, ∃ N : ℕ, ∀ n ≥ N, |a n - L| < ε
@@ -77,7 +78,7 @@ theorem le_convergesTo_of_le (ha : convergesTo a L) (hb : convergesTo b K) (h : 
     sorry
 
 
-theorem exists_sup_of_bounded_above (S : Set ℝ) (h : bounded_above S) :
+theorem exists_sup_of_bounded_above (S : Set ℝ) (h : bounded_above S) (nempty : ∃ x, x ∈ S) :
     ∃ y : ℝ, sup S y := sorry
 
 
@@ -86,4 +87,66 @@ theorem exists_sup_of_bounded_above (S : Set ℝ) (h : bounded_above S) :
 
 theorem intermediate_value {f : ℝ → ℝ} {a b y: ℝ} (h : continuous f ) (hy : y ∈ Icc (f a) (f b)) (alb : a < b) :
 ∃ c ∈ Icc a b, f c = y := by
-    sorry
+    have aa : a ∈ Icc a b := ⟨le_refl a, le_of_lt alb⟩
+    have bb : b ∈ Icc a b := ⟨le_of_lt alb, le_refl b⟩
+
+    -- Proving c ∈ Icc a b
+    set K : Set ℝ := {x : ℝ | x ∈ Icc a b ∧ f x ≤ y} with hK
+    have buK : bounded_above K := by use b; intro x xinK; exact xinK.1.2
+    have nemptyK : ∃ x, x ∈ K := by use a; exact ⟨aa, hy.1⟩
+    obtain ⟨c, hc⟩ := exists_sup_of_bounded_above K buK nemptyK
+    have c_in_ab : c ∈ Icc a b := by
+        constructor; apply hc.1; exact ⟨aa, hy.1⟩
+        apply hc.2; intro z hz; exact hz.1.2
+    use c; constructor; exact c_in_ab
+
+    apply eq_of_le_of_le
+
+    -- f c ≤ y
+    by_contra! yltfc
+    obtain ⟨δ, δpos, hδ⟩ := h c (f c - y) (by linarith)
+
+    have aux : ∀ x ∈ K, x ≤ c - δ := by
+        intro x xinK
+        have : x ≤ c := hc.1 x xinK
+        contrapose! xinK
+        specialize hδ x (by apply abs_lt.2; constructor <;> linarith)
+        have yltfx : y < f x := by
+            apply abs_lt.1 at hδ; linarith
+        contrapose! yltfx; exact yltfx.2
+
+    specialize hδ (c - δ / 2) (by simp; apply abs_lt.2; constructor <;> linarith)
+
+    have upper_bound_K : upper_bound K (c - δ / 2) := by
+        intro x hx; specialize aux x hx; linarith
+    have c_le_c_minus_delta : c ≤ c - δ / 2 := (isLUB_le_iff hc).mpr upper_bound_K
+    linarith
+
+    -- f c ≥ y
+    contrapose! hc; unfold sup upper_bound; push_neg; left
+    obtain ⟨δ, δpos, hδ⟩ := h c (y - f c) (by linarith)
+
+
+    by_cases h' : c + δ / 2 ≤ b
+    specialize hδ (c + δ / 2) (by simp; apply abs_lt.2; constructor <;> linarith)
+    use (c + δ / 2); constructor
+    constructor; constructor; linarith [c_in_ab.1]
+    exact h'
+    apply abs_lt.1 at hδ; linarith
+    linarith
+
+    push_neg at h'
+    use b; constructor
+    specialize hδ b (by apply abs_lt.2; constructor <;> linarith[c_in_ab.2])
+    constructor; exact bb; apply abs_lt.1 at hδ; linarith
+    apply lt_of_le_of_ne c_in_ab.2
+    by_contra! ceqb
+    have : f c = f b := congrArg f ceqb
+    linarith [hy.2]
+
+    -- not a great proof, could probably be made a lot cleaner
+    -- didn't end up using the order limit theorem
+    -- In fact, this proof uses no information about sequences at all
+
+
+end theorems
