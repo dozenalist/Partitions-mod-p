@@ -1,6 +1,12 @@
 convergesTo
 converges
+upper_bound
+bounded_above
+sup
+continuous
 convergesTo_scalar_mul
 convergesTo_add
 convergesTo_nonneg
 le_convergesTo_of_le
+exists_sup_of_bounded_above
+intermediate_value

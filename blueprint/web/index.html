@@ -107,13 +107,167 @@
 
   </div>
 </div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:bounded_above">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">3</span>
+    <span class="definition_thmtitle">Bounded Above</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#def:bounded_above">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L14" class="lean_decl">upper_bound</a></li>
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L17" class="lean_decl">bounded_above</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   A set \(S \subseteq \mathbb {R}\) is bounded above if there exists an \(M \in \mathbb {R}\) such that for all \(s \in S\), \(s \le M\). We say that \(M\) is an upper bound for \(S\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:supremum">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">4</span>
+    <span class="definition_thmtitle">supremum</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#def:supremum">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#def:bounded_above">Definition 3</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L20" class="lean_decl">sup</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>    Let \(S \subseteq \mathbb {R}\) be non-empty. We say that \(y \in \mathbb {R}\) is the supremum of \(S\) if <br /><br />(i) \(y\) is an upper bound for \(S\) <br />(ii) for any upper bound \(z\) of \(S\), \(y \le z\) </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:continuous">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">5</span>
+    <span class="definition_thmtitle">continuous</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#def:continuous">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L25" class="lean_decl">continuous</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   A function \(f : \mathbb {R} → \mathbb {R}\) is continuous if for all \(x \in \mathbb {R}\) and for all \(\varepsilon {\gt} 0\), there exists a \(\delta {\gt} 0\) such that for all \(y ∈ \mathbb {R}\) with \(|x - y| {\lt} \delta \), \(|f(x) - f(y)| {\lt} \varepsilon \). </p>
+
+  </div>
+</div>
 <h1 id="a0000000003">0.2 Theorems</h1>
 <div class="theorem_thmwrapper theorem-style-plain" id="thm:limit_laws">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">3</span>
+    <span class="theorem_thmlabel">6</span>
     <span class="theorem_thmtitle">Limit Laws</span>
     <div class="thm_header_extras">
 
@@ -162,9 +316,9 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L15" class="lean_decl">convergesTo_scalar_mul</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L37" class="lean_decl">convergesTo_scalar_mul</a></li>
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L29" class="lean_decl">convergesTo_add</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L51" class="lean_decl">convergesTo_add</a></li>
           
         </ul>
     
@@ -176,7 +330,7 @@
   </div>
   <div class="theorem_thmcontent">
   
-<p>Let \(C \in \mathbb {R}\). Suppose \(\{ a_n\} \) converges to \(L\) and \(\{ b_n\} \) converges to \(K\). Then <br /><br />(i) \(\{ C a_n\} \) converges to \(C L\) <br />(ii) \(\{ a_n + b_n\} \) converges to \(L + K.\) </p>
+<p>Let \(C \in \mathbb {R}\). Suppose \(\{ a_n\} \) converges to \(L\) and \(\{ b_n\} \) converges to \(K\). Then <br /><br />(i) \(\{ C a_n\} \) converges to \(C L\) <br />(ii) \(\{ a_n + b_n\} \) converges to \(L + K\) </p>
 
   </div>
 </div>
@@ -188,7 +342,7 @@
     <span class="expand-proof">▶</span>
   </div>
   <div class="proof_content">
-  <p>Trivial. <span class="qed">â–¡</span></p>
+  <p>Trivial. </p>
 
   </div>
 </div>
@@ -197,7 +351,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">4</span>
+    <span class="lemma_thmlabel">7</span>
     <div class="thm_header_extras">
 
     
@@ -222,7 +376,7 @@
           
           <li><a href="index.html#def:convergence">Definition 2</a></li>
           
-          <li><a href="index.html#thm:limit_laws">Theorem 3</a></li>
+          <li><a href="index.html#thm:limit_laws">Theorem 6</a></li>
           
         </ul>
     
@@ -242,7 +396,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L50" class="lean_decl">convergesTo_nonneg</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L72" class="lean_decl">convergesTo_nonneg</a></li>
           
         </ul>
     
@@ -263,7 +417,7 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">5</span>
+    <span class="theorem_thmlabel">8</span>
     <span class="theorem_thmtitle">Order Limit Theorem</span>
     <div class="thm_header_extras">
 
@@ -287,7 +441,7 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#lem:converges_nonneg">Lemma 4</a></li>
+          <li><a href="index.html#lem:converges_nonneg">Lemma 7</a></li>
           
         </ul>
     
@@ -307,7 +461,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L54" class="lean_decl">le_convergesTo_of_le</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L76" class="lean_decl">le_convergesTo_of_le</a></li>
           
         </ul>
     
@@ -320,6 +474,139 @@
   <div class="theorem_thmcontent">
   
 <p>Let \(\{ a_n\} \) and \(\{ b_n\} \) be sequences. Suppose that there exists an \(N ∈ ℕ\) such that for all \(n ≥ N\), \(a_n ≤ b_n\). Then \(\lim _{n \to \infty } a_n \le \lim _{n \to \infty } b_n\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="exists_sup_of_bounded_above">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">9</span>
+    <span class="theorem_thmtitle">Completeness Axiom</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#exists_sup_of_bounded_above">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#def:supremum">Definition 4</a></li>
+          
+          <li><a href="index.html#def:bounded_above">Definition 3</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L80" class="lean_decl">exists_sup_of_bounded_above</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>    Let \(S \subseteq \mathbb {R}\) be non-empty and bounded above. Then there exists a \(y \in \mathbb {R}\) such that \(y\) is the supremum of \(S\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:intermediate_value">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">10</span>
+    <span class="theorem_thmtitle">Intermediate Value Theorem</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#thm:intermediate_value">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#def:continuous">Definition 5</a></li>
+          
+          <li><a href="index.html#thm:order_limit">Theorem 8</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L87" class="lean_decl">intermediate_value</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  
+<p>Let \(f : \mathbb {R} → \mathbb {R}\) be continuous and let \(a {\lt} b ∈ \mathbb {R}\). Suppose that \(f(a) {\lt} f(b)\) and let \(y \in [f(a), f(b)]\). Then there exists a \(c ∈ [a, b]\) such that \(f(c) = y\). </p>
 
   </div>
 </div>

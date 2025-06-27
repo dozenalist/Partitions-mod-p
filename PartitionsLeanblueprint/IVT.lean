@@ -7,6 +7,28 @@ def convergesTo (a : ℕ → ℝ) (L : ℝ) :=
 def converges (a : ℕ → ℝ) :=
     ∃ L : ℝ, convergesTo a L
 
+def Icc (a : ℝ) (b : ℝ) : Set ℝ :=
+    { x | a ≤ x ∧ x ≤ b }
+
+
+def upper_bound (S : Set ℝ) (M : ℝ) :=
+    ∀ x ∈ S, x ≤ M
+
+def bounded_above (S : Set ℝ) :=
+    ∃ M : ℝ, upper_bound S M
+
+def sup (S : Set ℝ) (y : ℝ) :=
+  upper_bound S y ∧ ( ∀ (z : ℝ), upper_bound S z → y ≤ z )
+
+
+
+def continuous (f : ℝ → ℝ) :=
+    ∀ x ε, ε > 0 → ∃ δ > 0, ∀ y, |x - y| < δ → |f x - f y| < ε
+
+def continuous' (f : ℝ → ℝ) :=
+    ∀ (x : ℝ) (a : ℕ → ℝ), convergesTo a x → convergesTo (fun n ↦ f (a n)) (f x)
+
+
 section theorems
 
 variable {a b : ℕ → ℝ}
@@ -52,4 +74,16 @@ lemma convergesTo_nonneg (ha : convergesTo a L) (h : ∃ (N : ℕ), ∀ n ≥ N,
 
 
 theorem le_convergesTo_of_le (ha : convergesTo a L) (hb : convergesTo b K) (h : ∃ (N : ℕ), ∀ n ≥ N, a n ≤ b n) : L ≤ K := by
+    sorry
+
+
+theorem exists_sup_of_bounded_above (S : Set ℝ) (h : bounded_above S) :
+    ∃ y : ℝ, sup S y := sorry
+
+
+
+
+
+theorem intermediate_value {f : ℝ → ℝ} {a b y: ℝ} (h : continuous f ) (hy : y ∈ Icc (f a) (f b)) (alb : a < b) :
+∃ c ∈ Icc a b, f c = y := by
     sorry

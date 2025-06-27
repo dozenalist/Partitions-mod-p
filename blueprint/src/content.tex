@@ -25,6 +25,31 @@
 
 \end{definition}
 
+\begin{definition}[Bounded Above]
+  \label{def:bounded_above}
+  \lean{upper_bound, bounded_above}
+  \leanok
+  A set $S \subseteq \mathbb{R}$ is bounded above if there exists an $M \in \mathbb{R}$ such that for all $s \in S$, $s \le M$.
+  We say that $M$ is an upper bound for $S$.
+\end{definition}
+
+\begin{definition}[supremum]
+  \label{def:supremum}
+  \uses{def:bounded_above}
+  \lean{sup}
+  \leanok
+  Let $S \subseteq \mathbb{R}$ be non-empty. We say that $y \in \mathbb{R}$ is the supremum of $S$ if \\ \\
+  (i) $y$ is an upper bound for $S$ \\
+  (ii) for any upper bound $z$ of $S$, $y \le z$
+\end{definition}
+
+\begin{definition}[continuous]
+  \label{def:continuous}
+  \lean{continuous}
+  \leanok
+  A function $f : \mathbb{R} → \mathbb{R}$ is continuous if for all $x \in \mathbb{R}$ and for all $\varepsilon > 0$, there exists a $\delta > 0$ such that for all $y ∈ \mathbb{R}$ with $|x - y| < \delta$, $|f(x) - f(y)| < \varepsilon$.
+\end{definition}
+
 
 \section{Theorems}
 
@@ -37,13 +62,13 @@
 
   Let $C \in \mathbb{R}$. Suppose $\{a_n\}$ converges to $L$ and $\{b_n\}$ converges to $K$. Then \\ \\
   (i) $\{C a_n\}$ converges to $C L$ \\
-  (ii) $\{a_n + b_n\}$ converges to $L + K.$ 
+  (ii) $\{a_n + b_n\}$ converges to $L + K$ 
 
 \end{theorem}
 
 \begin{proof}
   \leanok
-  Trivial. \qed
+  Trivial.
 \end{proof}
 
 
@@ -67,4 +92,25 @@
   Let $\{a_n\}$ and $\{b_n\}$ be sequences. 
   Suppose that there exists an $N ∈ ℕ$ such that for all $n ≥ N$, $a_n ≤ b_n$.
   Then $\lim_{n \to \infty} a_n \le \lim_{n \to \infty} b_n$.
+\end{theorem}
+
+\begin{theorem}[Completeness Axiom]
+  \label{exists_sup_of_bounded_above}
+  \uses{def:supremum, def:bounded_above}
+  \lean{exists_sup_of_bounded_above}
+  \leanok
+  Let $S \subseteq \mathbb{R}$ be non-empty and bounded above.
+  Then there exists a $y \in \mathbb{R}$ such that $y$ is the supremum of $S$.
+
+\end{theorem}
+
+\begin{theorem}[Intermediate Value Theorem]
+  \label{thm:intermediate_value}
+  \uses{def:continuous, thm:order_limit, thm:exists_sup_of_bounded_above}
+  \lean{intermediate_value}
+  \leanok
+
+  Let $f : \mathbb{R} → \mathbb{R}$ be continuous and let $a < b ∈ \mathbb{R}$.
+  Suppose that $f(a) < f(b)$ and let $y \in [f(a), f(b)]$.
+  Then there exists a $c ∈ [a, b]$ such that $f(c) = y$.
 \end{theorem}

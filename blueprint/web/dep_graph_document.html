@@ -63,6 +63,75 @@
 <div id="statements">
 
     
+    <div class="dep-modal-container" id="def:bounded_above_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:bounded_above" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">3</span><span class="definition_thmtitle">Bounded Above</span></div>
+    <div class="thm_thmcontent"><p>   A set \(S \subseteq \mathbb {R}\) is bounded above if there exists an \(M \in \mathbb {R}\) such that for all \(s \in S\), \(s \le M\). We say that \(M\) is an upper bound for \(S\). </p>
+</div>
+
+    <a class="latex_link" href="index.html#def:bounded_above">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L14" class="lean_decl">upper_bound</a></li>
+        
+           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L17" class="lean_decl">bounded_above</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:continuous_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:continuous" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">5</span><span class="definition_thmtitle">continuous</span></div>
+    <div class="thm_thmcontent"><p>   A function \(f : \mathbb {R} → \mathbb {R}\) is continuous if for all \(x \in \mathbb {R}\) and for all \(\varepsilon {\gt} 0\), there exists a \(\delta {\gt} 0\) such that for all \(y ∈ \mathbb {R}\) with \(|x - y| {\lt} \delta \), \(|f(x) - f(y)| {\lt} \varepsilon \). </p>
+</div>
+
+    <a class="latex_link" href="index.html#def:continuous">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L25">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
     <div class="dep-modal-container" id="def:convergence_modal">
       <div class="dep-modal-content">
           <button class="dep-closebtn">
@@ -133,6 +202,66 @@
 
 
     
+    <div class="dep-modal-container" id="def:supremum_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:supremum" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">4</span><span class="definition_thmtitle">supremum</span></div>
+    <div class="thm_thmcontent"><p>    Let \(S \subseteq \mathbb {R}\) be non-empty. We say that \(y \in \mathbb {R}\) is the supremum of \(S\) if <br /><br />(i) \(y\) is an upper bound for \(S\) <br />(ii) for any upper bound \(z\) of \(S\), \(y \le z\) </p>
+</div>
+
+    <a class="latex_link" href="index.html#def:supremum">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L20">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="exists_sup_of_bounded_above_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="exists_sup_of_bounded_above" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">9</span><span class="theorem_thmtitle">Completeness Axiom</span></div>
+    <div class="thm_thmcontent"><p>    Let \(S \subseteq \mathbb {R}\) be non-empty and bounded above. Then there exists a \(y \in \mathbb {R}\) such that \(y\) is the supremum of \(S\). </p>
+</div>
+
+    <a class="latex_link" href="index.html#exists_sup_of_bounded_above">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L80">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
     <div class="dep-modal-container" id="lem:converges_nonneg_modal">
       <div class="dep-modal-content">
           <button class="dep-closebtn">
@@ -144,7 +273,7 @@
       <span class="lemma_thmcaption">
       Lemma
       </span>
-      <span class="lemma_thmlabel">4</span></div>
+      <span class="lemma_thmlabel">7</span></div>
     <div class="thm_thmcontent">
 <p>Suppose that there exists an \(N \in ℕ\) such that for all \(n \ge N\), \(a_n ≥ 0\). Then \(\lim _{n \to \infty } a_n ≥ 0\). </p>
 </div>
@@ -152,7 +281,38 @@
     <a class="latex_link" href="index.html#lem:converges_nonneg">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L50">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L72">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:intermediate_value_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:intermediate_value" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">10</span><span class="theorem_thmtitle">Intermediate Value Theorem</span></div>
+    <div class="thm_thmcontent">
+<p>Let \(f : \mathbb {R} → \mathbb {R}\) be continuous and let \(a {\lt} b ∈ \mathbb {R}\). Suppose that \(f(a) {\lt} f(b)\) and let \(y \in [f(a), f(b)]\). Then there exists a \(c ∈ [a, b]\) such that \(f(c) = y\). </p>
+</div>
+
+    <a class="latex_link" href="index.html#thm:intermediate_value">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L87">Lean</a>
     
     
   
@@ -175,9 +335,9 @@
       <span class="theorem_thmcaption">
       Theorem
       </span>
-      <span class="theorem_thmlabel">3</span><span class="theorem_thmtitle">Limit Laws</span></div>
+      <span class="theorem_thmlabel">6</span><span class="theorem_thmtitle">Limit Laws</span></div>
     <div class="thm_thmcontent">
-<p>Let \(C \in \mathbb {R}\). Suppose \(\{ a_n\} \) converges to \(L\) and \(\{ b_n\} \) converges to \(K\). Then <br /><br />(i) \(\{ C a_n\} \) converges to \(C L\) <br />(ii) \(\{ a_n + b_n\} \) converges to \(L + K.\) </p>
+<p>Let \(C \in \mathbb {R}\). Suppose \(\{ a_n\} \) converges to \(L\) and \(\{ b_n\} \) converges to \(K\). Then <br /><br />(i) \(\{ C a_n\} \) converges to \(C L\) <br />(ii) \(\{ a_n + b_n\} \) converges to \(L + K\) </p>
 </div>
 
     <a class="latex_link" href="index.html#thm:limit_laws">LaTeX</a>
@@ -187,9 +347,9 @@
       <span class="lean_link">Lean</span>
       <ul class="tooltip_list">
         
-           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L15" class="lean_decl">convergesTo_scalar_mul</a></li>
+           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L37" class="lean_decl">convergesTo_scalar_mul</a></li>
         
-           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L29" class="lean_decl">convergesTo_add</a></li>
+           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L51" class="lean_decl">convergesTo_add</a></li>
         
       </ul>
   </div>
@@ -215,7 +375,7 @@
       <span class="theorem_thmcaption">
       Theorem
       </span>
-      <span class="theorem_thmlabel">5</span><span class="theorem_thmtitle">Order Limit Theorem</span></div>
+      <span class="theorem_thmlabel">8</span><span class="theorem_thmtitle">Order Limit Theorem</span></div>
     <div class="thm_thmcontent">
 <p>Let \(\{ a_n\} \) and \(\{ b_n\} \) be sequences. Suppose that there exists an \(N ∈ ℕ\) such that for all \(n ≥ N\), \(a_n ≤ b_n\). Then \(\lim _{n \to \infty } a_n \le \lim _{n \to \infty } b_n\). </p>
 </div>
@@ -223,7 +383,7 @@
     <a class="latex_link" href="index.html#thm:order_limit">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L54">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L76">Lean</a>
     
     
   
@@ -251,7 +411,7 @@ graphContainer.graphviz({useWorker: true})
     .width(width)
     .height(height)
     .fit(true)
-    .renderDot(`strict digraph "" {	graph [bgcolor=transparent];	node [label="\N",		penwidth=1.8	];	edge [arrowhead=vee];	"def:sequence"	[color=blue,		fillcolor="#A3D6FF",		label=sequence,		shape=box,		style=filled];	"thm:limit_laws"	[color=green,		fillcolor="#1CAC78",		label=limit_laws,		shape=ellipse,		style=filled];	"def:sequence" -> "thm:limit_laws"	[style=dashed];	"lem:converges_nonneg"	[color=green,		label=converges_nonneg,		shape=ellipse];	"thm:limit_laws" -> "lem:converges_nonneg"	[style=dashed];	"thm:order_limit"	[color=green,		label=order_limit,		shape=ellipse];	"lem:converges_nonneg" -> "thm:order_limit"	[style=dashed];	"def:convergence"	[color=green,		fillcolor="#B0ECA3",		label=convergence,		shape=box,		style=filled];	"def:convergence" -> "thm:limit_laws"	[style=dashed];}`)
+    .renderDot(`strict digraph "" {	graph [bgcolor=transparent];	node [label="\N",		penwidth=1.8	];	edge [arrowhead=vee];	"def:sequence"	[color=blue,		fillcolor="#A3D6FF",		label=sequence,		shape=box,		style=filled];	"thm:limit_laws"	[color=green,		fillcolor="#1CAC78",		label=limit_laws,		shape=ellipse,		style=filled];	"def:sequence" -> "thm:limit_laws"	[style=dashed];	"lem:converges_nonneg"	[color=green,		label=converges_nonneg,		shape=ellipse];	"thm:limit_laws" -> "lem:converges_nonneg"	[style=dashed];	"thm:order_limit"	[color=green,		label=order_limit,		shape=ellipse];	"lem:converges_nonneg" -> "thm:order_limit"	[style=dashed];	"def:bounded_above"	[color=green,		fillcolor="#B0ECA3",		label=bounded_above,		shape=box,		style=filled];	"def:supremum"	[color=green,		fillcolor="#B0ECA3",		label=supremum,		shape=box,		style=filled];	"def:bounded_above" -> "def:supremum"	[style=dashed];	exists_sup_of_bounded_above	[color=green,		label=exists_sup_of_bounded_above,		shape=ellipse];	"def:supremum" -> exists_sup_of_bounded_above	[style=dashed];	"def:continuous"	[color=green,		fillcolor="#B0ECA3",		label=continuous,		shape=box,		style=filled];	"thm:intermediate_value"	[color=green,		label=intermediate_value,		shape=ellipse];	"def:continuous" -> "thm:intermediate_value"	[style=dashed];	"def:convergence"	[color=green,		fillcolor="#B0ECA3",		label=convergence,		shape=box,		style=filled];	"def:convergence" -> "thm:limit_laws"	[style=dashed];	"thm:order_limit" -> "thm:intermediate_value"	[style=dashed];}`)
     .on("end", interactive);
 
 latexLabelEscaper = function(label) {
