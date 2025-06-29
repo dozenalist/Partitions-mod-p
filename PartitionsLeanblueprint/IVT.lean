@@ -70,17 +70,18 @@ convergesTo (fun n ↦ a n + b n) (L + K) := by
         ring
 
 theorem convergesTo_add' (ha : convergesTo a L) (hb : convergesTo b K) :
-convergesTo (fun n ↦ a n + b n) (L + K) :=
+convergesTo (λ n => a n + b n) (L + K) :=
     λ ε εpos =>
-    let ⟨N1, hN1⟩ := ha (ε / 2) (by linarith)
-    let ⟨N2, hN2⟩ := hb (ε / 2) (by linarith)
+    let ⟨N1, hN1⟩ := ha (ε / 2) (div_pos εpos zero_lt_two)
+    let ⟨N2, hN2⟩ := hb (ε / 2) (div_pos εpos zero_lt_two)
     ⟨ max N1 N2, λ n hn => calc
-        _ = |(a n - L) + (b n - K)| := by ring_nf
+        _ = |(a n - L) + (b n - K)| := congr_arg abs (add_sub_add_comm (a n) (b n) L K)
         _ ≤ |a n - L| + |b n - K| := abs_add _ _
         _ < ε / 2 + ε / 2 :=
             add_lt_add (hN1 n (le_of_max_le_left hn)) (hN2 n (le_of_max_le_right hn))
         _ = ε := add_halves ε ⟩
 
+#print convergesTo_add'  -- look at that small proof term
 
 
 lemma convergesTo_nonneg (ha : convergesTo a L) (h : ∃ (N : ℕ), ∀ n ≥ N, a n ≥ 0) : L ≥ 0 := by
