@@ -69,6 +69,19 @@ convergesTo (fun n ↦ a n + b n) (L + K) := by
     ε / 2 + ε / 2 = ε := by
         ring
 
+theorem convergesTo_add' (ha : convergesTo a L) (hb : convergesTo b K) :
+convergesTo (fun n ↦ a n + b n) (L + K) :=
+    λ ε εpos =>
+    let ⟨N1, hN1⟩ := ha (ε / 2) (by linarith)
+    let ⟨N2, hN2⟩ := hb (ε / 2) (by linarith)
+    ⟨ max N1 N2, λ n hn => calc
+        _ = |(a n - L) + (b n - K)| := by ring_nf
+        _ ≤ |a n - L| + |b n - K| := abs_add _ _
+        _ < ε / 2 + ε / 2 :=
+            add_lt_add (hN1 n (le_of_max_le_left hn)) (hN2 n (le_of_max_le_right hn))
+        _ = ε := add_halves ε ⟩
+
+
 
 lemma convergesTo_nonneg (ha : convergesTo a L) (h : ∃ (N : ℕ), ∀ n ≥ N, a n ≥ 0) : L ≥ 0 := by
     sorry
@@ -93,7 +106,7 @@ theorem intermediate_value {f : ℝ → ℝ} {a b y: ℝ} (h : continuous f ) (h
     -- Proving c ∈ Icc a b
     set K : Set ℝ := {x : ℝ | x ∈ Icc a b ∧ f x ≤ y} with hK
     have buK : bounded_above K := by use b; intro x xinK; exact xinK.1.2
-    have nemptyK : ∃ x, x ∈ K := by use a; exact ⟨aa, hy.1⟩
+    have nemptyK : ∃ x, x ∈ K := ⟨a, aa, hy.1⟩
     obtain ⟨c, hc⟩ := exists_sup_of_bounded_above K buK nemptyK
     have c_in_ab : c ∈ Icc a b := by
         constructor; apply hc.1; exact ⟨aa, hy.1⟩
@@ -141,7 +154,7 @@ theorem intermediate_value {f : ℝ → ℝ} {a b y: ℝ} (h : continuous f ) (h
     constructor; exact bb; apply abs_lt.1 at hδ; linarith
     apply lt_of_le_of_ne c_in_ab.2
     by_contra! ceqb
-    have : f c = f b := congrArg f ceqb
+    have : f c = f b := by congr
     linarith [hy.2]
 
     -- not a great proof, could probably be made a lot cleaner
