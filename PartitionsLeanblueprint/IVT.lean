@@ -85,11 +85,45 @@ convergesTo (λ n => a n + b n) (L + K) :=
 
 
 lemma convergesTo_nonneg (ha : convergesTo a L) (h : ∃ (N : ℕ), ∀ n ≥ N, a n ≥ 0) : L ≥ 0 := by
-    sorry
+    unfold convergesTo at ha
+    contrapose! ha
+    use abs L
+    constructor
+    apply abs_pos_of_neg ha
+    intro N1
+    obtain ⟨N2, hN2⟩ := h
+    use (max N1 N2)
+    constructor
+    apply le_max_left
+    have h1 : a (max N1 N2) ≥ 0 := by
+        apply hN2
+        apply le_max_right
+    nth_rewrite 2 [abs_eq_self.2]
+    rw [abs_eq_neg_self.2]
+    linarith
+    exact le_of_lt ha
+    linarith
 
 
 theorem le_convergesTo_of_le (ha : convergesTo a L) (hb : convergesTo b K) (h : ∃ (N : ℕ), ∀ n ≥ N, a n ≤ b n) : L ≤ K := by
-    sorry
+    let c n := b n + -1 * a n
+    have hc : ∃ (N : ℕ), ∀ n ≥ N, c n ≥ 0:= by
+        obtain ⟨N1, hN1⟩ := h
+        use N1
+        intro n hn
+        simp [c]
+        apply hN1
+        exact hn
+    suffices K - L ≥ 0 by linarith
+    have c_limit : convergesTo c (K - L) := by
+        apply convergesTo_add
+        exact hb
+        conv => rhs ; rw [neg_eq_neg_one_mul]
+        apply convergesTo_scalar_mul
+        exact ha
+    apply convergesTo_nonneg c_limit hc
+
+
 
 
 theorem exists_sup_of_bounded_above (S : Set ℝ) (h : bounded_above S) (nempty : ∃ x, x ∈ S) :
