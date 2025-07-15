@@ -4,6 +4,8 @@ import Mathlib.Data.Real.Basic
 import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
 import Mathlib.Analysis.Analytic.Basic
 
+noncomputable section
+
 open Complex UpperHalfPlane
 
 section define
@@ -22,7 +24,7 @@ structure ModularForm : Type where
 
   bounded : ∃ M : ℝ, ∀ z : ℍ, z.re = 0 → |(toFun z).re| ≤ M ∧ |(toFun z).im| ≤ M
 
-class ModularFormClass (k : ℕ) {toFun : ℂ → ℂ}: Prop where
+class ModularFormClass (k : ℕ) (toFun : ℂ → ℂ): Prop where
 
   holo : AnalyticOn ℂ toFun {z | z.im > 0}
 
@@ -108,7 +110,7 @@ instance instSMul : SMul ℂ (ModularForm k) where
       apply mul_le_mul_of_nonneg_left (hM z zr0).2 (abs_nonneg _)
       apply mul_le_mul_of_nonneg_left (hM z zr0).1 (abs_nonneg _) }
 
-noncomputable instance instSMulZ : SMul ℤ (ModularForm k) where
+instance instSMulZ : SMul ℤ (ModularForm k) where
   smul c f :=
   { toFun := ↑c • f.toFun
     holo := by
@@ -128,7 +130,7 @@ noncomputable instance instSMulZ : SMul ℤ (ModularForm k) where
       apply mul_le_mul_of_nonneg_left (hM z zr0).1 (abs_nonneg _)
       apply mul_le_mul_of_nonneg_left (hM z zr0).2 (abs_nonneg _) }
 
-noncomputable instance instSMulN : SMul ℕ (ModularForm k) where
+instance instSMulN : SMul ℕ (ModularForm k) where
   smul c f :=
   { toFun := ↑c • f.toFun
     holo := by
@@ -278,7 +280,7 @@ lemma coe_intCast (z : ℤ) :
 
 end properties
 
-noncomputable section algebra
+section algebra
 
 variable {k j : ℕ}
 
@@ -294,7 +296,7 @@ def coeHom : ModularForm k →+ ℂ → ℂ where
 
 
 instance : Module ℂ (ModularForm k) :=
-  Function.Injective.module ℂ coeHom DFunLike.coe_injective fun _ _ => rfl
+  Function.Injective.module ℂ coeHom DFunLike.coe_injective fun _ _ ↦ rfl
 
 
 theorem bla (f g : ModularForm k) : 2 • f + g = g + 2 • f := by abel
@@ -304,5 +306,60 @@ variable {f g : ModularForm k} {h : ModularForm j}
 
 end algebra
 
-
 -- can treat modular forms as components of a module now
+end section
+
+noncomputable section
+
+open Real Complex
+
+postfix: 100 "!" => Nat.factorial
+
+def Choose (n k : ℕ) := n ! / (k ! * (n - k)!)
+
+infixl:80 "𝐂" => Choose
+
+def q z := exp (2 * π * I * z)
+
+def σ (k n : ℕ) : ℕ :=
+  ∑ d ∈ (Finset.range (n + 1)).filter (λ d ↦ d ∣ n), d ^ k
+
+def Bernoulli (m : ℕ) : ℂ :=
+  if m = 0 then 1 else
+  (∑ k ∈ Finset.range (m + 1), (∑ j ∈ Finset.range (k + 1), k𝐂j * ((-1)^j * j^m)/(k+1)))
+
+
+def EisensteinSeries (k : ℕ) : (ℂ → ℂ) :=
+  1 + (2 * k / Bernoulli k) • ∑' n, σ (k - 1) (n + 1) * q ^ (n + 1)
+
+variable {k : ℕ}
+
+def Eisenstein k : (ModularForm k) where
+  toFun := EisensteinSeries k
+  holo := by unfold AnalyticOn AnalyticWithinAt; sorry
+  shift := sorry
+  squish := sorry
+  bounded := sorry
+
+
+
+structure IntegerModularForm (k : ℕ) where
+
+  sequence : (ℕ → ℤ)
+  modular : ModularFormClass k (∑' n, sequence n * q ^ n)
+
+-- doesnt work (treats it like a convergent sum and not a formal power series)
+
+instance : Add (IntegerModularForm k) where
+  add := fun a b ↦
+  { sequence := a.1 + b.1
+    modular := by
+      simp
+      have : ∑' n, ((a.sequence n) + (b.sequence n)) * q ^ n = ∑' n, (a.sequence n) * q ^ n + ∑' n,  (b.sequence n) * q ^ n := by
+        simp[add_mul]; refine Summable.tsum_add ?_ ?_ <;> sorry
+      sorry
+
+
+  }
+
+end section
