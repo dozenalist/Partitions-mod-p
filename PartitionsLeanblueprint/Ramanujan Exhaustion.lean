@@ -3,8 +3,14 @@ import Mathlib.Data.Complex.Basic
 import Mathlib.Data.Real.Basic
 import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
 import Mathlib.Analysis.Analytic.Basic
+import Mathlib.RingTheory.PowerSeries.Basic
+
 
 noncomputable section
+
+open Classical
+attribute [instance] Classical.propDecidable
+-- makes all propositions decidable (either True or False). needed for Filtration if / else function
 
 open Complex UpperHalfPlane
 
@@ -24,6 +30,18 @@ structure ModularForm : Type where
 
   bounded : ∃ M : ℝ, ∀ z : ℍ, z.re = 0 → |(toFun z).re| ≤ M ∧ |(toFun z).im| ≤ M
 
+
+class ModularFormClass' (F : Type*) (k : ℕ)
+    [FunLike F ℂ ℂ] : Prop where
+  holo : ∀ f : F, AnalyticOn ℂ f {z | z.im > 0}
+
+  shift : ∀ f : F, ∀ z : ℍ, f (z + 1) = f z
+
+  squish : ∀ f : F, ∀ z : ℍ, f (-1/z) = z ^ k * f z
+
+  bounded : ∀ f : F, ∃ M : ℝ, ∀ z : ℍ, z.re = 0 → |(f z).re| ≤ M ∧ |(f z).im| ≤ M
+
+
 class ModularFormClass (k : ℕ) (toFun : ℂ → ℂ): Prop where
 
   holo : AnalyticOn ℂ toFun {z | z.im > 0}
@@ -33,6 +51,18 @@ class ModularFormClass (k : ℕ) (toFun : ℂ → ℂ): Prop where
   squish : ∀ z : ℍ, toFun (-1/z) = z ^ k * toFun z
 
   bounded : ∃ M : ℝ, ∀ z : ℍ, z.re = 0 → |(toFun z).re| ≤ M ∧ |(toFun z).im| ≤ M
+
+
+
+
+instance (priority := 100) ModularForm.funLike : FunLike (ModularForm k) ℂ ℂ where
+  coe f := f.toFun
+  coe_injective' f g h := by cases f; cases g; congr
+
+
+
+variable (h : ModularFormClass (ModularForm k) k)
+#check h
 
 end define
 
@@ -206,13 +236,11 @@ infixl:80 "^^" => mPow
 
 variable {f : ModularForm k}
 
-#check ⇈ 3 * f
+#check 3 • f ^^ 3
 
 
 
-instance (priority := 100) ModularForm.funLike : FunLike (ModularForm k) ℂ ℂ where
-  coe f := f.toFun
-  coe_injective' f g h := by cases f; cases g; congr
+
 
 theorem ModularForm.toFun_eq_coe (f : ModularForm k) : ⇑f = (f : ℂ → ℂ) := rfl
 
@@ -303,6 +331,14 @@ theorem bla (f g : ModularForm k) : 2 • f + g = g + 2 • f := by abel
 
 variable {f g : ModularForm k} {h : ModularForm j}
 
+@[simp]
+theorem tibbles : ∀ f : ModularForm k, ModularFormClass k f :=
+  fun f =>
+    { holo := f.holo
+      shift := f.shift
+      squish := f.squish
+      bounded := f.bounded }
+
 
 end algebra
 
@@ -334,6 +370,8 @@ def EisensteinSeries (k : ℕ) : (ℂ → ℂ) :=
 
 variable {k : ℕ}
 
+#check cauchyPowerSeries
+
 def Eisenstein k : (ModularForm k) where
   toFun := EisensteinSeries k
   holo := by unfold AnalyticOn AnalyticWithinAt; sorry
@@ -343,23 +381,127 @@ def Eisenstein k : (ModularForm k) where
 
 
 
+
+lemma Class_add {f g : ℂ → ℂ} (hf : ModularFormClass k f) (hg : ModularFormClass k g) :
+  ModularFormClass k (f + g) :=
+  {holo := AnalyticOn.add hf.holo hg.holo
+   shift := by simp [hf.shift, hg.shift]
+   squish := by intro z; simp [hf.squish, hg.squish]; ring
+   bounded := by
+      obtain ⟨F, hF⟩ := hf.bounded
+      obtain ⟨G, hG⟩ := hg.bounded
+      use F + G; intro z zr0; simp
+      exact ⟨Trans.simple (abs_add _ _) (add_le_add (hF z zr0).1 (hG z zr0).1),
+      Trans.simple (abs_add _ _) (add_le_add (hF z zr0).2 (hG z zr0).2)⟩ }
+
+lemma bcle {f g : ℂ → ℂ} (hf : ModularFormClass k f) (hg : ModularFormClass k g) :
+  ModularFormClass k (f + g) := by apply tibbles
+
+
+-- An integer modular form of weight k is an integer sequence whose infinite q series
+-- converges to a modular form of weight k
 structure IntegerModularForm (k : ℕ) where
 
   sequence : (ℕ → ℤ)
+  summable : Summable (fun n ↦ sequence n * q ^ n)
   modular : ModularFormClass k (∑' n, sequence n * q ^ n)
 
--- doesnt work (treats it like a convergent sum and not a formal power series)
+-- maybe works idk
+
+
 
 instance : Add (IntegerModularForm k) where
   add := fun a b ↦
   { sequence := a.1 + b.1
+    summable := by simpa [add_mul] using Summable.add a.2 b.2
     modular := by
       simp
       have : ∑' n, ((a.sequence n) + (b.sequence n)) * q ^ n = ∑' n, (a.sequence n) * q ^ n + ∑' n,  (b.sequence n) * q ^ n := by
-        simp[add_mul]; refine Summable.tsum_add ?_ ?_ <;> sorry
-      sorry
+        simpa[add_mul] using Summable.tsum_add a.2 b.2
+      rw[this]
+      apply Class_add a.3 b.3 }
 
 
-  }
+
+def intModFin (n : ℕ) (a : ℤ) [NeZero n] : Fin n where
+  val := ((a % n + n) % n).toNat
+  isLt := by
+    refine (Int.toNat_lt_of_ne_zero ?_).mpr ?_; exact Ne.symm (NeZero.ne' n); refine
+    Int.emod_lt_of_pos (a % ↑n + ↑n) ?_; refine Int.natCast_pos.mpr ?_; exact Nat.pos_of_neZero n
+
+#eval intModFin 5 (-7)
+
+-- The reduction of an integer sequence mod ℓ
+def reduce (ℓ : ℕ) (a : ℕ → ℤ) [NeZero ℓ] : (ℕ → Fin ℓ) :=
+  fun n ↦ intModFin ℓ (a n)
+
+
+-- Note: Probably better to work with ZMod ℓ instead of Fin ℓ but I couldn't figure out
+-- how to multiply ZMod ℓ by complex scalars
+
+#check (4 : ZMod 5)
+variable {j k ℓ : ℕ} [NeZero ℓ]
+
+-- Alternate definiton. Every modular form mod ℓ has the weight of its filtation
+structure ModularFormMod' (ℓ : ℕ) (k : ℕ) [NeZero ℓ] where
+  sequence : (ℕ → Fin ℓ)
+  summable : Summable (fun n ↦ sequence n * q ^ n)
+  modular : ∃ a : IntegerModularForm k,
+    (sequence = reduce ℓ a.1 ∧ ∀ j : ℕ, ∀ b : IntegerModularForm j, sequence = reduce ℓ b.1 → j ≥ k)
+-- can change to j = k + r * (ℓ-1) for r : ℕ
+
+
+def reduce' (ℓ : ℕ) [NeZero ℓ]  : IntegerModularForm k → ModularFormMod' ℓ k :=
+  fun a ↦
+  { sequence := reduce a
+    summable := by sorry
+    modular := by use }
+-- Not true (Modular Forms of weight k may be sent to weight less than k)
+
+
+-- A modular form mod ℓ is a sequence a from the natural numbers to the set
+-- of natural numbers less than ℓ such there exists an Integer Modular form b of any weight
+-- where a is the reduction of b (mod ℓ). It has no inherent weight
+structure ModularFormMod (ℓ : ℕ) [NeZero ℓ] where
+  sequence : (ℕ → Fin ℓ)
+  modular : ∃ k : ℕ, ∃ a : IntegerModularForm k, sequence = reduce ℓ a.1
+
+
+instance (priority := 100) : FunLike (ModularFormMod ℓ) ℕ (Fin ℓ) where
+  coe a := a.1
+  coe_injective' a b c := by cases a; cases b; congr
+
+instance : Zero (ModularFormMod ℓ) where
+
+  zero :=
+
+  { sequence := fun n ↦ (0 : Fin ℓ)
+    modular := sorry }
+
+-- A modular form mod ℓ, denoted a, has weight k if there exists a modular form b
+-- of weight k such that a is the reduction of b (mod ℓ)
+-- A modular form mod ℓ can have many weights
+def hasWeight [NeZero ℓ] (a : ModularFormMod ℓ) (k : ℕ) : Prop :=
+  ∃ b : IntegerModularForm k, a = reduce ℓ b.1
+
+
+-- If a is the zero function, its filtration does not exist
+-- If not, then it is the least natural number k such that a has weight k
+def Filtration [NeZero ℓ] (a : ModularFormMod ℓ) : Option ℕ :=
+  if a = 0 then none else
+  @Nat.find (fun k ↦ hasWeight a k) (inferInstance)
+    (by obtain ⟨k,b,h⟩ := a.modular; use k; use b; exact h)
+
+
+-- Todo: prove that the modular forms mod ℓ form a module over ℤ and are a ring
+
+
+
+#check ite_id
+variable (a b : ℕ → Fin k)
+
+#check a * b
+
+
 
 end section
