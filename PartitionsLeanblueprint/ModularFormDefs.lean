@@ -4,11 +4,15 @@ import Mathlib.Data.Real.Basic
 import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
 import Mathlib.Analysis.Analytic.Basic
 import Mathlib.RingTheory.PowerSeries.Basic
+import Mathlib.Algebra.DirectSum.Ring
+import Mathlib.Algebra.DirectSum.Algebra
 
 
 namespace ModularFormDefs
 
 noncomputable section ModularFormsRegular
+
+namespace Regular
 
 open Classical
 attribute [instance] Classical.propDecidable
@@ -323,7 +327,6 @@ variable {k j : ℕ}
 instance : AddCommGroup (ModularForm k) :=
   DFunLike.coe_injective.addCommGroup _ rfl coe_add coe_neg coe_sub coe_smuln coe_smulz
 
-
 @[simps]
 def coeHom : ModularForm k →+ ℂ → ℂ where
   toFun f := f
@@ -334,6 +337,9 @@ def coeHom : ModularForm k →+ ℂ → ℂ where
 instance : Module ℂ (ModularForm k) :=
   Function.Injective.module ℂ coeHom DFunLike.coe_injective fun _ _ ↦ rfl
 
+instance instGCommRing : DirectSum.GCommRing (ModularForm) := sorry
+
+instance instGAlgebra : DirectSum.GAlgebra ℤ (ModularForm) := sorry
 
 theorem bla (f g : ModularForm k) : 2 • f + g = g + 2 • f := by abel
 
@@ -351,10 +357,13 @@ theorem tibbles : ∀ f : ModularForm k, ModularFormClass k f :=
 end algebra
 
 -- can treat modular forms as components of a module now
+end Regular
 end ModularFormsRegular
 
 noncomputable section ModularFormsModulo
+open Regular
 
+namespace Modulo
 variable {k j : ℕ}
 
 section misc
@@ -445,12 +454,27 @@ instance : Add (IntegerModularForm k) where
       apply Class_add a.3 b.3 }
 
 
+
+
 @[simp]
 theorem coe_zero' : ⇑(0 : IntegerModularForm k) = (0 : ℕ → ℤ) := rfl
 
 @[simp]
 theorem zero_apply' (z : ℤ) : (0 : ModularForm k) z = 0 := rfl
 
+@[ext]
+theorem IntegerModularForm.ext {a b : IntegerModularForm k} (h : ∀ n, a n = b n) : a = b :=
+  DFunLike.ext a b h
+
+
+instance : AddCommGroup (IntegerModularForm k) := sorry
+
+instance : Module ℤ (IntegerModularForm k) := sorry
+
+
+instance : DirectSum.GCommRing (IntegerModularForm) := sorry
+
+instance : DirectSum.GAlgebra ℤ (IntegerModularForm) := sorry
 
 end Integer
 
@@ -476,8 +500,8 @@ variable {j k ℓ : ℕ} [NeZero ℓ]
 
 -- Alternate definiton. Every modular form mod ℓ has the weight of its filtation
 structure ModularFormMod' (ℓ : ℕ) (k : ℕ) [NeZero ℓ] where
-  sequence : (ℕ → Fin ℓ)
-  summable : Summable (fun n ↦ sequence n * q ^ n)
+  sequence : (ℕ → ZMod ℓ)
+  summable : sorry
   modular : ∃ a : IntegerModularForm k,
     (sequence = reduce ℓ a ∧ ∀ j : ℕ, ∀ b : IntegerModularForm j, sequence = reduce ℓ b → j ≥ k)
 -- can change to j = k + r * (ℓ-1) for r : ℕ
@@ -486,7 +510,7 @@ structure ModularFormMod' (ℓ : ℕ) (k : ℕ) [NeZero ℓ] where
 
 def reduce' (ℓ : ℕ) [NeZero ℓ]  : IntegerModularForm k → ModularFormMod' ℓ k :=
   fun a ↦
-  { sequence := reduce a
+  { sequence := reduce ℓ a
     summable := by sorry
     modular := by sorry }
 -- Not true (Modular Forms of weight k may be sent to weight less than k)
@@ -510,6 +534,93 @@ instance : Zero (ModularFormMod ℓ) where
 
   { sequence := fun n ↦ (0 : ZMod ℓ)
     modular := ⟨0,0, by unfold reduce; simp⟩}
+
+instance add : Add (ModularFormMod ℓ) where
+  add a b :=
+  { sequence := a + b
+    modular := sorry}
+
+instance mul : Mul (ModularFormMod ℓ) where
+  mul a b :=
+  { sequence := a * b
+    modular := sorry}
+
+instance instSMulZ : SMul ℤ (ModularFormMod ℓ) where
+  smul c a :=
+  { sequence := c • a
+    modular := sorry}
+
+instance instSMulN : SMul ℕ (ModularFormMod ℓ) where
+  smul c a :=
+  { sequence := c • a
+    modular := sorry}
+
+instance instNeg : Neg (ModularFormMod ℓ) where
+  neg := fun a ↦
+  { sequence := -a
+    modular := sorry }
+
+instance instSub : Sub (ModularFormMod ℓ) :=
+  ⟨fun f g => f + -g⟩
+
+instance instPow : Pow (ModularFormMod ℓ) ℕ where
+  pow a n :=
+  { sequence := a ^ n
+    modular := sorry}
+
+
+@[simp]
+theorem coe_add (f g : ModularFormMod ℓ) : ⇑(f + g) = f + g := rfl
+
+@[simp]
+theorem add_apply (f g : ModularFormMod ℓ) (z : ℕ) : (f + g) z = f z + g z := rfl
+
+@[simp]
+theorem coe_mul (f g : ModularFormMod ℓ) : ⇑(f * g) = f * g := rfl
+
+@[simp]
+theorem mul_coe (f g : ModularFormMod ℓ) :
+  (f * g : ℕ → ZMod ℓ) = f * g := rfl
+
+@[simp]
+theorem mul_apply (f g : ModularFormMod ℓ) (z : ℕ) : (f * g) z = f z * g z := rfl
+
+@[simp]
+theorem coe_smulz (f : ModularFormMod ℓ) (n : ℤ) : ⇑(n • f) = n • ⇑f := rfl
+
+@[simp]
+theorem coe_smuln (f : ModularFormMod ℓ) (n : ℕ) : ⇑(n • f) = n • ⇑f := rfl
+
+@[simp]
+theorem smul_apply (f : ModularFormMod ℓ) (n z : ℕ) : (n • f) z = n • f z := rfl
+
+@[simp]
+theorem coe_zero : ⇑(0 : ModularFormMod ℓ) = (0 : ℕ → ZMod ℓ) := rfl
+
+@[simp]
+theorem zero_apply (z : ℕ) : (0 : ModularFormMod ℓ) z = 0 := rfl
+
+@[simp]
+theorem coe_neg (f : ModularFormMod ℓ) : ⇑(-f) = -f := rfl
+
+@[simp]
+theorem coe_sub (f g : ModularFormMod ℓ) : ⇑(f - g) = f - g :=
+  Eq.symm (Mathlib.Tactic.Abel.unfold_sub (⇑f) (⇑g) (⇑(f - g)) rfl)
+
+@[simp]
+theorem sub_apply (f g : ModularFormMod ℓ) (z : ℕ) : (f - g) z = f z - g z :=
+  Eq.symm (Mathlib.Tactic.Abel.unfold_sub (f z) (g z) ((f - g) z) rfl)
+
+@[simp]
+theorem coe_pow (f : ModularFormMod ℓ) (n : ℕ) : ⇑(f ^ n) = f ^ n := rfl
+
+@[simp]
+theorem pow_apply (f : ModularFormMod ℓ) (n z : ℕ) : (f ^ n) z = (f z) ^ n := rfl
+
+@[ext]
+theorem ModularFormMod.ext {a b : ModularFormMod ℓ} (h : ∀ n, a n = b n) : a = b :=
+  DFunLike.ext a b h
+
 
 def Reduce (a : IntegerModularForm k) ℓ [NeZero ℓ] : ModularFormMod ℓ where
   sequence := reduce ℓ a
@@ -549,6 +660,7 @@ variable {c d : ModularFormMod ℓ}
 
 end Modl
 
+end Modulo
 end ModularFormsModulo
 
 
