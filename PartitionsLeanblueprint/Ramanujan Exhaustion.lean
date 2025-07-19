@@ -53,11 +53,21 @@ class ModularFormClass (k : ℕ) (toFun : ℂ → ℂ): Prop where
   bounded : ∃ M : ℝ, ∀ z : ℍ, z.re = 0 → |(toFun z).re| ≤ M ∧ |(toFun z).im| ≤ M
 
 
-
-
 instance (priority := 100) ModularForm.funLike : FunLike (ModularForm k) ℂ ℂ where
   coe f := f.toFun
   coe_injective' f g h := by cases f; cases g; congr
+
+variable {f g : ℂ → ℂ}
+variable {k : ℕ}
+
+
+lemma ClassofForm (f : ModularForm k) : ModularFormClass k f where
+  holo := f.holo
+  shift := f.shift
+  squish := f.squish
+  bounded := f.bounded
+
+
 
 
 
@@ -394,8 +404,7 @@ lemma Class_add {f g : ℂ → ℂ} (hf : ModularFormClass k f) (hg : ModularFor
       exact ⟨Trans.simple (abs_add _ _) (add_le_add (hF z zr0).1 (hG z zr0).1),
       Trans.simple (abs_add _ _) (add_le_add (hF z zr0).2 (hG z zr0).2)⟩ }
 
-lemma bcle {f g : ℂ → ℂ} (hf : ModularFormClass k f) (hg : ModularFormClass k g) :
-  ModularFormClass k (f + g) := by apply tibbles
+-- how to do this automatically
 
 
 -- An integer modular form of weight k is an integer sequence whose infinite q series
@@ -495,12 +504,19 @@ def Filtration [NeZero ℓ] (a : ModularFormMod ℓ) : Option ℕ :=
 
 -- Todo: prove that the modular forms mod ℓ form a module over ℤ and are a ring
 
+instance : AddCommMonoid (ModularFormMod ℓ) := sorry
+
+instance : Module ℤ (ModularFormMod ℓ) := sorry
+
+instance : Ring (ModularFormMod ℓ) := sorry
 
 
-#check ite_id
-variable (a b : ℕ → Fin k)
 
-#check a * b
+
+variable (a b : ModularFormMod ℓ)
+
+#check a * b - 6 * a ^ 3
+
 
 
 
