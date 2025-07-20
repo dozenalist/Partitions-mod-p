@@ -231,7 +231,7 @@ instance : Coe ℂ (ModularForm 0) where
 
 notation "⇈" => const
 
---notation "⇈" n => const n
+-- notation "⇈" n => const n
 -- coerces a scalar into a modular form of weight 0
 
 infixl:65 "•" => SMul
@@ -453,8 +453,13 @@ instance : Add (IntegerModularForm k) where
       rw[this]
       apply Class_add a.3 b.3 }
 
+def mul' {k j : ℕ} (a : IntegerModularForm k) (b : IntegerModularForm j) : IntegerModularForm (k + j) where
+  sequence := fun n ↦ ∑ m ∈ Finset.range (n + 1), a m * b (n - m)
+  summable := sorry
+  modular := sorry
 
-
+instance : HMul (IntegerModularForm k) (IntegerModularForm j) (IntegerModularForm (k + j)) where
+  hMul := mul'
 
 @[simp]
 theorem coe_zero' : ⇑(0 : IntegerModularForm k) = (0 : ℕ → ℤ) := rfl
@@ -465,6 +470,7 @@ theorem zero_apply' (z : ℤ) : (0 : ModularForm k) z = 0 := rfl
 @[ext]
 theorem IntegerModularForm.ext {a b : IntegerModularForm k} (h : ∀ n, a n = b n) : a = b :=
   DFunLike.ext a b h
+
 
 
 instance : AddCommGroup (IntegerModularForm k) := sorry
@@ -542,7 +548,7 @@ instance add : Add (ModularFormMod ℓ) where
 
 instance mul : Mul (ModularFormMod ℓ) where
   mul a b :=
-  { sequence := a * b
+  { sequence := fun n ↦ ∑ m ∈ Finset.range (n + 1), a m * b (n - m)
     modular := sorry}
 
 instance instSMulZ : SMul ℤ (ModularFormMod ℓ) where
@@ -563,10 +569,13 @@ instance instNeg : Neg (ModularFormMod ℓ) where
 instance instSub : Sub (ModularFormMod ℓ) :=
   ⟨fun f g => f + -g⟩
 
+def self.mul (a : ModularFormMod ℓ) : (ModularFormMod ℓ) := a * a
+
 instance instPow : Pow (ModularFormMod ℓ) ℕ where
   pow a n :=
-  { sequence := a ^ n
+  { sequence := self.mul^[n] a
     modular := sorry}
+--bad definition
 
 
 @[simp]
@@ -576,14 +585,16 @@ theorem coe_add (f g : ModularFormMod ℓ) : ⇑(f + g) = f + g := rfl
 theorem add_apply (f g : ModularFormMod ℓ) (z : ℕ) : (f + g) z = f z + g z := rfl
 
 @[simp]
-theorem coe_mul (f g : ModularFormMod ℓ) : ⇑(f * g) = f * g := rfl
+theorem coe_mul (f g : ModularFormMod ℓ) : ⇑(f * g) =
+  fun n ↦ ∑ m ∈ Finset.range (n + 1), f m * g (n - m):= rfl
 
 @[simp]
 theorem mul_coe (f g : ModularFormMod ℓ) :
   (f * g : ℕ → ZMod ℓ) = f * g := rfl
 
 @[simp]
-theorem mul_apply (f g : ModularFormMod ℓ) (z : ℕ) : (f * g) z = f z * g z := rfl
+theorem mul_apply (f g : ModularFormMod ℓ) (n : ℕ) : (f * g) n =
+  ∑ m ∈ Finset.range (n + 1), f m * g (n - m) := rfl
 
 @[simp]
 theorem coe_smulz (f : ModularFormMod ℓ) (n : ℤ) : ⇑(n • f) = n • ⇑f := rfl
@@ -611,11 +622,12 @@ theorem coe_sub (f g : ModularFormMod ℓ) : ⇑(f - g) = f - g :=
 theorem sub_apply (f g : ModularFormMod ℓ) (z : ℕ) : (f - g) z = f z - g z :=
   Eq.symm (Mathlib.Tactic.Abel.unfold_sub (f z) (g z) ((f - g) z) rfl)
 
-@[simp]
-theorem coe_pow (f : ModularFormMod ℓ) (n : ℕ) : ⇑(f ^ n) = f ^ n := rfl
+--@[simp]
+theorem coe_pow (f : ModularFormMod ℓ) (n : ℕ) : ⇑(f ^ n) = self.mul^[n] f := rfl
 
-@[simp]
-theorem pow_apply (f : ModularFormMod ℓ) (n z : ℕ) : (f ^ n) z = (f z) ^ n := rfl
+--@[simp]
+theorem pow_apply (f : ModularFormMod ℓ) (n z : ℕ) : (f ^ n) z = self.mul^[n] f z := rfl
+-- not helpful
 
 @[ext]
 theorem ModularFormMod.ext {a b : ModularFormMod ℓ} (h : ∀ n, a n = b n) : a = b :=
