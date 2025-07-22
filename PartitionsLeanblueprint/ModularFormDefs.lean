@@ -439,7 +439,7 @@ instance : Zero (IntegerModularForm k) where
   zero :=
 
   { sequence := 0
-    summable := by simp; sorry
+    summable := by simp; unfold Summable HasSum; use 0; simp
     modular := by simp; sorry  }
 
 instance : Add (IntegerModularForm k) where
@@ -571,12 +571,15 @@ instance instSub : Sub (ModularFormMod ℓ) :=
 
 def self.mul (a : ModularFormMod ℓ) : (ModularFormMod ℓ) := a * a
 
+
 instance instPow : Pow (ModularFormMod ℓ) ℕ where
   pow a n :=
   { sequence := self.mul^[n] a
     modular := sorry}
 --bad definition
 
+@[simp]
+theorem ModularForm.toFun_eq_coe (f : ModularFormMod ℓ) : ⇑f = (f : ℕ → ZMod ℓ) := rfl
 
 @[simp]
 theorem coe_add (f g : ModularFormMod ℓ) : ⇑(f + g) = f + g := rfl
@@ -585,7 +588,7 @@ theorem coe_add (f g : ModularFormMod ℓ) : ⇑(f + g) = f + g := rfl
 theorem add_apply (f g : ModularFormMod ℓ) (z : ℕ) : (f + g) z = f z + g z := rfl
 
 @[simp]
-theorem coe_mul (f g : ModularFormMod ℓ) : ⇑(f * g) =
+theorem coe_mul (f g : ModularFormMod ℓ) : ⇑ (f * g) =
   fun n ↦ ∑ m ∈ Finset.range (n + 1), f m * g (n - m):= rfl
 
 @[simp]
