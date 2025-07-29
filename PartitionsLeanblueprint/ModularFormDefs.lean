@@ -363,7 +363,7 @@ end ModularFormsRegular
 noncomputable section ModularFormsModulo
 open Regular
 
-namespace Modulo
+
 variable {k j : ℕ}
 
 section misc
@@ -417,7 +417,7 @@ lemma Class_add {f g : ℂ → ℂ} (hf : ModularFormClass k f) (hg : ModularFor
 
 -- how to do this automatically
 
-section Integer
+namespace Integer
 
 -- An integer modular form of weight k is an integer sequence whose infinite q series
 -- converges to a modular form of weight k
@@ -484,8 +484,8 @@ instance : DirectSum.GAlgebra ℤ (IntegerModularForm) := sorry
 
 end Integer
 
-section Modl
-
+namespace Modulo
+open Integer
 
 def intModFin (n : ℕ) (a : ℤ) [NeZero n] : Fin n where
   val := ((a % n + n) % n).toNat
@@ -527,7 +527,9 @@ def reduce' (ℓ : ℕ) [NeZero ℓ]  : IntegerModularForm k → ModularFormMod'
 -- where a is the reduction of b (mod ℓ). It has no inherent weight
 structure ModularFormMod (ℓ : ℕ) [NeZero ℓ] where
   sequence : (ℕ → ZMod ℓ)
+  -- k : ℕ (maybe)
   modular : ∃ k : ℕ, ∃ a : IntegerModularForm k, sequence = reduce ℓ a
+
 
 
 instance (priority := 100) : FunLike (ModularFormMod ℓ) ℕ (ZMod ℓ) where
@@ -541,15 +543,22 @@ instance : Zero (ModularFormMod ℓ) where
   { sequence := fun n ↦ (0 : ZMod ℓ)
     modular := ⟨0,0, by unfold reduce; simp⟩}
 
+
+
 instance add : Add (ModularFormMod ℓ) where
   add a b :=
   { sequence := a + b
     modular := sorry}
+-- Not true (add junk values)
+
 
 instance mul : Mul (ModularFormMod ℓ) where
   mul a b :=
   { sequence := fun n ↦ ∑ m ∈ Finset.range (n + 1), a m * b (n - m)
     modular := sorry}
+
+-- FinsuppAntidiag
+--antidiagonal
 
 instance instSMulZ : SMul ℤ (ModularFormMod ℓ) where
   smul c a :=
@@ -577,6 +586,8 @@ instance instPow : Pow (ModularFormMod ℓ) ℕ where
   { sequence := self.mul^[n] a
     modular := sorry}
 --bad definition
+--Cauchy Product
+--multinomial theorem
 
 @[simp]
 theorem ModularForm.toFun_eq_coe (f : ModularFormMod ℓ) : ⇑f = (f : ℕ → ZMod ℓ) := rfl
@@ -673,7 +684,7 @@ variable {c d : ModularFormMod ℓ}
 
 #check a * b - 6 * a ^ 3
 
-end Modl
+
 
 end Modulo
 end ModularFormsModulo
