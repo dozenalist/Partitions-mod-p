@@ -243,16 +243,10 @@ def mPow (f : ModularForm k) (n : ℕ) : (ModularForm (k * n)) :=
     | n + 1 => mPow f n * f
 
 
-infixl:80 "⋆" => mPow
-infixl:80 "^^" => mPow
+-- infixl:80 "⋆" => mPow
+-- infixl:80 "^^" => mPow
 
 variable {f : ModularForm k}
-
-#check 3 • f ^^ 3
-
-
-
-
 
 theorem ModularForm.toFun_eq_coe (f : ModularForm k) : ⇑f = (f : ℂ → ℂ) := rfl
 

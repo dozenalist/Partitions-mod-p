@@ -22,10 +22,17 @@ structure ModularFormMod (ℓ : ℕ) [NeZero ℓ] (k : ZMod (ℓ - 1)) where
   modular : ∃ k' : ℕ, ∃ a : IntegerModularForm k', k' = k ∧ sequence = reduce ℓ a
 -- or (k : Fin ℓ), ℓ ∣ k' - k.1
 
+variable {k : ℕ}
+
+def Reduce (a : IntegerModularForm k) ℓ [NeZero ℓ] : ModularFormMod ℓ (k : ZMod (ℓ - 1)) where
+  sequence := reduce ℓ a
+  modular := ⟨k, a, rfl, rfl⟩
+
 
 
 variable {ℓ : ℕ} [NeZero ℓ] [NeZero (ℓ - 1)] -- probably a better way
 variable {k j : ZMod (ℓ-1)}
+
 
 instance (priority := 100) : FunLike (ModularFormMod ℓ k) ℕ (ZMod ℓ) where
   coe a := a.1
@@ -70,7 +77,6 @@ def pow (a : ModularFormMod ℓ k) (n : ℕ) : ModularFormMod ℓ (k * n) where
 
 
 
-
 instance instSMulZ : SMul ℤ (ModularFormMod ℓ k) where
   smul c a :=
   { sequence := c • a
@@ -90,12 +96,6 @@ instance instSub : Sub (ModularFormMod ℓ k) :=
   ⟨fun f g => f + -g⟩
 
 
-variable {k : ℕ}
-
-
-def Reduce (a : IntegerModularForm k) ℓ [NeZero ℓ] : ModularFormMod ℓ k where
-  sequence := reduce ℓ a
-  modular := ⟨k, a, rfl, rfl⟩
 
 
 -- A modular form mod ℓ, denoted a, has weight k if there exists a modular form b
@@ -113,10 +113,15 @@ def Filtration (a : ModularFormMod ℓ k) : Option ℕ :=
     (by obtain ⟨k,b,h⟩ := a.modular; use k; use b; exact h.2)
 
 
-def Theta (a : ModularFormMod ℓ k) : ModularFormMod ℓ (k + 2) where
+def Theta (a : ModularFormMod ℓ k) : ModularFormMod ℓ (k + ℓ + 1) where
   sequence := fun n ↦ n * a n
   modular := sorry
 
 def U_Operator (a : ModularFormMod ℓ k) : ModularFormMod ℓ k where
   sequence := fun n ↦ a (ℓ * n)
   modular := sorry
+
+
+variable {f g : ModularFormMod ℓ k}
+
+#check f - g
