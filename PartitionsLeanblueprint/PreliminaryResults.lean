@@ -80,18 +80,28 @@ lemma Theta_apply : Θ a n = n * a n := rfl
 
 -- no idea why its (n : ℕ) and not ℕ
 def Theta_pow : (n : ℕ) → ModularFormMod ℓ k → ModularFormMod ℓ (k + n * (ℓ + 1))
-| 0     => fun f => cast (by group) f
-| n + 1 => fun f => cast (by simp[mul_add, add_mul]; group) (Theta (Theta_pow n f))
+| 0     => fun f ↦ cast (by group) f
+| n + 1 => fun f ↦ cast (by simp; group) (Theta (Theta_pow n f))
 
 
-notation "Θ ^^ n" => Theta_pow n
--- idk how to do this
+macro_rules
+  | `(Θ^[$n]) => `(Theta_pow $n)
+
 
 #check Theta_pow 3 (a ⋆ 2 * b)
+#check Θ^[3] (a ⋆ 2 * b)|𝓤
+#check Θ (a ⋆ 2 * b)
 
 
+@[simp]
+lemma Theta_pow_zero {a : ModularFormMod ℓ k} : Θ^[0] a = cast (by simp) a := rfl
 
-#check Θ ^^ 3 (a ⋆ 4 * b)
+@[simp]
+lemma Theta_pow_succ {n : ℕ} {a : ModularFormMod ℓ k} :
+  Θ^[n + 1] a = cast (by simp; group) (Θ (Θ^[n] a)) := by
+  induction n with
+  | zero => rfl
+  | succ n ih => rfl
 
 
 def δ (ℓ : ℕ) : ℤ := (ℓ^2 - 1) / 24
@@ -99,9 +109,10 @@ def δ (ℓ : ℕ) : ℤ := (ℓ^2 - 1) / 24
 
 
 @[simp]
-lemma Theta_Pow {n j : ℕ} {a : ModularFormMod ℓ k} : Θ^[j] a n = n ^ j * a n := by
-  induction' j with j ih; simp
-  rw[iterate_succ', pow_add]; simp; rw[ih]; ring
+lemma Theta_Pow_apply {n j : ℕ} {a : ModularFormMod ℓ k} : Θ^[j] a n = n ^ j * a n := by
+  induction j with
+  | zero => simp; sorry
+  | succ j ih => simp[ih]; sorry
 
 
 
