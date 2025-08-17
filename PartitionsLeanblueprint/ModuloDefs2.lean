@@ -22,6 +22,7 @@ structure ModularFormMod (ℓ : ℕ) [NeZero ℓ] (k : ZMod (ℓ - 1)) where
   modular : ∃ k' : ℕ, ∃ a : IntegerModularForm k', k' = k ∧ sequence = reduce ℓ a
 -- or (k : Fin ℓ), ℓ ∣ k' - k.1
 
+
 variable {k : ℕ}
 
 def Reduce (a : IntegerModularForm k) ℓ [NeZero ℓ] : ModularFormMod ℓ (k : ZMod (ℓ - 1)) where
@@ -33,6 +34,9 @@ def Reduce (a : IntegerModularForm k) ℓ [NeZero ℓ] : ModularFormMod ℓ (k :
 variable {ℓ : ℕ} [NeZero ℓ] [NeZero (ℓ - 1)] -- probably a better way
 variable {k j : ZMod (ℓ-1)}
 
+
+def Mcongr {m n : ZMod (ℓ - 1)} (h : m = n) (a : ModularFormMod ℓ m) : ModularFormMod ℓ n :=
+  h ▸ a
 
 instance (priority := 100) : FunLike (ModularFormMod ℓ k) ℕ (ZMod ℓ) where
   coe a := a.1
@@ -95,8 +99,63 @@ instance instNeg : Neg (ModularFormMod ℓ k) where
 instance instSub : Sub (ModularFormMod ℓ k) :=
   ⟨fun f g => f + -g⟩
 
+@[simp]
+theorem ModularForm.toFun_eq_coe (f : ModularFormMod ℓ k) : ⇑f = (f : ℕ → ZMod ℓ) := rfl
 
+@[simp]
+theorem coe_add (f g : ModularFormMod ℓ k) : ⇑(f + g) = f + g := rfl
 
+@[simp]
+theorem add_apply (f g : ModularFormMod ℓ k) (z : ℕ) : (f + g) z = f z + g z := rfl
+
+@[simp]
+theorem coe_mul (f g : ModularFormMod ℓ k) : ⇑ (f * g) =
+  fun n ↦ ∑ ⟨x,y⟩ ∈ antidiagonal n, f x * g y := rfl
+
+@[simp]
+theorem mul_coe (f g : ModularFormMod ℓ k) :
+  (f * g : ℕ → ZMod ℓ) = f * g := rfl
+
+@[simp]
+theorem mul_apply (f g : ModularFormMod ℓ k) (n : ℕ) : (f * g) n =
+  ∑ ⟨x,y⟩ ∈ antidiagonal n, f x * g y := rfl
+
+@[simp]
+theorem coe_smulz (f : ModularFormMod ℓ k) (n : ℤ) : ⇑(n • f) = n • ⇑f := rfl
+
+@[simp]
+theorem coe_smuln (f : ModularFormMod ℓ k) (n : ℕ) : ⇑(n • f) = n • ⇑f := rfl
+
+@[simp]
+theorem smul_apply (f : ModularFormMod ℓ k) (n z : ℕ) : (n • f) z = n • f z := rfl
+
+@[simp]
+theorem coe_zero : ⇑(0 : ModularFormMod ℓ k) = (0 : ℕ → ZMod ℓ) := rfl
+
+@[simp]
+theorem zero_apply (z : ℕ) : (0 : ModularFormMod ℓ k) z = 0 := rfl
+
+@[simp]
+theorem coe_neg (f : ModularFormMod ℓ k) : ⇑(-f) = -f := rfl
+
+@[simp]
+theorem coe_sub (f g : ModularFormMod ℓ k) : ⇑(f - g) = f - g :=
+  Eq.symm (Mathlib.Tactic.Abel.unfold_sub (⇑f) (⇑g) (⇑(f - g)) rfl)
+
+@[simp]
+theorem sub_apply (f g : ModularFormMod ℓ k) (z : ℕ) : (f - g) z = f z - g z :=
+  Eq.symm (Mathlib.Tactic.Abel.unfold_sub (f z) (g z) ((f - g) z) rfl)
+
+-- --@[simp]
+-- theorem coe_pow (f : ModularFormMod ℓ k) (n : ℕ) : ⇑(f ^ n) = self.mul^[n] f := rfl
+
+-- --@[simp]
+-- theorem pow_apply (f : ModularFormMod ℓ k) (n z : ℕ) : (f ^ n) z = self.mul^[n] f z := rfl
+-- -- not helpful
+
+@[ext]
+theorem ModularFormMod.ext {a b : ModularFormMod ℓ k} (h : ∀ n, a n = b n) : a = b :=
+  DFunLike.ext a b h
 
 -- A modular form mod ℓ, denoted a, has weight k if there exists a modular form b
 -- of weight k such that a is the reduction of b (mod ℓ)
@@ -113,7 +172,7 @@ def Filtration (a : ModularFormMod ℓ k) : Option ℕ :=
     (by obtain ⟨k,b,h⟩ := a.modular; use k; use b; exact h.2)
 
 
-def Theta (a : ModularFormMod ℓ k) : ModularFormMod ℓ (k + ℓ + 1) where
+def Theta (a : ModularFormMod ℓ k) : ModularFormMod ℓ (k + 2) where
   sequence := fun n ↦ n * a n
   modular := sorry
 
@@ -122,6 +181,21 @@ def U_Operator (a : ModularFormMod ℓ k) : ModularFormMod ℓ k where
   modular := sorry
 
 
+-- use ▸
+-- look at Data.Vector
+
 variable {f g : ModularFormMod ℓ k}
 
 #check f - g
+
+
+def mcast {k j : ZMod (ℓ-1)} (h : k = j) (f : ModularFormMod ℓ k) :
+    ModularFormMod ℓ j where
+  sequence := f
+  modular := by
+    obtain ⟨k', a, hk, ha⟩ := f.modular
+    use k'; use a; constructor; rwa[hk]
+    exact ha
+
+
+variable {f : ModularFormMod ℓ (ℓ - 1)} {g : ModularFormMod ℓ 0}
