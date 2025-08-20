@@ -7,3 +7,5 @@ import PartitionsLeanblueprint.IVT
 import PartitionsLeanblueprint.ModularFormDefs
 
 import PartitionsLeanblueprint.ModuloDefs2
+
+import PartitionsLeanblueprint.BasicOperators
