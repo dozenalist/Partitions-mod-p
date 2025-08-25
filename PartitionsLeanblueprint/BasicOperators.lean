@@ -3,6 +3,10 @@ import PartitionsLeanblueprint.ModuloDefs2
 import Mathlib.Logic.Function.Iterate
 import Mathlib.Data.Nat.Prime.Defs
 
+/- This file defines some basic operators on Modular Forms Mod ℓ, such as the
+Theta and U operators, as well as some simple functions for dealing with cast equality
+It also defines some notation that aligns with the paper -/
+
 open ModularFormDefs Integer Modulo2
 
 noncomputable section
@@ -35,12 +39,13 @@ def Mod_eq (a : α) (b : β) :=
 -- two modular forms of different weight can be "equal" if they are the same sequence
 -- might be a bad idea, idk
 
-infixl:30 (priority := 1000) "==" => Mod_eq
+infixl:30 (priority := 1001) "==" => Mod_eq
 
 
 @[simp]
 lemma cast_equal {k j : ZMod (ℓ -1) } {h : k = j} {a : ModularFormMod ℓ k} :
   Mcongr h a == a := λ _ ↦ cast_eval
+
 
 
 -- A modular form mod ℓ, denoted a, has weight k if there exists a modular form b
@@ -171,5 +176,19 @@ instance : HAdd (Option ℕ) (Option ℕ) (Option ℕ) where
   hAdd := Option_add
 
 
+infixl:30 "mod" => Reduce
+
+syntax:30 term " (mod " term ")" : term
+
+macro_rules
+  | `($a (mod $l)) => `(Reduce $a $l)
+
+notation "𝔀" => Filtration
+
+infixl:80 "**" => pow
+
+-- variable {k : ℕ} {a b : IntegerModularForm k} [NeZero (ℓ - 1)]
+
+-- #check 𝔀 (a * b (mod ℓ))
 
 end section

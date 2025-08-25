@@ -2,8 +2,13 @@ import PartitionsLeanblueprint.ModularFormDefs
 import Mathlib.Data.Finset.NatAntidiagonal
 import Mathlib.Data.Nat.Choose.Multinomial
 
-open ModularFormDefs Regular Integer
+/- This file defines Modular Forms Mod ℓ as sequences from ℕ to ZMod ℓ.
+Each modular Form Mod ℓ has a weight defined by the congruence of its weight mod ℓ - 1.
+a sequence b is modular if there exists an Integer Modular Form a of any weight such that
+b is the reduction of a mod ℓ -/
 
+
+open ModularFormDefs Regular Integer
 
 noncomputable section
 
@@ -30,7 +35,6 @@ def Reduce (a : IntegerModularForm k) ℓ [NeZero ℓ] : ModularFormMod ℓ (k :
   modular := ⟨k, a, rfl, rfl⟩
 
 
-
 variable {ℓ : ℕ} [NeZero ℓ]
 variable {k j : ZMod (ℓ-1)}
 
@@ -53,12 +57,12 @@ instance add : Add (ModularFormMod ℓ k) where
     -- Multiply by E₆ ect.
 
 
-open Finset
+open Nat Finset Finset.Nat
 
 def mul (f : ModularFormMod ℓ k) (g : ModularFormMod ℓ j) : (ModularFormMod ℓ (k + j)) where
 
-  sequence := fun n ↦ ∑ ⟨x,y⟩ ∈ (antidiagonal n), f x * g y
-  -- not 100% sure if this is correct
+  sequence n := ∑ ⟨x,y⟩ ∈ (antidiagonal n), f x * g y -- ∑ ⟨x,y⟩ ∈ (antidiagonal n), f x * g y
+  -- maybe use Nat.antidiagonal instead
   -- sum over all x + y = n
   modular := sorry
 
@@ -69,10 +73,24 @@ instance : HMul (ModularFormMod ℓ k) (ModularFormMod ℓ j) (ModularFormMod �
 def natify (a : ModularFormMod ℓ k) : ℕ → ℕ :=
   fun n ↦ (a n).val
 
-def pow (a : ModularFormMod ℓ k) (j : ℕ) : ModularFormMod ℓ (k * j) where
-  sequence := fun n ↦ (Nat.multinomial (Finset.range j) (natify a)) * a n  -- ???
+
+
+-- def antidiagonalFinset (k n : ℕ) : Finset (Multiset ℕ) where
+--   val :=
+
+def pow' (a : ModularFormMod ℓ k) (j : ℕ) : ModularFormMod ℓ (k * j) where
+  sequence n := sorry -- (range n).sum (a ^ j)
   modular := sorry
 -- probably wrong
+
+def pow (a : ModularFormMod ℓ k) (j : ℕ) : ModularFormMod ℓ (k * j) where
+  sequence n := ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y)
+  -- this is correct, but inconvenient. Maybe define in terms of the Quotient of perm_setoid
+  modular := sorry
+
+#check sum_pow
+#eval antidiagonalTuple 3 4
+--multiplicity of j * (# unique symbols - 1)  (1 if # = 1)
 
 
 instance instSMulZ : SMul ℤ (ModularFormMod ℓ k) where
@@ -102,6 +120,9 @@ theorem natify_apply (a : ModularFormMod ℓ k) (n : ℕ) : natify a n = (a n).v
 
 @[simp]
 theorem ModularForm.toFun_eq_coe (f : ModularFormMod ℓ k) : ⇑f = (f : ℕ → ZMod ℓ) := rfl
+
+@[simp]
+theorem coe_apply (f : ModularFormMod ℓ k) (n : ℕ) : f.sequence n = f n := rfl
 
 @[simp]
 theorem coe_add (f g : ModularFormMod ℓ k) : ⇑(f + g) = f + g := rfl
@@ -148,12 +169,20 @@ theorem sub_apply (f g : ModularFormMod ℓ k) (z : ℕ) : (f - g) z = f z - g z
   Eq.symm (Mathlib.Tactic.Abel.unfold_sub (f z) (g z) ((f - g) z) rfl)
 
 
-theorem coe_pow (f : ModularFormMod ℓ k) (n : ℕ) : ⇑(pow f n) = fun z ↦ (Nat.multinomial (Finset.range n) (natify f)) * f z := rfl
+--theorem coe_pow' (a : ModularFormMod ℓ k) (j : ℕ) : ⇑(pow' a j) = fun n ↦ ↑(multinomial (range (n + 1)) (natify a)) := rfl
 
+--theorem pow_apply' (a : ModularFormMod ℓ k) (j n : ℕ) : (pow' a j) n = ↑(multinomial (range (n + 1)) (natify a)) := rfl
 
-theorem pow_apply (f : ModularFormMod ℓ k) (n z : ℕ) : (pow f n) z = (Nat.multinomial (Finset.range n) (natify f)) * f z := rfl
+theorem coe_pow (a : ModularFormMod ℓ k) (j : ℕ) : ⇑(pow a j) = fun n ↦ ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
 
+theorem pow_apply (a : ModularFormMod ℓ k) (j n : ℕ) : (pow a j) n = ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
 
 @[ext]
 theorem ModularFormMod.ext {a b : ModularFormMod ℓ k} (h : ∀ n, a n = b n) : a = b :=
   DFunLike.ext a b h
+
+lemma pow_2_eq_mul_self (a : ModularFormMod ℓ k) (n : ℕ) : (pow a 2) n = (a * a) n := by
+  rw[pow_apply]; simp[antidiagonalTuple_two]
+
+
+--lemma pow_j_eq_mul_self ()

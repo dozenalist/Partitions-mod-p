@@ -7,6 +7,10 @@ import Mathlib.RingTheory.PowerSeries.Basic
 import Mathlib.Algebra.DirectSum.Ring
 import Mathlib.Algebra.DirectSum.Algebra
 
+/- This file defines regular modular forms as functions on the complex plane, and
+defines Integer Modular Forms as sequences whose q-series are modular forms.
+It also defines Modular Forms Mod ℓ, but in a way that is innacurate -/
+
 
 namespace ModularFormDefs
 
@@ -362,9 +366,7 @@ variable {k j : ℕ}
 
 section misc
 
-open Real Complex
-
-postfix: 100 "!" => Nat.factorial
+open Real Complex Nat
 
 def Choose (n k : ℕ) := n ! / (k ! * (n - k)!)
 
@@ -385,7 +387,6 @@ def EisensteinSeries (k : ℕ) : (ℂ → ℂ) :=
 
 variable {k : ℕ}
 
-#check cauchyPowerSeries
 
 def Eisenstein k : (ModularForm k) where
   toFun := EisensteinSeries k
@@ -505,7 +506,7 @@ structure ModularFormMod' (ℓ : ℕ) (k : ℕ) [NeZero ℓ] where
   modular : ∃ a : IntegerModularForm k,
     (sequence = reduce ℓ a ∧ ∀ j : ℕ, ∀ b : IntegerModularForm j, sequence = reduce ℓ b → j ≥ k)
 -- can change to j = k + r * (ℓ-1) for r : ℕ
-#check (-1 : Fin 5)
+
 
 
 def reduce' (ℓ : ℕ) [NeZero ℓ]  : IntegerModularForm k → ModularFormMod' ℓ k :=
@@ -669,14 +670,6 @@ instance : Module ℤ (ModularFormMod ℓ) := sorry
 -- Is it a module over ℤ or ZMod ℓ?
 
 instance : Ring (ModularFormMod ℓ) := sorry
-
-
-
-
-variable {a b : ZMod k}
-variable {c d : ModularFormMod ℓ}
-
-#check a * b - 6 * a ^ 3
 
 
 
