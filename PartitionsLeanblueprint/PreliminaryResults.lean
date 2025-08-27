@@ -3,6 +3,8 @@ import PartitionsLeanblueprint.ModuloDefs2
 import PartitionsLeanblueprint.BasicOperators
 import Mathlib.Logic.Function.Iterate
 import Mathlib.Data.Nat.Prime.Defs
+import Mathlib.GroupTheory.Perm.Centralizer
+import Mathlib.Data.Nat.Prime.Factorial
 
 /- This file states and proves some basic theorems, some of which are found
 in the introduction of the paper -/
@@ -25,15 +27,18 @@ lemma flt2 {p : ℕ} {n : ZMod p} [Fact (Nat.Prime p)] : n ^ (p - 1) = if n ≠ 
   pow_card_sub_one n
 
 
-
-
-def perm_equiv'' {n : ℕ} (a b : Fin n → ℕ) :=
-  List.isPerm (List.ofFn a) (List.ofFn b)
+section Pow_Prime
 
 
 def perm_equiv {n : ℕ} (a b : Fin n → ℕ) :=
   ∃ c : Equiv.Perm (Fin n), a = b ∘ c
 
+lemma perm_equiv_refl {n : ℕ} (a : Fin n → ℕ) : perm_equiv a a :=
+  ⟨Equiv.refl _, by simp⟩
+
+theorem perm_equiv_symm {n} {a b : Fin n → ℕ} :
+    perm_equiv a b → perm_equiv b a := by
+  rintro ⟨c, hc⟩; use c⁻¹; rw[hc]; ext x; simp
 
 theorem perm_equiv_trans {n} {a b c : Fin n → ℕ} : perm_equiv a b → perm_equiv b c → perm_equiv a c := by
   rintro ⟨σ, hσ⟩ ⟨τ, hτ⟩
@@ -43,58 +48,19 @@ theorem perm_equiv_trans {n} {a b c : Fin n → ℕ} : perm_equiv a b → perm_e
   simpa [Function.comp, hσ] using this
 
 
-@[simp]
-lemma perm_equiv_refl {n : ℕ} (a : Fin n → ℕ) : perm_equiv a a :=
-  ⟨Equiv.refl _, by simp⟩
-
-
-theorem perm_equiv_symm {n} {a b : Fin n → ℕ} :
-    perm_equiv a b → perm_equiv b a := by
-  rintro ⟨c, hc⟩; use c⁻¹; rw[hc]; ext x; simp
-
 theorem perm_equiv_const {n} {a b: Fin n → ℕ} (aconst : ∀ i j, a i = a j)
     (h : perm_equiv a b) : a = b := by
   obtain ⟨c,rfl⟩ := h
   ext i
   have := aconst i (c.symm i)
-  -- simplify using c (c.symm i) = i
   simp [Equiv.apply_symm_apply] at this
   exact this
 
-
-def perm_equiv' {k n : ℕ} (a b : antidiagonalTuple k n) :=
-  perm_equiv a.1 b.1
-
-@[simp]
-lemma perm_equiv_refl' {k n : ℕ} (a : antidiagonalTuple k n) : perm_equiv' a a :=
-  ⟨Equiv.refl _, by simp⟩
-
-theorem perm_equiv_symm' {k n} {a b : antidiagonalTuple k n} :
-    perm_equiv' a b → perm_equiv' b a := by
-  unfold perm_equiv'; exact perm_equiv_symm
-
-theorem perm_equiv_trans' {k n} {a b c : antidiagonalTuple k n} :
-    perm_equiv' a b → perm_equiv' b c → perm_equiv' a c := by
-  unfold perm_equiv'; exact perm_equiv_trans
-
-def perm_setoid' : Setoid { x // x ∈ antidiagonalTuple n ℓ } :=
-{ r := perm_equiv',
-  iseqv :=
-    ⟨perm_equiv_refl', perm_equiv_symm', perm_equiv_trans'⟩ }
 
 def perm_setoid : Setoid ( Fin n → ℕ ) where
   r := perm_equiv
   iseqv := ⟨perm_equiv_refl, perm_equiv_symm, perm_equiv_trans⟩
 
-
-lemma disjoint_filter_of_not_perm {n : ℕ} {s : Finset (Fin n → ℕ)} {x₁ x₂ : Fin n → ℕ}
-    (hneq : ¬ perm_equiv x₁ x₂) :
-    Disjoint (s.filter (fun z => perm_equiv x₁ z)) (s.filter (fun z => perm_equiv x₂ z)) := by
-  refine Finset.disjoint_left.mpr ?_
-  intro z hz1 hz2
-  rcases (Finset.mem_filter.mp hz1) with ⟨hzs1, hx1z⟩
-  rcases (Finset.mem_filter.mp hz2) with ⟨hzs2, hx2z⟩
-  exact hneq (perm_equiv_trans (perm_equiv_symm (perm_equiv_symm hx1z)) (perm_equiv_symm hx2z))
 
 lemma sum_eq_of_perm_equiv {n} {a b : Fin n → ℕ} (h : perm_equiv a b) :
     ∑ i, a i = ∑ i, b i := by
@@ -103,7 +69,17 @@ lemma sum_eq_of_perm_equiv {n} {a b : Fin n → ℕ} (h : perm_equiv a b) :
 
 
 def orbit_finset {k} (x : Fin k → ℕ) : Finset (Fin k → ℕ) :=
-  Finset.univ.image (fun c : Equiv.Perm (Fin k) ↦ x ∘ c)
+  univ.image (fun c : Equiv.Perm (Fin k) ↦ x ∘ c)
+
+lemma orbit_equiv {k} {x y: Fin k → ℕ} : y ∈ orbit_finset x ↔ perm_equiv x y := by
+  unfold perm_equiv orbit_finset; constructor <;> intro h <;>
+  simp_all only [mem_image, mem_univ, true_and]
+  obtain ⟨c, rfl⟩ := h
+  use c⁻¹; ext; simp
+  obtain ⟨c, rfl⟩ := h
+  use c⁻¹; ext; simp
+
+
 
 lemma perm_of_orbit {k} {x b : Fin k → ℕ} (h : b ∈ orbit_finset x) : perm_equiv x b := by
   rcases Finset.mem_image.mp h with ⟨c, _, rfl⟩
@@ -126,8 +102,13 @@ lemma orbit_eq_tuple {k n} {x : Fin k → ℕ} (h : x ∈ antidiagonalTuple k n)
   ext i; simp
 
 
-lemma orbit_card {k} (x : Fin k → ℕ) : #(orbit_finset x) = sorry :=
-  sorry
+
+def subtype_univ_equiv {α : Type*} [Fintype α] : ({a : α // a ∈ (Finset.univ : Finset α)}) ≃ α where
+    toFun := Subtype.val
+    invFun := fun a => ⟨a, mem_univ a⟩
+    left_inv := fun ⟨_, _⟩ => rfl
+    right_inv := fun _ => rfl
+
 
 -- If the tuple x is not constant, ie [k,k,k, ..], then
 -- ℓ | (# of permutations of x ∈ antidiagonalTuple ℓ (ℓ * k))
@@ -149,7 +130,184 @@ lemma non_diag_vanish {k n : ℕ} {x : Fin k → ℕ} [Fact (Nat.Prime k)] (h : 
 
 
     rw[← orbit_eq_tuple xiT]
-    sorry
+
+    let Stab : Finset (Equiv.Perm (Fin k)) :=
+  (Finset.univ : Finset (Equiv.Perm (Fin k))).filter (fun c ↦ x ∘ c = x)
+
+    have decomp : #(Finset.univ : Finset (Equiv.Perm (Fin k))) = #(orbit_finset x) * #Stab := by
+      {
+      let f : Equiv.Perm (Fin k) → (Fin k → ℕ) := fun g ↦ x ∘ g
+      calc
+        _  = ∑ y ∈ Finset.univ.image f, ((Finset.univ.filter (fun g ↦ f g = y)).card) := by
+          exact card_eq_sum_card_image f Finset.univ
+        _ = ∑ y ∈ orbit_finset x, #Stab := by
+          refine Finset.sum_congr rfl ?_
+          intro y hy
+          simp[f,Stab]
+          have hyy := orbit_equiv.1 hy
+          obtain ⟨d, rfl⟩ := hyy
+          have {c : Equiv.Perm (Fin k)} : (y ∘ ⇑d) ∘ ⇑c = y ∘ ⇑d ↔ ((y ∘ ⇑d) ∘ ⇑c) ∘ ⇑d⁻¹ = y := by
+            constructor <;> intro h; rw[h]; ext; simp
+            nth_rw 2[← h]; ext; simp
+
+          simp only [this]
+
+          have im_eq :  Finset.image (fun g => g * d) { g : Equiv.Perm (Fin k) | (y ∘ d) ∘ g = y } =
+              ({ c : Equiv.Perm (Fin k) | ((y ∘ d) ∘ c) ∘ ⇑d⁻¹ = y } : Finset (Equiv.Perm (Fin k))) := by
+            ext c
+            constructor
+            intro h
+            simp_all; nth_rw 2[← h]; ext; simp
+            intro h
+            simp_all; nth_rw 2[← h]; ext; simp
+
+          rw[← im_eq]
+          refine Eq.symm (Finset.card_image_of_injOn ?_)
+          intro x hx z hz
+          simp_all
+
+        _ = #(orbit_finset x) * #Stab := sum_const_nat λ _ ↦ congrFun rfl
+      }
+
+    have card_univ : #(Finset.univ : Finset (Equiv.Perm (Fin k))) = (k)! := by
+      rw [Finset.card_univ, Fintype.card_perm, Fintype.card_fin]
+
+    have decomp_div : #(orbit_finset x) = #(univ : Finset (Equiv.Perm (Fin k))) / #Stab := by
+      refine Nat.eq_div_of_mul_eq_left ?_ (id (Eq.symm decomp))
+      unfold Stab; apply Finset.card_ne_zero.mpr
+      use 1; simp
+
+    rw[decomp_div, card_univ]
+
+    have Stabpos : #Stab ≠ 0 := Finset.card_ne_zero.mpr ⟨1, by simp [Stab]⟩
+
+    have kPrime : Nat.Prime k := Fact.out
+
+    have kn0 : k ≠ 0 := Ne.symm (NeZero.ne' k)
+    suffices getStabbed : ¬ k ∣ #Stab by
+      have unStabbed : #Stab ∣ (k)! := by
+        use #(orbit_finset x); rw[mul_comm, ← decomp, card_univ]
+      have : k ∣ k ! := dvd_factorial (zero_lt_of_ne_zero kn0) (le_refl k)
+      obtain ⟨t, ht⟩ := unStabbed
+      have hmul : k ∣ (Stab.card : ℕ) * t := by rw[← ht]; exact this
+
+      rcases (Nat.Prime.dvd_mul kPrime).1 hmul with h|h
+      contradiction
+      rw[ht]; rw [mul_div_cancel_left₀ t Stabpos]
+      exact h
+
+
+    clear! n perm_in_set decomp card_univ decomp_div
+
+
+    -- Final Step : ¬ k ∣ #Stab
+
+    intro divStab
+
+    have Stab_pi : #Stab = ∏ m ∈ univ.image x, (#{n | x n = m})! := by
+
+      { -- rewriting to be able to apply DomMulAct.stabilizer_card
+
+        clear! w u kPrime kn0 divStab Stabpos
+
+        let y : Fin k → {m // m ∈ image x univ} :=
+          fun n ↦ ⟨x n, mem_image_of_mem x (mem_univ n)⟩
+
+        unfold Stab
+
+        let Stab' := {g : Equiv.Perm (Fin k) // y ∘ g = y}
+
+
+        have Stabsyou : #Stab = Fintype.card Stab' := by
+          unfold Stab' Stab
+          apply card_eq_of_equiv_fintype
+          apply Equiv.subtypeEquivProp
+          ext c; constructor <;> intro h
+          simp at h
+          funext n; simp[y]
+          trans (x ∘ c) n
+          simp[h]; rw[h]
+          simp_all[y]
+          ext n
+          exact congrArg Subtype.val (congrFun h n)
+
+        have rrw (m : ℕ) : #{n | x n = m} = Fintype.card { a // y a = m } := by
+          apply card_eq_of_equiv_fintype
+          apply Equiv.subtypeEquivProp
+          ext n; constructor <;> intro h <;> simp_all[y]
+
+        rw[Stabsyou]
+        simp_rw [rrw]
+        unfold Stab'
+
+        have rrr : ∏ m ∈ image x univ, (Fintype.card { a // x a = m })! =
+            ∏ m : {m // m ∈ image x univ}, (Fintype.card { a // y a = m })! := by
+
+          let f (α : Type 0) [Fintype α] : ℕ := Nat.factorial (Fintype.card α)
+
+          have eq3 {m}: (Fintype.card { a // x a = m })! = f { a // x a = m } := by simp[f]
+          have eq4 {m}: (Fintype.card { a // y a = m })! = f { a // y a = m } := by simp[f]
+
+          have eq5 {m}: f { a // x a = m } = f { a // y a = m } := by congr
+
+          let h (m : ℕ) := f { a // y a = m }
+
+          have eq6 {m} : f { a // y a = m } = h m := by
+            obtain ⟨val, property⟩ := m
+            simp_all only [Subtype.mk.injEq, h, f, y]
+
+          simp_rw[eq3,eq4,eq5]
+          simp; symm
+          simp_rw[eq6]
+
+          rw [prod_attach]
+
+        rw[rrr]
+
+        apply DomMulAct.stabilizer_card
+      }
+
+    have : ∀ m ∈ univ.image x, ¬ k ∣ (#{n | x n = m})! := by
+      intro m hm
+      suffices conned : #{n | x n = m} < k by
+        have necon0 : #{n | x n = m} ≠ 0 := (fiber_card_ne_zero_iff_mem_image univ x m).mpr hm
+        contrapose! conned
+        apply (Nat.Prime.dvd_factorial kPrime).1 conned
+
+      by_cases xwm : x w = m
+
+      have xum : u ∉ ({n | x n = m} : Finset (Fin k)) := by simp; rw[← xwm]; exact λ a ↦ h (id (Eq.symm a))
+      contrapose! xum
+      have : ({n | x n = m} : Finset (Fin k)) = univ := by
+        apply Finset.eq_univ_of_card
+        trans k
+        exact le_antisymm (card_finset_fin_le {n | x n = m}) xum
+        exact Eq.symm (Fintype.card_fin k)
+      rw[this]; exact mem_univ u
+
+      have xum : w ∉ ({n | x n = m} : Finset (Fin k)) := by
+        contrapose! xwm; simp_all only [ne_eq, mem_univ, true_and, mem_filter]
+      contrapose! xum
+      have : ({n | x n = m} : Finset (Fin k)) = univ := by
+        apply Finset.eq_univ_of_card
+        trans k
+        exact le_antisymm (card_finset_fin_le {n | x n = m}) xum
+        exact Eq.symm (Fintype.card_fin k)
+      rw[this]; exact mem_univ w
+
+    contrapose! this; clear this
+    rw [Stab_pi] at divStab
+
+    have kPrime' : _root_.Prime k := prime_iff.mp kPrime
+
+    -- Convert the finset product to a list product
+    have : ∏ m ∈ (image x univ), (#{n | x n = m})! = List.prod ((image x univ).toList.map (λ m => (#{n | x n = m})!)) :=
+      Eq.symm (prod_map_toList (image x univ) λ m ↦ (#{n | x n = m})!)
+    rw [this] at divStab
+    obtain ⟨a, ha, hka⟩ := (Prime.dvd_prod_iff kPrime').mp divStab
+    rcases List.mem_map.mp ha with ⟨m, hm, rfl⟩
+    use m
+    exact ⟨Finset.mem_toList.mp hm, hka⟩
 
   }
 
@@ -159,10 +317,9 @@ lemma non_diag_vanish {k n : ℕ} {x : Fin k → ℕ} [Fact (Nat.Prime k)] (h : 
     apply mem_antidiagonalTuple.mpr
     trans ∑ i, b i
     exact sum_eq_of_perm_equiv xiT
-    apply mem_antidiagonalTuple.mp hb
+    exact mem_antidiagonalTuple.mp hb
   }
 
-#eval antidiagonalTuple 5 2
 
 lemma Pi_eq_of_perm_equiv {n : ℕ} {a : ℕ → ZMod n} {x y : Fin n → ℕ} (hxy : perm_equiv x y) :
     ∏ z, a (y z) = ∏ z, a (x z) := by
@@ -344,27 +501,29 @@ theorem Pow_Prime {n : ℕ} {a : ModularFormMod ℓ k} : (a ** ℓ) n = if ℓ �
       λ x hx ↦ non_diag_vanish (non_const_of_tuple_non_diag h x hx)
 
     have step : ∀ x : (Fin ℓ → ℕ), ∑ z ∈ {b ∈ antidiagonalTuple ℓ n | perm_equiv x b}, ∏ y, a (z y) = 0 := by
-      intro x
-      by_cases hx : x ∈ antidiagonalTuple ℓ n
-      have pi_eq : ∀ z ∈ {b ∈ antidiagonalTuple ℓ n | perm_equiv x b}, ∏ y, a (z y) = ∏ y, a (x y) := by
-        intro z hz
-        have hxz : perm_equiv x z := by simp_all only [mem_filter]
-        exact Pi_eq_of_perm_equiv hxz
-      calc
-        _ = ∑ _ ∈ {b ∈ antidiagonalTuple ℓ n | perm_equiv x b}, ∏ y, a (x y) := sum_congr rfl pi_eq
-        _ = #{b ∈ antidiagonalTuple ℓ n | perm_equiv x b} * ∏ y, a (x y) := by simp
-        _ = 0 * ∏ y, a (x y) := by
-          congr; exact (natCast_zmod_eq_zero_iff_dvd _ _).2 (blister x hx)
-        _ = 0 := zero_mul _
+      {
+        intro x
+        by_cases hx : x ∈ antidiagonalTuple ℓ n
+        have pi_eq : ∀ z ∈ {b ∈ antidiagonalTuple ℓ n | perm_equiv x b}, ∏ y, a (z y) = ∏ y, a (x y) := by
+          intro z hz
+          have hxz : perm_equiv x z := by simp_all only [mem_filter]
+          exact Pi_eq_of_perm_equiv hxz
+        calc
+          _ = ∑ _ ∈ {b ∈ antidiagonalTuple ℓ n | perm_equiv x b}, ∏ y, a (x y) := sum_congr rfl pi_eq
+          _ = #{b ∈ antidiagonalTuple ℓ n | perm_equiv x b} * ∏ y, a (x y) := by simp
+          _ = 0 * ∏ y, a (x y) := by
+            congr; exact (natCast_zmod_eq_zero_iff_dvd _ _).2 (blister x hx)
+          _ = 0 := zero_mul _
 
-      have empty : {b ∈ antidiagonalTuple ℓ n | perm_equiv x b} = ∅ := by
-        refine filter_false_of_mem ?_
-        intro b hb; contrapose! hx
-        refine mem_antidiagonalTuple.mpr ?_
-        trans ∑ i, b i
-        exact sum_eq_of_perm_equiv hx
-        exact mem_antidiagonalTuple.mp hb
-      rw[empty]; rfl
+        have empty : {b ∈ antidiagonalTuple ℓ n | perm_equiv x b} = ∅ := by
+          refine filter_false_of_mem ?_
+          intro b hb; contrapose! hx
+          refine mem_antidiagonalTuple.mpr ?_
+          trans ∑ i, b i
+          exact sum_eq_of_perm_equiv hx
+          exact mem_antidiagonalTuple.mp hb
+        rw[empty]; rfl
+      }
 
     let Qfin := (antidiagonalTuple ℓ n).image (Quotient.mk (perm_setoid))
 
@@ -383,6 +542,9 @@ theorem Pow_Prime {n : ℕ} {a : ModularFormMod ℓ k} : (a ** ℓ) n = if ℓ �
           exact step x
       _ = 0 := sum_const_zero
   }
+
+
+end Pow_Prime
 
 
 theorem U_pow_l_eq_self_sub_Theta_pow_l_minus_one' {a : ModularFormMod ℓ k} :

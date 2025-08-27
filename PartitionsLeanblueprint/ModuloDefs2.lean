@@ -89,8 +89,7 @@ def pow (a : ModularFormMod ℓ k) (j : ℕ) : ModularFormMod ℓ (k * j) where
   modular := sorry
 
 #check sum_pow
-#eval antidiagonalTuple 3 4
---multiplicity of j * (# unique symbols - 1)  (1 if # = 1)
+
 
 
 instance instSMulZ : SMul ℤ (ModularFormMod ℓ k) where
