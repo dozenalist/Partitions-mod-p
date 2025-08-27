@@ -184,4 +184,5 @@ lemma pow_2_eq_mul_self (a : ModularFormMod ℓ k) (n : ℕ) : (pow a 2) n = (a 
   rw[pow_apply]; simp[antidiagonalTuple_two]
 
 
+
 --lemma pow_j_eq_mul_self ()

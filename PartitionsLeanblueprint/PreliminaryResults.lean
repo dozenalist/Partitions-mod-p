@@ -29,15 +29,14 @@ lemma flt2 {p : ℕ} {n : ZMod p} [Fact (Nat.Prime p)] : n ^ (p - 1) = if n ≠ 
 
 section Pow_Prime
 
-
+-- Declares that two functions, which can be thought of as tuples, are permutations of one another
 def perm_equiv {n : ℕ} (a b : Fin n → ℕ) :=
   ∃ c : Equiv.Perm (Fin n), a = b ∘ c
 
 lemma perm_equiv_refl {n : ℕ} (a : Fin n → ℕ) : perm_equiv a a :=
-  ⟨Equiv.refl _, by simp⟩
+  ⟨1, by rw [Equiv.Perm.coe_one]; rfl⟩
 
-theorem perm_equiv_symm {n} {a b : Fin n → ℕ} :
-    perm_equiv a b → perm_equiv b a := by
+theorem perm_equiv_symm {n} {a b : Fin n → ℕ} : perm_equiv a b → perm_equiv b a := by
   rintro ⟨c, hc⟩; use c⁻¹; rw[hc]; ext x; simp
 
 theorem perm_equiv_trans {n} {a b c : Fin n → ℕ} : perm_equiv a b → perm_equiv b c → perm_equiv a c := by
@@ -56,16 +55,15 @@ theorem perm_equiv_const {n} {a b: Fin n → ℕ} (aconst : ∀ i j, a i = a j)
   simp [Equiv.apply_symm_apply] at this
   exact this
 
-
-def perm_setoid : Setoid ( Fin n → ℕ ) where
-  r := perm_equiv
-  iseqv := ⟨perm_equiv_refl, perm_equiv_symm, perm_equiv_trans⟩
-
-
 lemma sum_eq_of_perm_equiv {n} {a b : Fin n → ℕ} (h : perm_equiv a b) :
     ∑ i, a i = ∑ i, b i := by
   obtain ⟨c,hc,rfl⟩ := h
   exact Equiv.sum_comp c b
+
+-- the equivalence class of functions that are permutations of x
+def perm_setoid : Setoid ( Fin n → ℕ ) where
+  r := perm_equiv
+  iseqv := ⟨perm_equiv_refl, perm_equiv_symm, perm_equiv_trans⟩
 
 
 def orbit_finset {k} (x : Fin k → ℕ) : Finset (Fin k → ℕ) :=
@@ -78,7 +76,6 @@ lemma orbit_equiv {k} {x y: Fin k → ℕ} : y ∈ orbit_finset x ↔ perm_equiv
   use c⁻¹; ext; simp
   obtain ⟨c, rfl⟩ := h
   use c⁻¹; ext; simp
-
 
 
 lemma perm_of_orbit {k} {x b : Fin k → ℕ} (h : b ∈ orbit_finset x) : perm_equiv x b := by
@@ -102,7 +99,6 @@ lemma orbit_eq_tuple {k n} {x : Fin k → ℕ} (h : x ∈ antidiagonalTuple k n)
   ext i; simp
 
 
-
 def subtype_univ_equiv {α : Type*} [Fintype α] : ({a : α // a ∈ (Finset.univ : Finset α)}) ≃ α where
     toFun := Subtype.val
     invFun := fun a => ⟨a, mem_univ a⟩
@@ -111,7 +107,7 @@ def subtype_univ_equiv {α : Type*} [Fintype α] : ({a : α // a ∈ (Finset.uni
 
 
 -- If the tuple x is not constant, ie [k,k,k, ..], then
--- ℓ | (# of permutations of x ∈ antidiagonalTuple ℓ (ℓ * k))
+-- ℓ | (# of permutations of x ∈ antidiagonalTuple ℓ n)
 lemma non_diag_vanish {k n : ℕ} {x : Fin k → ℕ} [Fact (Nat.Prime k)] (h : ¬ ∀ i j, x i = x j)  :
     k ∣ #{ b ∈ antidiagonalTuple k n | perm_equiv x b } := by
   simp_all only [not_forall]
@@ -120,7 +116,7 @@ lemma non_diag_vanish {k n : ℕ} {x : Fin k → ℕ} [Fact (Nat.Prime k)] (h : 
 
   by_cases xiT : x ∈ antidiagonalTuple k n
 
-  {
+  { -- x ∈ antidiagonalTuple k n → card = (k)! / ∏ m ∈ univ.image x, (#{n | x n = m})!
     have perm_in_set {b} (h : perm_equiv x b) : b ∈ { b ∈ antidiagonalTuple k n | perm_equiv x b } := by
       refine mem_filter.mpr ⟨?_, h⟩
       apply mem_antidiagonalTuple.mpr
@@ -131,9 +127,10 @@ lemma non_diag_vanish {k n : ℕ} {x : Fin k → ℕ} [Fact (Nat.Prime k)] (h : 
 
     rw[← orbit_eq_tuple xiT]
 
-    let Stab : Finset (Equiv.Perm (Fin k)) :=
-  (Finset.univ : Finset (Equiv.Perm (Fin k))).filter (fun c ↦ x ∘ c = x)
+    -- the stabilizer : the set of permutations which leave x unchanged
+    let Stab : Finset (Equiv.Perm (Fin k)) := {c : Equiv.Perm (Fin k) | x ∘ c = x}
 
+    -- the orbit stabilizer theorem, stated in finset language
     have decomp : #(Finset.univ : Finset (Equiv.Perm (Fin k))) = #(orbit_finset x) * #Stab := by
       {
       let f : Equiv.Perm (Fin k) → (Fin k → ℕ) := fun g ↦ x ∘ g
@@ -180,10 +177,9 @@ lemma non_diag_vanish {k n : ℕ} {x : Fin k → ℕ} [Fact (Nat.Prime k)] (h : 
     rw[decomp_div, card_univ]
 
     have Stabpos : #Stab ≠ 0 := Finset.card_ne_zero.mpr ⟨1, by simp [Stab]⟩
-
     have kPrime : Nat.Prime k := Fact.out
-
     have kn0 : k ≠ 0 := Ne.symm (NeZero.ne' k)
+
     suffices getStabbed : ¬ k ∣ #Stab by
       have unStabbed : #Stab ∣ (k)! := by
         use #(orbit_finset x); rw[mul_comm, ← decomp, card_univ]
@@ -311,7 +307,7 @@ lemma non_diag_vanish {k n : ℕ} {x : Fin k → ℕ} [Fact (Nat.Prime k)] (h : 
 
   }
 
-  {
+  { -- x ∉ antidiagonalTuple k n → card = 0
     use 0; simp; apply filter_false_of_mem
     intro b hb; contrapose! xiT
     apply mem_antidiagonalTuple.mpr
@@ -320,25 +316,27 @@ lemma non_diag_vanish {k n : ℕ} {x : Fin k → ℕ} [Fact (Nat.Prime k)] (h : 
     exact mem_antidiagonalTuple.mp hb
   }
 
-
+-- the products over two permutationally equivalent functions are equal
 lemma Pi_eq_of_perm_equiv {n : ℕ} {a : ℕ → ZMod n} {x y : Fin n → ℕ} (hxy : perm_equiv x y) :
     ∏ z, a (y z) = ∏ z, a (x z) := by
   symm; unfold perm_equiv at hxy
   obtain ⟨c, hc⟩ := hxy
   simp[hc]; exact Fintype.prod_equiv c (fun x ↦ a (y (c x))) (fun x ↦ a (y x)) (congrFun rfl)
 
-
+-- every element of a non-diagonal tuple is non-constant
 lemma non_const_of_tuple_non_diag {k n : ℕ} (h : ¬ k ∣ n) (x : Fin k → ℕ) (hx : x ∈ antidiagonalTuple k n ) :
     (¬ ∀ i j, x i = x j) := by
   contrapose! hx
   suffices ∑ i, x i ≠ n by
     contrapose! this; exact mem_antidiagonalTuple.mp this
   contrapose! h
+
   by_cases k0 : k = 0
   have : ∑ i, x i = 0 := by
     subst k0 h
     simp_all only [IsEmpty.forall_iff, implies_true, univ_eq_empty, sum_empty]
   rw[k0]; apply Nat.zero_dvd.2; rw[← h, this]
+
   have : ∃ m, k = m + 1 := exists_eq_succ_of_ne_zero k0
   obtain ⟨m,hm⟩ := this
   subst hm; clear k0
@@ -348,7 +346,7 @@ lemma non_const_of_tuple_non_diag {k n : ℕ} (h : ¬ k ∣ n) (x : Fin k → �
     apply Fin.sum_const
   use x 0; rw[← h, h']
 
-
+-- every non-diagonal element of a diagonal tuple is non-constant
 lemma non_const_of_tuple_diag {k n : ℕ} (x : Fin k → ℕ) (kn0 : k ≠ 0) (hx : x ∈ antidiagonalTuple k (k * n) \ {fun _ ↦ n}) :
     (¬ ∀ i j, x i = x j) := by
   contrapose! hx
@@ -385,13 +383,12 @@ theorem Pow_Prime {n : ℕ} {a : ModularFormMod ℓ k} : (a ** ℓ) n = if ℓ �
     rw[la]
     have vanish : ∑ x ∈ antidiagonalTuple ℓ (ℓ * k) \ {fun _ ↦ k}, ∏ y, a (x y) = 0 := by
       {
-        set Tup := antidiagonalTuple ℓ (ℓ * k) \ {fun _ ↦ k} with hTup
+        let Tup := antidiagonalTuple ℓ (ℓ * k) \ {fun _ ↦ k}
 
         have blister : ∀ x ∈ Tup, ℓ ∣ #{ b ∈ antidiagonalTuple ℓ (ℓ * k) | perm_equiv x b } :=
           λ x hx ↦ non_diag_vanish (non_const_of_tuple_diag x (Ne.symm (NeZero.ne' ℓ)) hx)
 
-        have step (x : Fin ℓ → ℕ) :
-            ∑ z ∈ {b ∈ Tup | perm_equiv x b}, ∏ y, a (z y) = 0 := by
+        have Step (x : Fin ℓ → ℕ) : ∑ z ∈ {b ∈ Tup | perm_equiv x b}, ∏ y, a (z y) = 0 := by
           by_cases hx : x ∈ antidiagonalTuple ℓ (ℓ * k)
           {
             by_cases xconst : x = ↑k
@@ -410,63 +407,68 @@ theorem Pow_Prime {n : ℕ} {a : ModularFormMod ℓ k} : (a ** ℓ) n = if ℓ �
               rw[empty]; rfl
             }
 
+            {
+              have Tup_eq : {b ∈ Tup | perm_equiv x b} = {b ∈ antidiagonalTuple ℓ (ℓ * k) | perm_equiv x b} := by
+                {
+                  apply Subset.antisymm_iff.mpr; constructor <;> intro c hc
+                  have ss : Tup ⊆ antidiagonalTuple ℓ (ℓ * k) := sdiff_subset
+                  refine mem_filter.mpr ?_; constructor
+                  have : c ∈ Tup := mem_of_mem_filter c hc
+                  exact ss this
+                  simp_all only [mem_sdiff, mem_singleton, and_imp, mem_filter, sdiff_subset, Tup]
 
-            have Tup_eq : {b ∈ Tup | perm_equiv x b} = {b ∈ antidiagonalTuple ℓ (ℓ * k) | perm_equiv x b} := by
-              apply Subset.antisymm_iff.mpr; constructor <;> intro c hc
-              have ss : Tup ⊆ antidiagonalTuple ℓ (ℓ * k) := sdiff_subset
-              refine mem_filter.mpr ?_; constructor
-              have : c ∈ Tup := mem_of_mem_filter c hc
-              exact ss this
-              simp_all only [mem_sdiff, mem_singleton, and_imp, mem_filter, sdiff_subset, Tup]
+                  by_cases cc : c = ↑k
+                  have hxc : perm_equiv x c := by
+                    subst cc; simp_all only [mem_sdiff, mem_singleton, and_imp, mem_filter, Tup]
 
-              by_cases cc : c = ↑k
-              have hxc : perm_equiv x c := by
-                subst cc; simp_all only [mem_sdiff, mem_singleton, and_imp, mem_filter, Tup]
+                  have : ∀ i j, c i = c j := by intros; simp[cc]
+                  have cex : c = x := perm_equiv_const this (perm_equiv_symm hxc)
+                  rw[cc] at cex; exact False.elim (xconst (id (Eq.symm cex)))
 
-              have : ∀ i j, c i = c j := by intros; simp[cc]
-              have cex : c = x := perm_equiv_const this (perm_equiv_symm hxc)
-              rw[cc] at cex; exact False.elim (xconst (id (Eq.symm cex)))
+                  refine mem_filter.mpr ?_; constructor
+                  have ciT : c ∈ antidiagonalTuple ℓ (ℓ * k) := mem_of_mem_filter c hc
+                  exact mem_sdiff.mpr ⟨ciT, notMem_singleton.mpr cc⟩
+                  simp_all only [mem_sdiff, mem_singleton, and_imp, mem_filter, Tup]
+                }
 
-              refine mem_filter.mpr ?_; constructor
-              have ciT : c ∈ antidiagonalTuple ℓ (ℓ * k) := mem_of_mem_filter c hc
-              exact mem_sdiff.mpr ⟨ciT,notMem_singleton.mpr cc⟩
-              simp_all only [mem_sdiff, mem_singleton, and_imp, mem_filter, Tup]
+              have hxx : x ∈ Tup := by
+                simp_all only [mem_sdiff, mem_singleton, true_and, Tup]
+                exact xconst
 
+              have pi_eq : ∀ z ∈ {b ∈ antidiagonalTuple ℓ (ℓ * k) | perm_equiv x b}, ∏ y, a (z y) = ∏ y, a (x y) := by
+                intro z hz
+                have hxz : perm_equiv x z := by simp_all only [mem_filter]
+                exact Pi_eq_of_perm_equiv hxz
 
-            have hxx : x ∈ Tup := by
-              simp_all only [mem_sdiff, mem_singleton, and_imp, ne_eq, true_and, Tup]
-              exact xconst
+              rw[Tup_eq]
 
-            have pi_eq : ∀ z ∈ {b ∈ antidiagonalTuple ℓ (ℓ * k) | perm_equiv x b}, ∏ y, a (z y) = ∏ y, a (x y) := by
-              intro z hz
-              have hxz : perm_equiv x z := by simp_all only [mem_filter]
-              exact Pi_eq_of_perm_equiv hxz
-
-            rw[Tup_eq]
-
-            calc
-              _ = ∑ _ ∈ {b ∈ antidiagonalTuple ℓ (ℓ * k) | perm_equiv x b}, ∏ y, a (x y) := sum_congr rfl pi_eq
-              _ = #{b ∈ antidiagonalTuple ℓ (ℓ * k) | perm_equiv x b} * ∏ y, a (x y) := by simp
-              _ = 0 * ∏ y, a (x y) := by
-                congr; exact (natCast_zmod_eq_zero_iff_dvd _ _).2 (blister x hxx)
-              _ = 0 := zero_mul _
+              calc
+                _ = ∑ _ ∈ {b ∈ antidiagonalTuple ℓ (ℓ * k) | perm_equiv x b}, ∏ y, a (x y) := sum_congr rfl pi_eq
+                _ = #{b ∈ antidiagonalTuple ℓ (ℓ * k) | perm_equiv x b} * ∏ y, a (x y) := by simp
+                _ = 0 * ∏ y, a (x y) := by
+                  congr; exact (natCast_zmod_eq_zero_iff_dvd _ _).2 (blister x hxx)
+                _ = 0 := zero_mul _
+            }
           }
 
-          have empty : {b ∈ Tup | perm_equiv x b} = ∅ := by
-            refine filter_false_of_mem ?_
-            intro b hb; contrapose! hx
-            refine mem_antidiagonalTuple.mpr ?_
-            trans ∑ i, b i
-            exact sum_eq_of_perm_equiv hx
-            refine mem_antidiagonalTuple.mp ?_
-            simp_all only [mem_sdiff, mem_singleton, and_imp, Tup]
-          rw[empty]; rfl
+          {
+            have empty : {b ∈ Tup | perm_equiv x b} = ∅ := by
+              refine filter_false_of_mem ?_
+              intro b hb; contrapose! hx
+              refine mem_antidiagonalTuple.mpr ?_
+              trans ∑ i, b i
+              exact sum_eq_of_perm_equiv hx
+              refine mem_antidiagonalTuple.mp ?_
+              simp_all only [mem_sdiff, mem_singleton, and_imp, Tup]
+            rw[empty]; rfl
+          }
 
+        -- The Set-theoretic quotient of Tup by permutational equvalence
         let Qfin := (Tup).image (Quotient.mk (perm_setoid))
 
+        -- Rewrite as a sum over Qfin so that we can apply Step
         calc
       _  = ∑ q ∈ Qfin, ∑ z ∈ {x ∈ Tup | ⟦x⟧ = q}, ∏ y, a (z y) := by
-          -- rewrite as sum over quotient partition
           apply sum_partition
       _ = ∑ q ∈ Qfin, 0 := by
           apply sum_congr rfl
@@ -474,9 +476,9 @@ theorem Pow_Prime {n : ℕ} {a : ModularFormMod ℓ k} : (a ** ℓ) n = if ℓ �
           rcases Quot.exists_rep q with ⟨x, rfl⟩
           trans ∑ z ∈ Tup with perm_equiv x z, ∏ y, a (z y)
           congr; funext z; apply propext
-          have : ⟦z⟧ = Quot.mk (⇑perm_setoid) x ↔ perm_equiv z x := by apply Quotient.eq
+          have : ⟦z⟧ = Quot.mk (⇑perm_setoid) x ↔ perm_equiv z x := Quotient.eq
           simp[this]; constructor <;> exact perm_equiv_symm
-          exact step x
+          exact Step x
       _ = 0 := sum_const_zero
 
       }
@@ -500,36 +502,39 @@ theorem Pow_Prime {n : ℕ} {a : ModularFormMod ℓ k} : (a ** ℓ) n = if ℓ �
     have blister : ∀ x ∈ antidiagonalTuple ℓ n, ℓ ∣ #{ b ∈ antidiagonalTuple ℓ n | perm_equiv x b } :=
       λ x hx ↦ non_diag_vanish (non_const_of_tuple_non_diag h x hx)
 
-    have step : ∀ x : (Fin ℓ → ℕ), ∑ z ∈ {b ∈ antidiagonalTuple ℓ n | perm_equiv x b}, ∏ y, a (z y) = 0 := by
+    have Step : ∀ x : (Fin ℓ → ℕ), ∑ z ∈ {b ∈ antidiagonalTuple ℓ n | perm_equiv x b}, ∏ y, a (z y) = 0 := by
       {
         intro x
         by_cases hx : x ∈ antidiagonalTuple ℓ n
-        have pi_eq : ∀ z ∈ {b ∈ antidiagonalTuple ℓ n | perm_equiv x b}, ∏ y, a (z y) = ∏ y, a (x y) := by
-          intro z hz
-          have hxz : perm_equiv x z := by simp_all only [mem_filter]
-          exact Pi_eq_of_perm_equiv hxz
-        calc
-          _ = ∑ _ ∈ {b ∈ antidiagonalTuple ℓ n | perm_equiv x b}, ∏ y, a (x y) := sum_congr rfl pi_eq
-          _ = #{b ∈ antidiagonalTuple ℓ n | perm_equiv x b} * ∏ y, a (x y) := by simp
-          _ = 0 * ∏ y, a (x y) := by
-            congr; exact (natCast_zmod_eq_zero_iff_dvd _ _).2 (blister x hx)
-          _ = 0 := zero_mul _
+        {
+          have pi_eq : ∀ z ∈ {b ∈ antidiagonalTuple ℓ n | perm_equiv x b}, ∏ y, a (z y) = ∏ y, a (x y) := by
+            intro z hz
+            have hxz : perm_equiv x z := by simp_all only [mem_filter]
+            exact Pi_eq_of_perm_equiv hxz
+          calc
+            _ = ∑ _ ∈ {b ∈ antidiagonalTuple ℓ n | perm_equiv x b}, ∏ y, a (x y) := sum_congr rfl pi_eq
+            _ = #{b ∈ antidiagonalTuple ℓ n | perm_equiv x b} * ∏ y, a (x y) := by simp
+            _ = 0 * ∏ y, a (x y) := by
+              congr; exact (natCast_zmod_eq_zero_iff_dvd _ _).2 (blister x hx)
+            _ = 0 := zero_mul _
+        }
 
-        have empty : {b ∈ antidiagonalTuple ℓ n | perm_equiv x b} = ∅ := by
-          refine filter_false_of_mem ?_
-          intro b hb; contrapose! hx
-          refine mem_antidiagonalTuple.mpr ?_
-          trans ∑ i, b i
-          exact sum_eq_of_perm_equiv hx
-          exact mem_antidiagonalTuple.mp hb
-        rw[empty]; rfl
+        {
+          have empty : {b ∈ antidiagonalTuple ℓ n | perm_equiv x b} = ∅ := by
+            refine filter_false_of_mem ?_
+            intro b hb; contrapose! hx
+            refine mem_antidiagonalTuple.mpr ?_
+            trans ∑ i, b i
+            exact sum_eq_of_perm_equiv hx
+            exact mem_antidiagonalTuple.mp hb
+          rw[empty]; rfl
+        }
       }
 
     let Qfin := (antidiagonalTuple ℓ n).image (Quotient.mk (perm_setoid))
 
     calc
       _  = ∑ q ∈ Qfin, ∑ z ∈ {x ∈ antidiagonalTuple ℓ n | ⟦x⟧ = q}, ∏ y, a (z y) := by
-          -- rewrite as sum over quotient partition
           apply sum_partition
       _ = ∑ q ∈ Qfin, 0 := by
           apply sum_congr rfl
@@ -537,9 +542,9 @@ theorem Pow_Prime {n : ℕ} {a : ModularFormMod ℓ k} : (a ** ℓ) n = if ℓ �
           rcases Quot.exists_rep q with ⟨x, rfl⟩
           trans ∑ z ∈ antidiagonalTuple ℓ n with perm_equiv x z, ∏ y, a (z y)
           congr; funext z; apply propext
-          have : ⟦z⟧ = Quot.mk (⇑perm_setoid) x ↔ perm_equiv z x := by apply Quotient.eq
+          have : ⟦z⟧ = Quot.mk (⇑perm_setoid) x ↔ perm_equiv z x := Quotient.eq
           simp[this]; constructor <;> exact perm_equiv_symm
-          exact step x
+          exact Step x
       _ = 0 := sum_const_zero
   }
 
@@ -561,9 +566,6 @@ theorem U_pow_l_eq_self_sub_Theta_pow_l_minus_one' {a : ModularFormMod ℓ k} :
       simp[h,h']
 
 
--- lemma blish {a : ModularFormMod ℓ k} {n : ℕ} :
---   ((a|𝓤) ** ℓ) n = 0 := by rw[U_pow_l_eq_self_sub_Theta_pow_l_minus_one']; simp
-
 
 def thing (a : ModularFormMod ℓ k) := a - (Mcongr (by simp) (Θ^[ℓ - 1] a))
 
@@ -574,7 +576,6 @@ lemma k_l : k * ℓ = k := by
     _ = k * 0 + k := by
       congr; sorry
     _ = k := by simp only [mul_zero, zero_add]
-
 
 theorem U_pow_l_eq_self_sub_Theta_pow_l_minus_one {a : ModularFormMod ℓ k} :
 (Mcongr (k_l) ((a|𝓤) ** ℓ)) = thing a := by
@@ -589,6 +590,7 @@ theorem U_pow_l_eq_self_sub_Theta_pow_l_minus_one {a : ModularFormMod ℓ k} :
       rw [Nat.mul_div_cancel_left' h']
       have h': ¬ ℓ ∣ n := by contrapose! h; exact (ZMod.natCast_zmod_eq_zero_iff_dvd n ℓ).mpr h
       simp[h,h']
+
 
 
 theorem Filtration_Log {i : ℕ} [NeZero (ℓ - 1)] : 𝔀 (a ** i) = i * 𝔀 a := sorry
