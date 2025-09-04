@@ -19,13 +19,14 @@ variable {a b : ModularFormMod ℓ k}
 
 open Nat Finset ZMod Finset.Nat
 
-@[simp]
-lemma flt {p : ℕ} {n : ZMod p} [Fact (Nat.Prime p)] : n ^ p = n := pow_card n
+-- @[simp]
+-- lemma flt {p : ℕ} {n : ZMod p} [Fact (Nat.Prime p)] : n ^ p = n := pow_card n
 
-@[simp]
-lemma flt2 {p : ℕ} {n : ZMod p} [Fact (Nat.Prime p)] : n ^ (p - 1) = if n ≠ 0 then 1 else 0 :=
-  pow_card_sub_one n
+-- @[simp]
+-- lemma flt2 {p : ℕ} {n : ZMod p} [Fact (Nat.Prime p)] : n ^ (p - 1) = if n ≠ 0 then 1 else 0 :=
+--   pow_card_sub_one n
 
+attribute [simp] pow_card pow_card_sub_one
 
 section Pow_Prime
 
@@ -110,9 +111,9 @@ def subtype_univ_equiv {α : Type*} [Fintype α] : ({a : α // a ∈ (Finset.uni
 -- ℓ | (# of permutations of x ∈ antidiagonalTuple ℓ n)
 lemma non_diag_vanish {k n : ℕ} {x : Fin k → ℕ} [Fact (Nat.Prime k)] (h : ¬ ∀ i j, x i = x j)  :
     k ∣ #{ b ∈ antidiagonalTuple k n | perm_equiv x b } := by
-  simp_all only [not_forall]
-  obtain ⟨w, h⟩ := h
-  obtain ⟨u, h⟩ := h
+
+  push_neg at h
+  obtain ⟨w, u, h⟩ := h
 
   by_cases xiT : x ∈ antidiagonalTuple k n
 
@@ -133,37 +134,37 @@ lemma non_diag_vanish {k n : ℕ} {x : Fin k → ℕ} [Fact (Nat.Prime k)] (h : 
     -- the orbit stabilizer theorem, stated in finset language
     have decomp : #(Finset.univ : Finset (Equiv.Perm (Fin k))) = #(orbit_finset x) * #Stab := by
       {
-      let f : Equiv.Perm (Fin k) → (Fin k → ℕ) := fun g ↦ x ∘ g
-      calc
-        _  = ∑ y ∈ Finset.univ.image f, ((Finset.univ.filter (fun g ↦ f g = y)).card) := by
-          exact card_eq_sum_card_image f Finset.univ
-        _ = ∑ y ∈ orbit_finset x, #Stab := by
-          refine Finset.sum_congr rfl ?_
-          intro y hy
-          simp[f,Stab]
-          have hyy := orbit_equiv.1 hy
-          obtain ⟨d, rfl⟩ := hyy
-          have {c : Equiv.Perm (Fin k)} : (y ∘ ⇑d) ∘ ⇑c = y ∘ ⇑d ↔ ((y ∘ ⇑d) ∘ ⇑c) ∘ ⇑d⁻¹ = y := by
-            constructor <;> intro h; rw[h]; ext; simp
-            nth_rw 2[← h]; ext; simp
+        let f : Equiv.Perm (Fin k) → (Fin k → ℕ) := fun g ↦ x ∘ g
+        calc
+          _  = ∑ y ∈ Finset.univ.image f, ((Finset.univ.filter (fun g ↦ f g = y)).card) := by
+            exact card_eq_sum_card_image f Finset.univ
+          _ = ∑ y ∈ orbit_finset x, #Stab := by
+            refine Finset.sum_congr rfl ?_
+            intro y hy
+            simp[f,Stab]
+            have hyy := orbit_equiv.1 hy
+            obtain ⟨d, rfl⟩ := hyy
+            have {c : Equiv.Perm (Fin k)} : (y ∘ ⇑d) ∘ ⇑c = y ∘ ⇑d ↔ ((y ∘ ⇑d) ∘ ⇑c) ∘ ⇑d⁻¹ = y := by
+              constructor <;> intro h; rw[h]; ext; simp
+              nth_rw 2[← h]; ext; simp
 
-          simp only [this]
+            simp only [this]
 
-          have im_eq :  Finset.image (fun g => g * d) { g : Equiv.Perm (Fin k) | (y ∘ d) ∘ g = y } =
-              ({ c : Equiv.Perm (Fin k) | ((y ∘ d) ∘ c) ∘ ⇑d⁻¹ = y } : Finset (Equiv.Perm (Fin k))) := by
-            ext c
-            constructor
-            intro h
-            simp_all; nth_rw 2[← h]; ext; simp
-            intro h
-            simp_all; nth_rw 2[← h]; ext; simp
+            have im_eq :  Finset.image (fun g => g * d) { g : Equiv.Perm (Fin k) | (y ∘ d) ∘ g = y } =
+                ({ c : Equiv.Perm (Fin k) | ((y ∘ d) ∘ c) ∘ ⇑d⁻¹ = y } : Finset (Equiv.Perm (Fin k))) := by
+              ext c
+              constructor
+              intro h
+              simp_all; nth_rw 2[← h]; ext; simp
+              intro h
+              simp_all; nth_rw 2[← h]; ext; simp
 
-          rw[← im_eq]
-          refine Eq.symm (Finset.card_image_of_injOn ?_)
-          intro x hx z hz
-          simp_all
+            rw[← im_eq]
+            refine Eq.symm (Finset.card_image_of_injOn ?_)
+            intro x hx z hz
+            simp_all
 
-        _ = #(orbit_finset x) * #Stab := sum_const_nat λ _ ↦ congrFun rfl
+          _ = #(orbit_finset x) * #Stab := sum_const_nat λ _ ↦ congrFun rfl
       }
 
     have card_univ : #(Finset.univ : Finset (Equiv.Perm (Fin k))) = (k)! := by
@@ -222,7 +223,7 @@ lemma non_diag_vanish {k n : ℕ} {x : Fin k → ℕ} [Fact (Nat.Prime k)] (h : 
           simp at h
           funext n; simp[y]
           trans (x ∘ c) n
-          simp[h]; rw[h]
+          simp; rw[h]
           simp_all[y]
           ext n
           exact congrArg Subtype.val (congrFun h n)
@@ -268,7 +269,7 @@ lemma non_diag_vanish {k n : ℕ} {x : Fin k → ℕ} [Fact (Nat.Prime k)] (h : 
       suffices conned : #{n | x n = m} < k by
         have necon0 : #{n | x n = m} ≠ 0 := (fiber_card_ne_zero_iff_mem_image univ x m).mpr hm
         contrapose! conned
-        apply (Nat.Prime.dvd_factorial kPrime).1 conned
+        exact (Nat.Prime.dvd_factorial kPrime).1 conned
 
       by_cases xwm : x w = m
 
@@ -363,14 +364,14 @@ lemma non_const_of_tuple_diag {k n : ℕ} (x : Fin k → ℕ) (kn0 : k ≠ 0) (h
     exact Eq.symm (Fintype.sum_congr (fun a ↦ x 0) x hx)
     apply Fin.sum_const
   contrapose! hnconst
-  funext i
+  ext i
   calc
    x i = x 0 := hx i 0
-   x 0 = n := by
-    have : (m + 1) * n = (m + 1) * x 0 := by rw[← this, ← const]
-    exact (Nat.mul_right_inj kn0).mp (id (Eq.symm this))
+   x 0 = n :=
+    let this : (m + 1) * n = (m + 1) * x 0 := by rw[← this, ← const]
+    (Nat.mul_right_inj kn0).mp this.symm
 
-@[simp]
+
 theorem Pow_Prime {n : ℕ} {a : ModularFormMod ℓ k} : (a ** ℓ) n = if ℓ ∣ n then (a (n / ℓ)) else 0 := by
 
   by_cases h : ℓ ∣ n
@@ -468,31 +469,31 @@ theorem Pow_Prime {n : ℕ} {a : ModularFormMod ℓ k} : (a ** ℓ) n = if ℓ �
 
         -- Rewrite as a sum over Qfin so that we can apply Step
         calc
-      _  = ∑ q ∈ Qfin, ∑ z ∈ {x ∈ Tup | ⟦x⟧ = q}, ∏ y, a (z y) := by
-          apply sum_partition
-      _ = ∑ q ∈ Qfin, 0 := by
-          apply sum_congr rfl
-          intro q hq
-          rcases Quot.exists_rep q with ⟨x, rfl⟩
-          trans ∑ z ∈ Tup with perm_equiv x z, ∏ y, a (z y)
-          congr; funext z; apply propext
-          have : ⟦z⟧ = Quot.mk (⇑perm_setoid) x ↔ perm_equiv z x := Quotient.eq
-          simp[this]; constructor <;> exact perm_equiv_symm
-          exact Step x
-      _ = 0 := sum_const_zero
+          _  = ∑ q ∈ Qfin, ∑ z ∈ {x ∈ Tup | ⟦x⟧ = q}, ∏ y, a (z y) := by
+              apply sum_partition
+          _ = ∑ q ∈ Qfin, 0 := by
+              apply sum_congr rfl
+              intro q hq
+              rcases Quot.exists_rep q with ⟨x, rfl⟩
+              trans ∑ z ∈ Tup with perm_equiv x z, ∏ y, a (z y)
+              congr; funext z; apply propext
+              have : ⟦z⟧ = Quot.mk (⇑perm_setoid) x ↔ perm_equiv z x := Quotient.eq
+              rw[this]; constructor <;> exact perm_equiv_symm
+              exact Step x
+          _ = 0 := sum_const_zero
 
       }
 
     calc
       _ = ( ∑ x ∈ antidiagonalTuple ℓ (ℓ * k) \ {fun _ ↦ k}, ∏ y, a (x y) ) +
           ( ∑ x ∈ {fun _ ↦ k}, ∏ y : Fin ℓ, a (x y) ) := by
-        apply Eq.symm (sum_sdiff ?_); apply singleton_subset_iff.2
+        apply Eq.symm (sum_sdiff _); apply singleton_subset_iff.2
         apply mem_antidiagonalTuple.mpr; simp[sum_const]
 
       _ = 0 + ∑ x ∈ {fun _ ↦ k}, ∏ y : Fin ℓ, a (x y) := by congr
       _ = ∏ _ : Fin ℓ, a k := by simp
       _ = (a k) ^ ℓ := Fin.prod_const ℓ (a k)
-      _ = a k := flt
+      _ = a k := pow_card (a k)
   }
 
 
@@ -543,18 +544,22 @@ theorem Pow_Prime {n : ℕ} {a : ModularFormMod ℓ k} : (a ** ℓ) n = if ℓ �
           trans ∑ z ∈ antidiagonalTuple ℓ n with perm_equiv x z, ∏ y, a (z y)
           congr; funext z; apply propext
           have : ⟦z⟧ = Quot.mk (⇑perm_setoid) x ↔ perm_equiv z x := Quotient.eq
-          simp[this]; constructor <;> exact perm_equiv_symm
+          rw[this]; constructor <;> exact perm_equiv_symm
           exact Step x
       _ = 0 := sum_const_zero
   }
+
+theorem Pow_Prime' {a : ModularFormMod ℓ k} : (a ** ℓ) == fun n ↦ if ℓ ∣ n then (a (n / ℓ)) else 0 :=
+  λ _ ↦ Pow_Prime
 
 
 end Pow_Prime
 
 
-theorem U_pow_l_eq_self_sub_Theta_pow_l_minus_one' {a : ModularFormMod ℓ k} :
-  (a|𝓤) ** ℓ == (a -l (Θ^[ℓ - 1] a)) (by simp) := by
-  intro n; simp; symm; calc
+
+theorem U_pow_l_eq_self_sub_Theta_pow_l_sub_one {a : ModularFormMod ℓ k} :
+  a|𝓤 ** ℓ == (a -l Θ^[ℓ - 1] a) (by simp) := by
+  intro n; simp[Pow_Prime]; symm; calc
     _ = if (n : ZMod ℓ) = 0 then a n else 0 := by
       by_cases h : (n : ZMod ℓ) = 0 <;> simp[h]
     _ = _ := by
@@ -563,7 +568,7 @@ theorem U_pow_l_eq_self_sub_Theta_pow_l_minus_one' {a : ModularFormMod ℓ k} :
       simp[h,h']; congr
       rw [Nat.mul_div_cancel_left' h']
       have h': ¬ ℓ ∣ n := by contrapose! h; exact (natCast_zmod_eq_zero_iff_dvd n ℓ).mpr h
-      simp[h,h']
+      simp only [h, reduceIte, h']
 
 
 
@@ -574,12 +579,14 @@ lemma k_l : k * ℓ = k := by
     k * ℓ = k * (ℓ - 1 + 1) := by simp
     _ = k * (ℓ - 1) + k := by ring
     _ = k * 0 + k := by
-      congr; sorry
+      congr; trans ↑(ℓ - 1)
+      refine Eq.symm (cast_pred ?_); exact pos_of_neZero ℓ
+      exact natCast_self (ℓ - 1)
     _ = k := by simp only [mul_zero, zero_add]
 
-theorem U_pow_l_eq_self_sub_Theta_pow_l_minus_one {a : ModularFormMod ℓ k} :
+theorem U_pow_l_eq_self_sub_Theta_pow_l_sub_one' {a : ModularFormMod ℓ k} :
 (Mcongr (k_l) ((a|𝓤) ** ℓ)) = thing a := by
-  ext n; simp[thing]
+  ext n; simp[thing, Pow_Prime]
   symm; calc
     _ = if (n : ZMod ℓ) = 0 then a n else 0 := by
       by_cases h : (n : ZMod ℓ) = 0 <;> simp[h]
@@ -589,13 +596,8 @@ theorem U_pow_l_eq_self_sub_Theta_pow_l_minus_one {a : ModularFormMod ℓ k} :
       simp[h,h']; congr
       rw [Nat.mul_div_cancel_left' h']
       have h': ¬ ℓ ∣ n := by contrapose! h; exact (ZMod.natCast_zmod_eq_zero_iff_dvd n ℓ).mpr h
-      simp[h,h']
+      simp[h, reduceIte, h']
 
 
 
-theorem Filtration_Log {i : ℕ} [NeZero (ℓ - 1)] : 𝔀 (a ** i) = i * 𝔀 a := sorry
-
-
-
-def δ (ℓ : ℕ) : ℤ := (ℓ^2 - 1) / 24
--- or δℓ : ℤ := (ℓ^2 - 1) / 24
+theorem Filtration_Log {i : ℕ} : 𝔀 (a ** i) = i * 𝔀 a := sorry

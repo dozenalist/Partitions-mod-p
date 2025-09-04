@@ -29,4 +29,4 @@ structure Multivector (α : Type*) (n : ℕ) where
   card_toMultiset : toMultiset.card = n
 
 
-#check Vector
+lemma condor {p q : Prop} (h : p → q) : ¬ q → ¬ p := λ a a_1 ↦ a (h a_1)

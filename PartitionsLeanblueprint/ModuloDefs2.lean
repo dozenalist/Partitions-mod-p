@@ -43,12 +43,19 @@ instance (priority := 100) : FunLike (ModularFormMod ℓ k) ℕ (ZMod ℓ) where
   coe a := a.1
   coe_injective' a b c := by cases a; cases b; congr
 
+instance (priority := 100) : FunLike (ℕ → ZMod ℓ) ℕ (ZMod ℓ) where
+  coe a := a
+  coe_injective' _ _ h := h
 
-instance [NeZero (ℓ - 1)] : Zero (ModularFormMod ℓ k) where
+
+instance : Zero (ModularFormMod ℓ k) where
   zero :=
   { sequence := fun n ↦ (0 : ZMod ℓ)
-    modular := by use k.val, 0; constructor; rw[ZMod.natCast_zmod_val]; ext x; simp[reduce] }
-
+    modular := by
+      use k.val, 0; constructor;
+      by_cases h : ℓ - 1 = 0 <;> sorry
+      sorry}
+--#check ZMod 0
 
 instance add : Add (ModularFormMod ℓ k) where
   add a b :=
@@ -86,6 +93,7 @@ def pow' (a : ModularFormMod ℓ k) (j : ℕ) : ModularFormMod ℓ (k * j) where
 def pow (a : ModularFormMod ℓ k) (j : ℕ) : ModularFormMod ℓ (k * j) where
   sequence n := ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y)
   -- this is correct, but inconvenient. Maybe define in terms of the Quotient of perm_setoid
+
   modular := sorry
 
 #check sum_pow
@@ -111,6 +119,7 @@ instance instSub : Sub (ModularFormMod ℓ k) :=
   ⟨fun f g => f + -g⟩
 
 
+
 variable {ℓ : ℕ} [NeZero ℓ]
 variable {k j : ZMod (ℓ-1)}
 
@@ -134,11 +143,11 @@ theorem coe_mul (f g : ModularFormMod ℓ k) : ⇑ (f * g) =
   fun n ↦ ∑ ⟨x,y⟩ ∈ antidiagonal n, f x * g y := rfl
 
 @[simp]
-theorem mul_coe (f g : ModularFormMod ℓ k) :
+theorem mul_coe (f : ModularFormMod ℓ k) (g : ModularFormMod ℓ j ) :
   (f * g : ℕ → ZMod ℓ) = f * g := rfl
 
 @[simp]
-theorem mul_apply (f g : ModularFormMod ℓ k) (n : ℕ) : (f * g) n =
+theorem mul_apply (f : ModularFormMod ℓ k) (g : ModularFormMod ℓ j ) (n : ℕ) : (f * g) n =
   ∑ ⟨x,y⟩ ∈ antidiagonal n, f x * g y := rfl
 
 @[simp]
@@ -180,8 +189,48 @@ theorem pow_apply (a : ModularFormMod ℓ k) (j n : ℕ) : (pow a j) n = ∑ x �
 theorem ModularFormMod.ext {a b : ModularFormMod ℓ k} (h : ∀ n, a n = b n) : a = b :=
   DFunLike.ext a b h
 
+
+def const (x : ZMod ℓ) : ModularFormMod ℓ 0 where
+  sequence n := if n = 0 then x else 0
+  modular := sorry
+
+instance : Coe (ZMod ℓ) (ModularFormMod ℓ 0) where
+  coe x := const x
+
+instance : NatCast (ModularFormMod ℓ 0) where
+  natCast n := const n
+
+-- @[simp, norm_cast]
+-- lemma coe_natCast (n : ℕ) :
+--     ⇑(n : ModularFormMod ℓ 0) = n := rfl
+
+instance : IntCast (ModularFormMod ℓ 0) where
+  intCast z := const z
+
+-- @[simp, norm_cast]
+-- lemma coe_intCast (z : ℤ) :
+--     ⇑(z : ModularFormMod ℓ 0) = z := rfl
+
+
+theorem const_apply (x : ZMod ℓ) (n : ℕ) : (const x) n =
+    match n with
+    | 0 => x
+    | succ _ => 0 := by
+  induction n with
+  | zero => rfl
+  | succ => rfl
+
+@[simp]
+theorem const_zero (x : ZMod ℓ) : (const x) 0 = x := rfl
+
+@[simp]
+theorem const_succ (x : ZMod ℓ) (n : ℕ) : (const x) n.succ = 0 := rfl
+
+
+
 lemma pow_2_eq_mul_self (a : ModularFormMod ℓ k) (n : ℕ) : (pow a 2) n = (a * a) n := by
   rw[pow_apply]; simp[antidiagonalTuple_two]
+
 
 
 

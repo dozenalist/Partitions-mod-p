@@ -9,3 +9,5 @@ import PartitionsLeanblueprint.ModularFormDefs
 import PartitionsLeanblueprint.ModuloDefs2
 
 import PartitionsLeanblueprint.BasicOperators
+
+import PartitionsLeanblueprint.PreliminaryResults
