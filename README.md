@@ -39,8 +39,8 @@ Note :
 Much of this project is written in the language of == and Mcongr. 
 
 Often it’s necessary to prove something of the form a = b, where a : ModularFormMod ℓ k, and b : ModularFormMod ℓ (k + 0).
-
 In lean, trying to assert a = b throws an error, because a and b dont have the same type, and equality only works between elements of the same type. 
+
 To get around this, we can assert that a == b, meaning that for all n, a n = b n, or in other words that a and b have the same underlying sequence. I’ve proved that, for most of the things we’d like to use it for, == acts like = .
 
 We can also assert that a = Mcongr b (h : k + 0 = k), where Mcongr casts the type of b to match the type of a, given a proof that these two types are equal. 
