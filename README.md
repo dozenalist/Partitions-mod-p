@@ -4,7 +4,7 @@ Formalized :
 
 - The Definitions of Modular Forms, Integer Modular Forms, and Modular Forms Mod ℓ
   - Modular Forms are functions on the complex plane that obey a number of functional equations. They have a natural number weight k. 
-  - Integer Modular Forms are sequences to the Integers whose infinite q-series is Modular. They have a natural number weight k
+  - Integer Modular Forms are sequences to the Integers whose infinite q-series is Modular. They have a natural number weight k.
   - Modular Forms Mod ℓ are sequences to ZMod ℓ such that there exists an Integer Modular Form that reduces to this sequence (mod ℓ). They have a weight that is of type ZMod (ℓ - 1). This is because we can only       add and subtract Modular Forms Mod ℓ whose weights are congruent mod (ℓ - 1).
 
 - The Definitions of addition, multiplication, and exponentiation between Modular Forms.
@@ -37,9 +37,13 @@ TODO :
 Note : 
 
 Much of this project is written in the language of == and Mcongr. 
+
 Often it’s necessary to prove something of the form a = b, where a : ModularFormMod ℓ k, and b : ModularFormMod ℓ (k + 0).
+
 In lean, trying to assert a = b throws an error, because a and b dont have the same type, and equality only works between elements of the same type. 
 To get around this, we can assert that a == b, meaning that for all n, a n = b n, or in other words that a and b have the same underlying sequence. I’ve proved that, for most of the things we’d like to use it for, == acts like = .
+
 We can also assert that a = Mcongr b (h : k + 0 = k), where Mcongr casts the type of b to match the type of a, given a proof that these two types are equal. 
+
 When adding or subtracting two Modular Forms whose types are technically different but provabely equal, we can use, for example, a +r b (h : (the type of a) = (the type of b) ) in which the sum here inherits the type of b, given a proof that the two types are equal. 
 
