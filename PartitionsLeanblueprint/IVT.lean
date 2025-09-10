@@ -57,7 +57,7 @@ convergesTo (fun n ↦ a n + b n) (L + K) := by
     obtain ⟨N2, hN2⟩ := hb (ε / 2) (div_pos ε_pos zero_lt_two)
     use (max N1 N2)
     intro n hn
-    have hn1 : n ≥ N1 := le_of_max_le_left hn
+    let hn1 : N1 ≤ n := le_of_max_le_left hn
     have hn2 : n ≥ N2 := le_of_max_le_right hn
     calc
     |a n + b n - (L + K)| = |(a n - L) + (b n - K)| := by
@@ -128,7 +128,6 @@ theorem le_convergesTo_of_le (ha : convergesTo a L) (hb : convergesTo b K) (h : 
 
 theorem exists_sup_of_bounded_above (S : Set ℝ) (h : bounded_above S) (nempty : ∃ x, x ∈ S) :
     ∃ y : ℝ, sup S y := sorry
-
 
 
 

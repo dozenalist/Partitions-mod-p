@@ -13,6 +13,7 @@ noncomputable section
 
 variable {ℓ n : ℕ} {k j : ZMod (ℓ-1)} [NeZero ℓ]
 variable {a b c : ModularFormMod ℓ k}
+variable {d : ModularFormMod ℓ j}
 
 -- h ▸ a works like subst h at a but works within types
 def Mcongr {m n : ZMod (ℓ - 1)} (h : m = n) (a : ModularFormMod ℓ m) : ModularFormMod ℓ n :=
@@ -41,6 +42,7 @@ def Mod_eq (a : α) (b : β) :=
 infixl:50 (priority := high) "==" => Mod_eq
 
 
+
 @[simp]
 lemma cast_equal {k j : ZMod (ℓ - 1) } {h : k = j} {a : ModularFormMod ℓ k} :
   Mcongr h a == a := λ _ ↦ cast_eval
@@ -49,17 +51,25 @@ lemma cast_equal {k j : ZMod (ℓ - 1) } {h : k = j} {a : ModularFormMod ℓ k} 
 instance : IsRefl α Mod_eq where
   refl := λ _ _ ↦ rfl
 
-instance : IsSymm α Mod_eq where
+theorem Mod_eq.refl {a : α} : a == a := λ _ ↦ rfl
+
+instance : IsSymm α (. == .) where
   symm := λ _ _ h _ ↦ Eq.symm (h _)
+
+theorem Mod_eq.symm {a: α} {b : β} (h : a == b) : b == a :=  λ n ↦ Eq.symm (h n)
 
 instance : Trans (. == . : α → β → Prop) (. == . : β → χ → Prop) (. == . : α → χ → Prop) where
   trans := λ h g _ ↦ Eq.trans (h _) (g _)
+
+theorem Mod_eq.trans {a : α} {b : β} {c : χ} (h : a == b) (g : b == c) : a == c :=
+  λ _ ↦ Eq.trans (h _) (g _)
 
 -- instance : Trans (. == . : α → β → Prop) (. = . : β → β → Prop) (. == . : α → β → Prop) where
 --   trans := λ h g ↦ g ▸ h
 
 -- instance : Trans (. = . : α → α → Prop) (. == . : α → β → Prop) (. == . : α → β → Prop) where
 --   trans := λ h g ↦ h ▸ g
+
 
 instance : IsAntisymm α Mod_eq where
   antisymm := λ _ _ h _ ↦ DFunLike.ext _ _ h
@@ -89,13 +99,6 @@ def hasWeight (a : ModularFormMod ℓ k) (j : ℕ) : Prop :=
   ∃ b : IntegerModularForm j, a = reduce ℓ b
 
 
--- If a is the zero function, its filtration does not exist
--- If not, then it is the least natural number k such that a has weight k
-def Filtration (a : ModularFormMod ℓ k) : Option ℕ :=
-  if a = 0 then none else
-  @Nat.find (fun k ↦ hasWeight a k) (inferInstance)
-    (by obtain ⟨k,b,h⟩ := a.modular; use k; use b; exact h.2)
-
 
 def Theta (a : ModularFormMod ℓ k) : ModularFormMod ℓ (k + 2) where
   sequence := fun n ↦ n * a n
@@ -116,7 +119,7 @@ lemma U_apply : (a|𝓤) n = a (ℓ * n) := rfl
 lemma Theta_apply : Θ a n = n * a n := rfl
 
 
--- no idea why its (n : ℕ) and not ℕ
+
 def Theta_pow : (n : ℕ) → ModularFormMod ℓ k → ModularFormMod ℓ (k + n * 2)
 | 0     => fun f ↦ Mcongr (by simp) f
 | n + 1 => fun f ↦ Mcongr (by simp; group) (Theta (Theta_pow n f))
@@ -132,6 +135,11 @@ lemma Theta_pow_zero {a : ModularFormMod ℓ k} : Θ^[0] a = Mcongr (by simp) a 
 lemma Theta_pow_succ {n : ℕ} {a : ModularFormMod ℓ k} :
   Θ^[n + 1] a = Mcongr (by simp; group) (Θ (Θ^[n] a)) := rfl
 
+lemma Theta_pow_pred {n : ℕ} [NeZero n] {a : ModularFormMod ℓ k} :
+    Θ^[n] a == Θ (Θ^[n - 1] a) := by
+  obtain ⟨k, rfl⟩ := Nat.exists_eq_succ_of_ne_zero (Ne.symm (NeZero.ne' n))
+  rw[Nat.succ_eq_add_one]; simp only [Nat.add_one_sub_one, Theta_pow_succ, cast_equal]
+
 @[simp]
 lemma Theta_pow_one {a : ModularFormMod ℓ k} :
   Θ^[1] a = Mcongr (by simp) (Θ a) := by ext n; simp
@@ -141,6 +149,7 @@ lemma Theta_Pow_apply {n j : ℕ} {a : ModularFormMod ℓ k} : Θ^[j] a n = n ^ 
   induction j with
   | zero => simp
   | succ j ih => simp[ih]; ring
+
 
 
 def add_congr_right (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (h : k = j) :
@@ -186,6 +195,100 @@ lemma sub_congr_left_apply {k j : ZMod (ℓ - 1)} (a : ModularFormMod ℓ k) (b 
   rw[sub_congr_left, sub_apply, triangle_eval]
 
 
+infixl:30 "mod" => Reduce
+
+syntax:30 term " (mod " term ")" : term
+
+macro_rules
+  | `($a (mod $l)) => `(Reduce $a $l)
+
+
+infixl:80 (priority := high) "**" => pow
+
+
+-- namespace ModPow
+-- scoped infixl:80 "^" => pow
+-- end ModPow
+
+@[simp]
+theorem const_pow (c : ZMod ℓ) [Fact (Nat.Prime ℓ)] (j : ℕ) : (const c) ** j == const (c ^ j) := by
+  intro n; simp only [pow_apply]
+  match n with
+  | 0 => simp[Finset.Nat.antidiagonalTuple_zero_right]
+  | n + 1 =>
+      have zepo : ∀ x ∈ Finset.Nat.antidiagonalTuple j (n + 1), ∏ y, (const c) (x y) = 0 := by
+        intro x hx
+        suffices h' : ∃ y, x y ≠ 0 by
+          obtain ⟨y,h'⟩ := h'
+          obtain ⟨k,hk⟩ := Nat.exists_eq_succ_of_ne_zero h'
+          have : (const c) (x y) = 0 := by
+            rw[hk]; simp only [Nat.succ_eq_add_one, const_succ]
+          apply Finset.prod_eq_zero_iff.2; use y; exact ⟨Finset.mem_univ y,this⟩
+        by_contra! zed
+        have sumo : ∑ y, x y = 0 := by
+          trans ∑ y : Fin n, 0; simp_rw[zed]; simp_rw [Finset.sum_const_zero]; exact Finset.sum_const_zero
+        linarith [Finset.Nat.mem_antidiagonalTuple.1 hx]
+      exact Finset.sum_eq_zero zepo
+
+
+
+def Filtration (a : ModularFormMod ℓ k) : ℕ :=
+  @Nat.find (fun k ↦ hasWeight a k) (inferInstance)
+    (by obtain ⟨k,b,h⟩ := a.modular; use k, b, h.2)
+
+
+notation "𝔀" => Filtration
+
+lemma Weight_eq_of_Mod_eq (h : a == d) {j} : hasWeight a j → hasWeight d j := by
+  repeat rw[hasWeight]; rintro ⟨c,hc⟩
+  use c; ext n; rw[← h n]; exact congrFun hc n
+
+lemma Filt_eq_of_Mod_eq (h : a == d) : 𝔀 a = 𝔀 d := by
+  repeat rw[Filtration]
+  congr; ext j; refine ⟨Weight_eq_of_Mod_eq h, Weight_eq_of_Mod_eq h.symm⟩
+
+
+--open ModularFormDefs Regular Integer
+
+@[simp]
+lemma Filt_const {c : ZMod ℓ} : 𝔀 (const c) = 0 := by
+  unfold Filtration
+  suffices h: hasWeight (const c) 0 by
+    exact (Nat.find_eq_zero (Filtration._proof_1 (const c))).mpr h
+  obtain ⟨n,b,n0,hb⟩ := (const c).modular
+  use Iconst ↑c.val; simp; ext n; simp[reduce]
+  match n with
+  | 0 => simp only [Modulo2.const_zero, Integer.Iconst_zero, ZMod.intCast_cast, ZMod.cast_id', id_eq]
+  | n + 1 => simp only [Modulo2.const_succ, Integer.Iconst_succ, Int.cast_zero]
+
+
+@[simp]
+lemma Filt_zero : 𝔀 (0 : ModularFormMod ℓ k) = 0 := by
+  trans 𝔀 (const 0 : ModularFormMod ℓ 0)
+  apply Filt_eq_of_Mod_eq
+  intro n; match n with
+  | 0 => simp only [zero_apply, const_zero]
+  | n + 1 => simp only [zero_apply, const_succ]
+  exact Filt_const
+
+
+namespace Filtration
+
+variable {ℓ k : ℕ} [NeZero ℓ]
+
+-- If a is the zero function, its filtration does not exist
+-- If not, then it is the least natural number k such that a has weight k
+def Option_Filtration (a : ModularFormMod ℓ k)  : Option ℕ :=
+  if a = 0 then none else
+  @Nat.find (fun k ↦ hasWeight a k) (inferInstance)
+    (by obtain ⟨k,b,h⟩ := a.modular; use k; use b; exact h.2)
+
+def Filtration_NeZero (a : ModularFormMod ℓ k) [NeZero a] : ℕ :=
+  @Nat.find (fun k ↦ hasWeight a k) (inferInstance)
+    (by obtain ⟨k,b,h⟩ := a.modular; use k; use b; exact h.2)
+
+-- notation "𝔀" => Option_Filtration
+
 def Option_mul (n : Option ℕ): Option ℕ → Option ℕ
   | none => none
   | some m =>
@@ -195,6 +298,16 @@ def Option_mul (n : Option ℕ): Option ℕ → Option ℕ
 
 instance : HMul (Option ℕ) (Option ℕ) (Option ℕ) where
   hMul := Option_mul
+
+
+instance (n : ℕ) : OfNat (Option ℕ) n where
+  ofNat := some n
+
+instance : Coe ℕ (Option ℕ) where
+  coe := some
+
+instance {a : ModularFormMod ℓ k} [NeZero a] : CoeDep (Option ℕ) (Option_Filtration a) ℕ where
+  coe := Filtration_NeZero a
 
 def Option_div (n : Option ℕ): Option ℕ → Option ℕ
   | none => none
@@ -232,62 +345,27 @@ instance : HAdd (Option ℕ) (Option ℕ) (Option ℕ) where
 instance : HSub (Option ℕ) (Option ℕ) (Option ℕ) where
   hSub := Option_sub
 
+def Option_pow (n : Option ℕ) : Option ℕ → Option ℕ
+  | none => none
+  | some m =>
+    match n with
+    | none => none
+    | some n => some (n ^ m)
 
-infixl:30 "mod" => Reduce
+instance : HPow (Option ℕ) (Option ℕ) (Option ℕ) where
+  hPow := Option_pow
 
-syntax:30 term " (mod " term ")" : term
+def Option_pow_nat (n : Option ℕ) (m : ℕ) : Option ℕ :=
+  match n with
+  | none => none
+  | some n => some (n ^ m)
 
-macro_rules
-  | `($a (mod $l)) => `(Reduce $a $l)
-
-notation "𝔀" => Filtration
-
-infixl:80 (priority := high) "**" => pow
-
--- namespace ModPow
--- scoped infixl:80 "^" => pow
--- end ModPow
-
-
-
-
-def self_mul (a : ModularFormMod ℓ k) : (j : ℕ) → ModularFormMod ℓ (k * j)
-  | 0 => Mcongr (by sorry) (const 1)
-  | j + 1 => Mcongr (by simp; group) (a * self_mul a j)
-
-open Finset Finset.Nat
-
-lemma adT_succ_left {k n} : antidiagonalTuple (k+1) n =
-    List.toFinset (
-      (List.Nat.antidiagonal n).flatMap fun ni =>
-        ((antidiagonalTuple k ni.2).toList.map fun x => (Fin.cons ni.1 x : Fin (k + 1) → ℕ))) := by
-  ext; simp [antidiagonalTuple, Multiset.Nat.antidiagonalTuple, List.Nat.antidiagonalTuple]
-
--- lemma adT_succ_right {k n} : antidiagonalTuple k (n + 1) =
---  List.toFinset (
---       (List.Nat.antidiagonal (n + 1)).flatMap fun ni =>
---         ((antidiagonalTuple (k) ni.2).toList.map fun x =>
---           (Fin.snoc (α := fun _ => ℕ) k ni.1 : Fin k → ℕ))) := by
---   ext; simp [antidiagonalTuple, Multiset.Nat.antidiagonalTuple, List.Nat.antidiagonalTuple]
-
-
-lemma Pow_eq_self_mul {a : ModularFormMod ℓ k} {j} : self_mul a j = pow a j := by
-  induction j with
-  | zero =>
-    unfold self_mul;
-    ext n; simp[pow_apply]
-    cases n <;> simp
-  | succ j ih =>
-    unfold self_mul;
-    ext n; simp[ih, pow_apply]
-    induction n with
-    | zero => simp[antidiagonalTuple_zero_right]; ring
-    | succ n igntul =>
-      simp[antidiagonal_succ', antidiagonalTuple_zero_right]
-      sorry
+instance : HPow (Option ℕ) ℕ (Option ℕ) where
+  hPow := Option_pow_nat
 
 
 
+end Filtration
 
 
 end section

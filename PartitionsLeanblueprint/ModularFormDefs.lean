@@ -221,7 +221,7 @@ instance zero : Zero (ModularForm k) where
     squish := λ _ ↦ by simp
     bounded := ⟨0, λ _ _ ↦ by simp⟩ }
 
-def const (x : ℂ) : ModularForm 0 where
+def Rconst (x : ℂ) : ModularForm 0 where
   toFun := fun z ↦ x
   holo := analyticOn_const
   shift := λ _ ↦ rfl
@@ -229,11 +229,11 @@ def const (x : ℂ) : ModularForm 0 where
   bounded := ⟨|x.re| ⊔ |x.im|, λ _ _ ↦ ⟨le_max_left _ _, le_max_right _ _⟩⟩
 
 instance : Coe ℂ (ModularForm 0) where
-  coe x := const x
+  coe x := Rconst x
 
 
 
-notation "⇈" => const
+notation "⇈" => Rconst
 
 -- notation "⇈" n => const n
 -- coerces a scalar into a modular form of weight 0
@@ -303,14 +303,14 @@ theorem ModularForm.ext {f g : ModularForm k} (h : ∀ x, f x = g x) : f = g :=
   DFunLike.ext f g h
 
 instance : NatCast (ModularForm 0) where
-  natCast n := const n
+  natCast n := Rconst n
 
 @[simp, norm_cast]
 lemma coe_natCast (n : ℕ) :
     ⇑(n : ModularForm 0) = n := rfl
 
 instance : IntCast (ModularForm 0) where
-  intCast z := const z
+  intCast z := Rconst z
 
 @[simp, norm_cast]
 lemma coe_intCast (z : ℤ) :
@@ -437,6 +437,14 @@ instance : Zero (IntegerModularForm k) where
     summable := by simp; unfold Summable HasSum; use 0; simp
     modular := by simp; sorry  }
 
+def Iconst (x : ℤ) : IntegerModularForm 0 where
+  sequence := fun n ↦ if n = 0 then x else 0
+  summable := sorry
+  modular := sorry
+
+instance : Coe ℤ (IntegerModularForm 0) where
+  coe x := Iconst x
+
 instance : Add (IntegerModularForm k) where
   add := fun a b ↦
   { sequence := a + b
@@ -456,6 +464,8 @@ def mul' {k j : ℕ} (a : IntegerModularForm k) (b : IntegerModularForm j) : Int
 instance : HMul (IntegerModularForm k) (IntegerModularForm j) (IntegerModularForm (k + j)) where
   hMul := mul'
 
+
+
 @[simp]
 theorem coe_zero' : ⇑(0 : IntegerModularForm k) = (0 : ℕ → ℤ) := rfl
 
@@ -466,7 +476,26 @@ theorem zero_apply' (z : ℤ) : (0 : ModularForm k) z = 0 := rfl
 theorem IntegerModularForm.ext {a b : IntegerModularForm k} (h : ∀ n, a n = b n) : a = b :=
   DFunLike.ext a b h
 
+instance : NatCast (IntegerModularForm 0) where
+  natCast n := Iconst n
 
+-- @[simp, norm_cast]
+-- lemma coe_natCast (n : ℕ) :
+--     ⇑(n : ModularFormMod ℓ 0) = n := rfl
+
+instance : IntCast (IntegerModularForm 0) where
+  intCast z := Iconst z
+
+-- @[simp, norm_cast]
+-- lemma coe_intCast (z : ℤ) :
+--     ⇑(z : ModularFormMod ℓ 0) = z := rfl
+
+
+@[simp]
+theorem Iconst_zero (x : ℤ) : (Iconst x) 0 = x := rfl
+
+@[simp]
+theorem Iconst_succ (x : ℤ) (n : ℕ) : (Iconst x) n.succ = 0 := rfl
 
 instance : AddCommGroup (IntegerModularForm k) := sorry
 

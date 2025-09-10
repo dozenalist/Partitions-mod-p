@@ -35,7 +35,7 @@ def Reduce (a : IntegerModularForm k) ℓ [NeZero ℓ] : ModularFormMod ℓ (k :
   modular := ⟨k, a, rfl, rfl⟩
 
 
-variable {ℓ : ℕ} [NeZero ℓ]
+variable {ℓ n : ℕ} [NeZero ℓ]
 variable {k j : ZMod (ℓ-1)}
 
 
@@ -92,12 +92,11 @@ def pow' (a : ModularFormMod ℓ k) (j : ℕ) : ModularFormMod ℓ (k * j) where
 
 def pow (a : ModularFormMod ℓ k) (j : ℕ) : ModularFormMod ℓ (k * j) where
   sequence n := ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y)
-  -- this is correct, but inconvenient. Maybe define in terms of the Quotient of perm_setoid
 
   modular := sorry
 
-#check sum_pow
-
+def ZModpow (a : ℕ → ZMod n) (j : ℕ) : ℕ → ZMod n :=
+  fun n ↦ ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y)
 
 
 instance instSMulZ : SMul ℤ (ModularFormMod ℓ k) where
@@ -122,6 +121,7 @@ instance instSub : Sub (ModularFormMod ℓ k) :=
 
 variable {ℓ : ℕ} [NeZero ℓ]
 variable {k j : ZMod (ℓ-1)}
+
 
 @[simp]
 theorem natify_apply (a : ModularFormMod ℓ k) (n : ℕ) : natify a n = (a n).val := rfl
@@ -160,10 +160,10 @@ theorem coe_smuln (f : ModularFormMod ℓ k) (n : ℕ) : ⇑(n • f) = n • �
 theorem smul_apply (f : ModularFormMod ℓ k) (n z : ℕ) : (n • f) z = n • f z := rfl
 
 @[simp]
-theorem coe_zero [NeZero (ℓ - 1)] : ⇑(0 : ModularFormMod ℓ k) = (0 : ℕ → ZMod ℓ) := rfl
+theorem coe_zero : ⇑(0 : ModularFormMod ℓ k) = (0 : ℕ → ZMod ℓ) := rfl
 
 @[simp]
-theorem zero_apply (z : ℕ) [NeZero (ℓ - 1)] : (0 : ModularFormMod ℓ k) z = 0 := rfl
+theorem zero_apply (z : ℕ) : (0 : ModularFormMod ℓ k) z = 0 := rfl
 
 @[simp]
 theorem coe_neg (f : ModularFormMod ℓ k) : ⇑(-f) = -f := rfl
@@ -225,7 +225,6 @@ theorem const_zero (x : ZMod ℓ) : (const x) 0 = x := rfl
 
 @[simp]
 theorem const_succ (x : ZMod ℓ) (n : ℕ) : (const x) n.succ = 0 := rfl
-
 
 
 lemma pow_2_eq_mul_self (a : ModularFormMod ℓ k) (n : ℕ) : (pow a 2) n = (a * a) n := by

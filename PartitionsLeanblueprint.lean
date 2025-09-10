@@ -11,3 +11,5 @@ import PartitionsLeanblueprint.ModuloDefs2
 import PartitionsLeanblueprint.BasicOperators
 
 import PartitionsLeanblueprint.PreliminaryResults
+
+import PartitionsLeanblueprint.PowFacts
