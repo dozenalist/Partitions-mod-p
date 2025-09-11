@@ -127,3 +127,25 @@
   Thus, $f(c) = y$.
 
 \end{proof}
+
+\section{Modular Forms}
+
+\begin{definition} [Modular Form]
+  \label{def:ModularForm}
+  \lean{ModularFormDefs.Regular.ModularForm}
+  \leanok
+  In lean, A modular form of weight $k \in \mathbb{N}$ is a function $f : \mathbb{C} → \mathbb{C}$ such that : \\ \\
+  (1) $f$ is holomorphic on $\mathbb{H}$ \\
+  (2) For all $z \in \mathbb{H}, f(z) = f(z + 1)$ \\
+  (3) For all $z \in \mathbb{H}, f(z) = z^{-k} f(-1/z)$ \\
+  (4) $f$ is bounded as Re$(z) \to \infty$ \\
+\end{definition}
+
+\begin{definition} [Integer Modular Form]
+  \label{def: IntegerModularForm}
+  \uses{def: ModularForm}
+  \lean{ModularFormDefs.Integer.IntegerModularForm}
+  \leanok
+  An integer modular form of weight $k \in \mathbb{N}$ is a sequence $a : \mathbb{N} → \mathbb{Z}$
+  such that $\sum_{n=0}^{\infty} a(n) q^n$ is a modular form of weight $k$, where $q = e ^ {2 \pi i z}.$
+\end{definition}

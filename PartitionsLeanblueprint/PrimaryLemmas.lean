@@ -16,10 +16,9 @@ def δ (ℓ : ℕ) : ℕ := (ℓ^2 - 1) / 24
 -- δℓ ?
 
 -- The series expansion of ∏ n, (1-q^n)
-def Etaish : (n : ℕ) → ZMod ℓ
-  | 0 => 0
-  | n + 1 =>
-    if h : (∃ m : ℤ, n + 1 = m * (3*m - 1) / 2)
+def Etaish (n : ℕ) : ZMod ℓ :=
+
+    if h : (∃ m : ℤ, n = m * (3*m - 1) / 2)
       then
         let m := Classical.choose h
         (-1) ^ m

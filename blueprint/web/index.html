@@ -599,7 +599,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L136" class="lean_decl">intermediate_value</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L135" class="lean_decl">intermediate_value</a></li>
           
         </ul>
     
@@ -624,6 +624,95 @@
   </div>
   <div class="proof_content">
   <p>Sketch: <br />Let \(K = \{ x \in [a, b] | f(x) \le y\} \). Then \(K\) is non-empty and bounded above by \(b\), so it has a supremum \(c \in \mathbb {R}\). If \(f(c) {\lt} y\), then by continuity of \(f\), there exists a \(\delta {\gt} 0\) such that for all \(x ∈ (c - \delta , c + \delta )\), \(f(x) {\lt} y\). Choose \(x = c + \delta /2\).Then \(x ∈ K\) and \(x {\gt} c\), so \(c\) is not an upper bound for \(K\). If \(f(c) {\gt} y\), then by continuity of \(f\), there exists a \(\delta {\gt} 0\) such that for all \(x ∈ (c - \delta , c + \delta )\), \(f(x) {\gt} y\). Choose \(x = c - \delta /2\). Then \(x\) is an upper bound for \(K\) and \(x {\lt} c\), so \(c\) is not the supremum of \(K\). Thus, \(f(c) = y\). </p>
+
+  </div>
+</div>
+<h1 id="a0000000006">0.3 Modular Forms</h1>
+<div class="definition_thmwrapper theorem-style-definition" id="def:ModularForm">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">11</span>
+    <span class="definition_thmtitle">Modular Form</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#def:ModularForm">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/find/#doc/ModularFormDefs.Regular.ModularForm" class="lean_decl">ModularFormDefs.Regular.ModularForm</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   In lean, A modular form of weight \(k \in \mathbb {N}\) is a function \(f : \mathbb {C} → \mathbb {C}\) such that : <br /><br />(1) \(f\) is holomorphic on \(\mathbb {H}\) <br />(2) For all \(z \in \mathbb {H}, f(z) = f(z + 1)\) <br />(3) For all \(z \in \mathbb {H}, f(z) = z^{-k} f(-1/z)\) <br />(4) \(f\) is bounded as Re\((z) \to \infty \) <br /></p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def: IntegerModularForm">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">12</span>
+    <span class="definition_thmtitle">Integer Modular Form</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#def: IntegerModularForm">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/find/#doc/ModularFormDefs.Integer.IntegerModularForm" class="lean_decl">ModularFormDefs.Integer.IntegerModularForm</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>    An integer modular form of weight \(k \in \mathbb {N}\) is a sequence \(a : \mathbb {N} → \mathbb {Z}\) such that \(\sum _{n=0}^{\infty } a(n) q^n\) is a modular form of weight \(k\), where \(q = e ^{2 \pi i z}.\) </p>
 
   </div>
 </div>
