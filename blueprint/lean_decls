@@ -10,3 +10,5 @@ convergesTo_nonneg
 le_convergesTo_of_le
 exists_sup_of_bounded_above
 intermediate_value
+ModularFormDefs.Regular.ModularForm
+ModularFormDefs.Integer.IntegerModularForm

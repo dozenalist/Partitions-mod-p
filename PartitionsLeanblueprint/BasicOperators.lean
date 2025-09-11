@@ -217,19 +217,19 @@ theorem const_pow (c : ZMod ℓ) [Fact (Nat.Prime ℓ)] (j : ℕ) : (const c) **
   match n with
   | 0 => simp[Finset.Nat.antidiagonalTuple_zero_right]
   | n + 1 =>
-      have zepo : ∀ x ∈ Finset.Nat.antidiagonalTuple j (n + 1), ∏ y, (const c) (x y) = 0 := by
-        intro x hx
-        suffices h' : ∃ y, x y ≠ 0 by
-          obtain ⟨y,h'⟩ := h'
-          obtain ⟨k,hk⟩ := Nat.exists_eq_succ_of_ne_zero h'
-          have : (const c) (x y) = 0 := by
-            rw[hk]; simp only [Nat.succ_eq_add_one, const_succ]
-          apply Finset.prod_eq_zero_iff.2; use y; exact ⟨Finset.mem_univ y,this⟩
-        by_contra! zed
-        have sumo : ∑ y, x y = 0 := by
-          trans ∑ y : Fin n, 0; simp_rw[zed]; simp_rw [Finset.sum_const_zero]; exact Finset.sum_const_zero
-        linarith [Finset.Nat.mem_antidiagonalTuple.1 hx]
-      exact Finset.sum_eq_zero zepo
+    have zepo : ∀ x ∈ Finset.Nat.antidiagonalTuple j (n + 1), ∏ y, (const c) (x y) = 0 := by
+      intro x hx
+      suffices h' : ∃ y, x y ≠ 0 by
+        obtain ⟨y,h'⟩ := h'
+        obtain ⟨k,hk⟩ := Nat.exists_eq_succ_of_ne_zero h'
+        have : (const c) (x y) = 0 := by
+          rw[hk]; simp only [Nat.succ_eq_add_one, const_succ]
+        apply Finset.prod_eq_zero_iff.2; use y; exact ⟨Finset.mem_univ y,this⟩
+      by_contra! zed
+      have sumo : ∑ y, x y = 0 := by
+        trans ∑ y : Fin n, 0; simp_rw[zed]; simp_rw [Finset.sum_const_zero]; exact Finset.sum_const_zero
+      linarith [Finset.Nat.mem_antidiagonalTuple.1 hx]
+    exact Finset.sum_eq_zero zepo
 
 
 
@@ -277,6 +277,7 @@ lemma Filt_zero : 𝔀 (0 : ModularFormMod ℓ k) = 0 := by
   rw [zero_apply, const_zero]
   rw [zero_apply, const_succ]
   exact Filt_const
+
 
 
 namespace Filtration

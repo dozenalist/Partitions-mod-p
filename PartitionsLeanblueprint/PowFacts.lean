@@ -557,6 +557,7 @@ theorem Pow_Prime' {a : ModularFormMod ℓ k} [Fact (Nat.Prime ℓ)] : (a ** ℓ
 
 end Pow_Prime
 
+
 lemma pow_2_eq_mul_self (a : ModularFormMod ℓ k) (n : ℕ) : (pow a 2) n = (a * a) n := by
   rw[pow_apply]; simp[antidiagonalTuple_two]
 
@@ -565,7 +566,7 @@ def self_mul (a : ModularFormMod ℓ k) : (j : ℕ) → ModularFormMod ℓ (k * 
   | 0 => Mcongr (by rw [Nat.cast_zero, mul_zero]) (const 1)
   | j + 1 => Mcongr (by rw [Nat.cast_add, Nat.cast_one]; group) (a * self_mul a j)
 
-lemma adT_succ_left {k n} : antidiagonalTuple (k+1) n =
+theorem adT_succ_left {k n} : antidiagonalTuple (k+1) n =
     List.toFinset (
       (List.Nat.antidiagonal n).flatMap fun ni =>
         ((antidiagonalTuple k ni.2).toList.map fun x => (Fin.cons ni.1 x : Fin (k + 1) → ℕ))) := by
@@ -588,10 +589,16 @@ lemma Pow_eq_self_mul {a : ModularFormMod ℓ k} {j} : self_mul a j = pow a j :=
   | succ j ih =>
     unfold self_mul;
     ext n; simp[ih, pow_apply]
-    sorry
 
+    calc
+      _ = ∑ x ∈ antidiagonal n, ∑ z ∈ antidiagonalTuple j x.2, a (x.1) * ∏ y, a (z y) := by
+        congr; ext x; apply mul_sum
 
+      _ =  _ := by sorry
     -- induction n with
     -- | zero => simp[antidiagonalTuple_zero_right]; ring
     -- | succ n igntul =>
       --simp[antidiagonal_succ', antidiagonalTuple_zero_right]
+
+
+#check Rat
