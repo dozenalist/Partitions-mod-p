@@ -4,7 +4,7 @@ Formalized :
 
 - The Definitions of Modular Forms, Integer Modular Forms, and Modular Forms Mod ℓ
   - Modular Forms are functions on the complex plane that satisfy a number of conditions. They have a natural number weight k. 
-  - Integer Modular Forms are sequences to the Integers whose infinite q-series is Modular. They have a natural number weight k.
+  - Integer Modular Forms are sequences to the Integers whose infinite q-series is a Modular Form. They have a natural number weight k.
   - Modular Forms Mod ℓ are sequences to ZMod ℓ such that there exists an Integer Modular Form that reduces to this sequence (mod ℓ). They have a weight that is of type ZMod (ℓ - 1). This is because we can only       add and subtract Modular Forms Mod ℓ whose weights are congruent (mod ℓ - 1).
 
 - The Definitions of addition, multiplication, and exponentiation between Modular Forms.
