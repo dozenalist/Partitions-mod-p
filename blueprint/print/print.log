@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.6.5)  11 SEP 2025 16:22
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.6.5)  11 SEP 2025 16:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -961,30 +961,21 @@ Underfull \hbox (badness 10000) in paragraph at lines 137--142
 
 
 
-[1]
-
-LaTeX Warning: Reference `def: ModularForm' on page 2 undefined on input line 1
-46.
-
-)
+[1])
 
 [2] (C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/print.aux)
  ***********
 LaTeX2e <2025-06-01>
 L3 programming layer <2025-05-26>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
 Package rerunfilecheck Info: File `print.out' has not changed.
 (rerunfilecheck)             Checksum: 17A27F3C72815FDB19A12B97C9F7BAD9;298.
  ) 
 Here is how much of TeX's memory you used:
- 16719 strings out of 468533
- 306752 string characters out of 5451482
+ 16718 strings out of 468533
+ 306733 string characters out of 5451482
  916630 words of memory out of 5000000
- 44885 multiletter control sequences out of 15000+600000
+ 44884 multiletter control sequences out of 15000+600000
  632172 words of font info for 86 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  90i,6n,107p,542b,477s stack positions out of 10000i,1000n,20000p,200000b,200000s
