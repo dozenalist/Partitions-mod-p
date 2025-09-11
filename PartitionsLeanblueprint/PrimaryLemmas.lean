@@ -1,6 +1,8 @@
 import PartitionsLeanBlueprint.PreliminaryResults
 
-
+/- This file defines Δ and fℓ. It states lemmas 2.1 and 3.2,
+and proves lemma 3.3 assuming them. This is currently where the main
+body of the paper lives. -/
 
 noncomputable section
 
@@ -82,8 +84,7 @@ lemma not_dvd_filt : ¬ ℓ ∣ (ℓ ^ 2 - 1) / 2 := by
     exact Nat.sub_one_lt_of_lt lg2
 
 
-@[simp]
-lemma fl_zero [Fact (ℓ ≥ 5)]: f ℓ 0 = 0 := by
+@[simp] lemma fl_zero [Fact (ℓ ≥ 5)]: f ℓ 0 = 0 := by
   simp[f, δ, pow_apply, antidiagonalTuple_zero_right]; constructor; rfl
   have lg5 : ℓ ≥ 5 := Fact.out
   have fivesq : 5 * 5 = 25 := rfl
@@ -92,14 +93,17 @@ lemma fl_zero [Fact (ℓ ≥ 5)]: f ℓ 0 = 0 := by
   exact Nat.le_sub_one_of_lt lsq
 
 
+
 lemma Filt_fl : 𝔀 (f ℓ) = (ℓ^2 - 1)/2  := sorry
 
 
 
 --Lemma 2.1
+
+-- (1)
 theorem Filt_Theta_bound (a : ModularFormMod ℓ k) : 𝔀 (Θ a) ≤ 𝔀 a + ℓ + 1 := sorry
 
-
+-- (2)
 theorem Filt_Theta_iff {a : ModularFormMod ℓ k} :
   𝔀 (Θ a) = 𝔀 a + ℓ + 1 ↔ ¬ ℓ ∣ 𝔀 a := sorry
 
@@ -107,6 +111,7 @@ theorem Filt_Theta_iff {a : ModularFormMod ℓ k} :
 
 -- Lemma 3.2
 theorem le_Filt_Theta_fl : ∀ m, 𝔀 (f ℓ) ≤ 𝔀 (Θ^[m] (f ℓ)) := sorry
+
 
 
 -- Lemma 3.3
@@ -131,6 +136,7 @@ theorem Filt_Theta_pow_l_sub_one : ¬ ℓ ∣ 𝔀 (Θ^[ℓ - 1] (f ℓ)) → �
 
 -- (2) We now need that ℓ ≥ 5, here to guarantee that δ ℓ ≥ 1
 theorem Filt_U_pos [Fact (ℓ ≥ 5)] : ℓ ∣ 𝔀 (Θ^[ℓ - 1] (f ℓ)) → 𝔀 (f ℓ |𝓤) > 0 := by
+
   intro h; by_contra! filto; rw[nonpos_iff_eq_zero] at filto
   have folly : 𝔀 (f ℓ |𝓤 ** ℓ) = 0 := by rw[Filtration_Log, filto, mul_zero]
   obtain ⟨c,hc⟩ := const_of_Filt_zero filto
@@ -145,10 +151,11 @@ theorem Filt_U_pos [Fact (ℓ ≥ 5)] : ℓ ∣ 𝔀 (Θ^[ℓ - 1] (f ℓ)) → 
   have Thecon : ((f ℓ) -l Θ^[ℓ - 1] (f ℓ)) (by simp) == const d := by
     calc
       _ == (f ℓ |𝓤)**ℓ := U_pow_l_eq_self_sub_Theta_pow_l_sub_one.symm
-      _ == const c**ℓ := by exact fconn -- if i remove the 'by exact' it doesn't work ??
+      _ == const c**ℓ := fconn
       _ == const d := hd
 
-  have zepo : ∀ n, ((f ℓ) -l Θ^[ℓ - 1] (f ℓ)) (by simp) n = 0 := by
+  have zepo : ∀ n, ((f ℓ) -l Θ^[ℓ - 1] (f ℓ))
+      (by simp only [CharP.cast_eq_zero, zero_mul, add_zero]) n = 0 := by
     intro n; match n with
 
     | 0 =>
@@ -158,10 +165,9 @@ theorem Filt_U_pos [Fact (ℓ ≥ 5)] : ℓ ∣ 𝔀 (Θ^[ℓ - 1] (f ℓ)) → 
     | n + 1 => rw[Thecon (n + 1)]; rfl
 
   have feq : f ℓ == Θ^[ℓ - 1] (f ℓ) := by
-    intro n
-    specialize zepo n; simp only [sub_congr_left_apply, sub_eq_zero] at zepo
+    intro n; specialize zepo n
+    simp only [sub_congr_left_apply, sub_eq_zero] at zepo
     exact zepo
-
 
   apply Filt_eq_of_Mod_eq at feq
   have wrong : ℓ ∣ 𝔀 (f ℓ) := by rw[feq]; exact h

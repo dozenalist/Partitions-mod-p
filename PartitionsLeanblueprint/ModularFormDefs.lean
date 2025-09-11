@@ -9,7 +9,8 @@ import Mathlib.Algebra.DirectSum.Algebra
 
 /- This file defines regular modular forms as functions on the complex plane, and
 defines Integer Modular Forms as sequences whose q-series are modular forms.
-It also defines Modular Forms Mod ℓ, but in a way that is innacurate -/
+It also defines Modular Forms Mod ℓ, but in a way that is innacurate.
+This file is the root of the project. -/
 
 
 namespace ModularFormDefs
@@ -509,6 +510,9 @@ instance : DirectSum.GAlgebra ℤ (IntegerModularForm) := sorry
 end Integer
 
 namespace Modulo
+/-This section is no longer in use. It asserts that the sum of any two modular forms
+is a modular form, which is false. See ModuloDefs2 for the correct definitions -/
+
 open Integer
 
 def intModFin (n : ℕ) (a : ℤ) [NeZero n] : Fin n where
