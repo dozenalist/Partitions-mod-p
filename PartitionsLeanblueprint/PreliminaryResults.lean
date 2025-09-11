@@ -3,8 +3,8 @@ import PartitionsLeanblueprint.BasicOperators
 import PartitionsLeanblueprint.PowFacts
 import Mathlib.FieldTheory.Finite.Basic
 
-/- This file states and proves some basic theorems, some of which are found
-in the introduction of the paper -/
+/- This file states and proves some basic theorems which are found in the
+introduction of the paper, before the beginning of the proof of Theorem 3.1 -/
 
 open Modulo2
 
@@ -16,7 +16,7 @@ variable {a b : ModularFormMod ℓ k}
 
 open ZMod Nat
 
-
+-- This is the cleaner way of proving it, using == and -l
 theorem U_pow_l_eq_self_sub_Theta_pow_l_sub_one {a : ModularFormMod ℓ k} :
   a|𝓤 ** ℓ == (a -l Θ^[ℓ - 1] a) (by simp) := by
   intro n; simp[Pow_Prime]; symm; calc
@@ -44,7 +44,7 @@ lemma k_l : k * ℓ = k := by
       exact natCast_self (ℓ - 1)
     _ = k := by simp only [mul_zero, zero_add]
 
-
+-- This is a proof using only Mcongr to cast
 theorem U_pow_l_eq_self_sub_Theta_pow_l_sub_one' {a : ModularFormMod ℓ k} :
 (Mcongr (k_l) ((a|𝓤) ** ℓ)) = thing a := by
   ext n; simp[thing, Pow_Prime]
@@ -62,11 +62,7 @@ theorem U_pow_l_eq_self_sub_Theta_pow_l_sub_one' {a : ModularFormMod ℓ k} :
 
 
 
-lemma Theta_pow_ℓ_eq_Theta {a : ModularFormMod ℓ k} : Θ^[ℓ] a == Θ a := by
-  intro n; rw[Theta_Pow_apply, pow_card, Theta_apply]
-
-
-theorem const_of_Filt_zero {a : ModularFormMod ℓ k} (h : 𝔀 a = 0) : ∃ c : ℕ, a == const c := sorry
+theorem const_of_Filt_zero {a : ModularFormMod ℓ k} (h : 𝔀 a = 0) : ∃ c : ZMod ℓ, a == const c := sorry
 
 
 theorem Filtration_Log {i : ℕ} {a : ModularFormMod ℓ k} : 𝔀 (a ** i) = i * 𝔀 a := sorry

@@ -189,7 +189,7 @@ theorem pow_apply (a : ModularFormMod ℓ k) (j n : ℕ) : (pow a j) n = ∑ x �
 theorem ModularFormMod.ext {a b : ModularFormMod ℓ k} (h : ∀ n, a n = b n) : a = b :=
   DFunLike.ext a b h
 
-
+-- the constant modular forms of weight 0
 def const (x : ZMod ℓ) : ModularFormMod ℓ 0 where
   sequence n := if n = 0 then x else 0
   modular := sorry
@@ -201,7 +201,7 @@ instance : NatCast (ModularFormMod ℓ 0) where
   natCast n := const n
 
 -- @[simp, norm_cast]
--- lemma coe_natCast (n : ℕ) :
+-- lemma coe_natCast (n : ZMod ℓ) :
 --     ⇑(n : ModularFormMod ℓ 0) = n := rfl
 
 instance : IntCast (ModularFormMod ℓ 0) where
@@ -227,10 +227,8 @@ theorem const_zero (x : ZMod ℓ) : (const x) 0 = x := rfl
 theorem const_succ (x : ZMod ℓ) (n : ℕ) : (const x) n.succ = 0 := rfl
 
 
-lemma pow_2_eq_mul_self (a : ModularFormMod ℓ k) (n : ℕ) : (pow a 2) n = (a * a) n := by
-  rw[pow_apply]; simp[antidiagonalTuple_two]
 
 
+end Modulo2
 
-
---lemma pow_j_eq_mul_self ()
+end section

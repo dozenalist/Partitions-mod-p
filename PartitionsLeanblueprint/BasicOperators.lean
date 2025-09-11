@@ -4,8 +4,8 @@ import Mathlib.Logic.Function.Iterate
 import Mathlib.Data.Nat.Prime.Defs
 
 /- This file defines some basic operators on Modular Forms Mod ℓ, such as the
-Theta and U operators, as well as some simple functions for dealing with cast equality
-It also defines some notation that aligns with the paper -/
+Theta and U operators, the Filtration function, and some simple functions for dealing with cast equality
+It also defines notation that aligns with the paper -/
 
 open ModularFormDefs Integer Modulo2
 
@@ -24,6 +24,7 @@ lemma cast_eval {k j : ZMod (ℓ -1)} {h : k = j} {n : ℕ} {a : ModularFormMod 
   Mcongr h a n = a n := by
   subst h; rfl
 
+
 @[simp]
 lemma triangle_eval {k j : ZMod (ℓ -1)} {h : k = j} {n : ℕ} {a : ModularFormMod ℓ k} :
   (h ▸ a) n = a n := by
@@ -33,12 +34,13 @@ lemma triangle_eval {k j : ZMod (ℓ -1)} {h : k = j} {n : ℕ} {a : ModularForm
 universe u
 variable {α β χ  : Type u} [FunLike α ℕ (ZMod n)] [FunLike β ℕ (ZMod n)] [FunLike χ ℕ (ZMod n)]
 
--- needs some type class thing that declares α ≠ β definitionally
+-- two modular forms of different weight can be "equal" if they are the same sequence
+-- this is an equivalence relation, so we can put it into calc blocks and such
 def Mod_eq (a : α) (b : β) :=
   ∀ n, a n = b n
--- two modular forms of different weight can be "equal" if they are the same sequence
--- might be a bad idea, idk
 
+
+-- make sure it doesn't clash with boolean ==
 infixl:50 (priority := high) "==" => Mod_eq
 
 
@@ -92,14 +94,6 @@ lemma Eq_of_Mod_eq {a b : α} (h : a == b) : a = b :=
   DFunLike.ext _ _ h
 
 
--- A modular form mod ℓ, denoted a, has weight k if there exists a modular form b
--- of weight k such that a is the reduction of b (mod ℓ)
--- A modular form mod ℓ can have many weights
-def hasWeight (a : ModularFormMod ℓ k) (j : ℕ) : Prop :=
-  ∃ b : IntegerModularForm j, a = reduce ℓ b
-
-
-
 def Theta (a : ModularFormMod ℓ k) : ModularFormMod ℓ (k + 2) where
   sequence := fun n ↦ n * a n
   modular := sorry
@@ -123,6 +117,7 @@ lemma Theta_apply : Θ a n = n * a n := rfl
 def Theta_pow : (n : ℕ) → ModularFormMod ℓ k → ModularFormMod ℓ (k + n * 2)
 | 0     => fun f ↦ Mcongr (by simp) f
 | n + 1 => fun f ↦ Mcongr (by simp; group) (Theta (Theta_pow n f))
+
 
 macro_rules
   | `(Θ^[$n]) => `(Theta_pow $n)
@@ -150,6 +145,9 @@ lemma Theta_Pow_apply {n j : ℕ} {a : ModularFormMod ℓ k} : Θ^[j] a n = n ^ 
   | zero => simp
   | succ j ih => simp[ih]; ring
 
+lemma Theta_pow_ℓ_eq_Theta {a : ModularFormMod ℓ k} [Fact (Nat.Prime ℓ)] : Θ^[ℓ] a == Θ a := by
+  intro n; rw[Theta_Pow_apply, ZMod.pow_card, Theta_apply]
+
 
 
 def add_congr_right (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (h : k = j) :
@@ -168,11 +166,14 @@ def sub_congr_left (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (h : k 
     ModularFormMod ℓ k :=
     a - (h ▸ b)
 
-
+-- Use these two add or subtract modular forms of different but provably equal weights
+-- with an r, the weight of the result is the weight of the right argument. with an l, the left
+-- example: (a : ModularFormMod ℓ k) +r (b : ModularFormMod ℓ j) (h : k = j) : ModularFormMod ℓ j
 infixl:65 " +r " => add_congr_right
 infixl:65 " +l " => add_congr_left
 infixl:65 " -r " => sub_congr_right
 infixl:65 " -l " => sub_congr_left
+
 
 @[simp]
 lemma add_congr_right_apply {k j : ZMod (ℓ - 1)} (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (h : k = j) (n : ℕ) :
@@ -232,9 +233,15 @@ theorem const_pow (c : ZMod ℓ) [Fact (Nat.Prime ℓ)] (j : ℕ) : (const c) **
 
 
 
+-- A modular form mod ℓ, denoted a, has weight k if there exists a modular form b
+-- of weight k such that a is the reduction of b (mod ℓ)
+-- A modular form mod ℓ can have many weights
+def hasWeight (a : ModularFormMod ℓ k) (j : ℕ) : Prop :=
+  ∃ b : IntegerModularForm j, a = reduce ℓ b
+
+-- The filtration of a is the least natural number k such that a has weight k
 def Filtration (a : ModularFormMod ℓ k) : ℕ :=
-  @Nat.find (fun k ↦ hasWeight a k) (inferInstance)
-    (by obtain ⟨k,b,h⟩ := a.modular; use k, b, h.2)
+  Nat.find (let ⟨k,b,h⟩ := a.modular; ⟨k, b, h.2⟩ : ∃ k, hasWeight a k)
 
 
 notation "𝔀" => Filtration
@@ -245,7 +252,7 @@ lemma Weight_eq_of_Mod_eq (h : a == d) {j} : hasWeight a j → hasWeight d j := 
 
 lemma Filt_eq_of_Mod_eq (h : a == d) : 𝔀 a = 𝔀 d := by
   repeat rw[Filtration]
-  congr; ext j; refine ⟨Weight_eq_of_Mod_eq h, Weight_eq_of_Mod_eq h.symm⟩
+  congr; ext j; exact ⟨Weight_eq_of_Mod_eq h, Weight_eq_of_Mod_eq h.symm⟩
 
 
 --open ModularFormDefs Regular Integer
@@ -266,19 +273,21 @@ lemma Filt_const {c : ZMod ℓ} : 𝔀 (const c) = 0 := by
 lemma Filt_zero : 𝔀 (0 : ModularFormMod ℓ k) = 0 := by
   trans 𝔀 (const 0 : ModularFormMod ℓ 0)
   apply Filt_eq_of_Mod_eq
-  intro n; match n with
-  | 0 => simp only [zero_apply, const_zero]
-  | n + 1 => simp only [zero_apply, const_succ]
+  intro n; cases n
+  rw [zero_apply, const_zero]
+  rw [zero_apply, const_succ]
   exact Filt_const
 
 
 namespace Filtration
+-- This section is no longer in use.
+-- It defines Filtration in terms of Option ℕ, where 𝔀 0 = none
 
 variable {ℓ k : ℕ} [NeZero ℓ]
 
 -- If a is the zero function, its filtration does not exist
 -- If not, then it is the least natural number k such that a has weight k
-def Option_Filtration (a : ModularFormMod ℓ k)  : Option ℕ :=
+def Option_Filtration (a : ModularFormMod ℓ k) : Option ℕ :=
   if a = 0 then none else
   @Nat.find (fun k ↦ hasWeight a k) (inferInstance)
     (by obtain ⟨k,b,h⟩ := a.modular; use k; use b; exact h.2)

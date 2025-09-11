@@ -5,14 +5,16 @@ import Mathlib.GroupTheory.Perm.Centralizer
 import Mathlib.Data.Nat.Prime.Factorial
 
 
+/- This files proves some facts about powers of modular forms mod ℓ.
+Namely, that (∑ a(n) * q^n) ^ ℓ is congruent to ∑ a(n) * q^(ℓ*n) mod ℓ,
+but stated in the language of sequences. -/
+
 noncomputable section
 
 open Modulo2
 
-variable {ℓ n : ℕ} [NeZero ℓ]
-variable {k j : ZMod (ℓ - 1)}
 
-variable {ℓ n : ℕ} [NeZero ℓ] [Fact (Nat.Prime ℓ)]
+variable {ℓ n : ℕ} [NeZero ℓ]
 variable {k j : ZMod (ℓ-1)}
 variable {a b : ModularFormMod ℓ k}
 
@@ -371,7 +373,7 @@ lemma non_const_of_tuple_diag {k n : ℕ} (x : Fin k → ℕ) (kn0 : k ≠ 0) (h
     (Nat.mul_right_inj kn0).mp this.symm
 
 
-theorem Pow_Prime {n : ℕ} {a : ModularFormMod ℓ k} : (a ** ℓ) n = if ℓ ∣ n then (a (n / ℓ)) else 0 := by
+theorem Pow_Prime {n : ℕ} {a : ModularFormMod ℓ k} [Fact (Nat.Prime ℓ)] : (a ** ℓ) n = if ℓ ∣ n then (a (n / ℓ)) else 0 := by
 
   by_cases h : ℓ ∣ n
 
@@ -548,18 +550,20 @@ theorem Pow_Prime {n : ℕ} {a : ModularFormMod ℓ k} : (a ** ℓ) n = if ℓ �
       _ = 0 := sum_const_zero
   }
 
-theorem Pow_Prime' {a : ModularFormMod ℓ k} : (a ** ℓ) == fun n ↦ if ℓ ∣ n then (a (n / ℓ)) else 0 :=
+
+theorem Pow_Prime' {a : ModularFormMod ℓ k} [Fact (Nat.Prime ℓ)] : (a ** ℓ) == fun n ↦ if ℓ ∣ n then (a (n / ℓ)) else 0 :=
   λ _ ↦ Pow_Prime
 
 
 end Pow_Prime
 
-
+lemma pow_2_eq_mul_self (a : ModularFormMod ℓ k) (n : ℕ) : (pow a 2) n = (a * a) n := by
+  rw[pow_apply]; simp[antidiagonalTuple_two]
 
 
 def self_mul (a : ModularFormMod ℓ k) : (j : ℕ) → ModularFormMod ℓ (k * j)
-  | 0 => Mcongr (by sorry) (const 1)
-  | j + 1 => Mcongr (by simp; group) (a * self_mul a j)
+  | 0 => Mcongr (by rw [Nat.cast_zero, mul_zero]) (const 1)
+  | j + 1 => Mcongr (by rw [Nat.cast_add, Nat.cast_one]; group) (a * self_mul a j)
 
 lemma adT_succ_left {k n} : antidiagonalTuple (k+1) n =
     List.toFinset (
@@ -584,8 +588,10 @@ lemma Pow_eq_self_mul {a : ModularFormMod ℓ k} {j} : self_mul a j = pow a j :=
   | succ j ih =>
     unfold self_mul;
     ext n; simp[ih, pow_apply]
-    induction n with
-    | zero => simp[antidiagonalTuple_zero_right]; ring
-    | succ n igntul =>
-      simp[antidiagonal_succ', antidiagonalTuple_zero_right]
-      sorry
+    sorry
+
+
+    -- induction n with
+    -- | zero => simp[antidiagonalTuple_zero_right]; ring
+    -- | succ n igntul =>
+      --simp[antidiagonal_succ', antidiagonalTuple_zero_right]
