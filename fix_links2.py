@@ -26,7 +26,7 @@ for root, _, files in os.walk(LEAN_SOURCE_DIR):
                 for name in decl_names:
                     if name in decl_lookup:
                         continue
-                    if re.match(rf"\s*(theorem|def|lemma)\s+{re.escape(name)}\b", line):
+                    if re.search(rf"\b(theorem|def|lemma|structure|instance|class)\s+{re.escape(name)}\b", line):
                         decl_lookup[name] = (
                             f"https://github.com/{GITHUB_REPO}/blob/{COMMIT_HASH}/"
                             f"{rel_path.replace(os.sep, '/')}"
