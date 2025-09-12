@@ -13,3 +13,14 @@ Pi_eq_of_perm_equiv
 non_const_of_tuple_non_diag
 non_const_of_tuple_diag
 Pow_Prime
+U_pow_l_eq_self_sub_Theta_pow_l_sub_one
+const_of_Filt_zero
+Filtration_Log
+Delta
+f
+Filt_fl
+Filt_Theta_bound
+Filt_Theta_iff
+le_Filt_Theta_fl
+thm:Filt_Theta_pow_l_sub_one
+Filt_U_pos

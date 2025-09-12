@@ -63,41 +63,56 @@
 <div id="statements">
 
     
-    <div class="dep-modal-container" id="<plasTeX.TeXFragment object at 0x000001BAB3F01250>_modal">
+    <div class="dep-modal-container" id="def:Delta_modal">
       <div class="dep-modal-content">
           <button class="dep-closebtn">
 <svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
 </button>
         
-  <div class="thm" id="<plasTeX.TeXFragment object at 0x000001BAB3F01250>" style="display: none">
+  <div class="thm" id="def:Delta" style="display: none">
     <div class="thm_thmheading">
       <span class="definition_thmcaption">
       Definition
       </span>
-      <span class="definition_thmlabel">8</span><span class="definition_thmtitle">multiplication and exponentiation</span></div>
-    <div class="thm_thmcontent"><p>    It’s worth stated how multiplication and exponentiation are defined here, because they are not defined in the normal way. The multiplication of two modular forms mod \(\ell \) called \(a\) and \(b\) is defined as </p>
-<div class="displaymath" id="a0000000003">
-  \[ (a * b) n = \sum _{x + y = n} a(x) b(y). \]
-</div>
-<p> The exponentiation of a modular form mod \(\ell \) called \(a\) to the power of \(k \in \mathbb {N}\) is defined as </p>
-<div class="displaymath" id="a0000000004">
-  \[ (a^j) n = \sum _{x_1 + ... + x_j = n} \prod _{i = 1}^j a (x_i). \]
-</div>
+      <span class="definition_thmlabel">17</span><span class="definition_thmtitle">Delta</span></div>
+    <div class="thm_thmcontent">
+<p>\(\Delta \) is the sequence obtained from \(q (\prod _{n = 1}^{\infty } (1 - q^n))^{24}\). It is a modular form mod \(\ell \) of weight \(12\). </p>
 </div>
 
-    <a class="latex_link" href="index.html#<plasTeX.TeXFragment object at 0x000001BAB3F01250>">LaTeX</a>
+    <a class="latex_link" href="index.html#def:Delta">LaTeX</a>
     
     
-  <div class="tooltip">
-      <span class="lean_link">Lean</span>
-      <ul class="tooltip_list">
-        
-           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/ModuloDefs2.lean#L69" class="lean_decl">mul</a></li>
-        
-           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/ModuloDefs2.lean#L88" class="lean_decl">pow</a></li>
-        
-      </ul>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L28">Lean</a>
+    
+    
+  
+    
   </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:f_l_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:f_l" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">18</span></div>
+    <div class="thm_thmcontent"><p>   For a prime \(\ell \ge 5\), we define \(\delta _\ell = \frac{\ell ^2 - 1}{24} \in \mathbb {N}\). We define \(f_\ell = \Delta ^{\delta _\ell }\), which is a modular form mod \(\ell \) of weight \(12 \delta _\ell \). </p>
+</div>
+
+    <a class="latex_link" href="index.html#def:f_l">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L40">Lean</a>
     
     
   
@@ -121,7 +136,7 @@
       Definition
       </span>
       <span class="definition_thmlabel">7</span><span class="definition_thmtitle">Filtration</span></div>
-    <div class="thm_thmcontent"><p>    The filtration of a modular form mod \(\ell \) called \(a\) is defined as the minimum natural number \(j\) such that a has weight \(j\). The filtration of the zero function is \(0\). </p>
+    <div class="thm_thmcontent"><p>    Let a be a of a modular form mod \(\ell \). The filtration of \(a, \omega (a), \) is defined as the minimum natural number \(j\) such that a has weight \(j\). The filtration of the zero function is \(0\). </p>
 </div>
 
     <a class="latex_link" href="index.html#def:Filtration">LaTeX</a>
@@ -259,6 +274,52 @@
 
 
     
+    <div class="dep-modal-container" id="def:mulpow_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:mulpow" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">8</span><span class="definition_thmtitle">multiplication and exponentiation</span></div>
+    <div class="thm_thmcontent"><p>    It’s worth stated how multiplication and exponentiation are defined here, because they are not defined in the normal way. The multiplication of two modular forms mod \(\ell \) called \(a\) and \(b\) is defined as </p>
+<div class="displaymath" id="a0000000003">
+  \[ (a * b) n = \sum _{x + y = n} a(x) b(y). \]
+</div>
+<p> The exponentiation of a modular form mod \(\ell \) called \(a\) to the power of \(j \in \mathbb {N}\) is defined as </p>
+<div class="displaymath" id="a0000000004">
+  \[ (a^j) n = \sum _{x_1 + ... + x_j = n} \prod _{i = 1}^j a (x_i). \]
+</div>
+</div>
+
+    <a class="latex_link" href="index.html#def:mulpow">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/ModuloDefs2.lean#L69" class="lean_decl">mul</a></li>
+        
+           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/ModuloDefs2.lean#L88" class="lean_decl">pow</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
     <div class="dep-modal-container" id="def:perm_equiv_modal">
       <div class="dep-modal-content">
           <button class="dep-closebtn">
@@ -349,6 +410,66 @@
 
 
     
+    <div class="dep-modal-container" id="lem:const_of_Filt_zero_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:const_of_Filt_zero" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">15</span></div>
+    <div class="thm_thmcontent"><p>   Let a be a modular form mod \(\ell \). If \(\omega (a) = 0\) then \(a\) is constant, i.e. for all \(n {\gt} 0, a(n) = 0\). </p>
+</div>
+
+    <a class="latex_link" href="index.html#lem:const_of_Filt_zero">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PreliminaryResults.lean#L56">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:Filt_fl_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:Filt_fl" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">19</span></div>
+    <div class="thm_thmcontent"><p>   \( \omega (f_\ell ) = 12 \delta _\ell = \frac{\ell ^2 - 1}{2}.\) </p>
+</div>
+
+    <a class="latex_link" href="index.html#lem:Filt_fl">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L96">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
     <div class="dep-modal-container" id="lem:non_const_of_tuple_modal">
       <div class="dep-modal-content">
           <button class="dep-closebtn">
@@ -401,7 +522,7 @@
       </span>
       <span class="lemma_thmlabel">10</span></div>
     <div class="thm_thmcontent"><p>   If \(x = (x_1, x_2, ..., x_k)\) is not constant (i.e not all \(x_i\) are equal) then for any \(n \in \mathbb {N}\), </p>
-<div class="displaymath" id="a0000000006">
+<div class="displaymath" id="a0000000007">
   \[  k \mid \#  \{ y = (y_1, y_2, ..., y_k) : \sum _{i = 1}^k y_i = n \text{ and $x$ and $y$ are permutationally equivalent} \}   \]
 </div>
 </div>
@@ -451,6 +572,186 @@
 
 
     
+    <div class="dep-modal-container" id="thm:Filt_Theta_bound_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:Filt_Theta_bound" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">20</span></div>
+    <div class="thm_thmcontent"><p>   This is part (1) of Lemma 2.1. <br />Let \(a\) be a modular form mod \(\ell \). Then \(\omega (\Theta a) \le \omega (a) + \ell + 1\). </p>
+</div>
+
+    <a class="latex_link" href="index.html#thm:Filt_Theta_bound">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L103">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:Filt_Theta_iff_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:Filt_Theta_iff" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">21</span></div>
+    <div class="thm_thmcontent"><p>   This is part (2) of Lemma 2.1. <br />Let \(a\) be a modular form mod \(\ell \). Then \(\omega (\Theta a) = \omega (a) + \ell + 1\) if and only if \(\ell \nmid \omega (a).\) </p>
+</div>
+
+    <a class="latex_link" href="index.html#thm:Filt_Theta_iff">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L106">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:Filt_Theta_pow_l_sub_one_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:Filt_Theta_pow_l_sub_one" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">23</span></div>
+    <div class="thm_thmcontent"><p>   This is part (1) of Lemma 3.3. <br />If \(\ell \nmid \omega (\Theta ^{\ell - 1} f_\ell )\) then \(\omega (\Theta ^{\ell - 1} f_\ell ) = \frac{\ell ^2 - 1}{2}.\) </p>
+</div>
+
+    <a class="latex_link" href="index.html#thm:Filt_Theta_pow_l_sub_one">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/find/#doc/thm:Filt_Theta_pow_l_sub_one">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:Filt_U_pos_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:Filt_U_pos" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">24</span></div>
+    <div class="thm_thmcontent"><p>   This is part (2) of Lemma 3.3. <br />If \(\ell \mid \omega (\Theta ^{\ell - 1} f_\ell )\) then \(\omega (f_\ell | U) {\gt} 0\). </p>
+</div>
+
+    <a class="latex_link" href="index.html#thm:Filt_U_pos">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L137">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:Filtration_Log_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:Filtration_Log" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">16</span></div>
+    <div class="thm_thmcontent"><p>   Let a be a modular form mod \(\ell \) and \(i \in \mathbb {N}\). Then \(\omega (a ^i)\) = \(i \omega (a)\). </p>
+</div>
+
+    <a class="latex_link" href="index.html#thm:Filtration_Log">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PreliminaryResults.lean#L59">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:le_Filt_Theta_fl_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:le_Filt_Theta_fl" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">22</span></div>
+    <div class="thm_thmcontent"><p>   This is Lemma 3.2. <br />For all \(m \in \mathbb {N}\), \(\omega (\Theta ^m f_\ell ) \ge \omega (f_\ell ) = \frac{\ell ^2 - 1}{2}.\) </p>
+</div>
+
+    <a class="latex_link" href="index.html#thm:le_Filt_Theta_fl">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L112">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
     <div class="dep-modal-container" id="thm:Pow_Prime_modal">
       <div class="dep-modal-content">
           <button class="dep-closebtn">
@@ -462,9 +763,9 @@
       <span class="theorem_thmcaption">
       Theorem
       </span>
-      <span class="theorem_thmlabel">13</span></div>
-    <div class="thm_thmcontent"><p>   Let \(\ell \) be a prime and \(a\) be a modular form mod \(\ell \) of any weight. Then <br /></p>
-<div class="displaymath" id="a0000000007">
+      <span class="theorem_thmlabel">13</span><span class="theorem_thmtitle">Pow Prime</span></div>
+    <div class="thm_thmcontent"><p>    Let \(\ell \) be a prime and \(a\) be a modular form mod \(\ell \) of any weight. Then <br /></p>
+<div class="displaymath" id="a0000000011">
   \[ (a ^\ell ) n = \begin{cases}  a (n / \ell ) &  \text{if $\ell \mid n$} \\ 0 &  \text{otherwise} \end{cases}  \]
 </div>
 </div>
@@ -473,6 +774,36 @@
     
     
   <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L376">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">14</span></div>
+    <div class="thm_thmcontent"><p>   Let a be a modular form mod \(\ell \). Then \((a|U) ^\ell = a - \Theta ^{\ell - 1} a\). </p>
+</div>
+
+    <a class="latex_link" href="index.html#thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PreliminaryResults.lean#L20">Lean</a>
     
     
   
@@ -500,7 +831,7 @@ graphContainer.graphviz({useWorker: true})
     .width(width)
     .height(height)
     .fit(true)
-    .renderDot(`strict digraph "" {	graph [bgcolor=transparent];	node [label="\N",		penwidth=1.8	];	edge [arrowhead=vee];	"thm:Pow_Prime"	[color=green,		label=Pow_Prime,		shape=ellipse];	"def:ModularForm"	[color=green,		fillcolor="#B0ECA3",		label=ModularForm,		shape=box,		style=filled];	"def:IntegerModularForm"	[color=green,		fillcolor="#B0ECA3",		label=IntegerModularForm,		shape=box,		style=filled];	"def:ModularForm" -> "def:IntegerModularForm"	[style=dashed];	"def:ModularFormMod"	[color=green,		fillcolor="#B0ECA3",		label=ModularFormMod,		shape=box,		style=filled];	"def:IntegerModularForm" -> "def:ModularFormMod"	[style=dashed];	"def:ModularFormMod" -> "thm:Pow_Prime"	[style=dashed];	"def:Theta"	[color=green,		fillcolor="#B0ECA3",		label=Theta,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:Theta"	[style=dashed];	"def:U_Operator"	[color=green,		fillcolor="#B0ECA3",		label=U_Operator,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:U_Operator"	[style=dashed];	"def:hasWeight"	[color=green,		fillcolor="#B0ECA3",		label=hasWeight,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:hasWeight"	[style=dashed];	"def:Filtration"	[color=green,		fillcolor="#B0ECA3",		label=Filtration,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:Filtration"	[style=dashed];	"<plasTeX.TeXFragment object at 0x000001BAB3F01250>"	[color=green,		fillcolor="#B0ECA3",		label=<plasTeX.TeXFragment object at 0x000001BAB3F01250>,		shape=box,		style=filled];	"def:ModularFormMod" -> "<plasTeX.TeXFragment object at 0x000001BAB3F01250>"	[style=dashed];	"def:perm_equiv"	[color=green,		fillcolor="#B0ECA3",		label=perm_equiv,		shape=box,		style=filled];	"lem:non_diag_vanish"	[color=green,		label=non_diag_vanish,		shape=ellipse];	"def:perm_equiv" -> "lem:non_diag_vanish"	[style=dashed];	"lem:Pi_eq_of_perm_equiv"	[color=green,		label=Pi_eq_of_perm_equiv,		shape=ellipse];	"def:perm_equiv" -> "lem:Pi_eq_of_perm_equiv"	[style=dashed];	"lem:non_diag_vanish" -> "thm:Pow_Prime"	[style=dashed];	"lem:Pi_eq_of_perm_equiv" -> "thm:Pow_Prime"	[style=dashed];	"lem:non_const_of_tuple"	[color=green,		label=non_const_of_tuple,		shape=ellipse];	"lem:non_const_of_tuple" -> "thm:Pow_Prime"	[style=dashed];}`)
+    .renderDot(`strict digraph "" {	graph [bgcolor=transparent];	node [label="\N",		penwidth=1.8	];	edge [arrowhead=vee];	"lem:Pi_eq_of_perm_equiv"	[color=green,		fillcolor="#1CAC78",		label=Pi_eq_of_perm_equiv,		shape=ellipse,		style=filled];	"thm:Pow_Prime"	[color=green,		fillcolor="#1CAC78",		label=Pow_Prime,		shape=ellipse,		style=filled];	"lem:Pi_eq_of_perm_equiv" -> "thm:Pow_Prime"	[style=dashed];	"thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one"	[color=green,		fillcolor="#1CAC78",		label=U_pow_l_eq_self_sub_Theta_pow_l_sub_one,		shape=ellipse,		style=filled];	"thm:Pow_Prime" -> "thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one"	[style=dashed];	"thm:Filt_U_pos"	[color=green,		fillcolor="#9CEC8B",		label=Filt_U_pos,		shape=ellipse,		style=filled];	"thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one" -> "thm:Filt_U_pos"	[style=dashed];	"lem:Filt_fl"	[color=green,		label=Filt_fl,		shape=ellipse];	"thm:Filt_Theta_pow_l_sub_one"	[color=green,		fillcolor="#9CEC8B",		label=Filt_Theta_pow_l_sub_one,		shape=ellipse,		style=filled];	"lem:Filt_fl" -> "thm:Filt_Theta_pow_l_sub_one"	[style=dashed];	"lem:Filt_fl" -> "thm:Filt_U_pos"	[style=dashed];	"def:f_l"	[color=green,		fillcolor="#B0ECA3",		label=f_l,		shape=box,		style=filled];	"thm:le_Filt_Theta_fl"	[color=green,		label=le_Filt_Theta_fl,		shape=ellipse];	"def:f_l" -> "thm:le_Filt_Theta_fl"	[style=dashed];	"def:ModularForm"	[color=green,		fillcolor="#B0ECA3",		label=ModularForm,		shape=box,		style=filled];	"def:IntegerModularForm"	[color=green,		fillcolor="#B0ECA3",		label=IntegerModularForm,		shape=box,		style=filled];	"def:ModularForm" -> "def:IntegerModularForm"	[style=dashed];	"def:ModularFormMod"	[color=green,		fillcolor="#B0ECA3",		label=ModularFormMod,		shape=box,		style=filled];	"def:IntegerModularForm" -> "def:ModularFormMod"	[style=dashed];	"def:Theta"	[color=green,		fillcolor="#B0ECA3",		label=Theta,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:Theta"	[style=dashed];	"def:U_Operator"	[color=green,		fillcolor="#B0ECA3",		label=U_Operator,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:U_Operator"	[style=dashed];	"def:hasWeight"	[color=green,		fillcolor="#B0ECA3",		label=hasWeight,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:hasWeight"	[style=dashed];	"def:mulpow"	[color=green,		fillcolor="#B0ECA3",		label=mulpow,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:mulpow"	[style=dashed];	"def:Theta" -> "thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one"	[style=dashed];	"thm:Filt_Theta_bound"	[color=green,		label=Filt_Theta_bound,		shape=ellipse];	"def:Theta" -> "thm:Filt_Theta_bound"	[style=dashed];	"def:U_Operator" -> "thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one"	[style=dashed];	"def:Filtration"	[color=green,		fillcolor="#B0ECA3",		label=Filtration,		shape=box,		style=filled];	"def:hasWeight" -> "def:Filtration"	[style=dashed];	"def:mulpow" -> "thm:Pow_Prime"	[style=dashed];	"thm:Filtration_Log"	[color=green,		label=Filtration_Log,		shape=ellipse];	"def:mulpow" -> "thm:Filtration_Log"	[style=dashed];	"thm:Filt_Theta_iff"	[color=green,		label=Filt_Theta_iff,		shape=ellipse];	"thm:Filt_Theta_bound" -> "thm:Filt_Theta_iff"	[style=dashed];	"lem:const_of_Filt_zero"	[color=green,		label=const_of_Filt_zero,		shape=ellipse];	"def:Filtration" -> "lem:const_of_Filt_zero"	[style=dashed];	"lem:const_of_Filt_zero" -> "thm:Filtration_Log"	[style=dashed];	"thm:Filtration_Log" -> "lem:Filt_fl"	[style=dashed];	"thm:Filt_Theta_iff" -> "thm:Filt_Theta_pow_l_sub_one"	[style=dashed];	"lem:non_const_of_tuple"	[color=green,		fillcolor="#1CAC78",		label=non_const_of_tuple,		shape=ellipse,		style=filled];	"lem:non_const_of_tuple" -> "thm:Pow_Prime"	[style=dashed];	"def:perm_equiv"	[color=green,		fillcolor="#B0ECA3",		label=perm_equiv,		shape=box,		style=filled];	"def:perm_equiv" -> "lem:Pi_eq_of_perm_equiv"	[style=dashed];	"lem:non_diag_vanish"	[color=green,		fillcolor="#1CAC78",		label=non_diag_vanish,		shape=ellipse,		style=filled];	"def:perm_equiv" -> "lem:non_diag_vanish"	[style=dashed];	"lem:non_diag_vanish" -> "thm:Pow_Prime"	[style=dashed];	"def:Delta"	[color=green,		fillcolor="#B0ECA3",		label=Delta,		shape=box,		style=filled];	"def:Delta" -> "def:f_l"	[style=dashed];}`)
     .on("end", interactive);
 
 latexLabelEscaper = function(label) {
