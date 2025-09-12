@@ -165,7 +165,7 @@
 
 \begin{definition} [Theta]
   \label{def:Theta}
-  \uses{def:IntegerModularForm}
+  \uses{def:ModularFormMod}
   \lean{Theta}
   \leanok
   $\Theta$ sends modular forms mod $\ell$ of weight $k$ to weight $k + 2$ by \\
@@ -193,11 +193,71 @@
 
 \begin{definition} [Filtration]
   \label{def:Filtration}
-  \uses{def:ModularFormMod}
+  \uses{def:ModularFormMod,hasWeight}
   \lean{Filtration}
   \leanok
-  The filtration of a modular form mod $\ell$ called $a$ is defined as \\
-  The minimum natural number $j$ such that a has weight $j$. \\
+  The filtration of a modular form mod $\ell$ called $a$ is defined as the minimum natural number $j$ such that a has weight $j$. 
   The filtration of the zero function is $0$.
 \end{definition}
-  
+
+\begin{definition} [multiplication and exponentiation]
+  \label{def:mul&pow}
+  \uses{def:ModularFormMod}
+  \lean{mul, pow}
+  \leanok
+  It's worth stated how multiplication and exponentiation are defined here, because they are not defined in the normal way.
+  The multiplication of two modular forms mod $\ell$ called $a$ and $b$ is defined as \\
+  \[ (a * b) n = \sum_{x + y = n} a(x) b(y). \] \\
+  The exponentiation of a modular form mod $\ell$ called $a$ to the power of $k \in \mathbb{N}$ is defined as \\
+  \[ (a^j) n = \sum_ {x_1 + ... + x_j = n} \prod_{i = 1}^j a (x_i). \]
+\end{definition}
+
+
+\section{PowPrime}
+
+
+\begin{definition} [permutational equivalence]
+  \label{def:perm_equiv}
+  \lean{perm_equiv}
+  \leanok
+  Two functions $a, b : $ Fin $n \rightarrow \mathbb{N}$, which can be thought of as tuples of n natural numbers,
+  are permutationally equivalent if there exists a bijective function $\sigma : $ Fin $n \rightarrow $ Fin $n$ such that 
+  $a = b \circ \sigma$. This is an equivalence relation. 
+\end{definition}
+
+\begin{lemma} [non_diag_vanish]
+  \label{lem:non_diag_vanish}
+  \uses{def:perm_equiv}
+  \lean{non_diag_vanish}
+  \leanok
+  If $x = (x_1, x_2, ..., x_k)$ is not constant (i.e not all $x_i$ are equal) then for any $n \in \mathbb{N}$,
+  \[ k \mid \# \{y = (y_1, y_2, ..., y_k) : \sum_{i = 1}^k y_i = n \text{   and $x$ and $y$ are permutationally equivalent} \} \]
+\end{lemma}
+
+\begin{lemma} [Pi_eq_of_perm_equiv]
+  \label{lem:Pi_eq_of_perm_equiv}
+  \uses{def:perm_equiv}
+  \lean{Pi_eq_of_perm_equiv}
+  \leanok
+  If $x$ and $y$ are permutationally equivalent then $\prod_{i = 1}^k a(x_i) = \prod_{i = 1}^k a(y_i)$.
+\end{lemma}
+
+\begin{lemma} [non_const_of_tuple]
+  \label{lem:non_const_of_tuple}
+  \lean{non_const_of_tuple_non_diag, non_const_of_tuple_diag}
+  \leanok
+  Let $x = (x_1, x_2, ..., x_k)$ and $n \in \mathbb{N}$. Suppose that $\sum_{i = 1}^k x_i = n$. \\
+  (1) If $k \nmid n$ then $x$ is not constant. \\
+  (2) If $k \mid n$ and $x \neq (n/k, ..., n/k)$ then $x$ is not constant.
+\end{lemma}
+
+\begin{theorem} [PowPrime]
+  \label{thm:PowPrime}
+  \uses{def:ModularFormMod, def:mul&pow, lem:non_diag_vanish, lem:Pi_eq_of_perm_equiv, lem:non_const_of_tuple}
+  \lean{PowPrime}
+  \leanok
+  Let $\ell$ be a prime and $a$ be a modular form mod $\ell$ of any weight. Then \\
+  \[(a ^ \ell) n = \begin{cases} a (n / \ell) & \text{if $\ell \mid n$} \\
+    0 & \text{otherwise} \end{cases} \]
+\end{theorem}
+

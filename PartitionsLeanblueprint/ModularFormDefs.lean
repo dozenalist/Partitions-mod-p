@@ -88,7 +88,7 @@ section properties
 variable {k j : ℕ}
 
 
-instance add : Add (ModularForm k) where
+instance Radd : Add (ModularForm k) where
 
   add := fun f g ↦
 
@@ -104,7 +104,7 @@ instance add : Add (ModularForm k) where
       Trans.simple (abs_add _ _) (add_le_add (hF z zr0).2 (hG z zr0).2)⟩ }
 
 
-def mul {k j : ℕ} (f : ModularForm k) (g : ModularForm j) : ModularForm (k + j) where
+def Rmul {k j : ℕ} (f : ModularForm k) (g : ModularForm j) : ModularForm (k + j) where
 
   toFun := f.toFun * g.toFun
   holo := AnalyticOn.mul f.holo g.holo
@@ -133,7 +133,7 @@ def mul {k j : ℕ} (f : ModularForm k) (g : ModularForm j) : ModularForm (k + j
 
 
 instance : HMul (ModularForm k) (ModularForm j) (ModularForm (k + j)) where
-  hMul := mul
+  hMul := Rmul
 
 
 instance instSMul : SMul ℂ (ModularForm k) where
@@ -267,7 +267,7 @@ theorem coe_mul (f g : ModularForm k) : ⇑(f * g) = f * g := rfl
 
 @[simp]
 theorem mul_coe {k j : ℕ} (f : ModularForm k) (g : ModularForm j) :
-  (mul f g : ℂ → ℂ) = f * g := rfl
+  (Rmul f g : ℂ → ℂ) = f * g := rfl
 
 @[simp]
 theorem mul_apply (f g : ModularForm k) (z : ℂ) : (f * g) z = f z * g z := rfl
@@ -457,13 +457,13 @@ instance : Add (IntegerModularForm k) where
       rw[this]
       apply Class_add a.3 b.3 }
 
-def mul' {k j : ℕ} (a : IntegerModularForm k) (b : IntegerModularForm j) : IntegerModularForm (k + j) where
+def Imul {k j : ℕ} (a : IntegerModularForm k) (b : IntegerModularForm j) : IntegerModularForm (k + j) where
   sequence := fun n ↦ ∑ m ∈ Finset.range (n + 1), a m * b (n - m)
   summable := sorry
   modular := sorry
 
 instance : HMul (IntegerModularForm k) (IntegerModularForm j) (IntegerModularForm (k + j)) where
-  hMul := mul'
+  hMul := Imul
 
 
 
