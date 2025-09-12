@@ -1,5 +1,7 @@
 # partitions-leanblueprint
 
+You can find an overview of the definitions and theorems here: https://dozenalist.github.io/Partitions-mod-p/
+
 Formalized : 
 
 - The Definitions of Modular Forms, Integer Modular Forms, and Modular Forms Mod ℓ
