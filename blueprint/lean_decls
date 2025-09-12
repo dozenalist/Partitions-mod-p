@@ -5,3 +5,11 @@ Theta
 U_Operator
 hasWeight
 Filtration
+mul
+pow
+perm_equiv
+non_diag_vanish
+Pi_eq_of_perm_equiv
+non_const_of_tuple_non_diag
+non_const_of_tuple_diag
+Pow_Prime

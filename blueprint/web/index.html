@@ -36,8 +36,8 @@
 </p>
 </div>
 <div class="centered"> <a href ="https://dozenalist.github.io/Partitions-mod-p/dep_graph_document.html">Dependency Graph</a> </div>
-<p> <br /><br />center This latex document details roughly how things are currently stated in lean, not how they are in the paper. </p>
-<div class="centered"></div>
+<p> <br /><br /></p>
+<div class="centered"> This latex document details roughly how things are currently stated in lean, not how they are in the paper. </div>
 <h1 id="a0000000002">0.1 Definitions</h1>
 <div class="definition_thmwrapper theorem-style-definition" id="def:ModularForm">
   <div class="definition_thmheading">
@@ -207,7 +207,7 @@
         </div>
   </div>
   <div class="definition_thmcontent">
-  <p>    A modular form mod \(\ell \) of weight \(k \in \mathbb {Z} / (\ell - 1) \mathbb {Z}\) is a sequence \(a : \mathbb {N} → \mathbb {Z} / \ell \mathbb {Z}\) such that there exists an integer modular form \(b\) of weight \(k'\) where \(b \equiv a (\mod \ell )\) and \(k' \equiv k (\mod (\ell - 1))\). </p>
+  <p>    A modular form mod \(\ell \) of weight \(k \in \mathbb {Z} / (\ell - 1) \mathbb {Z}\) is a sequence \(a : \mathbb {N} → \mathbb {Z} / \ell \mathbb {Z}\) such that there exists an integer modular form \(b\) of weight \(k'\) where \(b \equiv a \mod \ell \) and \(k' \equiv k \mod (\ell - 1)\). </p>
 
   </div>
 </div>
@@ -240,7 +240,7 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:IntegerModularForm">Definition 2</a></li>
+          <li><a href="index.html#def:ModularFormMod">Definition 3</a></li>
           
         </ul>
     
@@ -399,7 +399,7 @@
         </div>
   </div>
   <div class="definition_thmcontent">
-  <p>    A modular form mod \(\ell \) called \(a\) has weight \(j \in \mathbb {N}\) if there exists an integer modular form \(b\) of weight \(j\) such that \(b \equiv a (\mod \ell )\). </p>
+  <p>    A modular form mod \(\ell \) called \(a\) has weight \(j \in \mathbb {N}\) if there exists an integer modular form \(b\) of weight \(j\) such that \(b \equiv a \mod \ell \). </p>
 
   </div>
 </div>
@@ -463,7 +463,371 @@
         </div>
   </div>
   <div class="definition_thmcontent">
-  <p>    The filtration of a modular form mod \(\ell \) called \(a\) is defined as <br />The minimum natural number \(j\) such that a has weight \(j\). <br />The filtration of the zero function is \(0\). </p>
+  <p>    The filtration of a modular form mod \(\ell \) called \(a\) is defined as the minimum natural number \(j\) such that a has weight \(j\). The filtration of the zero function is \(0\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="<plasTeX.TeXFragment object at 0x000001BAB3F01250>">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">8</span>
+    <span class="definition_thmtitle">multiplication and exponentiation</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#<plasTeX.TeXFragment object at 0x000001BAB3F01250>">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#def:ModularFormMod">Definition 3</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/ModuloDefs2.lean#L69" class="lean_decl">mul</a></li>
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/ModuloDefs2.lean#L88" class="lean_decl">pow</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>    It’s worth stated how multiplication and exponentiation are defined here, because they are not defined in the normal way. The multiplication of two modular forms mod \(\ell \) called \(a\) and \(b\) is defined as </p>
+<div class="displaymath" id="a0000000003">
+  \[ (a * b) n = \sum _{x + y = n} a(x) b(y). \]
+</div>
+<p> The exponentiation of a modular form mod \(\ell \) called \(a\) to the power of \(k \in \mathbb {N}\) is defined as </p>
+<div class="displaymath" id="a0000000004">
+  \[ (a^j) n = \sum _{x_1 + ... + x_j = n} \prod _{i = 1}^j a (x_i). \]
+</div>
+
+  </div>
+</div>
+<h1 id="a0000000005">0.2 PowPrime</h1>
+<div class="definition_thmwrapper theorem-style-definition" id="def:perm_equiv">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">9</span>
+    <span class="definition_thmtitle">permutational equivalence</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#def:perm_equiv">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L35" class="lean_decl">perm_equiv</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   Two functions \(a, b : \) Fin \(n \to \mathbb {N}\), which can be thought of as tuples of n natural numbers, are permutationally equivalent if there exists a bijective function \(\sigma : \) Fin \(n \to \) Fin \(n\) such that \(a = b \circ \sigma \). This is an equivalence relation. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:non_diag_vanish">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">10</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#lem:non_diag_vanish">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#def:perm_equiv">Definition 9</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L113" class="lean_decl">non_diag_vanish</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   If \(x = (x_1, x_2, ..., x_k)\) is not constant (i.e not all \(x_i\) are equal) then for any \(n \in \mathbb {N}\), </p>
+<div class="displaymath" id="a0000000006">
+  \[  k \mid \#  \{ y = (y_1, y_2, ..., y_k) : \sum _{i = 1}^k y_i = n \text{ and $x$ and $y$ are permutationally equivalent} \}   \]
+</div>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:Pi_eq_of_perm_equiv">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">11</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#lem:Pi_eq_of_perm_equiv">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#def:perm_equiv">Definition 9</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L322" class="lean_decl">Pi_eq_of_perm_equiv</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   If \(x\) and \(y\) are permutationally equivalent then \(\prod _{i = 1}^k a(x_i) = \prod _{i = 1}^k a(y_i)\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:non_const_of_tuple">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#lem:non_const_of_tuple">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L329" class="lean_decl">non_const_of_tuple_non_diag</a></li>
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L352" class="lean_decl">non_const_of_tuple_diag</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Let \(x = (x_1, x_2, ..., x_k)\) and \(n \in \mathbb {N}\). Suppose that \(\sum _{i = 1}^k x_i = n\). <br />(1) If \(k \nmid n\) then \(x\) is not constant. <br />(2) If \(k \mid n\) and \(x \neq (n/k, ..., n/k)\) then \(x\) is not constant. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:Pow_Prime">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">13</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#thm:Pow_Prime">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#def:ModularFormMod">Definition 3</a></li>
+          
+          <li><a href="index.html#lem:non_diag_vanish">Lemma 10</a></li>
+          
+          <li><a href="index.html#lem:Pi_eq_of_perm_equiv">Lemma 11</a></li>
+          
+          <li><a href="index.html#lem:non_const_of_tuple">Lemma 12</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L376" class="lean_decl">Pow_Prime</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   Let \(\ell \) be a prime and \(a\) be a modular form mod \(\ell \) of any weight. Then <br /></p>
+<div class="displaymath" id="a0000000007">
+  \[ (a ^\ell ) n = \begin{cases}  a (n / \ell ) &  \text{if $\ell \mid n$} \\ 0 &  \text{otherwise} \end{cases}  \]
+</div>
 
   </div>
 </div>

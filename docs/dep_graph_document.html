@@ -63,6 +63,52 @@
 <div id="statements">
 
     
+    <div class="dep-modal-container" id="<plasTeX.TeXFragment object at 0x000001BAB3F01250>_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="<plasTeX.TeXFragment object at 0x000001BAB3F01250>" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">8</span><span class="definition_thmtitle">multiplication and exponentiation</span></div>
+    <div class="thm_thmcontent"><p>    It’s worth stated how multiplication and exponentiation are defined here, because they are not defined in the normal way. The multiplication of two modular forms mod \(\ell \) called \(a\) and \(b\) is defined as </p>
+<div class="displaymath" id="a0000000003">
+  \[ (a * b) n = \sum _{x + y = n} a(x) b(y). \]
+</div>
+<p> The exponentiation of a modular form mod \(\ell \) called \(a\) to the power of \(k \in \mathbb {N}\) is defined as </p>
+<div class="displaymath" id="a0000000004">
+  \[ (a^j) n = \sum _{x_1 + ... + x_j = n} \prod _{i = 1}^j a (x_i). \]
+</div>
+</div>
+
+    <a class="latex_link" href="index.html#<plasTeX.TeXFragment object at 0x000001BAB3F01250>">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/ModuloDefs2.lean#L69" class="lean_decl">mul</a></li>
+        
+           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/ModuloDefs2.lean#L88" class="lean_decl">pow</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
     <div class="dep-modal-container" id="def:Filtration_modal">
       <div class="dep-modal-content">
           <button class="dep-closebtn">
@@ -75,7 +121,7 @@
       Definition
       </span>
       <span class="definition_thmlabel">7</span><span class="definition_thmtitle">Filtration</span></div>
-    <div class="thm_thmcontent"><p>    The filtration of a modular form mod \(\ell \) called \(a\) is defined as <br />The minimum natural number \(j\) such that a has weight \(j\). <br />The filtration of the zero function is \(0\). </p>
+    <div class="thm_thmcontent"><p>    The filtration of a modular form mod \(\ell \) called \(a\) is defined as the minimum natural number \(j\) such that a has weight \(j\). The filtration of the zero function is \(0\). </p>
 </div>
 
     <a class="latex_link" href="index.html#def:Filtration">LaTeX</a>
@@ -105,7 +151,7 @@
       Definition
       </span>
       <span class="definition_thmlabel">6</span><span class="definition_thmtitle">hasWeight</span></div>
-    <div class="thm_thmcontent"><p>    A modular form mod \(\ell \) called \(a\) has weight \(j \in \mathbb {N}\) if there exists an integer modular form \(b\) of weight \(j\) such that \(b \equiv a (\mod \ell )\). </p>
+    <div class="thm_thmcontent"><p>    A modular form mod \(\ell \) called \(a\) has weight \(j \in \mathbb {N}\) if there exists an integer modular form \(b\) of weight \(j\) such that \(b \equiv a \mod \ell \). </p>
 </div>
 
     <a class="latex_link" href="index.html#def:hasWeight">LaTeX</a>
@@ -195,13 +241,43 @@
       Definition
       </span>
       <span class="definition_thmlabel">3</span><span class="definition_thmtitle">ModularFormMod \(\ell \)</span></div>
-    <div class="thm_thmcontent"><p>    A modular form mod \(\ell \) of weight \(k \in \mathbb {Z} / (\ell - 1) \mathbb {Z}\) is a sequence \(a : \mathbb {N} → \mathbb {Z} / \ell \mathbb {Z}\) such that there exists an integer modular form \(b\) of weight \(k'\) where \(b \equiv a (\mod \ell )\) and \(k' \equiv k (\mod (\ell - 1))\). </p>
+    <div class="thm_thmcontent"><p>    A modular form mod \(\ell \) of weight \(k \in \mathbb {Z} / (\ell - 1) \mathbb {Z}\) is a sequence \(a : \mathbb {N} → \mathbb {Z} / \ell \mathbb {Z}\) such that there exists an integer modular form \(b\) of weight \(k'\) where \(b \equiv a \mod \ell \) and \(k' \equiv k \mod (\ell - 1)\). </p>
 </div>
 
     <a class="latex_link" href="index.html#def:ModularFormMod">LaTeX</a>
     
     
   <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/ModuloDefs2.lean#L23">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:perm_equiv_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:perm_equiv" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">9</span><span class="definition_thmtitle">permutational equivalence</span></div>
+    <div class="thm_thmcontent"><p>   Two functions \(a, b : \) Fin \(n \to \mathbb {N}\), which can be thought of as tuples of n natural numbers, are permutationally equivalent if there exists a bijective function \(\sigma : \) Fin \(n \to \) Fin \(n\) such that \(a = b \circ \sigma \). This is an equivalence relation. </p>
+</div>
+
+    <a class="latex_link" href="index.html#def:perm_equiv">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L35">Lean</a>
     
     
   
@@ -270,6 +346,141 @@
     
       </div>
     </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:non_const_of_tuple_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:non_const_of_tuple" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">12</span></div>
+    <div class="thm_thmcontent"><p>  Let \(x = (x_1, x_2, ..., x_k)\) and \(n \in \mathbb {N}\). Suppose that \(\sum _{i = 1}^k x_i = n\). <br />(1) If \(k \nmid n\) then \(x\) is not constant. <br />(2) If \(k \mid n\) and \(x \neq (n/k, ..., n/k)\) then \(x\) is not constant. </p>
+</div>
+
+    <a class="latex_link" href="index.html#lem:non_const_of_tuple">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L329" class="lean_decl">non_const_of_tuple_non_diag</a></li>
+        
+           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L352" class="lean_decl">non_const_of_tuple_diag</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:non_diag_vanish_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:non_diag_vanish" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">10</span></div>
+    <div class="thm_thmcontent"><p>   If \(x = (x_1, x_2, ..., x_k)\) is not constant (i.e not all \(x_i\) are equal) then for any \(n \in \mathbb {N}\), </p>
+<div class="displaymath" id="a0000000006">
+  \[  k \mid \#  \{ y = (y_1, y_2, ..., y_k) : \sum _{i = 1}^k y_i = n \text{ and $x$ and $y$ are permutationally equivalent} \}   \]
+</div>
+</div>
+
+    <a class="latex_link" href="index.html#lem:non_diag_vanish">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L113">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lem:Pi_eq_of_perm_equiv_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:Pi_eq_of_perm_equiv" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">11</span></div>
+    <div class="thm_thmcontent"><p>   If \(x\) and \(y\) are permutationally equivalent then \(\prod _{i = 1}^k a(x_i) = \prod _{i = 1}^k a(y_i)\). </p>
+</div>
+
+    <a class="latex_link" href="index.html#lem:Pi_eq_of_perm_equiv">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L322">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:Pow_Prime_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:Pow_Prime" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">13</span></div>
+    <div class="thm_thmcontent"><p>   Let \(\ell \) be a prime and \(a\) be a modular form mod \(\ell \) of any weight. Then <br /></p>
+<div class="displaymath" id="a0000000007">
+  \[ (a ^\ell ) n = \begin{cases}  a (n / \ell ) &  \text{if $\ell \mid n$} \\ 0 &  \text{otherwise} \end{cases}  \]
+</div>
+</div>
+
+    <a class="latex_link" href="index.html#thm:Pow_Prime">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L376">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
 </div>
 </div> <!-- content -->
 </div> <!-- wrapper -->
@@ -289,7 +500,7 @@ graphContainer.graphviz({useWorker: true})
     .width(width)
     .height(height)
     .fit(true)
-    .renderDot(`strict digraph "" {	graph [bgcolor=transparent];	node [label="\N",		penwidth=1.8	];	edge [arrowhead=vee];	"def:ModularForm"	[color=green,		fillcolor="#B0ECA3",		label=ModularForm,		shape=box,		style=filled];	"def:IntegerModularForm"	[color=green,		fillcolor="#B0ECA3",		label=IntegerModularForm,		shape=box,		style=filled];	"def:ModularForm" -> "def:IntegerModularForm"	[style=dashed];	"def:ModularFormMod"	[color=green,		fillcolor="#B0ECA3",		label=ModularFormMod,		shape=box,		style=filled];	"def:IntegerModularForm" -> "def:ModularFormMod"	[style=dashed];	"def:Theta"	[color=green,		fillcolor="#B0ECA3",		label=Theta,		shape=box,		style=filled];	"def:IntegerModularForm" -> "def:Theta"	[style=dashed];	"def:U_Operator"	[color=green,		fillcolor="#B0ECA3",		label=U_Operator,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:U_Operator"	[style=dashed];	"def:hasWeight"	[color=green,		fillcolor="#B0ECA3",		label=hasWeight,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:hasWeight"	[style=dashed];	"def:Filtration"	[color=green,		fillcolor="#B0ECA3",		label=Filtration,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:Filtration"	[style=dashed];}`)
+    .renderDot(`strict digraph "" {	graph [bgcolor=transparent];	node [label="\N",		penwidth=1.8	];	edge [arrowhead=vee];	"thm:Pow_Prime"	[color=green,		label=Pow_Prime,		shape=ellipse];	"def:ModularForm"	[color=green,		fillcolor="#B0ECA3",		label=ModularForm,		shape=box,		style=filled];	"def:IntegerModularForm"	[color=green,		fillcolor="#B0ECA3",		label=IntegerModularForm,		shape=box,		style=filled];	"def:ModularForm" -> "def:IntegerModularForm"	[style=dashed];	"def:ModularFormMod"	[color=green,		fillcolor="#B0ECA3",		label=ModularFormMod,		shape=box,		style=filled];	"def:IntegerModularForm" -> "def:ModularFormMod"	[style=dashed];	"def:ModularFormMod" -> "thm:Pow_Prime"	[style=dashed];	"def:Theta"	[color=green,		fillcolor="#B0ECA3",		label=Theta,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:Theta"	[style=dashed];	"def:U_Operator"	[color=green,		fillcolor="#B0ECA3",		label=U_Operator,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:U_Operator"	[style=dashed];	"def:hasWeight"	[color=green,		fillcolor="#B0ECA3",		label=hasWeight,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:hasWeight"	[style=dashed];	"def:Filtration"	[color=green,		fillcolor="#B0ECA3",		label=Filtration,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:Filtration"	[style=dashed];	"<plasTeX.TeXFragment object at 0x000001BAB3F01250>"	[color=green,		fillcolor="#B0ECA3",		label=<plasTeX.TeXFragment object at 0x000001BAB3F01250>,		shape=box,		style=filled];	"def:ModularFormMod" -> "<plasTeX.TeXFragment object at 0x000001BAB3F01250>"	[style=dashed];	"def:perm_equiv"	[color=green,		fillcolor="#B0ECA3",		label=perm_equiv,		shape=box,		style=filled];	"lem:non_diag_vanish"	[color=green,		label=non_diag_vanish,		shape=ellipse];	"def:perm_equiv" -> "lem:non_diag_vanish"	[style=dashed];	"lem:Pi_eq_of_perm_equiv"	[color=green,		label=Pi_eq_of_perm_equiv,		shape=ellipse];	"def:perm_equiv" -> "lem:Pi_eq_of_perm_equiv"	[style=dashed];	"lem:non_diag_vanish" -> "thm:Pow_Prime"	[style=dashed];	"lem:Pi_eq_of_perm_equiv" -> "thm:Pow_Prime"	[style=dashed];	"lem:non_const_of_tuple"	[color=green,		label=non_const_of_tuple,		shape=ellipse];	"lem:non_const_of_tuple" -> "thm:Pow_Prime"	[style=dashed];}`)
     .on("end", interactive);
 
 latexLabelEscaper = function(label) {
