@@ -16,7 +16,7 @@ Formalized :
 
 - The definitions of δℓ as a natural number and Δ and fℓ as Modular Forms of their respective weights
 
-- Some of the introductory results of the paper, and some of the main lemmas. Lemmas 2.1 and 3.2 are formalized, and Lemma 3.3 is proven, assuming Lemmas 2.1 and 3.3. 
+- Some of the introductory results of the paper, and some of the main lemmas. Lemmas 2.1 and 3.2 are formalized, and Lemma 3.3 is proven, assuming Lemmas 2.1 and 3.2. 
 
 
 TODO : 
