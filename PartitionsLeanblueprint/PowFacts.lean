@@ -599,6 +599,3 @@ lemma Pow_eq_self_mul {a : ModularFormMod ℓ k} {j} : self_mul a j = pow a j :=
     -- | zero => simp[antidiagonalTuple_zero_right]; ring
     -- | succ n igntul =>
       --simp[antidiagonal_succ', antidiagonalTuple_zero_right]
-
-
-#check Rat

@@ -102,6 +102,7 @@ def U_Operator (a : ModularFormMod ℓ k) : ModularFormMod ℓ k where
   sequence := fun n ↦ a (ℓ * n)
   modular := sorry
 
+
 notation "Θ" => Theta
 
 postfix:90 "|𝓤" => U_Operator
@@ -121,6 +122,8 @@ def Theta_pow : (n : ℕ) → ModularFormMod ℓ k → ModularFormMod ℓ (k + n
 
 macro_rules
   | `(Θ^[$n]) => `(Theta_pow $n)
+
+notation "Θ^["n"]" => Theta_pow n
 
 
 @[simp]
@@ -247,26 +250,25 @@ def Filtration (a : ModularFormMod ℓ k) : ℕ :=
 notation "𝔀" => Filtration
 
 lemma Weight_eq_of_Mod_eq (h : a == d) {j} : hasWeight a j → hasWeight d j := by
-  repeat rw[hasWeight]; rintro ⟨c,hc⟩
+  unfold hasWeight; rintro ⟨c,hc⟩
   use c; ext n; rw[← h n]; exact congrFun hc n
 
 lemma Filt_eq_of_Mod_eq (h : a == d) : 𝔀 a = 𝔀 d := by
-  repeat rw[Filtration]
-  congr; ext j; exact ⟨Weight_eq_of_Mod_eq h, Weight_eq_of_Mod_eq h.symm⟩
+  unfold Filtration; congr; ext j
+  exact ⟨Weight_eq_of_Mod_eq h, Weight_eq_of_Mod_eq h.symm⟩
 
 
---open ModularFormDefs Regular Integer
 
 @[simp]
 lemma Filt_const {c : ZMod ℓ} : 𝔀 (const c) = 0 := by
   unfold Filtration
-  suffices h: hasWeight (const c) 0 by
-    exact (Nat.find_eq_zero (Filtration._proof_1 (const c))).mpr h
+  suffices h: hasWeight (const c) 0 from
+    (Nat.find_eq_zero (Filtration._proof_1 (const c))).mpr h
   obtain ⟨n,b,n0,hb⟩ := (const c).modular
-  use Iconst ↑c.val; simp; ext n; simp[reduce]
+  use Iconst ↑c.val; ext n; rw [ZMod.natCast_val, reduce]
   match n with
-  | 0 => simp only [Modulo2.const_zero, Integer.Iconst_zero, ZMod.intCast_cast, ZMod.cast_id', id_eq]
-  | n + 1 => simp only [Modulo2.const_succ, Integer.Iconst_succ, Int.cast_zero]
+  | 0 => rw [Modulo2.const_zero, Integer.Iconst_zero, ZMod.intCast_cast, ZMod.cast_id', id_eq]
+  | n + 1 => rw [Modulo2.const_succ, Integer.Iconst_succ, Int.cast_zero]
 
 
 @[simp]

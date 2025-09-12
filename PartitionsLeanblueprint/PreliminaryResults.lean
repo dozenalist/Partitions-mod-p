@@ -36,29 +36,20 @@ def thing (a : ModularFormMod ℓ k) := a - (Mcongr (by simp) (Θ^[ℓ - 1] a))
 
 lemma k_l : k * ℓ = k := by
   calc
-    k * ℓ = k * (ℓ - 1 + 1) := by simp
+    k * ℓ = k * (ℓ - 1 + 1) := by rw [sub_add_cancel]
     _ = k * (ℓ - 1) + k := by ring
     _ = k * 0 + k := by
       congr; trans ↑(ℓ - 1)
-      refine Eq.symm (cast_pred ?_); exact pos_of_neZero ℓ
+      exact Eq.symm (cast_pred (pos_of_neZero ℓ))
       exact natCast_self (ℓ - 1)
-    _ = k := by simp only [mul_zero, zero_add]
+    _ = k := by rw [mul_zero, zero_add]
 
 -- This is a proof using only Mcongr to cast
 theorem U_pow_l_eq_self_sub_Theta_pow_l_sub_one' {a : ModularFormMod ℓ k} :
 (Mcongr (k_l) ((a|𝓤) ** ℓ)) = thing a := by
-  ext n; simp[thing, Pow_Prime]
-  symm; calc
-    _ = if (n : ZMod ℓ) = 0 then a n else 0 := by
-      by_cases h : (n : ZMod ℓ) = 0 <;> simp[h]
-    _ = _ := by
-      by_cases h : (n : ZMod ℓ) = 0
-      have h' : ℓ ∣ n := (ZMod.natCast_zmod_eq_zero_iff_dvd n ℓ).mp h
-      simp only [h, reduceIte, h']; congr
-      rw [Nat.mul_div_cancel_left' h']
-      have h': ¬ ℓ ∣ n := by contrapose! h; exact (ZMod.natCast_zmod_eq_zero_iff_dvd n ℓ).mpr h
-      simp[h, reduceIte, h']
-
+  ext n; simp only [cast_eval, thing, sub_apply]
+  have := @U_pow_l_eq_self_sub_Theta_pow_l_sub_one _ _ _ _ a
+  rw [this n, sub_congr_left_apply]
 
 
 

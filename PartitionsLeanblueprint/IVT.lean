@@ -81,7 +81,6 @@ convergesTo (λ n => a n + b n) (L + K) :=
             add_lt_add (hN1 n (le_of_max_le_left hn)) (hN2 n (le_of_max_le_right hn))
         _ = ε := add_halves ε ⟩
 
-#print convergesTo_add'  -- look at that small proof term
 
 
 lemma convergesTo_nonneg (ha : convergesTo a L) (h : ∃ (N : ℕ), ∀ n ≥ N, a n ≥ 0) : L ≥ 0 := by
@@ -162,7 +161,7 @@ theorem intermediate_value {f : ℝ → ℝ} {a b y: ℝ} (h : continuous f ) (h
             apply abs_lt.1 at hδ; linarith
         contrapose! yltfx; exact yltfx.2
 
-    specialize hδ (c - δ / 2) (by simp; apply abs_lt.2; constructor <;> linarith)
+    specialize hδ (c - δ / 2) (by rw [sub_sub_cancel]; apply abs_lt.2; constructor <;> linarith)
 
     have upper_bound_K : upper_bound K (c - δ / 2) := by
         intro x hx; specialize aux x hx; linarith

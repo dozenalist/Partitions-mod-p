@@ -27,7 +27,7 @@ def Etaish (n : ℕ) : ZMod ℓ :=
 
 def Delta : ModularFormMod ℓ 12 where
 
-  sequence n := match n with
+  sequence
     | 0 => 0
     | n + 1 => (ZModpow Etaish 24) n
 

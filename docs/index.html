@@ -36,604 +36,15 @@
 </p>
 </div>
 <div class="centered"> <a href ="https://dozenalist.github.io/Partitions-mod-p/dep_graph_document.html">Dependency Graph</a> </div>
+<p> <br /><br />center This latex document details roughly how things are currently stated in lean, not how they are in the paper. </p>
+<div class="centered"></div>
 <h1 id="a0000000002">0.1 Definitions</h1>
-<div class="definition_thmwrapper theorem-style-definition" id="def:sequence">
-  <div class="definition_thmheading">
-    <span class="definition_thmcaption">
-    Definition
-    </span>
-    <span class="definition_thmlabel">1</span>
-    <span class="definition_thmtitle">Sequence</span>
-    <div class="thm_header_extras">
-
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#def:sequence">#</a>
-    
-    
-    
-        </div>
-  </div>
-  <div class="definition_thmcontent">
-  <p>  A sequence, denoted \(a\) or \(\{ a_n\} \), is a function \(a : ℕ → \mathbb {R}\). </p>
-
-  </div>
-</div>
-<div class="definition_thmwrapper theorem-style-definition" id="def:convergence">
-  <div class="definition_thmheading">
-    <span class="definition_thmcaption">
-    Definition
-    </span>
-    <span class="definition_thmlabel">2</span>
-    <span class="definition_thmtitle">Convergence</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#def:convergence">#</a>
-    
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L5" class="lean_decl">convergesTo</a></li>
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L8" class="lean_decl">converges</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="definition_thmcontent">
-  
-<p>A sequence \(\{ a_n\} \) converges to \(L ∈ \mathbb {R}\) if for all \(\varepsilon {\gt} 0\) there exists \(N ∈ ℕ\) such that for all \(n ≥ N\), \(|a_n - L| {\lt} \varepsilon \). We say \(\{ a_n\} \) converges if there exists \(L ∈ \mathbb {R}\) such that \(\{ a_n\} \) converges to \(L\). </p>
-
-  </div>
-</div>
-<div class="definition_thmwrapper theorem-style-definition" id="def:bounded_above">
-  <div class="definition_thmheading">
-    <span class="definition_thmcaption">
-    Definition
-    </span>
-    <span class="definition_thmlabel">3</span>
-    <span class="definition_thmtitle">Bounded Above</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#def:bounded_above">#</a>
-    
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L15" class="lean_decl">upper_bound</a></li>
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L18" class="lean_decl">bounded_above</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="definition_thmcontent">
-  <p>   A set \(S \subseteq \mathbb {R}\) is bounded above if there exists an \(M \in \mathbb {R}\) such that for all \(s \in S\), \(s \le M\). We say that \(M\) is an upper bound for \(S\). </p>
-
-  </div>
-</div>
-<div class="definition_thmwrapper theorem-style-definition" id="def:supremum">
-  <div class="definition_thmheading">
-    <span class="definition_thmcaption">
-    Definition
-    </span>
-    <span class="definition_thmlabel">4</span>
-    <span class="definition_thmtitle">supremum</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#def:supremum">#</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#def:bounded_above">Definition 3</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L21" class="lean_decl">sup</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="definition_thmcontent">
-  <p>    Let \(S \subseteq \mathbb {R}\) be non-empty. We say that \(y \in \mathbb {R}\) is the supremum of \(S\) if <br /><br />(i) \(y\) is an upper bound for \(S\) <br />(ii) for any upper bound \(z\) of \(S\), \(y \le z\) </p>
-
-  </div>
-</div>
-<div class="definition_thmwrapper theorem-style-definition" id="def:continuous">
-  <div class="definition_thmheading">
-    <span class="definition_thmcaption">
-    Definition
-    </span>
-    <span class="definition_thmlabel">5</span>
-    <span class="definition_thmtitle">continuous</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#def:continuous">#</a>
-    
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L26" class="lean_decl">continuous</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="definition_thmcontent">
-  <p>   A function \(f : \mathbb {R} → \mathbb {R}\) is continuous if for all \(x \in \mathbb {R}\) and for all \(\varepsilon {\gt} 0\), there exists a \(\delta {\gt} 0\) such that for all \(y ∈ \mathbb {R}\) with \(|x - y| {\lt} \delta \), \(|f(x) - f(y)| {\lt} \varepsilon \). </p>
-
-  </div>
-</div>
-<h1 id="a0000000003">0.2 Theorems</h1>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:limit_laws">
-  <div class="theorem_thmheading">
-    <span class="theorem_thmcaption">
-    Theorem
-    </span>
-    <span class="theorem_thmlabel">6</span>
-    <span class="theorem_thmtitle">Limit Laws</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#thm:limit_laws">#</a>
-    
-    <a class="icon proof" href="index.html#a0000000004"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
-</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#def:convergence">Definition 2</a></li>
-          
-          <li><a href="index.html#def:sequence">Definition 1</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L38" class="lean_decl">convergesTo_scalar_mul</a></li>
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L52" class="lean_decl">convergesTo_add</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="theorem_thmcontent">
-  
-<p>Let \(C \in \mathbb {R}\). Suppose \(\{ a_n\} \) converges to \(L\) and \(\{ b_n\} \) converges to \(K\). Then <br /><br />(i) \(\{ C a_n\} \) converges to \(C L\) <br />(ii) \(\{ a_n + b_n\} \) converges to \(L + K\) </p>
-
-  </div>
-</div>
-<div class="proof_wrapper" id="a0000000004">
-  <div class="proof_heading">
-    <span class="proof_caption">
-    Proof
-    </span>
-    <span class="expand-proof">▶</span>
-  </div>
-  <div class="proof_content">
-  <p>Trivial. </p>
-
-  </div>
-</div>
-<div class="lemma_thmwrapper theorem-style-plain" id="lem:converges_nonneg">
-  <div class="lemma_thmheading">
-    <span class="lemma_thmcaption">
-    Lemma
-    </span>
-    <span class="lemma_thmlabel">7</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#lem:converges_nonneg">#</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#def:convergence">Definition 2</a></li>
-          
-          <li><a href="index.html#thm:limit_laws">Theorem 6</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L87" class="lean_decl">convergesTo_nonneg</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="lemma_thmcontent">
-  
-<p>Suppose that there exists an \(N \in ℕ\) such that for all \(n \ge N\), \(a_n ≥ 0\). Then \(\lim _{n \to \infty } a_n ≥ 0\). </p>
-
-  </div>
-</div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:order_limit">
-  <div class="theorem_thmheading">
-    <span class="theorem_thmcaption">
-    Theorem
-    </span>
-    <span class="theorem_thmlabel">8</span>
-    <span class="theorem_thmtitle">Order Limit Theorem</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#thm:order_limit">#</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#lem:converges_nonneg">Lemma 7</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L108" class="lean_decl">le_convergesTo_of_le</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="theorem_thmcontent">
-  
-<p>Let \(\{ a_n\} \) and \(\{ b_n\} \) be sequences. Suppose that there exists an \(N ∈ ℕ\) such that for all \(n ≥ N\), \(a_n ≤ b_n\). Then \(\lim _{n \to \infty } a_n \le \lim _{n \to \infty } b_n\). </p>
-
-  </div>
-</div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:exists_sup_of_bounded_above">
-  <div class="theorem_thmheading">
-    <span class="theorem_thmcaption">
-    Theorem
-    </span>
-    <span class="theorem_thmlabel">9</span>
-    <span class="theorem_thmtitle">Completeness Axiom</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#thm:exists_sup_of_bounded_above">#</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#def:supremum">Definition 4</a></li>
-          
-          <li><a href="index.html#def:bounded_above">Definition 3</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L129" class="lean_decl">exists_sup_of_bounded_above</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="theorem_thmcontent">
-  <p>    Let \(S \subseteq \mathbb {R}\) be non-empty and bounded above. Then there exists a \(y \in \mathbb {R}\) such that \(y\) is the supremum of \(S\). </p>
-
-  </div>
-</div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:intermediate_value">
-  <div class="theorem_thmheading">
-    <span class="theorem_thmcaption">
-    Theorem
-    </span>
-    <span class="theorem_thmlabel">10</span>
-    <span class="theorem_thmtitle">Intermediate Value Theorem</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#thm:intermediate_value">#</a>
-    
-    <a class="icon proof" href="index.html#a0000000005"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
-</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#thm:exists_sup_of_bounded_above">Theorem 9</a></li>
-          
-          <li><a href="index.html#def:continuous">Definition 5</a></li>
-          
-          <li><a href="index.html#thm:order_limit">Theorem 8</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L135" class="lean_decl">intermediate_value</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="theorem_thmcontent">
-  
-<p>Let \(f : \mathbb {R} → \mathbb {R}\) be continuous and let \(a {\lt} b ∈ \mathbb {R}\). Suppose that \(f(a) {\lt} f(b)\) and let \(y \in [f(a), f(b)]\). Then there exists a \(c ∈ [a, b]\) such that \(f(c) = y\). </p>
-
-  </div>
-</div>
-<div class="proof_wrapper" id="a0000000005">
-  <div class="proof_heading">
-    <span class="proof_caption">
-    Proof
-    </span>
-    <span class="expand-proof">▶</span>
-  </div>
-  <div class="proof_content">
-  <p>Sketch: <br />Let \(K = \{ x \in [a, b] | f(x) \le y\} \). Then \(K\) is non-empty and bounded above by \(b\), so it has a supremum \(c \in \mathbb {R}\). If \(f(c) {\lt} y\), then by continuity of \(f\), there exists a \(\delta {\gt} 0\) such that for all \(x ∈ (c - \delta , c + \delta )\), \(f(x) {\lt} y\). Choose \(x = c + \delta /2\).Then \(x ∈ K\) and \(x {\gt} c\), so \(c\) is not an upper bound for \(K\). If \(f(c) {\gt} y\), then by continuity of \(f\), there exists a \(\delta {\gt} 0\) such that for all \(x ∈ (c - \delta , c + \delta )\), \(f(x) {\gt} y\). Choose \(x = c - \delta /2\). Then \(x\) is an upper bound for \(K\) and \(x {\lt} c\), so \(c\) is not the supremum of \(K\). Thus, \(f(c) = y\). </p>
-
-  </div>
-</div>
-<h1 id="a0000000006">0.3 Modular Forms</h1>
 <div class="definition_thmwrapper theorem-style-definition" id="def:ModularForm">
   <div class="definition_thmheading">
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">11</span>
+    <span class="definition_thmlabel">1</span>
     <span class="definition_thmtitle">Modular Form</span>
     <div class="thm_header_extras">
 
@@ -677,7 +88,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">12</span>
+    <span class="definition_thmlabel">2</span>
     <span class="definition_thmtitle">Integer Modular Form</span>
     <div class="thm_header_extras">
 
@@ -701,7 +112,7 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:ModularForm">Definition 11</a></li>
+          <li><a href="index.html#def:ModularForm">Definition 1</a></li>
           
         </ul>
     
@@ -736,12 +147,76 @@
 
   </div>
 </div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:ModularFormMod">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">3</span>
+    <span class="definition_thmtitle">ModularFormMod \(\ell \)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#def:ModularFormMod">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#def:IntegerModularForm">Definition 2</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/ModuloDefs2.lean#L23" class="lean_decl">ModularFormMod</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>    A modular form mod \(\ell \) of weight \(k \in \mathbb {Z} / (\ell - 1) \mathbb {Z}\) is a sequence \(a : \mathbb {N} → \mathbb {Z} / \ell \mathbb {Z}\) such that there exists an integer modular form \(b\) of weight \(k'\) where \(b \equiv a (\mod \ell )\) and \(k' \equiv k (\mod (\ell - 1))\). </p>
+
+  </div>
+</div>
 <div class="definition_thmwrapper theorem-style-definition" id="def:Theta">
   <div class="definition_thmheading">
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">13</span>
+    <span class="definition_thmlabel">4</span>
     <span class="definition_thmtitle">Theta</span>
     <div class="thm_header_extras">
 
@@ -765,7 +240,7 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:IntegerModularForm">Definition 12</a></li>
+          <li><a href="index.html#def:IntegerModularForm">Definition 2</a></li>
           
         </ul>
     
@@ -796,7 +271,199 @@
         </div>
   </div>
   <div class="definition_thmcontent">
-  <p>    testing .. </p>
+  <p>    \(\Theta \) sends modular forms mod \(\ell \) of weight \(k\) to weight \(k + 2\) by <br />\((\Theta a) n = n a(n).\) </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:U_Operator">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">5</span>
+    <span class="definition_thmtitle">U Operator</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#def:U_Operator">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#def:ModularFormMod">Definition 3</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/BasicOperators.lean#L101" class="lean_decl">U_Operator</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>    The operator \(U\) sends modular forms mod \(\ell \) of weight \(k\) to weight \(k\) by <br />\( (a|U) n = a(\ell n).\) </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:hasWeight">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">6</span>
+    <span class="definition_thmtitle">hasWeight</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#def:hasWeight">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#def:ModularFormMod">Definition 3</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/BasicOperators.lean#L242" class="lean_decl">hasWeight</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>    A modular form mod \(\ell \) called \(a\) has weight \(j \in \mathbb {N}\) if there exists an integer modular form \(b\) of weight \(j\) such that \(b \equiv a (\mod \ell )\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:Filtration">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">7</span>
+    <span class="definition_thmtitle">Filtration</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#def:Filtration">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#def:ModularFormMod">Definition 3</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/BasicOperators.lean#L246" class="lean_decl">Filtration</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>    The filtration of a modular form mod \(\ell \) called \(a\) is defined as <br />The minimum natural number \(j\) such that a has weight \(j\). <br />The filtration of the zero function is \(0\). </p>
 
   </div>
 </div>

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.6.5)  11 SEP 2025 17:20
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.6.5)  11 SEP 2025 21:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -928,57 +928,45 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 ] (./content.tex
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 10.00107pt on input line 14.
+(Font)              scaled to size 10.00107pt on input line 139.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 7.00075pt on input line 14.
+(Font)              scaled to size 7.00075pt on input line 139.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 5.00053pt on input line 14.
+(Font)              scaled to size 5.00053pt on input line 139.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 9.99893pt on input line 14.
+(Font)              scaled to size 9.99893pt on input line 139.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 6.99925pt on input line 14.
+(Font)              scaled to size 6.99925pt on input line 139.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 4.99947pt on input line 14.
+(Font)              scaled to size 4.99947pt on input line 139.
 
-Underfull \hbox (badness 10000) in paragraph at lines 38--44
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 63--66
+Underfull \hbox (badness 10000) in paragraph at lines 139--144
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 137--142
+Underfull \hbox (badness 10000) in paragraph at lines 139--144
 
  []
 
+)
 
-Underfull \hbox (badness 10000) in paragraph at lines 137--142
-
- []
-
-
-
-[1])
-
-[2] (C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/print.aux)
+[1] (C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/print.aux)
  ***********
 LaTeX2e <2025-06-01>
 L3 programming layer <2025-05-26>
  ***********
 Package rerunfilecheck Info: File `print.out' has not changed.
-(rerunfilecheck)             Checksum: 17A27F3C72815FDB19A12B97C9F7BAD9;298.
+(rerunfilecheck)             Checksum: B332D1289091D2E3005F1DECC51405CA;100.
  ) 
 Here is how much of TeX's memory you used:
- 16719 strings out of 468533
- 306744 string characters out of 5451482
- 916630 words of memory out of 5000000
- 44885 multiletter control sequences out of 15000+600000
- 632172 words of font info for 86 fonts, out of 8000000 for 9000
+ 16704 strings out of 468533
+ 306367 string characters out of 5451482
+ 905630 words of memory out of 5000000
+ 44872 multiletter control sequences out of 15000+600000
+ 632164 words of font info for 85 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 90i,6n,107p,542b,477s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 90i,6n,107p,542b,429s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 Output written on C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/
-print.pdf (3 pages).
+print.pdf (2 pages).

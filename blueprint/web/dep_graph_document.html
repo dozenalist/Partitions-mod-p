@@ -63,34 +63,25 @@
 <div id="statements">
 
     
-    <div class="dep-modal-container" id="def:bounded_above_modal">
+    <div class="dep-modal-container" id="def:Filtration_modal">
       <div class="dep-modal-content">
           <button class="dep-closebtn">
 <svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
 </button>
         
-  <div class="thm" id="def:bounded_above" style="display: none">
+  <div class="thm" id="def:Filtration" style="display: none">
     <div class="thm_thmheading">
       <span class="definition_thmcaption">
       Definition
       </span>
-      <span class="definition_thmlabel">3</span><span class="definition_thmtitle">Bounded Above</span></div>
-    <div class="thm_thmcontent"><p>   A set \(S \subseteq \mathbb {R}\) is bounded above if there exists an \(M \in \mathbb {R}\) such that for all \(s \in S\), \(s \le M\). We say that \(M\) is an upper bound for \(S\). </p>
+      <span class="definition_thmlabel">7</span><span class="definition_thmtitle">Filtration</span></div>
+    <div class="thm_thmcontent"><p>    The filtration of a modular form mod \(\ell \) called \(a\) is defined as <br />The minimum natural number \(j\) such that a has weight \(j\). <br />The filtration of the zero function is \(0\). </p>
 </div>
 
-    <a class="latex_link" href="index.html#def:bounded_above">LaTeX</a>
+    <a class="latex_link" href="index.html#def:Filtration">LaTeX</a>
     
     
-  <div class="tooltip">
-      <span class="lean_link">Lean</span>
-      <ul class="tooltip_list">
-        
-           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L15" class="lean_decl">upper_bound</a></li>
-        
-           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L18" class="lean_decl">bounded_above</a></li>
-        
-      </ul>
-  </div>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/BasicOperators.lean#L246">Lean</a>
     
     
   
@@ -102,65 +93,25 @@
 
 
     
-    <div class="dep-modal-container" id="def:continuous_modal">
+    <div class="dep-modal-container" id="def:hasWeight_modal">
       <div class="dep-modal-content">
           <button class="dep-closebtn">
 <svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
 </button>
         
-  <div class="thm" id="def:continuous" style="display: none">
+  <div class="thm" id="def:hasWeight" style="display: none">
     <div class="thm_thmheading">
       <span class="definition_thmcaption">
       Definition
       </span>
-      <span class="definition_thmlabel">5</span><span class="definition_thmtitle">continuous</span></div>
-    <div class="thm_thmcontent"><p>   A function \(f : \mathbb {R} → \mathbb {R}\) is continuous if for all \(x \in \mathbb {R}\) and for all \(\varepsilon {\gt} 0\), there exists a \(\delta {\gt} 0\) such that for all \(y ∈ \mathbb {R}\) with \(|x - y| {\lt} \delta \), \(|f(x) - f(y)| {\lt} \varepsilon \). </p>
+      <span class="definition_thmlabel">6</span><span class="definition_thmtitle">hasWeight</span></div>
+    <div class="thm_thmcontent"><p>    A modular form mod \(\ell \) called \(a\) has weight \(j \in \mathbb {N}\) if there exists an integer modular form \(b\) of weight \(j\) such that \(b \equiv a (\mod \ell )\). </p>
 </div>
 
-    <a class="latex_link" href="index.html#def:continuous">LaTeX</a>
+    <a class="latex_link" href="index.html#def:hasWeight">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L26">Lean</a>
-    
-    
-  
-    
-  </div>
-    
-      </div>
-    </div>
-
-
-    
-    <div class="dep-modal-container" id="def:convergence_modal">
-      <div class="dep-modal-content">
-          <button class="dep-closebtn">
-<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        
-  <div class="thm" id="def:convergence" style="display: none">
-    <div class="thm_thmheading">
-      <span class="definition_thmcaption">
-      Definition
-      </span>
-      <span class="definition_thmlabel">2</span><span class="definition_thmtitle">Convergence</span></div>
-    <div class="thm_thmcontent">
-<p>A sequence \(\{ a_n\} \) converges to \(L ∈ \mathbb {R}\) if for all \(\varepsilon {\gt} 0\) there exists \(N ∈ ℕ\) such that for all \(n ≥ N\), \(|a_n - L| {\lt} \varepsilon \). We say \(\{ a_n\} \) converges if there exists \(L ∈ \mathbb {R}\) such that \(\{ a_n\} \) converges to \(L\). </p>
-</div>
-
-    <a class="latex_link" href="index.html#def:convergence">LaTeX</a>
-    
-    
-  <div class="tooltip">
-      <span class="lean_link">Lean</span>
-      <ul class="tooltip_list">
-        
-           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L5" class="lean_decl">convergesTo</a></li>
-        
-           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L8" class="lean_decl">converges</a></li>
-        
-      </ul>
-  </div>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/BasicOperators.lean#L242">Lean</a>
     
     
   
@@ -183,7 +134,7 @@
       <span class="definition_thmcaption">
       Definition
       </span>
-      <span class="definition_thmlabel">12</span><span class="definition_thmtitle">Integer Modular Form</span></div>
+      <span class="definition_thmlabel">2</span><span class="definition_thmtitle">Integer Modular Form</span></div>
     <div class="thm_thmcontent"><p>    An integer modular form of weight \(k \in \mathbb {N}\) is a sequence \(a : \mathbb {N} → \mathbb {Z}\) such that \(\sum _{n=0}^{\infty } a(n) q^n\) is a modular form of weight \(k\), where \(q = e ^{2 \pi i z}.\) </p>
 </div>
 
@@ -213,7 +164,7 @@
       <span class="definition_thmcaption">
       Definition
       </span>
-      <span class="definition_thmlabel">11</span><span class="definition_thmtitle">Modular Form</span></div>
+      <span class="definition_thmlabel">1</span><span class="definition_thmtitle">Modular Form</span></div>
     <div class="thm_thmcontent"><p>   In lean, A modular form of weight \(k \in \mathbb {N}\) is a function \(f : \mathbb {C} → \mathbb {C}\) such that : <br /><br />(1) \(f\) is holomorphic on \(\mathbb {H}\) <br />(2) For all \(z \in \mathbb {H}, f(z) = f(z + 1)\) <br />(3) For all \(z \in \mathbb {H}, f(z) = z^{-k} f(-1/z)\) <br />(4) \(f\) is bounded as Re\((z) \to \infty \) <br /></p>
 </div>
 
@@ -232,55 +183,25 @@
 
 
     
-    <div class="dep-modal-container" id="def:sequence_modal">
+    <div class="dep-modal-container" id="def:ModularFormMod_modal">
       <div class="dep-modal-content">
           <button class="dep-closebtn">
 <svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
 </button>
         
-  <div class="thm" id="def:sequence" style="display: none">
+  <div class="thm" id="def:ModularFormMod" style="display: none">
     <div class="thm_thmheading">
       <span class="definition_thmcaption">
       Definition
       </span>
-      <span class="definition_thmlabel">1</span><span class="definition_thmtitle">Sequence</span></div>
-    <div class="thm_thmcontent"><p>  A sequence, denoted \(a\) or \(\{ a_n\} \), is a function \(a : ℕ → \mathbb {R}\). </p>
+      <span class="definition_thmlabel">3</span><span class="definition_thmtitle">ModularFormMod \(\ell \)</span></div>
+    <div class="thm_thmcontent"><p>    A modular form mod \(\ell \) of weight \(k \in \mathbb {Z} / (\ell - 1) \mathbb {Z}\) is a sequence \(a : \mathbb {N} → \mathbb {Z} / \ell \mathbb {Z}\) such that there exists an integer modular form \(b\) of weight \(k'\) where \(b \equiv a (\mod \ell )\) and \(k' \equiv k (\mod (\ell - 1))\). </p>
 </div>
 
-    <a class="latex_link" href="index.html#def:sequence">LaTeX</a>
+    <a class="latex_link" href="index.html#def:ModularFormMod">LaTeX</a>
     
     
-  
-    
-    
-  
-    
-  </div>
-    
-      </div>
-    </div>
-
-
-    
-    <div class="dep-modal-container" id="def:supremum_modal">
-      <div class="dep-modal-content">
-          <button class="dep-closebtn">
-<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        
-  <div class="thm" id="def:supremum" style="display: none">
-    <div class="thm_thmheading">
-      <span class="definition_thmcaption">
-      Definition
-      </span>
-      <span class="definition_thmlabel">4</span><span class="definition_thmtitle">supremum</span></div>
-    <div class="thm_thmcontent"><p>    Let \(S \subseteq \mathbb {R}\) be non-empty. We say that \(y \in \mathbb {R}\) is the supremum of \(S\) if <br /><br />(i) \(y\) is an upper bound for \(S\) <br />(ii) for any upper bound \(z\) of \(S\), \(y \le z\) </p>
-</div>
-
-    <a class="latex_link" href="index.html#def:supremum">LaTeX</a>
-    
-    
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L21">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/ModuloDefs2.lean#L23">Lean</a>
     
     
   
@@ -303,8 +224,8 @@
       <span class="definition_thmcaption">
       Definition
       </span>
-      <span class="definition_thmlabel">13</span><span class="definition_thmtitle">Theta</span></div>
-    <div class="thm_thmcontent"><p>    testing .. </p>
+      <span class="definition_thmlabel">4</span><span class="definition_thmtitle">Theta</span></div>
+    <div class="thm_thmcontent"><p>    \(\Theta \) sends modular forms mod \(\ell \) of weight \(k\) to weight \(k + 2\) by <br />\((\Theta a) n = n a(n).\) </p>
 </div>
 
     <a class="latex_link" href="index.html#def:Theta">LaTeX</a>
@@ -322,158 +243,25 @@
 
 
     
-    <div class="dep-modal-container" id="lem:converges_nonneg_modal">
+    <div class="dep-modal-container" id="def:U_Operator_modal">
       <div class="dep-modal-content">
           <button class="dep-closebtn">
 <svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
 </button>
         
-  <div class="thm" id="lem:converges_nonneg" style="display: none">
+  <div class="thm" id="def:U_Operator" style="display: none">
     <div class="thm_thmheading">
-      <span class="lemma_thmcaption">
-      Lemma
+      <span class="definition_thmcaption">
+      Definition
       </span>
-      <span class="lemma_thmlabel">7</span></div>
-    <div class="thm_thmcontent">
-<p>Suppose that there exists an \(N \in ℕ\) such that for all \(n \ge N\), \(a_n ≥ 0\). Then \(\lim _{n \to \infty } a_n ≥ 0\). </p>
+      <span class="definition_thmlabel">5</span><span class="definition_thmtitle">U Operator</span></div>
+    <div class="thm_thmcontent"><p>    The operator \(U\) sends modular forms mod \(\ell \) of weight \(k\) to weight \(k\) by <br />\( (a|U) n = a(\ell n).\) </p>
 </div>
 
-    <a class="latex_link" href="index.html#lem:converges_nonneg">LaTeX</a>
+    <a class="latex_link" href="index.html#def:U_Operator">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L87">Lean</a>
-    
-    
-  
-    
-  </div>
-    
-      </div>
-    </div>
-
-
-    
-    <div class="dep-modal-container" id="thm:exists_sup_of_bounded_above_modal">
-      <div class="dep-modal-content">
-          <button class="dep-closebtn">
-<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        
-  <div class="thm" id="thm:exists_sup_of_bounded_above" style="display: none">
-    <div class="thm_thmheading">
-      <span class="theorem_thmcaption">
-      Theorem
-      </span>
-      <span class="theorem_thmlabel">9</span><span class="theorem_thmtitle">Completeness Axiom</span></div>
-    <div class="thm_thmcontent"><p>    Let \(S \subseteq \mathbb {R}\) be non-empty and bounded above. Then there exists a \(y \in \mathbb {R}\) such that \(y\) is the supremum of \(S\). </p>
-</div>
-
-    <a class="latex_link" href="index.html#thm:exists_sup_of_bounded_above">LaTeX</a>
-    
-    
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L129">Lean</a>
-    
-    
-  
-    
-  </div>
-    
-      </div>
-    </div>
-
-
-    
-    <div class="dep-modal-container" id="thm:intermediate_value_modal">
-      <div class="dep-modal-content">
-          <button class="dep-closebtn">
-<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        
-  <div class="thm" id="thm:intermediate_value" style="display: none">
-    <div class="thm_thmheading">
-      <span class="theorem_thmcaption">
-      Theorem
-      </span>
-      <span class="theorem_thmlabel">10</span><span class="theorem_thmtitle">Intermediate Value Theorem</span></div>
-    <div class="thm_thmcontent">
-<p>Let \(f : \mathbb {R} → \mathbb {R}\) be continuous and let \(a {\lt} b ∈ \mathbb {R}\). Suppose that \(f(a) {\lt} f(b)\) and let \(y \in [f(a), f(b)]\). Then there exists a \(c ∈ [a, b]\) such that \(f(c) = y\). </p>
-</div>
-
-    <a class="latex_link" href="index.html#thm:intermediate_value">LaTeX</a>
-    
-    
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L135">Lean</a>
-    
-    
-  
-    
-  </div>
-    
-      </div>
-    </div>
-
-
-    
-    <div class="dep-modal-container" id="thm:limit_laws_modal">
-      <div class="dep-modal-content">
-          <button class="dep-closebtn">
-<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        
-  <div class="thm" id="thm:limit_laws" style="display: none">
-    <div class="thm_thmheading">
-      <span class="theorem_thmcaption">
-      Theorem
-      </span>
-      <span class="theorem_thmlabel">6</span><span class="theorem_thmtitle">Limit Laws</span></div>
-    <div class="thm_thmcontent">
-<p>Let \(C \in \mathbb {R}\). Suppose \(\{ a_n\} \) converges to \(L\) and \(\{ b_n\} \) converges to \(K\). Then <br /><br />(i) \(\{ C a_n\} \) converges to \(C L\) <br />(ii) \(\{ a_n + b_n\} \) converges to \(L + K\) </p>
-</div>
-
-    <a class="latex_link" href="index.html#thm:limit_laws">LaTeX</a>
-    
-    
-  <div class="tooltip">
-      <span class="lean_link">Lean</span>
-      <ul class="tooltip_list">
-        
-           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L38" class="lean_decl">convergesTo_scalar_mul</a></li>
-        
-           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L52" class="lean_decl">convergesTo_add</a></li>
-        
-      </ul>
-  </div>
-    
-    
-  
-    
-  </div>
-    
-      </div>
-    </div>
-
-
-    
-    <div class="dep-modal-container" id="thm:order_limit_modal">
-      <div class="dep-modal-content">
-          <button class="dep-closebtn">
-<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        
-  <div class="thm" id="thm:order_limit" style="display: none">
-    <div class="thm_thmheading">
-      <span class="theorem_thmcaption">
-      Theorem
-      </span>
-      <span class="theorem_thmlabel">8</span><span class="theorem_thmtitle">Order Limit Theorem</span></div>
-    <div class="thm_thmcontent">
-<p>Let \(\{ a_n\} \) and \(\{ b_n\} \) be sequences. Suppose that there exists an \(N ∈ ℕ\) such that for all \(n ≥ N\), \(a_n ≤ b_n\). Then \(\lim _{n \to \infty } a_n \le \lim _{n \to \infty } b_n\). </p>
-</div>
-
-    <a class="latex_link" href="index.html#thm:order_limit">LaTeX</a>
-    
-    
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/IVT.lean#L108">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/BasicOperators.lean#L101">Lean</a>
     
     
   
@@ -501,7 +289,7 @@ graphContainer.graphviz({useWorker: true})
     .width(width)
     .height(height)
     .fit(true)
-    .renderDot(`strict digraph "" {	graph [bgcolor=transparent];	node [label="\N",		penwidth=1.8	];	edge [arrowhead=vee];	"thm:exists_sup_of_bounded_above"	[color=green,		label=exists_sup_of_bounded_above,		shape=ellipse];	"thm:intermediate_value"	[color=green,		fillcolor="#9CEC8B",		label=intermediate_value,		shape=ellipse,		style=filled];	"thm:exists_sup_of_bounded_above" -> "thm:intermediate_value"	[style=dashed];	"def:sequence"	[color=blue,		fillcolor="#A3D6FF",		label=sequence,		shape=box,		style=filled];	"thm:limit_laws"	[color=green,		fillcolor="#1CAC78",		label=limit_laws,		shape=ellipse,		style=filled];	"def:sequence" -> "thm:limit_laws"	[style=dashed];	"lem:converges_nonneg"	[color=green,		label=converges_nonneg,		shape=ellipse];	"thm:limit_laws" -> "lem:converges_nonneg"	[style=dashed];	"thm:order_limit"	[color=green,		label=order_limit,		shape=ellipse];	"lem:converges_nonneg" -> "thm:order_limit"	[style=dashed];	"def:convergence"	[color=green,		fillcolor="#B0ECA3",		label=convergence,		shape=box,		style=filled];	"def:convergence" -> "thm:limit_laws"	[style=dashed];	"thm:order_limit" -> "thm:intermediate_value"	[style=dashed];	"def:continuous"	[color=green,		fillcolor="#B0ECA3",		label=continuous,		shape=box,		style=filled];	"def:continuous" -> "thm:intermediate_value"	[style=dashed];	"def:supremum"	[color=green,		fillcolor="#B0ECA3",		label=supremum,		shape=box,		style=filled];	"def:supremum" -> "thm:exists_sup_of_bounded_above"	[style=dashed];	"def:bounded_above"	[color=green,		fillcolor="#B0ECA3",		label=bounded_above,		shape=box,		style=filled];	"def:bounded_above" -> "def:supremum"	[style=dashed];	"def:ModularForm"	[color=green,		fillcolor="#B0ECA3",		label=ModularForm,		shape=box,		style=filled];	"def:IntegerModularForm"	[color=green,		fillcolor="#B0ECA3",		label=IntegerModularForm,		shape=box,		style=filled];	"def:ModularForm" -> "def:IntegerModularForm"	[style=dashed];	"def:Theta"	[color=green,		fillcolor="#B0ECA3",		label=Theta,		shape=box,		style=filled];	"def:IntegerModularForm" -> "def:Theta"	[style=dashed];}`)
+    .renderDot(`strict digraph "" {	graph [bgcolor=transparent];	node [label="\N",		penwidth=1.8	];	edge [arrowhead=vee];	"def:ModularForm"	[color=green,		fillcolor="#B0ECA3",		label=ModularForm,		shape=box,		style=filled];	"def:IntegerModularForm"	[color=green,		fillcolor="#B0ECA3",		label=IntegerModularForm,		shape=box,		style=filled];	"def:ModularForm" -> "def:IntegerModularForm"	[style=dashed];	"def:ModularFormMod"	[color=green,		fillcolor="#B0ECA3",		label=ModularFormMod,		shape=box,		style=filled];	"def:IntegerModularForm" -> "def:ModularFormMod"	[style=dashed];	"def:Theta"	[color=green,		fillcolor="#B0ECA3",		label=Theta,		shape=box,		style=filled];	"def:IntegerModularForm" -> "def:Theta"	[style=dashed];	"def:U_Operator"	[color=green,		fillcolor="#B0ECA3",		label=U_Operator,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:U_Operator"	[style=dashed];	"def:hasWeight"	[color=green,		fillcolor="#B0ECA3",		label=hasWeight,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:hasWeight"	[style=dashed];	"def:Filtration"	[color=green,		fillcolor="#B0ECA3",		label=Filtration,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:Filtration"	[style=dashed];}`)
     .on("end", interactive);
 
 latexLabelEscaper = function(label) {

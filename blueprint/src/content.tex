@@ -7,128 +7,130 @@
 % can start with a \section or \chapter for instance.
 
 
+% \section{Definitions}
+
+% \begin{definition}[Sequence]
+%   \label{def:sequence}
+%   A sequence, denoted $a$ or $\{a_n\}$, is a function $a : ℕ → \mathbb{R}$.
+% \end{definition}
+
+% \begin{definition}[Convergence]
+%   \label{def:convergence}
+%   \lean{convergesTo, converges}
+%   \leanok
+
+%   A sequence $\{a_n\}$ converges to $L ∈ \mathbb{R}$ if for all $\varepsilon > 0$ there exists
+%   $N ∈ ℕ$ such that for all $n ≥ N$, $|a_n - L| < \varepsilon$.
+%   We say $\{a_n\}$ converges if there exists $L ∈ \mathbb{R}$ such that $\{a_n\}$ converges to $L$.
+
+% \end{definition}
+
+% \begin{definition}[Bounded Above]
+%   \label{def:bounded_above}
+%   \lean{upper_bound, bounded_above}
+%   \leanok
+%   A set $S \subseteq \mathbb{R}$ is bounded above if there exists an $M \in \mathbb{R}$ such that for all $s \in S$, $s \le M$.
+%   We say that $M$ is an upper bound for $S$.
+% \end{definition}
+
+% \begin{definition}[supremum]
+%   \label{def:supremum}
+%   \uses{def:bounded_above}
+%   \lean{sup}
+%   \leanok
+%   Let $S \subseteq \mathbb{R}$ be non-empty. We say that $y \in \mathbb{R}$ is the supremum of $S$ if \\ \\
+%   (i) $y$ is an upper bound for $S$ \\
+%   (ii) for any upper bound $z$ of $S$, $y \le z$
+% \end{definition}
+
+% \begin{definition}[continuous]
+%   \label{def:continuous}
+%   \lean{continuous}
+%   \leanok
+%   A function $f : \mathbb{R} → \mathbb{R}$ is continuous if for all $x \in \mathbb{R}$ and for all $\varepsilon > 0$, there exists a $\delta > 0$ such that for all $y ∈ \mathbb{R}$ with $|x - y| < \delta$, $|f(x) - f(y)| < \varepsilon$.
+% \end{definition}
+
+
+% \section{Theorems}
+
+
+% \begin{theorem}[Limit Laws]
+%   \label{thm:limit_laws}
+%   \uses{def:convergence, def:sequence}
+%   \lean{convergesTo_scalar_mul, convergesTo_add}
+%   \leanok
+
+%   Let $C \in \mathbb{R}$. Suppose $\{a_n\}$ converges to $L$ and $\{b_n\}$ converges to $K$. Then \\ \\
+%   (i) $\{C a_n\}$ converges to $C L$ \\
+%   (ii) $\{a_n + b_n\}$ converges to $L + K$ 
+
+% \end{theorem}
+
+% \begin{proof}
+%   \leanok
+%   Trivial.
+% \end{proof}
+
+
+% \begin{lemma}
+% \label{lem:converges_nonneg}
+%   \uses{def:convergence, thm:limit_laws}
+%   \lean{convergesTo_nonneg}
+%   \leanok
+
+%   Suppose that there exists an $N \in ℕ$ such that for all $n \ge N$, $a_n ≥ 0$.
+%   Then $\lim_{n \to \infty} a_n ≥ 0$.
+
+% \end{lemma}
+
+% \begin{theorem}[Order Limit Theorem]
+%   \label{thm:order_limit}
+%   \uses{lem:converges_nonneg}
+%   \lean{le_convergesTo_of_le}
+%   \leanok
+
+%   Let $\{a_n\}$ and $\{b_n\}$ be sequences. 
+%   Suppose that there exists an $N ∈ ℕ$ such that for all $n ≥ N$, $a_n ≤ b_n$.
+%   Then $\lim_{n \to \infty} a_n \le \lim_{n \to \infty} b_n$.
+% \end{theorem}
+
+% \begin{theorem}[Completeness Axiom]
+%   \label{thm:exists_sup_of_bounded_above}
+%   \uses{def:supremum, def:bounded_above}
+%   \lean{exists_sup_of_bounded_above}
+%   \leanok
+%   Let $S \subseteq \mathbb{R}$ be non-empty and bounded above.
+%   Then there exists a $y \in \mathbb{R}$ such that $y$ is the supremum of $S$.
+
+% \end{theorem}
+
+% \begin{theorem}[Intermediate Value Theorem]
+%   \label{thm:intermediate_value}
+%   \uses{thm:exists_sup_of_bounded_above, def:continuous, thm:order_limit}
+%   \lean{intermediate_value}
+%   \leanok
+
+%   Let $f : \mathbb{R} → \mathbb{R}$ be continuous and let $a < b ∈ \mathbb{R}$.
+%   Suppose that $f(a) < f(b)$ and let $y \in [f(a), f(b)]$.
+%   Then there exists a $c ∈ [a, b]$ such that $f(c) = y$.
+% \end{theorem}
+
+% \begin{proof}
+%   \leanok
+%   Sketch: \\
+%   Let $K = \{x \in [a, b] | f(x) \le y\}$.
+%   Then $K$ is non-empty and bounded above by $b$, so it has a supremum $c \in \mathbb{R}$.
+%   If $f(c) < y$, then by continuity of $f$, there exists a $\delta > 0$ such that for all $x ∈ (c - \delta, c + \delta)$, $f(x) < y$.
+%   Choose $x = c + \delta/2$.Then $x ∈ K$ and $x > c$, so $c$ is not an upper bound for $K$.
+%   If $f(c) > y$, then by continuity of $f$, there exists a $\delta > 0$ such that for all $x ∈ (c - \delta, c + \delta)$, $f(x) > y$.
+%   Choose $x = c - \delta/2$. Then $x$ is an upper bound for $K$ and $x < c$, so $c$ is not the supremum of $K$.
+%   Thus, $f(c) = y$.
+
+% \end{proof}
+
+
+
 \section{Definitions}
-
-\begin{definition}[Sequence]
-  \label{def:sequence}
-  A sequence, denoted $a$ or $\{a_n\}$, is a function $a : ℕ → \mathbb{R}$.
-\end{definition}
-
-\begin{definition}[Convergence]
-  \label{def:convergence}
-  \lean{convergesTo, converges}
-  \leanok
-
-  A sequence $\{a_n\}$ converges to $L ∈ \mathbb{R}$ if for all $\varepsilon > 0$ there exists
-  $N ∈ ℕ$ such that for all $n ≥ N$, $|a_n - L| < \varepsilon$.
-  We say $\{a_n\}$ converges if there exists $L ∈ \mathbb{R}$ such that $\{a_n\}$ converges to $L$.
-
-\end{definition}
-
-\begin{definition}[Bounded Above]
-  \label{def:bounded_above}
-  \lean{upper_bound, bounded_above}
-  \leanok
-  A set $S \subseteq \mathbb{R}$ is bounded above if there exists an $M \in \mathbb{R}$ such that for all $s \in S$, $s \le M$.
-  We say that $M$ is an upper bound for $S$.
-\end{definition}
-
-\begin{definition}[supremum]
-  \label{def:supremum}
-  \uses{def:bounded_above}
-  \lean{sup}
-  \leanok
-  Let $S \subseteq \mathbb{R}$ be non-empty. We say that $y \in \mathbb{R}$ is the supremum of $S$ if \\ \\
-  (i) $y$ is an upper bound for $S$ \\
-  (ii) for any upper bound $z$ of $S$, $y \le z$
-\end{definition}
-
-\begin{definition}[continuous]
-  \label{def:continuous}
-  \lean{continuous}
-  \leanok
-  A function $f : \mathbb{R} → \mathbb{R}$ is continuous if for all $x \in \mathbb{R}$ and for all $\varepsilon > 0$, there exists a $\delta > 0$ such that for all $y ∈ \mathbb{R}$ with $|x - y| < \delta$, $|f(x) - f(y)| < \varepsilon$.
-\end{definition}
-
-
-\section{Theorems}
-
-
-\begin{theorem}[Limit Laws]
-  \label{thm:limit_laws}
-  \uses{def:convergence, def:sequence}
-  \lean{convergesTo_scalar_mul, convergesTo_add}
-  \leanok
-
-  Let $C \in \mathbb{R}$. Suppose $\{a_n\}$ converges to $L$ and $\{b_n\}$ converges to $K$. Then \\ \\
-  (i) $\{C a_n\}$ converges to $C L$ \\
-  (ii) $\{a_n + b_n\}$ converges to $L + K$ 
-
-\end{theorem}
-
-\begin{proof}
-  \leanok
-  Trivial.
-\end{proof}
-
-
-\begin{lemma}
-\label{lem:converges_nonneg}
-  \uses{def:convergence, thm:limit_laws}
-  \lean{convergesTo_nonneg}
-  \leanok
-
-  Suppose that there exists an $N \in ℕ$ such that for all $n \ge N$, $a_n ≥ 0$.
-  Then $\lim_{n \to \infty} a_n ≥ 0$.
-
-\end{lemma}
-
-\begin{theorem}[Order Limit Theorem]
-  \label{thm:order_limit}
-  \uses{lem:converges_nonneg}
-  \lean{le_convergesTo_of_le}
-  \leanok
-
-  Let $\{a_n\}$ and $\{b_n\}$ be sequences. 
-  Suppose that there exists an $N ∈ ℕ$ such that for all $n ≥ N$, $a_n ≤ b_n$.
-  Then $\lim_{n \to \infty} a_n \le \lim_{n \to \infty} b_n$.
-\end{theorem}
-
-\begin{theorem}[Completeness Axiom]
-  \label{thm:exists_sup_of_bounded_above}
-  \uses{def:supremum, def:bounded_above}
-  \lean{exists_sup_of_bounded_above}
-  \leanok
-  Let $S \subseteq \mathbb{R}$ be non-empty and bounded above.
-  Then there exists a $y \in \mathbb{R}$ such that $y$ is the supremum of $S$.
-
-\end{theorem}
-
-\begin{theorem}[Intermediate Value Theorem]
-  \label{thm:intermediate_value}
-  \uses{thm:exists_sup_of_bounded_above, def:continuous, thm:order_limit}
-  \lean{intermediate_value}
-  \leanok
-
-  Let $f : \mathbb{R} → \mathbb{R}$ be continuous and let $a < b ∈ \mathbb{R}$.
-  Suppose that $f(a) < f(b)$ and let $y \in [f(a), f(b)]$.
-  Then there exists a $c ∈ [a, b]$ such that $f(c) = y$.
-\end{theorem}
-
-\begin{proof}
-  \leanok
-  Sketch: \\
-  Let $K = \{x \in [a, b] | f(x) \le y\}$.
-  Then $K$ is non-empty and bounded above by $b$, so it has a supremum $c \in \mathbb{R}$.
-  If $f(c) < y$, then by continuity of $f$, there exists a $\delta > 0$ such that for all $x ∈ (c - \delta, c + \delta)$, $f(x) < y$.
-  Choose $x = c + \delta/2$.Then $x ∈ K$ and $x > c$, so $c$ is not an upper bound for $K$.
-  If $f(c) > y$, then by continuity of $f$, there exists a $\delta > 0$ such that for all $x ∈ (c - \delta, c + \delta)$, $f(x) > y$.
-  Choose $x = c - \delta/2$. Then $x$ is an upper bound for $K$ and $x < c$, so $c$ is not the supremum of $K$.
-  Thus, $f(c) = y$.
-
-\end{proof}
-
-\section{Modular Forms}
 
 \begin{definition} [Modular Form]
   \label{def:ModularForm}
@@ -150,11 +152,52 @@
   such that $\sum_{n=0}^{\infty} a(n) q^n$ is a modular form of weight $k$, where $q = e ^ {2 \pi i z}.$
 \end{definition}
 
+\begin{definition} [ModularFormMod $\ell$]
+  \label{def:ModularFormMod}
+  \uses{def:IntegerModularForm}
+  \lean{ModularFormMod}
+  \leanok
+  A modular form mod $\ell$ of weight $k \in \mathbb{Z} / (\ell - 1) \mathbb{Z}$ is a sequence $a : \mathbb{N} → \mathbb{Z} / \ell \mathbb{Z}$
+  such that there exists an integer modular form $b$ of weight $k'$ where
+  $b \equiv a (\mod \ell)$ and $k' \equiv k (\mod (\ell - 1))$.
+\end{definition}
+
+
 \begin{definition} [Theta]
   \label{def:Theta}
   \uses{def:IntegerModularForm}
   \lean{Theta}
   \leanok
-  testing ..
+  $\Theta$ sends modular forms mod $\ell$ of weight $k$ to weight $k + 2$ by \\
+  $(\Theta a) n = n a(n).$
 
 \end{definition}
+
+\begin{definition} [U Operator]
+  \label{def:U_Operator}
+  \uses{def:ModularFormMod}
+  \lean{U_Operator}
+  \leanok
+  The operator $U$ sends modular forms mod $\ell$ of weight $k$ to weight $k$ by \\
+  $ (a|U) n = a(\ell n).$
+\end{definition}
+
+\begin{definition} [hasWeight]
+  \label{def:hasWeight}
+  \uses{def:ModularFormMod}
+  \lean{hasWeight}
+  \leanok
+  A modular form mod $\ell$ called $a$ has weight $j \in \mathbb{N}$ if
+  there exists an integer modular form $b$ of weight $j$ such that $b \equiv a (\mod \ell)$.
+\end{definition}
+
+\begin{definition} [Filtration]
+  \label{def:Filtration}
+  \uses{def:ModularFormMod}
+  \lean{Filtration}
+  \leanok
+  The filtration of a modular form mod $\ell$ called $a$ is defined as \\
+  The minimum natural number $j$ such that a has weight $j$. \\
+  The filtration of the zero function is $0$.
+\end{definition}
+  
