@@ -136,9 +136,9 @@
   \leanok
   In lean, A modular form of weight $k \in \mathbb{N}$ is a function $f : \mathbb{C} → \mathbb{C}$ such that : \\ \\
   (1) $f$ is holomorphic on $\mathbb{H}$ \\
-  (2) For all $z \in \mathbb{H}, f(z) = f(z + 1)$ \\
-  (3) For all $z \in \mathbb{H}, f(z) = z^{-k} f(-1/z)$ \\
-  (4) $f$ is bounded as Re$(z) \to \infty$ \\
+  (2) For all $z \in \mathbb{H}, f(z + 1) = f(z)$ \\
+  (3) For all $z \in \mathbb{H}, f(-1/z) = z^{k} f(z)$ \\
+  (4) $f$ is bounded as Im$(z) \to \infty$ \\
 \end{definition}
 
 \begin{definition} [Integer Modular Form]
@@ -195,7 +195,7 @@
   \lean{Filtration}
   \leanok
   Let a be a of a modular form mod $\ell$. The filtration of $a, \omega (a), $ 
-  is defined as the minimum natural number $j$ such that a has weight $j$. 
+  is defined as the minimum natural number $j$ such that $a$ has weight $j$. 
   The filtration of the zero function is $0$.
 \end{definition}
 
@@ -206,7 +206,7 @@
   \leanok
   It's worth stated how multiplication and exponentiation are defined here, because they are not defined in the normal way.
   The multiplication of two modular forms mod $\ell$ called $a$ and $b$ is defined as 
-  \[(a * b) n = \sum_{x + y = n} a(x) b(y).\] 
+  \[(a \cdot b) n = \sum_{x + y = n} a(x) b(y).\] 
   The exponentiation of a modular form mod $\ell$ called $a$ to the power of $j \in \mathbb{N}$ is defined as 
   \[(a^j) n = \sum_ {x_1 + ... + x_j = n} \prod_{i = 1}^j a (x_i).\]
 \end{definition}
@@ -264,7 +264,7 @@
   \uses{def:mulpow, lem:non_diag_vanish, lem:Pi_eq_of_perm_equiv, lem:non_const_of_tuple}
   \lean{Pow_Prime}
   \leanok
-  Let $\ell$ be a prime and $a$ be a modular form mod $\ell$ of any weight. Then \\
+  Let $\ell$ be a prime and $a$ a modular form mod $\ell$ of any weight. Then \\
   \[(a ^ \ell) n = \begin{cases} a (n / \ell) & \text{if $\ell \mid n$} \\
     0 & \text{otherwise} \end{cases} \]
 \end{theorem}
@@ -281,7 +281,7 @@
   \uses{thm:Pow_Prime, def:U_Operator, def:Theta}
   \lean{U_pow_l_eq_self_sub_Theta_pow_l_sub_one}
   \leanok
-  Let a be a modular form mod $\ell$. Then $(a|U) ^ \ell = a - \Theta^{\ell - 1} a$.
+  Let $a$ be a modular form mod $\ell$. Then $(a|U) ^ \ell = a - \Theta^{\ell - 1} a$.
 \end{theorem}
 \begin{proof}
   \leanok
@@ -308,6 +308,7 @@
 
 \begin{definition}[Delta]
   \label{def:Delta}
+  \uses{def:ModularFormMod}
   \lean{Delta}
   \leanok
   
@@ -326,7 +327,7 @@
 
 \begin{lemma}
   \label{lem:Filt_fl}
-  \uses{thm:Filtration_Log}
+  \uses{thm:Filtration_Log, def:f_l}
   \lean{Filt_fl}
   \leanok
   $ \omega (f_\ell) = 12 \delta_\ell = \frac{\ell^2 - 1}{2}.$
@@ -353,7 +354,7 @@
 
 \begin{theorem}
   \label{thm:le_Filt_Theta_fl}
-  \uses{def:f_l}
+  \uses{def:f_l, def:Filtration}
   \lean{le_Filt_Theta_fl}
   \leanok
   This is Lemma 3.2. \\
@@ -364,7 +365,7 @@
 \begin{theorem}
   \label{thm:Filt_Theta_pow_l_sub_one} 
   \uses{lem:Filt_fl, thm:Filt_Theta_iff}
-  \lean{thm:Filt_Theta_pow_l_sub_one}
+  \lean{Filt_Theta_pow_l_sub_one}
   \leanok
   This is part (1) of Lemma 3.3. \\
   If $\ell \nmid \omega (\Theta^{\ell - 1} f_\ell)$ then 
@@ -376,7 +377,7 @@
 
 \begin{theorem}
   \label{thm:Filt_U_pos}
-  \uses{lem:Filt_fl, thm:Filtration_Log, lem:const_of_Filt_zero, thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one, lem:Filt_fl}
+  \uses{lem:Filt_fl, thm:Filtration_Log, lem:const_of_Filt_zero, thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one}
   \lean{Filt_U_pos}
   \leanok
   This is part (2) of Lemma 3.3. \\

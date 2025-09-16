@@ -185,6 +185,10 @@ theorem coe_pow (a : ModularFormMod ℓ k) (j : ℕ) : ⇑(pow a j) = fun n ↦ 
 
 theorem pow_apply (a : ModularFormMod ℓ k) (j n : ℕ) : (pow a j) n = ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
 
+theorem coe_ZModpow {ℓ : ℕ} (a : ℕ → ZMod ℓ) (j : ℕ) : ⇑(ZModpow a j) = fun n ↦ ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
+
+theorem ZModpow_apply {ℓ : ℕ} (a : ℕ → ZMod ℓ) (j n : ℕ) : (ZModpow a j) n = ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
+
 @[ext]
 theorem ModularFormMod.ext {a b : ModularFormMod ℓ k} (h : ∀ n, a n = b n) : a = b :=
   DFunLike.ext a b h

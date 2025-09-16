@@ -22,5 +22,5 @@ Filt_fl
 Filt_Theta_bound
 Filt_Theta_iff
 le_Filt_Theta_fl
-thm:Filt_Theta_pow_l_sub_one
+Filt_Theta_pow_l_sub_one
 Filt_U_pos

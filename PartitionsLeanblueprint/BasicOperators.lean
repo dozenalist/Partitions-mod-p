@@ -257,6 +257,40 @@ lemma Filt_eq_of_Mod_eq (h : a == d) : 𝔀 a = 𝔀 d := by
   unfold Filtration; congr; ext j
   exact ⟨Weight_eq_of_Mod_eq h, Weight_eq_of_Mod_eq h.symm⟩
 
+lemma Weight_of_Filt (h : 𝔀 a = n) : hasWeight a n := by
+  unfold Filtration at h; rw[Nat.find_eq_iff] at h
+  exact h.1
+
+
+lemma Filt_decomp {j : ℕ} {a : ModularFormMod ℓ k} (wj : hasWeight a j)
+    (jmin : ∀ k, k < j → ¬ hasWeight a k) : 𝔀 a = j := by
+  unfold Filtration
+  apply le_antisymm
+  rw[Nat.find_le_iff]
+  exact ⟨j, le_refl j, wj⟩
+  rw[Nat.le_find_iff]
+  exact jmin
+
+lemma Filt_decomp' {j : ℕ} {a : ModularFormMod ℓ k} (wj : hasWeight a j)
+    (jmin : ∀ k, hasWeight a k → k ≥ j) : 𝔀 a = j := by
+  apply Filt_decomp wj; contrapose! jmin
+  exact Set.inter_nonempty_iff_exists_right.mp jmin
+
+lemma Filt_decomp_iff {j : ℕ} {a : ModularFormMod ℓ k} (wj : hasWeight a j) :
+    𝔀 a = j ↔ ∀ k, k < j → ¬ hasWeight a k := by
+  refine ⟨?_, Filt_decomp wj⟩
+  intro filta
+  rw[Filtration] at filta
+  apply ge_of_eq at filta
+  rw [Nat.le_find_iff] at filta
+  exact filta
+
+lemma Filt_decomp_iff' {j : ℕ} {a : ModularFormMod ℓ k} (wj : hasWeight a j) :
+    𝔀 a = j ↔  ∀ k, hasWeight a k → k ≥ j := by
+  refine ⟨?_, Filt_decomp' wj⟩
+  intro filta k h
+  contrapose! h
+  exact (Filt_decomp_iff wj).1 filta k h
 
 
 @[simp]
@@ -279,7 +313,6 @@ lemma Filt_zero : 𝔀 (0 : ModularFormMod ℓ k) = 0 := by
   rw [zero_apply, const_zero]
   rw [zero_apply, const_succ]
   exact Filt_const
-
 
 
 namespace Filtration

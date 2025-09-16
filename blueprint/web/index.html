@@ -79,7 +79,7 @@
         </div>
   </div>
   <div class="definition_thmcontent">
-  <p>   In lean, A modular form of weight \(k \in \mathbb {N}\) is a function \(f : \mathbb {C} → \mathbb {C}\) such that : <br /><br />(1) \(f\) is holomorphic on \(\mathbb {H}\) <br />(2) For all \(z \in \mathbb {H}, f(z) = f(z + 1)\) <br />(3) For all \(z \in \mathbb {H}, f(z) = z^{-k} f(-1/z)\) <br />(4) \(f\) is bounded as Re\((z) \to \infty \) <br /></p>
+  <p>   In lean, A modular form of weight \(k \in \mathbb {N}\) is a function \(f : \mathbb {C} → \mathbb {C}\) such that : <br /><br />(1) \(f\) is holomorphic on \(\mathbb {H}\) <br />(2) For all \(z \in \mathbb {H}, f(z + 1) = f(z)\) <br />(3) For all \(z \in \mathbb {H}, f(-1/z) = z^{k} f(z)\) <br />(4) \(f\) is bounded as Im\((z) \to \infty \) <br /></p>
 
   </div>
 </div>
@@ -465,7 +465,7 @@
         </div>
   </div>
   <div class="definition_thmcontent">
-  <p>    Let a be a of a modular form mod \(\ell \). The filtration of \(a, \omega (a), \) is defined as the minimum natural number \(j\) such that a has weight \(j\). The filtration of the zero function is \(0\). </p>
+  <p>    Let a be a of a modular form mod \(\ell \). The filtration of \(a, \omega (a), \) is defined as the minimum natural number \(j\) such that \(a\) has weight \(j\). The filtration of the zero function is \(0\). </p>
 
   </div>
 </div>
@@ -533,7 +533,7 @@
   <div class="definition_thmcontent">
   <p>    It’s worth stated how multiplication and exponentiation are defined here, because they are not defined in the normal way. The multiplication of two modular forms mod \(\ell \) called \(a\) and \(b\) is defined as </p>
 <div class="displaymath" id="a0000000003">
-  \[ (a * b) n = \sum _{x + y = n} a(x) b(y). \]
+  \[ (a \cdot b) n = \sum _{x + y = n} a(x) b(y). \]
 </div>
 <p> The exponentiation of a modular form mod \(\ell \) called \(a\) to the power of \(j \in \mathbb {N}\) is defined as </p>
 <div class="displaymath" id="a0000000004">
@@ -572,7 +572,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L35" class="lean_decl">perm_equiv</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L36" class="lean_decl">perm_equiv</a></li>
           
         </ul>
     
@@ -638,7 +638,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L113" class="lean_decl">non_diag_vanish</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L114" class="lean_decl">non_diag_vanish</a></li>
           
         </ul>
     
@@ -719,7 +719,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L322" class="lean_decl">Pi_eq_of_perm_equiv</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L323" class="lean_decl">Pi_eq_of_perm_equiv</a></li>
           
         </ul>
     
@@ -777,9 +777,9 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L329" class="lean_decl">non_const_of_tuple_non_diag</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L331" class="lean_decl">non_const_of_tuple_non_diag</a></li>
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L352" class="lean_decl">non_const_of_tuple_diag</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L354" class="lean_decl">non_const_of_tuple_diag</a></li>
           
         </ul>
     
@@ -864,7 +864,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L376" class="lean_decl">Pow_Prime</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L377" class="lean_decl">Pow_Prime</a></li>
           
         </ul>
     
@@ -875,7 +875,7 @@
         </div>
   </div>
   <div class="theorem_thmcontent">
-  <p>    Let \(\ell \) be a prime and \(a\) be a modular form mod \(\ell \) of any weight. Then <br /></p>
+  <p>    Let \(\ell \) be a prime and \(a\) a modular form mod \(\ell \) of any weight. Then <br /></p>
 <div class="displaymath" id="a0000000011">
   \[ (a ^\ell ) n = \begin{cases}  a (n / \ell ) &  \text{if $\ell \mid n$} \\ 0 &  \text{otherwise} \end{cases}  \]
 </div>
@@ -961,7 +961,7 @@
         </div>
   </div>
   <div class="theorem_thmcontent">
-  <p>   Let a be a modular form mod \(\ell \). Then \((a|U) ^\ell = a - \Theta ^{\ell - 1} a\). </p>
+  <p>   Let \(a\) be a modular form mod \(\ell \). Then \((a|U) ^\ell = a - \Theta ^{\ell - 1} a\). </p>
 
   </div>
 </div>
@@ -1025,7 +1025,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PreliminaryResults.lean#L56" class="lean_decl">const_of_Filt_zero</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PreliminaryResults.lean#L35" class="lean_decl">const_of_Filt_zero</a></li>
           
         </ul>
     
@@ -1092,7 +1092,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PreliminaryResults.lean#L59" class="lean_decl">Filtration_Log</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PreliminaryResults.lean#L40" class="lean_decl">Filtration_Log</a></li>
           
         </ul>
     
@@ -1123,6 +1123,26 @@
 
     <a class="icon proof" href="index.html#def:Delta">#</a>
     
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#def:ModularFormMod">Definition 3</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
     
     
     <button class="modal lean">L∃∀N</button>
@@ -1245,6 +1265,8 @@
           
           <li><a href="index.html#thm:Filtration_Log">Theorem 16</a></li>
           
+          <li><a href="index.html#def:f_l">Definition 18</a></li>
+          
         </ul>
     
       </div>
@@ -1263,7 +1285,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L96" class="lean_decl">Filt_fl</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L294" class="lean_decl">Filt_fl</a></li>
           
         </ul>
     
@@ -1326,7 +1348,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L103" class="lean_decl">Filt_Theta_bound</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L308" class="lean_decl">Filt_Theta_bound</a></li>
           
         </ul>
     
@@ -1389,7 +1411,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L106" class="lean_decl">Filt_Theta_iff</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L311" class="lean_decl">Filt_Theta_iff</a></li>
           
         </ul>
     
@@ -1434,6 +1456,8 @@
           
           <li><a href="index.html#def:f_l">Definition 18</a></li>
           
+          <li><a href="index.html#def:Filtration">Definition 7</a></li>
+          
         </ul>
     
       </div>
@@ -1452,7 +1476,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L112" class="lean_decl">le_Filt_Theta_fl</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L317" class="lean_decl">le_Filt_Theta_fl</a></li>
           
         </ul>
     
@@ -1520,7 +1544,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/find/#doc/thm:Filt_Theta_pow_l_sub_one" class="lean_decl">thm:Filt_Theta_pow_l_sub_one</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L324" class="lean_decl">Filt_Theta_pow_l_sub_one</a></li>
           
         </ul>
     
@@ -1586,8 +1610,6 @@
           
           <li><a href="index.html#thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one">Theorem 14</a></li>
           
-          <li><a href="index.html#lem:Filt_fl">Lemma 19</a></li>
-          
         </ul>
     
       </div>
@@ -1606,7 +1628,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L137" class="lean_decl">Filt_U_pos</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L341" class="lean_decl">Filt_U_pos</a></li>
           
         </ul>
     

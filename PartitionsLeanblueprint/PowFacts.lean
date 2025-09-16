@@ -29,6 +29,7 @@ open Nat Finset ZMod Finset.Nat
 
 attribute [simp] pow_card pow_card_sub_one
 
+
 section Pow_Prime
 
 -- Declares that two functions, which can be thought of as tuples, are permutations of one another
@@ -323,7 +324,8 @@ lemma Pi_eq_of_perm_equiv {n : ℕ} {a : ℕ → ZMod n} {x y : Fin n → ℕ} (
     ∏ z, a (y z) = ∏ z, a (x z) := by
   symm; unfold perm_equiv at hxy
   obtain ⟨c, hc⟩ := hxy
-  simp[hc]; exact Fintype.prod_equiv c (fun x ↦ a (y (c x))) (fun x ↦ a (y x)) (congrFun rfl)
+  simp only [hc, Function.comp_apply]
+  exact Fintype.prod_equiv c (fun x ↦ a (y (c x))) (fun x ↦ a (y x)) (congrFun rfl)
 
 -- every element of a non-diagonal tuple is non-constant
 lemma non_const_of_tuple_non_diag {k n : ℕ} (h : ¬ k ∣ n) (x : Fin k → ℕ) (hx : x ∈ antidiagonalTuple k n ) :
@@ -357,8 +359,7 @@ lemma non_const_of_tuple_diag {k n : ℕ} (x : Fin k → ℕ) (kn0 : k ≠ 0) (h
   by_contra! h
   have hnconst : x ≠ fun x ↦ n := by
     contrapose! h; simp; exact λ _ ↦ h
-  have : ∑ i, x i = (m + 1) * n := by apply mem_antidiagonalTuple.mp; simp_all only [ne_eq, Nat.add_eq_zero,
-    one_ne_zero, and_false, not_false_eq_true, mem_sdiff, mem_singleton, and_true]
+  have : ∑ i, x i = (m + 1) * n := by apply mem_antidiagonalTuple.mp; simp_all only [mem_sdiff]
   have const : ∑ i, x i = (m + 1) * x 0 := by
     specialize hx 0
     trans ∑ _ : Fin (m + 1), x 0
@@ -369,7 +370,7 @@ lemma non_const_of_tuple_diag {k n : ℕ} (x : Fin k → ℕ) (kn0 : k ≠ 0) (h
   calc
    x i = x 0 := hx i 0
    x 0 = n :=
-    let this : (m + 1) * n = (m + 1) * x 0 := by rw[← this, ← const]
+    let this : (m + 1) * n = (m + 1) * x 0 := this ▸ const
     (Nat.mul_right_inj kn0).mp this.symm
 
 
@@ -492,7 +493,8 @@ theorem Pow_Prime {n : ℕ} {a : ModularFormMod ℓ k} [Fact (Nat.Prime ℓ)] : 
         apply mem_antidiagonalTuple.mpr; simp[sum_const]
 
       _ = 0 + ∑ x ∈ {fun _ ↦ k}, ∏ y : Fin ℓ, a (x y) := by congr
-      _ = ∏ _ : Fin ℓ, a k := by simp
+      _ = ∏ _ : Fin ℓ, a k := by simp only [sum_singleton, prod_const, card_univ,
+        Fintype.card_fin, pow_card, zero_add]
       _ = (a k) ^ ℓ := Fin.prod_const ℓ (a k)
       _ = a k := pow_card (a k)
   }
@@ -580,22 +582,48 @@ theorem adT_succ_left {k n} : antidiagonalTuple (k+1) n =
 --   ext; simp [antidiagonalTuple, Multiset.Nat.antidiagonalTuple, List.Nat.antidiagonalTuple]
 
 
-lemma Pow_eq_self_mul {a : ModularFormMod ℓ k} {j} : self_mul a j = pow a j := by
+lemma Pow_eq_self_mul {a : ModularFormMod ℓ k} {j} : self_mul a j = a ** j := by
   induction j with
   | zero =>
-    unfold self_mul;
-    ext n; simp[pow_apply]
-    cases n <;> simp
+    unfold self_mul; ext n
+    cases n <;> simp[pow_apply]
   | succ j ih =>
     unfold self_mul;
-    ext n; simp[ih, pow_apply]
+    ext n; simp only [ih, cast_eval, mul_apply, pow_apply]
 
     calc
       _ = ∑ x ∈ antidiagonal n, ∑ z ∈ antidiagonalTuple j x.2, a (x.1) * ∏ y, a (z y) := by
-        congr; ext x; apply mul_sum
+        simp_rw[mul_sum]
 
       _ =  _ := by sorry
     -- induction n with
     -- | zero => simp[antidiagonalTuple_zero_right]; ring
     -- | succ n igntul =>
       --simp[antidiagonal_succ', antidiagonalTuple_zero_right]
+
+
+theorem bla (X Y α : Type) [Fintype X] [Fintype Y] [AddCommGroup α] (f : X × Y → α) :
+    ∑ x : X × Y, f x = ∑ x : X, ∑ y : Y, f (x,y) := by
+  exact Fintype.sum_prod_type f
+
+
+lemma leading_pow_zeros [Fact (Nat.Prime ℓ)] {a : ModularFormMod ℓ k} {j n : ℕ} (h : a 0 = 0) (nltj : n < j) :
+    (a ** j) n = 0 := by
+
+  rw[pow_apply]
+  have smoke : ∀ x ∈ antidiagonalTuple j n, ∃ y, x y = 0 := by
+    {
+      intro x hx; rw[mem_antidiagonalTuple] at hx
+      apply le_of_eq at hx
+      contrapose! hx
+      simp only [← Nat.one_le_iff_ne_zero] at hx
+      calc
+        _ < j := nltj
+        _ = ∑ _ : Fin j, 1 := by
+          rw[sum_const, Finset.card_univ, Fintype.card_fin, smul_eq_mul, mul_one]
+        _ ≤ _ := sum_le_sum (λ i _ ↦ hx i)
+    }
+  apply sum_eq_zero
+  intro x hx; apply prod_eq_zero_iff.2
+  obtain ⟨y,hy⟩ := smoke x hx
+  exact ⟨y, mem_univ y, hy ▸ h⟩
