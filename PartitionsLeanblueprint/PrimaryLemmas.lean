@@ -1,4 +1,4 @@
-import PartitionsLeanBlueprint.PreliminaryResults
+import PartitionsLeanblueprint.PreliminaryResults
 
 /- This file defines Δ and fℓ. It states lemmas 2.1 and 3.2,
 and proves lemma 3.3 assuming them. This is currently where the main
