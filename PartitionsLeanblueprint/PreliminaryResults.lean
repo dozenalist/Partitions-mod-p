@@ -16,7 +16,7 @@ variable {a b : ModularFormMod ℓ k}
 
 open ZMod Nat ModularFormDefs.Integer
 
--- This is the cleaner way of proving it, using == and -l
+-- This is the cleaner way of stating it, using == and -l
 theorem U_pow_l_eq_self_sub_Theta_pow_l_sub_one {a : ModularFormMod ℓ k} :
   a|𝓤 ** ℓ == (a -l Θ^[ℓ - 1] a) (by simp) := by
   intro n; simp[Pow_Prime]; symm; calc

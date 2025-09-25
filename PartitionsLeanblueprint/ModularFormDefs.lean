@@ -344,7 +344,7 @@ theorem bla (f g : ModularForm k) : 2 • f + g = g + 2 • f := by abel
 
 variable {f g : ModularForm k} {h : ModularForm j}
 
-@[simp]
+
 theorem tibbles : ∀ f : ModularForm k, ModularFormClass k f :=
   fun f =>
     { holo := f.holo
@@ -413,6 +413,8 @@ lemma Class_add {f g : ℂ → ℂ} (hf : ModularFormClass k f) (hg : ModularFor
 
 -- how to do this automatically
 
+
+
 namespace Integer
 
 -- An integer modular form of weight k is an integer sequence whose infinite q series
@@ -440,7 +442,9 @@ instance : Zero (IntegerModularForm k) where
 
 def Iconst (x : ℤ) : IntegerModularForm 0 where
   sequence := fun n ↦ if n = 0 then x else 0
-  summable := sorry
+  summable := by
+    simp; use ↑x; simp_all only [pow_zero, mul_one]
+    sorry
   modular := sorry
 
 instance : Coe ℤ (IntegerModularForm 0) where

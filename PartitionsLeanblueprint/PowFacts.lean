@@ -40,14 +40,16 @@ lemma perm_equiv_refl {n : ℕ} (a : Fin n → ℕ) : perm_equiv a a :=
   ⟨1, by rw [Equiv.Perm.coe_one]; rfl⟩
 
 theorem perm_equiv_symm {n} {a b : Fin n → ℕ} : perm_equiv a b → perm_equiv b a := by
-  rintro ⟨c, hc⟩; use c⁻¹; rw[hc]; ext x; simp
+  rintro ⟨c, hc⟩; use c⁻¹; rw[hc]; ext x;
+  simp only [Function.comp_apply, Equiv.Perm.apply_inv_self]
 
 theorem perm_equiv_trans {n} {a b c : Fin n → ℕ} : perm_equiv a b → perm_equiv b c → perm_equiv a c := by
   rintro ⟨σ, hσ⟩ ⟨τ, hτ⟩
   refine ⟨σ.trans τ, ?_⟩
   ext i
-  have : b (σ i) = (c ∘ τ) (σ i) := by simpa using congrArg (fun f => f (σ i)) hτ
-  simpa [Function.comp, hσ] using this
+  have : b (σ i) = (c ∘ τ) (σ i) := by
+    simpa only [Function.comp_apply] using congrArg (fun f => f (σ i)) hτ
+  simpa only [hσ, Function.comp_apply, Function.comp, Equiv.trans_apply]
 
 
 theorem perm_equiv_const {n} {a b: Fin n → ℕ} (aconst : ∀ i j, a i = a j)
@@ -55,8 +57,7 @@ theorem perm_equiv_const {n} {a b: Fin n → ℕ} (aconst : ∀ i j, a i = a j)
   obtain ⟨c,rfl⟩ := h
   ext i
   have := aconst i (c.symm i)
-  simp [Equiv.apply_symm_apply] at this
-  exact this
+  simpa only [Function.comp_apply, Equiv.apply_symm_apply]
 
 lemma sum_eq_of_perm_equiv {n} {a b : Fin n → ℕ} (h : perm_equiv a b) :
     ∑ i, a i = ∑ i, b i := by
@@ -76,14 +77,14 @@ lemma orbit_equiv {k} {x y: Fin k → ℕ} : y ∈ orbit_finset x ↔ perm_equiv
   unfold perm_equiv orbit_finset; constructor <;> intro h <;>
   simp_all only [mem_image, mem_univ, true_and]
   obtain ⟨c, rfl⟩ := h
-  use c⁻¹; ext; simp
+  use c⁻¹; ext; simp only [Function.comp_apply, Equiv.Perm.apply_inv_self]
   obtain ⟨c, rfl⟩ := h
-  use c⁻¹; ext; simp
+  use c⁻¹; ext; simp only [Function.comp_apply, Equiv.Perm.apply_inv_self]
 
 
 lemma perm_of_orbit {k} {x b : Fin k → ℕ} (h : b ∈ orbit_finset x) : perm_equiv x b := by
   rcases Finset.mem_image.mp h with ⟨c, _, rfl⟩
-  use c⁻¹; ext i; simp
+  use c⁻¹; ext i; simp only [Function.comp_apply, Equiv.Perm.apply_inv_self]
 
 lemma orbit_eq_tuple {k n} {x : Fin k → ℕ} (h : x ∈ antidiagonalTuple k n) :
     orbit_finset x = {b ∈ antidiagonalTuple k n | perm_equiv x b} := by
@@ -99,7 +100,7 @@ lemma orbit_eq_tuple {k n} {x : Fin k → ℕ} (h : x ∈ antidiagonalTuple k n)
   apply Finset.mem_image.mpr
   use c⁻¹; constructor
   simp_all only [mem_filter, mem_univ]
-  ext i; simp
+  ext i; simp only [Function.comp_apply, Equiv.Perm.apply_inv_self]
 
 
 def subtype_univ_equiv {α : Type*} [Fintype α] : ({a : α // a ∈ (Finset.univ : Finset α)}) ≃ α where
@@ -143,12 +144,13 @@ lemma non_diag_vanish {k n : ℕ} {x : Fin k → ℕ} [Fact (Nat.Prime k)] (h : 
           _ = ∑ y ∈ orbit_finset x, #Stab := by
             refine Finset.sum_congr rfl ?_
             intro y hy
-            simp[f,Stab]
+            simp only [f, Stab]
             have hyy := orbit_equiv.1 hy
             obtain ⟨d, rfl⟩ := hyy
             have {c : Equiv.Perm (Fin k)} : (y ∘ ⇑d) ∘ ⇑c = y ∘ ⇑d ↔ ((y ∘ ⇑d) ∘ ⇑c) ∘ ⇑d⁻¹ = y := by
-              constructor <;> intro h; rw[h]; ext; simp
-              nth_rw 2[← h]; ext; simp
+              constructor <;> intro h; rw[h]; ext
+              simp only [Function.comp_apply, Equiv.Perm.apply_inv_self]
+              nth_rw 2[← h]; ext; simp only [Function.comp_apply, Equiv.Perm.inv_apply_self]
 
             simp only [this]
 
@@ -269,7 +271,6 @@ lemma non_diag_vanish {k n : ℕ} {x : Fin k → ℕ} [Fact (Nat.Prime k)] (h : 
     have : ∀ m ∈ univ.image x, ¬ k ∣ (#{n | x n = m})! := by
       intro m hm
       suffices conned : #{n | x n = m} < k by
-        have necon0 : #{n | x n = m} ≠ 0 := (fiber_card_ne_zero_iff_mem_image univ x m).mpr hm
         contrapose! conned
         exact (Nat.Prime.dvd_factorial kPrime).1 conned
 
@@ -305,9 +306,7 @@ lemma non_diag_vanish {k n : ℕ} {x : Fin k → ℕ} [Fact (Nat.Prime k)] (h : 
     rw [this] at divStab
     obtain ⟨a, ha, hka⟩ := (Prime.dvd_prod_iff kPrime').mp divStab
     rcases List.mem_map.mp ha with ⟨m, hm, rfl⟩
-    use m
-    exact ⟨Finset.mem_toList.mp hm, hka⟩
-
+    exact ⟨m, Finset.mem_toList.mp hm, hka⟩
   }
 
   { -- x ∉ antidiagonalTuple k n → card = 0
@@ -582,6 +581,12 @@ theorem adT_succ_left {k n} : antidiagonalTuple (k+1) n =
 --   ext; simp [antidiagonalTuple, Multiset.Nat.antidiagonalTuple, List.Nat.antidiagonalTuple]
 
 
+instance {x j : ℕ} : Fintype {z : Fin j → ℕ // x + ∑ i, z i = n} := by
+  sorry
+
+instance {j : ℕ} : Fintype {z : Fin j → ℕ // ∑ i, z i = n} := by
+  sorry
+
 lemma Pow_eq_self_mul {a : ModularFormMod ℓ k} {j} : self_mul a j = a ** j := by
   induction j with
   | zero =>
@@ -595,11 +600,22 @@ lemma Pow_eq_self_mul {a : ModularFormMod ℓ k} {j} : self_mul a j = a ** j := 
       _ = ∑ x ∈ antidiagonal n, ∑ z ∈ antidiagonalTuple j x.2, a (x.1) * ∏ y, a (z y) := by
         simp_rw[mul_sum]
 
-      _ =  _ := by sorry
+      _ = ∑ x ∈ range n, ∑ z ∈ antidiagonalTuple j (n - x), a (x) * ∏ y, a (z y) := by
+        sorry
+
+      _ = ∑ x : Fin n, ∑ z : {z : Fin j → ℕ // x + ∑ i, z i = n}, a x * ∏ y, a (z.1 y) := sorry
+
+      _ = ∑ z : {z : Fin (j+1) → ℕ // ∑ i, z i = n}, ∏ y, a (z.1 y) := sorry
+
+      _ = ∑ z ∈ antidiagonalTuple (j + 1) n, ∏ y, a (z y) := sorry
+
+
     -- induction n with
     -- | zero => simp[antidiagonalTuple_zero_right]; ring
     -- | succ n igntul =>
       --simp[antidiagonal_succ', antidiagonalTuple_zero_right]
+
+
 
 
 theorem bla (X Y α : Type) [Fintype X] [Fintype Y] [AddCommGroup α] (f : X × Y → α) :

@@ -285,7 +285,7 @@ lemma delta_integer [Fact (ℓ ≥ 5)]: 24 ∣ ℓ ^ 2 - 1 := by
       simp_all only [isUnit_iff_eq_one, mul_one]
     linarith
   }
-  {rw[don]; exact Nat.dvd_mul_right_of_dvd h (ℓ - 1)}
+  { rw[don]; exact Nat.dvd_mul_right_of_dvd h (ℓ - 1) }
 
 
 lemma Filt_Del : 𝔀 (Δ : ModularFormMod ℓ 12) = 12 := sorry
@@ -328,7 +328,7 @@ theorem Filt_Theta_pow_l_sub_one [Fact (ℓ ≥ 5)] :
   have Filt_eq : 𝔀 (Θ (f ℓ)) = (ℓ^2 - 1) / 2 + ℓ + 1 := by
     rw [← Filt_fl]; apply Filt_Theta_iff.2; rw [Filt_fl]; exact not_dvd_filt
 
-  rw [Filt_eq_of_Mod_eq Theta_pow_ℓ_eq_Theta.symm, Filt_eq_of_Mod_eq Theta_pow_pred] at Filt_eq
+  rw [Filt_eq_of_Mod_eq Theta_pow_l_eq_Theta.symm, Filt_eq_of_Mod_eq Theta_pow_pred] at Filt_eq
 
   have : 𝔀 (Θ (Theta_pow (ℓ - 1) (f ℓ))) - (ℓ + 1) = 𝔀 (Theta_pow (ℓ - 1) (f ℓ)) :=
     Eq.symm (Nat.eq_sub_of_add_eq (add_assoc _ _ 1 ▸ (Filt_Theta_iff.2 h).symm))
@@ -351,7 +351,7 @@ theorem Filt_U_pos [Fact (ℓ ≥ 5)] : ℓ ∣ 𝔀 (Θ^[ℓ - 1] (f ℓ)) → 
   obtain ⟨d,hd⟩ := this c
 
   have Thecon : ((f ℓ) -l Θ^[ℓ - 1] (f ℓ)) (by simp only [CharP.cast_eq_zero, zero_mul,
-    add_zero]) == const d := by
+    add_zero]) == const d :=
     calc
       _ == (f ℓ |𝓤)**ℓ := U_pow_l_eq_self_sub_Theta_pow_l_sub_one.symm
       _ == const c**ℓ := fconn
@@ -365,14 +365,12 @@ theorem Filt_U_pos [Fact (ℓ ≥ 5)] : ℓ ∣ 𝔀 (Θ^[ℓ - 1] (f ℓ)) → 
 
     | _ + 1 => Thecon _ ▸ rfl
 
-  have feq : f ℓ == Θ^[ℓ - 1] (f ℓ) := by
-    intro n; specialize zepo n
-    rw [sub_congr_left_apply, sub_eq_zero] at zepo
-    exact zepo
+  have feq : f ℓ == Θ^[ℓ - 1] (f ℓ)
+  { simpa only [sub_congr_left_apply, sub_eq_zero] using zepo } -- idk if I like this
 
   apply Filt_eq_of_Mod_eq at feq
   have wrong : ℓ ∣ 𝔀 (f ℓ) := feq ▸ h
-  let right := @not_dvd_filt ℓ _ _
+  have right := @not_dvd_filt ℓ _ _
   rw[Filt_fl] at wrong
   exact right wrong
 

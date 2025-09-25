@@ -13,11 +13,21 @@ def partition (n : ℕ) : ℕ :=
   Fintype.card (Partition n)
 
 
-
-def ramanujan_congruence (ℓ β : ℕ) : Prop :=
+def ramanujan_congruence' (ℓ β : ℕ) : Prop :=
   ∀ n, ℓ ∣ partition (ℓ*n - β)
 
 
 lemma ramanujan_congruence_unique (ℓ : ℕ) [Fact (Nat.Prime ℓ)] :
-    ∃ β, ramanujan_congruence ℓ β → ramanujan_congruence ℓ (δ ℓ) := by
+    ∃ β, ramanujan_congruence' ℓ β → ramanujan_congruence' ℓ (δ ℓ) := by
   sorry
+
+abbrev ramanujan_congruence ℓ := ramanujan_congruence' ℓ (δ ℓ)
+
+
+variable {ℓ : ℕ} [Fact (Nat.Prime ℓ)]
+
+
+theorem TheBigOne [Fact (ℓ ≥ 13)] : ¬ ramanujan_congruence ℓ := sorry
+
+
+theorem fl_U_zero : ramanujan_congruence ℓ → f ℓ |𝓤 = 0 := sorry

@@ -48,28 +48,28 @@ instance (priority := 100) : FunLike (ℕ → ZMod ℓ) ℕ (ZMod ℓ) where
   coe_injective' _ _ h := h
 
 
-instance : Zero (ModularFormMod ℓ k) where
+instance [NeZero (ℓ - 1)] : Zero (ModularFormMod ℓ k) where
   zero :=
   { sequence := fun n ↦ (0 : ZMod ℓ)
     modular := by
-      use k.val, 0; constructor;
-      by_cases h : ℓ - 1 = 0 <;> sorry
-      sorry}
---#check ZMod 0
+      use k.val, 0; constructor
+      simp only [ZMod.natCast_val, ZMod.cast_id', id_eq]
+      ext n; simp only [reduce, coe_zero', Pi.zero_apply, Int.cast_zero]
+  }
+
 
 instance add : Add (ModularFormMod ℓ k) where
   add a b :=
   { sequence := a + b
     modular := sorry }
-    -- Multiply by E₆ ect.
+    -- Multiply by E_{ℓ - 1} ect.
 
 
 open Nat Finset Finset.Nat
 
 def mul (f : ModularFormMod ℓ k) (g : ModularFormMod ℓ j) : (ModularFormMod ℓ (k + j)) where
 
-  sequence n := ∑ ⟨x,y⟩ ∈ (antidiagonal n), f x * g y -- ∑ ⟨x,y⟩ ∈ (antidiagonal n), f x * g y
-  -- maybe use Nat.antidiagonal instead
+  sequence n := ∑ ⟨x,y⟩ ∈ (antidiagonal n), f x * g y
   -- sum over all x + y = n
   modular := sorry
 
@@ -82,16 +82,9 @@ def natify (a : ModularFormMod ℓ k) : ℕ → ℕ :=
 
 
 
--- def antidiagonalFinset (k n : ℕ) : Finset (Multiset ℕ) where
---   val :=
-
-def pow' (a : ModularFormMod ℓ k) (j : ℕ) : ModularFormMod ℓ (k * j) where
-  sequence n := sorry -- (range n).sum (a ^ j)
-  modular := sorry
--- probably wrong
-
 def pow (a : ModularFormMod ℓ k) (j : ℕ) : ModularFormMod ℓ (k * j) where
   sequence n := ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y)
+  -- sum over all x1 + ... + xj = n
 
   modular := sorry
 
@@ -160,10 +153,10 @@ theorem coe_smuln (f : ModularFormMod ℓ k) (n : ℕ) : ⇑(n • f) = n • �
 theorem smul_apply (f : ModularFormMod ℓ k) (n z : ℕ) : (n • f) z = n • f z := rfl
 
 @[simp]
-theorem coe_zero : ⇑(0 : ModularFormMod ℓ k) = (0 : ℕ → ZMod ℓ) := rfl
+theorem coe_zero [NeZero (ℓ - 1)] : ⇑(0 : ModularFormMod ℓ k) = (0 : ℕ → ZMod ℓ) := rfl
 
 @[simp]
-theorem zero_apply (z : ℕ) : (0 : ModularFormMod ℓ k) z = 0 := rfl
+theorem zero_apply (z : ℕ) [NeZero (ℓ - 1)] : (0 : ModularFormMod ℓ k) z = 0 := rfl
 
 @[simp]
 theorem coe_neg (f : ModularFormMod ℓ k) : ⇑(-f) = -f := rfl
@@ -176,10 +169,6 @@ theorem coe_sub (f g : ModularFormMod ℓ k) : ⇑(f - g) = f - g :=
 theorem sub_apply (f g : ModularFormMod ℓ k) (z : ℕ) : (f - g) z = f z - g z :=
   Eq.symm (Mathlib.Tactic.Abel.unfold_sub (f z) (g z) ((f - g) z) rfl)
 
-
---theorem coe_pow' (a : ModularFormMod ℓ k) (j : ℕ) : ⇑(pow' a j) = fun n ↦ ↑(multinomial (range (n + 1)) (natify a)) := rfl
-
---theorem pow_apply' (a : ModularFormMod ℓ k) (j n : ℕ) : (pow' a j) n = ↑(multinomial (range (n + 1)) (natify a)) := rfl
 
 theorem coe_pow (a : ModularFormMod ℓ k) (j : ℕ) : ⇑(pow a j) = fun n ↦ ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
 
@@ -195,7 +184,11 @@ theorem ModularFormMod.ext {a b : ModularFormMod ℓ k} (h : ∀ n, a n = b n) :
 
 -- the constant modular forms of weight 0
 def const (x : ZMod ℓ) : ModularFormMod ℓ 0 where
-  sequence n := if n = 0 then x else 0
+
+  sequence
+    | 0 => x
+    | _ + 1 => 0
+
   modular := sorry
 
 instance : Coe (ZMod ℓ) (ModularFormMod ℓ 0) where
@@ -220,9 +213,8 @@ theorem const_apply (x : ZMod ℓ) (n : ℕ) : (const x) n =
     match n with
     | 0 => x
     | succ _ => 0 := by
-  induction n with
-  | zero => rfl
-  | succ => rfl
+  cases n <;> rfl
+
 
 @[simp]
 theorem const_zero (x : ZMod ℓ) : (const x) 0 = x := rfl
@@ -231,7 +223,10 @@ theorem const_zero (x : ZMod ℓ) : (const x) 0 = x := rfl
 theorem const_succ (x : ZMod ℓ) (n : ℕ) : (const x) n.succ = 0 := rfl
 
 
-
+instance {ℓ : ℕ} [Fact (Nat.Prime ℓ)] : NeZero (ℓ - 1) where
+  out :=
+    let lg2 := Prime.two_le Fact.out
+    Nat.sub_ne_zero_iff_lt.mpr lg2
 
 end Modulo2
 

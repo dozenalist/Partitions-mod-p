@@ -53,16 +53,19 @@ lemma cast_equal {k j : ZMod (ℓ - 1) } {h : k = j} {a : ModularFormMod ℓ k} 
 instance : IsRefl α Mod_eq where
   refl := λ _ _ ↦ rfl
 
+@[refl]
 theorem Mod_eq.refl {a : α} : a == a := λ _ ↦ rfl
 
 instance : IsSymm α (. == .) where
   symm := λ _ _ h _ ↦ Eq.symm (h _)
 
+@[symm]
 theorem Mod_eq.symm {a: α} {b : β} (h : a == b) : b == a :=  λ n ↦ Eq.symm (h n)
 
 instance : Trans (. == . : α → β → Prop) (. == . : β → χ → Prop) (. == . : α → χ → Prop) where
   trans := λ h g _ ↦ Eq.trans (h _) (g _)
 
+@[trans]
 theorem Mod_eq.trans {a : α} {b : β} {c : χ} (h : a == b) (g : b == c) : a == c :=
   λ _ ↦ Eq.trans (h _) (g _)
 
@@ -116,8 +119,8 @@ lemma Theta_apply : Θ a n = n * a n := rfl
 
 
 def Theta_pow : (n : ℕ) → ModularFormMod ℓ k → ModularFormMod ℓ (k + n * 2)
-| 0     => fun f ↦ Mcongr (by simp) f
-| n + 1 => fun f ↦ Mcongr (by simp; group) (Theta (Theta_pow n f))
+  | 0, f     => Mcongr (by simp) f
+  | n + 1, f => Mcongr (by simp; group) (Theta (Theta_pow n f))
 
 
 macro_rules
@@ -127,20 +130,33 @@ notation "Θ^["n"]" => Theta_pow n
 
 
 @[simp]
-lemma Theta_pow_zero {a : ModularFormMod ℓ k} : Θ^[0] a = Mcongr (by simp) a := rfl
+lemma Theta_pow_zero' {a : ModularFormMod ℓ k} : Θ^[0] a = Mcongr (by simp) a := rfl
+
+lemma Theta_pow_zero {a : ModularFormMod ℓ k} : Θ^[0] a == a := by
+  rw[Theta_pow_zero']; exact cast_equal
 
 @[simp]
-lemma Theta_pow_succ {n : ℕ} {a : ModularFormMod ℓ k} :
+lemma Theta_pow_succ' {n : ℕ} {a : ModularFormMod ℓ k} :
   Θ^[n + 1] a = Mcongr (by simp; group) (Θ (Θ^[n] a)) := rfl
+
+lemma Theta_pow_succ {n : ℕ} {a : ModularFormMod ℓ k} :
+    Θ^[n + 1] a == Θ (Θ^[n] a) := by
+  rw[Theta_pow_succ']; exact cast_equal
 
 lemma Theta_pow_pred {n : ℕ} [NeZero n] {a : ModularFormMod ℓ k} :
     Θ^[n] a == Θ (Θ^[n - 1] a) := by
   obtain ⟨k, rfl⟩ := Nat.exists_eq_succ_of_ne_zero (Ne.symm (NeZero.ne' n))
-  rw[Nat.succ_eq_add_one]; simp only [Nat.add_one_sub_one, Theta_pow_succ, cast_equal]
+  rw[Nat.succ_eq_add_one]; simp only [Nat.add_one_sub_one, Theta_pow_succ', cast_equal]
+
+lemma Theta_pow_cast {n j : ℕ} {a : ModularFormMod ℓ k} (h : n = j) :
+    Θ^[n] a == Θ^[j] a := by
+  subst h; rfl
 
 @[simp]
 lemma Theta_pow_one {a : ModularFormMod ℓ k} :
   Θ^[1] a = Mcongr (by simp) (Θ a) := by ext n; simp
+
+
 
 @[simp]
 lemma Theta_Pow_apply {n j : ℕ} {a : ModularFormMod ℓ k} : Θ^[j] a n = n ^ j * a n := by
@@ -148,26 +164,26 @@ lemma Theta_Pow_apply {n j : ℕ} {a : ModularFormMod ℓ k} : Θ^[j] a n = n ^ 
   | zero => simp
   | succ j ih => simp[ih]; ring
 
-lemma Theta_pow_ℓ_eq_Theta {a : ModularFormMod ℓ k} [Fact (Nat.Prime ℓ)] : Θ^[ℓ] a == Θ a := by
+lemma Theta_pow_l_eq_Theta {a : ModularFormMod ℓ k} [Fact (Nat.Prime ℓ)] : Θ^[ℓ] a == Θ a := by
   intro n; rw[Theta_Pow_apply, ZMod.pow_card, Theta_apply]
 
 
 
 def add_congr_right (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (h : k = j) :
     ModularFormMod ℓ j :=
-    (h ▸ a) + b
+  (h ▸ a) + b
 
 def add_congr_left (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (h : k = j) :
     ModularFormMod ℓ k :=
-    a + (h ▸ b)
+  a + (h ▸ b)
 
 def sub_congr_right (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (h : k = j) :
     ModularFormMod ℓ j :=
-    (h ▸ a) - b
+  (h ▸ a) - b
 
 def sub_congr_left (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (h : k = j) :
     ModularFormMod ℓ k :=
-    a - (h ▸ b)
+  a - (h ▸ b)
 
 -- Use these two add or subtract modular forms of different but provably equal weights
 -- with an r, the weight of the result is the weight of the right argument. with an l, the left
@@ -180,22 +196,22 @@ infixl:65 " -l " => sub_congr_left
 
 @[simp]
 lemma add_congr_right_apply {k j : ZMod (ℓ - 1)} (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (h : k = j) (n : ℕ) :
-  (add_congr_right a b h) n = a n + b n := by
+    (add_congr_right a b h) n = a n + b n := by
   rw[add_congr_right, add_apply, triangle_eval]
 
 @[simp]
 lemma add_congr_left_apply {k j : ZMod (ℓ - 1)} (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (h : k = j) (n : ℕ) :
-  (add_congr_left a b h) n = a n + b n := by
+    (add_congr_left a b h) n = a n + b n := by
   rw[add_congr_left, add_apply, triangle_eval]
 
 @[simp]
 lemma sub_congr_right_apply {k j : ZMod (ℓ - 1)} (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (h : k = j) (n : ℕ) :
-  (sub_congr_right a b h) n = a n - b n := by
+    (sub_congr_right a b h) n = a n - b n := by
   rw[sub_congr_right, sub_apply, triangle_eval]
 
 @[simp]
 lemma sub_congr_left_apply {k j : ZMod (ℓ - 1)} (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (h : k = j) (n : ℕ) :
-  (sub_congr_left a b h) n = a n - b n := by
+    (sub_congr_left a b h) n = a n - b n := by
   rw[sub_congr_left, sub_apply, triangle_eval]
 
 
@@ -230,7 +246,7 @@ theorem const_pow (c : ZMod ℓ) [Fact (Nat.Prime ℓ)] (j : ℕ) : (const c) **
         apply Finset.prod_eq_zero_iff.2; use y; exact ⟨Finset.mem_univ y,this⟩
       by_contra! zed
       have sumo : ∑ y, x y = 0 := by
-        trans ∑ y : Fin n, 0; simp_rw[zed]; simp_rw [Finset.sum_const_zero]; exact Finset.sum_const_zero
+        trans ∑ y : Fin n, 0; simp_rw [zed, Finset.sum_const_zero]; exact Finset.sum_const_zero
       linarith [Finset.Nat.mem_antidiagonalTuple.1 hx]
     exact Finset.sum_eq_zero zepo
 
@@ -247,6 +263,7 @@ def Filtration (a : ModularFormMod ℓ k) : ℕ :=
   Nat.find (let ⟨k,b,h⟩ := a.modular; ⟨k, b, h.2⟩ : ∃ k, hasWeight a k)
 
 
+
 notation "𝔀" => Filtration
 
 lemma Weight_eq_of_Mod_eq (h : a == d) {j} : hasWeight a j → hasWeight d j := by
@@ -256,6 +273,11 @@ lemma Weight_eq_of_Mod_eq (h : a == d) {j} : hasWeight a j → hasWeight d j := 
 lemma Filt_eq_of_Mod_eq (h : a == d) : 𝔀 a = 𝔀 d := by
   unfold Filtration; congr; ext j
   exact ⟨Weight_eq_of_Mod_eq h, Weight_eq_of_Mod_eq h.symm⟩
+
+@[simp]
+lemma Filt_cast {h : k = j} {a : ModularFormMod ℓ k} : 𝔀 (Mcongr h a) = 𝔀 a :=
+  Filt_eq_of_Mod_eq cast_equal
+
 
 lemma Weight_of_Filt (h : 𝔀 a = n) : hasWeight a n := by
   unfold Filtration at h; rw[Nat.find_eq_iff] at h
@@ -286,7 +308,7 @@ lemma Filt_decomp_iff {j : ℕ} {a : ModularFormMod ℓ k} (wj : hasWeight a j) 
   exact filta
 
 lemma Filt_decomp_iff' {j : ℕ} {a : ModularFormMod ℓ k} (wj : hasWeight a j) :
-    𝔀 a = j ↔  ∀ k, hasWeight a k → k ≥ j := by
+    𝔀 a = j ↔ ∀ k, hasWeight a k → k ≥ j := by
   refine ⟨?_, Filt_decomp' wj⟩
   intro filta k h
   contrapose! h
@@ -306,7 +328,7 @@ lemma Filt_const {c : ZMod ℓ} : 𝔀 (const c) = 0 := by
 
 
 @[simp]
-lemma Filt_zero : 𝔀 (0 : ModularFormMod ℓ k) = 0 := by
+lemma Filt_zero [NeZero (ℓ - 1)] : 𝔀 (0 : ModularFormMod ℓ k) = 0 := by
   trans 𝔀 (const 0 : ModularFormMod ℓ 0)
   apply Filt_eq_of_Mod_eq
   intro n; cases n
@@ -323,12 +345,12 @@ variable {ℓ k : ℕ} [NeZero ℓ]
 
 -- If a is the zero function, its filtration does not exist
 -- If not, then it is the least natural number k such that a has weight k
-def Option_Filtration (a : ModularFormMod ℓ k) : Option ℕ :=
+def Option_Filtration [NeZero (ℓ - 1)] (a : ModularFormMod ℓ k) : Option ℕ :=
   if a = 0 then none else
   @Nat.find (fun k ↦ hasWeight a k) (inferInstance)
     (by obtain ⟨k,b,h⟩ := a.modular; use k; use b; exact h.2)
 
-def Filtration_NeZero (a : ModularFormMod ℓ k) [NeZero a] : ℕ :=
+def Filtration_NeZero (a : ModularFormMod ℓ k) [NeZero (ℓ - 1)] [NeZero a] : ℕ :=
   @Nat.find (fun k ↦ hasWeight a k) (inferInstance)
     (by obtain ⟨k,b,h⟩ := a.modular; use k; use b; exact h.2)
 
@@ -351,7 +373,7 @@ instance (n : ℕ) : OfNat (Option ℕ) n where
 instance : Coe ℕ (Option ℕ) where
   coe := some
 
-instance {a : ModularFormMod ℓ k} [NeZero a] : CoeDep (Option ℕ) (Option_Filtration a) ℕ where
+instance {a : ModularFormMod ℓ k} [NeZero (ℓ - 1)] [NeZero a] : CoeDep (Option ℕ) (Option_Filtration a) ℕ where
   coe := Filtration_NeZero a
 
 def Option_div (n : Option ℕ): Option ℕ → Option ℕ

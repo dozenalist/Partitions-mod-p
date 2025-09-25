@@ -15,3 +15,5 @@ import PartitionsLeanblueprint.PreliminaryResults
 import PartitionsLeanblueprint.PowFacts
 
 import PartitionsLeanblueprint.PrimaryLemmas
+
+import PartitionsLeanblueprint.PartitionDefs
