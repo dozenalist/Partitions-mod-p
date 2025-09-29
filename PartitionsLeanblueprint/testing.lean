@@ -22,6 +22,8 @@ open MatrixGroups
 variable {Γ : Subgroup SL(2, ℤ)}
 variable {a : ModularForm Γ 2} {b : ModularForm Γ (2 + 0)}
 
+
+
 structure Multivector (α : Type*) (n : ℕ) where
 
   toMultiset : Multiset α

@@ -29,7 +29,7 @@ section define
 
 variable (k : ℕ)
 
-structure ModularForm : Type where
+structure ModularForm (k : ℕ) : Type where
 
   toFun : ℂ → ℂ
 

@@ -168,6 +168,41 @@ lemma Theta_pow_l_eq_Theta {a : ModularFormMod ℓ k} [Fact (Nat.Prime ℓ)] : �
   intro n; rw[Theta_Pow_apply, ZMod.pow_card, Theta_apply]
 
 
+lemma val_of_NeZero (a : ModularFormMod ℓ k) [NeZero (ℓ - 1)] [NeZero a] : ∃ k, a k ≠ 0 := by
+  by_contra!
+  have : a = 0 := by ext n; rw[this n, zero_apply]
+  expose_names; exact inst_2.out this
+
+instance instThetaNeZero {a : ModularFormMod ℓ k} [NeZero (ℓ - 1)] [NeZero a] : NeZero (Θ a) where
+  out := by
+    obtain ⟨n, hn⟩ := val_of_NeZero a
+    contrapose! hn
+    have : ∀ n,  Θ a n = 0 := by intro n; rw[hn, zero_apply]
+    simp_rw[Theta_apply] at this
+    sorry
+
+instance instTheta_powNeZero {a : ModularFormMod ℓ k} [NeZero (ℓ - 1)] [NeZero a] {j : ℕ} :
+  NeZero (Θ^[j] a) where
+  out := by induction j with
+    | zero =>
+      obtain ⟨n, hn⟩ := val_of_NeZero a
+      contrapose! hn; trans Θ^[0] a n
+      rw [Theta_pow_zero', cast_eval]
+      rw [hn, zero_apply]
+    | succ j ih =>
+      rw[Theta_pow_succ']
+      have ne : NeZero (Θ^[j] a) := {out := ih} -- cursed
+      contrapose! ih
+      have : (Θ (Θ^[j] a)) = 0 := by
+        ext n
+        have t := DFunLike.ext_iff.1 ih n
+        rw [zero_apply] at *
+        rw[← t, cast_eval]
+      contrapose! this
+      apply (@instThetaNeZero ..).out  -- curseder
+      exact ne
+
+
 
 def add_congr_right (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (h : k = j) :
     ModularFormMod ℓ j :=
@@ -335,6 +370,11 @@ lemma Filt_zero [NeZero (ℓ - 1)] : 𝔀 (0 : ModularFormMod ℓ k) = 0 := by
   rw [zero_apply, const_zero]
   rw [zero_apply, const_succ]
   exact Filt_const
+
+
+lemma Filt_Theta_cast {j m : ℕ} {a : ModularFormMod ℓ k} (h : j = m) :
+    𝔀 (Θ^[j] a) = 𝔀 (Θ^[m] a) := Filt_eq_of_Mod_eq (Theta_pow_cast h)
+
 
 
 namespace Filtration

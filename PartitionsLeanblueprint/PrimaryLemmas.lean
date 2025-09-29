@@ -287,6 +287,21 @@ lemma delta_integer [Fact (ℓ ≥ 5)]: 24 ∣ ℓ ^ 2 - 1 := by
   }
   { rw[don]; exact Nat.dvd_mul_right_of_dvd h (ℓ - 1) }
 
+lemma delta_pos [Fact (ℓ ≥ 5)] : (ℓ^2 - 1) / 24 > 0 := by
+  have lg5 : ℓ ≥ 5 := Fact.out
+  have fivesq : 5 * 5 = 25 := rfl
+  have lsq : ℓ ^ 2 ≥ 25 :=
+    fivesq ▸ pow_two ℓ ▸ mul_le_mul lg5 lg5 (Nat.zero_le 5) (Nat.zero_le ℓ)
+  apply Nat.div_pos
+  omega
+  exact Nat.zero_lt_succ 23
+
+
+lemma twelve_delta [Fact (ℓ ≥ 5)] : 12*(δ ℓ) = (ℓ^2 - 1) / 2 := by
+  rw[δ]; refine Eq.symm (Nat.div_eq_of_eq_mul_right zero_lt_two ?_)
+  trans 24 * ((ℓ ^ 2 - 1) / 24)
+  exact Eq.symm (Nat.mul_div_cancel' delta_integer)
+  rw[← mul_assoc]; rfl
 
 lemma Filt_Del : 𝔀 (Δ : ModularFormMod ℓ 12) = 12 := sorry
 
@@ -304,13 +319,105 @@ lemma Filt_fl [Fact (ℓ ≥ 5)]: 𝔀 (f ℓ) = (ℓ^2 - 1)/2  := by
 
 --Lemma 2.1
 
--- (1)
+-- (pt 1)
 theorem Filt_Theta_bound (a : ModularFormMod ℓ k) : 𝔀 (Θ a) ≤ 𝔀 a + ℓ + 1 := sorry
 
--- (2)
+-- (pt 2)
 theorem Filt_Theta_iff {a : ModularFormMod ℓ k} :
   𝔀 (Θ a) = 𝔀 a + ℓ + 1 ↔ ¬ ℓ ∣ 𝔀 a := sorry
 
+
+lemma Filt_Theta_bound' (a : ModularFormMod ℓ k) {m j : ℕ} (h : m = j + 1) :
+    𝔀 (Θ^[m] a) ≤ 𝔀 (Θ^[j] a) + ℓ + 1 := by
+  rw[Filt_eq_of_Mod_eq (Theta_pow_cast h), Theta_pow_succ', Filt_cast]
+  exact Filt_Theta_bound (Θ^[j] a)
+
+lemma Filt_Theta_iff' {a : ModularFormMod ℓ k} {m j : ℕ} (h : m = j + 1) :
+    𝔀 (Θ^[m] a) = 𝔀 (Θ^[j] a) + ℓ + 1 ↔ ¬ ℓ ∣ 𝔀 (Θ^[j] a) := by
+  rw[Filt_eq_of_Mod_eq (Theta_pow_cast h), Theta_pow_succ', Filt_cast]
+  exact Filt_Theta_iff
+
+lemma Filt_Theta_congruence {a : ModularFormMod ℓ k} [NeZero a] :
+    𝔀 (Θ a) ≡ 𝔀 a + ℓ + 1 [MOD ℓ - 1] := by
+  rw[← ZMod.eq_iff_modEq_nat]
+  trans k + 2
+  exact Filtration_congruence (Θ a)
+  push_cast; rw[add_assoc]; congr
+  exact (Filtration_congruence a).symm
+  rw[← one_add_one_eq_two]; congr
+  trans ↑(1 : ℕ)
+  exact Eq.symm Lean.Grind.Semiring.natCast_one
+  rw[ZMod.eq_iff_modEq_nat]
+  exact Nat.ModEq.symm (Nat.modEq_sub NeZero.one_le)
+
+
+lemma Filt_Theta_congruence_of_div {a : ModularFormMod ℓ k} [NeZero a] (ldiv: ℓ ∣ 𝔀 a) :
+    ∃ α, 𝔀 (Θ a) = 𝔀 a + ℓ + 1 - (α + 1) * (ℓ - 1) := by
+
+  have bound : 𝔀 (Θ a) < 𝔀 a + ℓ + 1 := by
+    apply lt_of_le_of_ne (Filt_Theta_bound a)
+    intro h
+    have := Filt_Theta_iff.1 h
+    exact this ldiv
+
+  have : 𝔀 (Θ a) ≡ 𝔀 a + ℓ + 1 [MOD ℓ - 1] := Filt_Theta_congruence
+
+  have rly:  ↑ℓ - (1: ℤ) = ↑(ℓ - 1) :=
+    Eq.symm (Int.natCast_pred_of_pos (Nat.pos_of_neZero ℓ))
+
+  have : ∃ β : ℤ, 𝔀 (Θ a) = 𝔀 a + ℓ + 1 + β * (ℓ - 1) := by
+    refine AddCommGroup.modEq_iff_eq_add_zsmul.mp ?_
+    symm
+    refine AddCommGroup.modEq_iff_int_modEq.mpr ?_
+    refine Int.modEq_of_dvd ?_
+    rw[Nat.modEq_iff_dvd] at this
+    push_cast at *
+
+    rw[rly]; exact this
+
+  obtain ⟨β, hb⟩ := this
+  have : β < 0 := by
+    contrapose! bound
+    zify; rw[hb];
+    simp_all only [le_add_iff_nonneg_right]
+    have l0 : ↑ℓ - (1:ℤ) ≥ 0 := by
+      have lg5 : ℓ ≥ 2 := Nat.Prime.two_le Fact.out
+      linarith
+    rw[← rly]
+    exact Int.mul_nonneg bound l0
+
+  have exb : ∃ x : ℕ, β = - (x + 1) :=
+    Int.eq_negSucc_of_lt_zero this
+
+  obtain ⟨α, ha⟩ := exb
+  use α; zify; rw[hb, ha]
+  calc
+    ↑(𝔀 a) + ↑ℓ + 1 + -(↑α + 1) * (↑ℓ - 1) = ↑(𝔀 a) + ↑ℓ + 1 - (↑α + 1) * (↑ℓ - 1) := by
+      congr; exact Int.neg_mul ..
+    _ = ↑(𝔀 a) + ↑(ℓ + 1) - ↑(α + 1) * ↑(ℓ - 1) := by
+      congr 1; congr
+    _ = ↑(𝔀 a + (ℓ + 1)) - ↑(α + 1) * ↑(ℓ - 1) := by
+      congr
+    _ = ↑(𝔀 a + (ℓ + 1)) - ↑((α + 1) * (ℓ - 1)) := by
+      congr
+    _ = ↑((𝔀 a + (ℓ + 1)) - ((α + 1) * (ℓ - 1))) := by
+      refine Eq.symm (Nat.cast_sub ?_)
+      rw[ha] at hb
+      have : ↑(𝔀 a + (ℓ + 1)) - ↑((α + 1) * (ℓ - 1)) ≥ (0 : ℤ) := by
+        trans ↑(𝔀 (Θ a)); apply le_of_eq; rw[hb]
+        congr; exact CancelDenoms.derive_trans₂ rly rfl rfl
+        exact Int.natCast_nonneg (𝔀 (Θ a))
+      have : ↑((α + 1) * (ℓ - 1)) ≤ ((𝔀 a + (ℓ + 1)) : ℤ):=
+        Int.sub_nonneg.mp this
+
+      exact Int.ofNat_le.mp this
+
+
+lemma Filt_Theta_congruence_of_div' {a : ModularFormMod ℓ k} [NeZero a]
+  {m j : ℕ} (ldiv: ℓ ∣ 𝔀 (Θ^[j] a)) (h : m = j + 1) :
+    ∃ α, 𝔀 (Θ^[m] a) = 𝔀 (Θ^[j] a) + ℓ + 1 - (α + 1) * (ℓ - 1) := by
+  rw[Filt_eq_of_Mod_eq (Theta_pow_cast h), Theta_pow_succ', Filt_cast]
+  exact Filt_Theta_congruence_of_div ldiv
 
 
 -- Lemma 3.2
@@ -320,7 +427,7 @@ theorem le_Filt_Theta_fl : ∀ m, 𝔀 (f ℓ) ≤ 𝔀 (Θ^[m] (f ℓ)) := sorr
 
 -- Lemma 3.3
 
--- (1) stated here as an implication, instead of an or statement
+-- (pt 1) stated here as an implication, instead of an or statement
 theorem Filt_Theta_pow_l_sub_one [Fact (ℓ ≥ 5)] :
     ¬ ℓ ∣ 𝔀 (Θ^[ℓ - 1] (f ℓ)) → 𝔀 (Θ^[ℓ - 1] (f ℓ)) = (ℓ^2 - 1)/2 := by
   intro h
@@ -337,7 +444,7 @@ theorem Filt_Theta_pow_l_sub_one [Fact (ℓ ≥ 5)] :
   exact this ▸ Nat.sub_eq_of_eq_add Filt_eq -- rw[← this]; exact Nat.sub_eq_of_eq_add Filt_eq also works
 
 
--- (2)
+-- (pt 2)
 theorem Filt_U_pos [Fact (ℓ ≥ 5)] : ℓ ∣ 𝔀 (Θ^[ℓ - 1] (f ℓ)) → 𝔀 (f ℓ |𝓤) > 0 := by
 
   intro h; by_contra! filto; rw[nonpos_iff_eq_zero] at filto
@@ -375,6 +482,7 @@ theorem Filt_U_pos [Fact (ℓ ≥ 5)] : ℓ ∣ 𝔀 (Θ^[ℓ - 1] (f ℓ)) → 
   exact right wrong
 
 
+-- (3.5)
 theorem Lemma_stitch [Fact (ℓ ≥ 5)] : 𝔀 (f ℓ |𝓤) = 0 → 𝔀 (Θ^[ℓ - 1] (f ℓ)) = (ℓ^2 - 1)/2 := by
   intro h
   have h' : ¬ 𝔀 (f ℓ |𝓤) > 0 := Eq.not_gt h
