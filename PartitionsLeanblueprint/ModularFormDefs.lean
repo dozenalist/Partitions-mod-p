@@ -419,6 +419,7 @@ namespace Integer
 
 -- An integer modular form of weight k is an integer sequence whose infinite q series
 -- converges to a modular form of weight k
+
 structure IntegerModularForm (k : ℕ) where
 
   sequence : (ℕ → ℤ)
