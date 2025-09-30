@@ -1,6 +1,6 @@
-ModularFormDefs.Regular.ModularForm
-ModularFormDefs.Integer.IntegerModularForm
-Modulo2.ModularFormMod
+ModularForm
+IntegerModularForm
+ModularFormMod
 Theta
 U_Operator
 hasWeight
