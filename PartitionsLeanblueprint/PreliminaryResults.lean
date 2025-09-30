@@ -41,4 +41,4 @@ theorem Filtration_Log {i : ℕ} {a : ModularFormMod ℓ k} : 𝔀 (a ** i) = i 
 -- it may be useful to use the Filt_decomp lemmas to prove this.
 
 
-lemma Filtration_congruence (a : ModularFormMod ℓ k) [NeZero a] : (𝔀 a : ZMod (ℓ - 1)) = k := sorry
+theorem Filtration_congruence (a : ModularFormMod ℓ k) [NeZero a] : (𝔀 a : ZMod (ℓ - 1)) = k := sorry

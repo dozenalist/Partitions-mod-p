@@ -212,7 +212,7 @@ instance instNeg : Neg (ModularForm k) where
 instance instSub : Sub (ModularForm k) :=
   ⟨fun f g => f + -g⟩
 
-instance zero : Zero (ModularForm k) where
+instance : Zero (ModularForm k) where
 
   zero :=
 

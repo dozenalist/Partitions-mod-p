@@ -17,7 +17,7 @@ private instance Oddl : Odd ℓ :=
 
 
 -- (3.6)
-lemma Filt_Theta_l_sub_two (flu : f ℓ |𝓤 = 0) : ℓ ∣ 𝔀 (Θ^[ℓ - 2] (f ℓ)) := by
+theorem Filt_Theta_l_sub_two (flu : f ℓ |𝓤 = 0) : ℓ ∣ 𝔀 (Θ^[ℓ - 2] (f ℓ)) := by
 
   have filt_fl : 𝔀 (f ℓ |𝓤) = 0 := flu ▸ Filt_zero
   have sub_one : 𝔀 (Θ^[ℓ - 1] (f ℓ)) = (ℓ^2 - 1) / 2 := Lemma_stitch filt_fl
@@ -118,7 +118,7 @@ lemma Filt_Theta_lel_add_one_div_two {m} (mle : m ≤ (ℓ + 1)/2) :
 
 
 
-lemma Filt_Theta_l_add_one_div_two : ℓ ∣ 𝔀 (Θ^[(ℓ + 1)/2] (f ℓ)) := by
+theorem Filt_Theta_l_add_one_div_two : ℓ ∣ 𝔀 (Θ^[(ℓ + 1)/2] (f ℓ)) := by
 
   use ℓ + 1; calc
   _ = (ℓ^2 - 1)/2 + (ℓ + 1)/2 * (ℓ + 1) := Filt_Theta_lel_add_one_div_two (le_refl _)
@@ -233,7 +233,13 @@ lemma alpha_bound_ex {α : ℕ}
 
   have rw3 : (ℓ + 3) * (ℓ + 1) = ℓ^2 + (4*ℓ + 3) := by group
 
-  have rw4 : (ℓ + 7) * (ℓ - 1) = ℓ^2 + 6*ℓ - 7 := by sorry
+  have rw4 : (ℓ + 7) * (ℓ - 1) = ℓ^2 + 6*ℓ - 7 := by
+    trans (ℓ + 7) * ℓ - (ℓ + 7)
+    exact Nat.mul_sub_one (ℓ + 7) ℓ
+    rw[add_mul, pow_two]
+    trans ℓ * ℓ + (7 * ℓ - ℓ) - 7
+    omega
+    omega
 
   have rw5 : ℓ^2 + 6*ℓ - 7 = ℓ^2 + (6*ℓ - 7) :=
     Nat.add_sub_assoc (by omega) (ℓ ^ 2)
@@ -258,18 +264,20 @@ lemma alpha_bound_ex {α : ℕ}
 
   exact (lt_iff_not_ge.1 glgl) gge
 
+namespace Final.Hidden -- α, j should not show up outside this file
 
-
-private noncomputable def α : ℕ :=
+noncomputable def alpha : ℕ :=
   Nat.find exists_Filt_Theta_l_add_three_div_two
 
+local notation "α" => alpha
 
-private lemma alpha_bound : α ≤ (ℓ + 3) / 2 :=
+
+lemma alpha_bound : α ≤ (ℓ + 3) / 2 :=
   let h := Nat.find_spec exists_Filt_Theta_l_add_three_div_two
   alpha_bound_ex h
 
 
-private lemma l_div_Filt_Theta_add (flu : f ℓ |𝓤 = 0)  : ℓ ∣ 𝔀 (Θ^[(ℓ+3)/2 + (ℓ - 7)/2] (f ℓ)) := by
+lemma l_div_Filt_Theta_add (flu : f ℓ |𝓤 = 0) : ℓ ∣ 𝔀 (Θ^[(ℓ+3)/2 + (ℓ - 7)/2] (f ℓ)) := by
   have : (ℓ + 3) / 2 + (ℓ - 7) / 2 = ℓ - 2 := by
     trans ((ℓ + 3) + (ℓ - 7)) / 2
     refine Eq.symm (Nat.add_div_of_dvd_right ?_)
@@ -287,10 +295,10 @@ private lemma l_div_Filt_Theta_add (flu : f ℓ |𝓤 = 0)  : ℓ ∣ 𝔀 (Θ^[
   exact Filt_Theta_l_sub_two flu
 
 
-private noncomputable def j [Fact (f ℓ |𝓤 = 0)] :=
+noncomputable def j [Fact (f ℓ |𝓤 = 0)] :=
   Nat.find ( ⟨(ℓ - 7)/2, l_div_Filt_Theta_add Fact.out⟩ : ∃ j, ℓ ∣ 𝔀 (Θ^[(ℓ+3)/2 + j] (f ℓ)) )
 
-private lemma j_bound [Fact (f ℓ |𝓤 = 0)] : j ≤ (ℓ - 7)/2 := by
+lemma j_bound [Fact (f ℓ |𝓤 = 0)] : j ≤ (ℓ - 7)/2 := by
   rw [j, Nat.find_le_iff]
   use (ℓ - 7)/2, le_refl _
   exact l_div_Filt_Theta_add Fact.out
@@ -361,7 +369,7 @@ lemma l_second_death : (ℓ + 5) * (ℓ - 1) ≤ (ℓ + 3) * (ℓ + 1) := calc
       ring_nf; omega
 
 
-private lemma m_death_ineq (m : ℕ) : (α + 1) * (ℓ - 1) ≤ (ℓ ^ 2 - 1) / 2 + ((ℓ + 3) / 2 + m) * (ℓ + 1) := by
+lemma m_death_ineq (m : ℕ) : (α + 1) * (ℓ - 1) ≤ (ℓ ^ 2 - 1) / 2 + ((ℓ + 3) / 2 + m) * (ℓ + 1) := by
 
   have lg : ℓ ≥ 13 := Fact.out
   trans ((ℓ + 3)/2 + 1) * (ℓ - 1)
@@ -382,7 +390,7 @@ private lemma m_death_ineq (m : ℕ) : (α + 1) * (ℓ - 1) ≤ (ℓ ^ 2 - 1) / 
   apply Nat.add_le_add_left (Nat.zero_le m)
 
 
-private lemma Filt_Theta_lej [Fact (f ℓ |𝓤 = 0)] {m} (mle : m ≤ j) :
+lemma Filt_Theta_lej [Fact (f ℓ |𝓤 = 0)] {m} (mle : m ≤ j) :
     𝔀 (Θ^[(ℓ + 3)/2 + m] (f ℓ)) = (ℓ^2 - 1)/2 + ((ℓ + 3)/2 + m) * (ℓ + 1) - (α + 1) * (ℓ - 1) := by
 
   induction m with
@@ -412,7 +420,7 @@ private lemma Filt_Theta_lej [Fact (f ℓ |𝓤 = 0)] {m} (mle : m ≤ j) :
     }
 
 
-private lemma ldiv_j_add_a [Fact (f ℓ |𝓤 = 0)] : ℓ ∣ (j + 1) + (α + 1) := by
+lemma ldiv_j_add_a [Fact (f ℓ |𝓤 = 0)] : ℓ ∣ (j + 1) + (α + 1) := by
 
   let k := (j : ℤ)
   let a := (α : ℤ)
@@ -469,8 +477,7 @@ private lemma ldiv_j_add_a [Fact (f ℓ |𝓤 = 0)] : ℓ ∣ (j + 1) + (α + 1)
         symm
         suffices 𝔀 (Θ^[(ℓ + 3)/2 + j] (f ℓ)) =
           (ℓ ^ 2 - 1) / 2 + ((ℓ + 3) / 2 + j) * (ℓ + 1) - (α + 1) * (ℓ - 1) by
-            -- zify at this; rw[this]
-            -- unfold l k a;
+
             rw[this]; unfold l k a;
             trans ↑(((ℓ ^ 2 - 1) / 2 : ℕ) + (((ℓ + 3) / 2 + j) : ℕ) * ((ℓ + 1) : ℕ)) - ↑((α + 1) * (ℓ - 1))
             refine Int.ofNat_sub ?_; exact m_death_ineq j
@@ -535,7 +542,7 @@ private lemma ldiv_j_add_a [Fact (f ℓ |𝓤 = 0)] : ℓ ∣ (j + 1) + (α + 1)
   congr; exact Int.eq_natCast_toNat.mpr kg0
 
 
-private lemma alpha_equal [Fact (f ℓ |𝓤 = 0)] : α + 1 = (ℓ + 5) / 2 := by
+lemma alpha_equal [Fact (f ℓ |𝓤 = 0)] : α + 1 = (ℓ + 5) / 2 := by
 
   have lel : (α + 1) + (j + 1) ≥ ℓ := by
     apply Nat.le_of_dvd
@@ -569,6 +576,9 @@ private lemma alpha_equal [Fact (f ℓ |𝓤 = 0)] : α + 1 = (ℓ + 5) / 2 := b
     _ = ℓ :=
       Nat.div_eq_of_eq_mul_right zero_lt_two (by rw[two_mul])
 
+end Final.Hidden
+
+open Final.Hidden
 
 -- (3.8)
 theorem Filt_Theta_l_add_three_div_two (flu : f ℓ |𝓤 = 0) :
@@ -578,7 +588,7 @@ theorem Filt_Theta_l_add_three_div_two (flu : f ℓ |𝓤 = 0) :
 
   have lg : ℓ ≥ 13 := Fact.out
 
-  rw[Nat.find_spec exists_Filt_Theta_l_add_three_div_two, ← α, alpha_equal]
+  rw[Nat.find_spec exists_Filt_Theta_l_add_three_div_two, ← alpha, alpha_equal]
 
   have rw1 : (ℓ ^ 2 - 1) / 2 + (ℓ + 3) / 2 * (ℓ + 1) - (ℓ + 5) / 2 * (ℓ - 1) =
       (ℓ ^ 2 - 1) / 2 + ((ℓ + 3) / 2 * (ℓ + 1) - (ℓ + 5) / 2 * (ℓ - 1)) := by

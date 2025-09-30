@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.6.5)  16 SEP 2025 11:18
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.6.5)  29 SEP 2025 18:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -956,9 +956,16 @@ Underfull \hbox (badness 10000) in paragraph at lines 264--268
 
  []
 
+
+
+[2]
+Underfull \hbox (badness 10000) in paragraph at lines 467--474
+
+ []
+
 )
 
-[2] (C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/print.aux)
+[3] (C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/print.aux)
  ***********
 LaTeX2e <2025-06-01>
 L3 programming layer <2025-05-26>
@@ -967,13 +974,13 @@ Package rerunfilecheck Info: File `print.out' has not changed.
 (rerunfilecheck)             Checksum: 5BAE4E4C47032E8C934C1266925A8B9F;270.
  ) 
 Here is how much of TeX's memory you used:
- 16739 strings out of 468533
- 307211 string characters out of 5451482
- 915630 words of memory out of 5000000
- 44902 multiletter control sequences out of 15000+600000
+ 16752 strings out of 468533
+ 307507 string characters out of 5451482
+ 917630 words of memory out of 5000000
+ 44915 multiletter control sequences out of 15000+600000
  632188 words of font info for 88 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 90i,12n,107p,542b,437s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 90i,12n,107p,542b,483s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 Output written on C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/
-print.pdf (3 pages).
+print.pdf (4 pages).

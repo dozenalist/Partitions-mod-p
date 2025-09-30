@@ -132,7 +132,7 @@
 
 \begin{definition} [Modular Form]
   \label{def:ModularForm}
-  \lean{ModularForm}
+  \lean{ModularFormDefs.Regular.ModularForm}
   \leanok
   In lean, A modular form of weight $k \in \mathbb{N}$ is a function $f : \mathbb{C} → \mathbb{C}$ such that : \\ \\
   (1) $f$ is holomorphic on $\mathbb{H}$ \\
@@ -144,7 +144,7 @@
 \begin{definition} [Integer Modular Form]
   \label{def:IntegerModularForm}
   \uses{def:ModularForm}
-  \lean{IntegerModularForm}
+  \lean{ModularFormDefs.Integer.IntegerModularForm }
   \leanok
   An integer modular form of weight $k \in \mathbb{N}$ is a sequence $a : \mathbb{N} → \mathbb{Z}$
   such that $\sum_{n=0}^{\infty} a(n) q^n$ is a modular form of weight $k$, where $q = e ^ {2 \pi i z}.$
@@ -153,7 +153,7 @@
 \begin{definition} [ModularFormMod $\ell$]
   \label{def:ModularFormMod}
   \uses{def:IntegerModularForm}
-  \lean{ModularFormMod}
+  \lean{Modulo2.ModularFormMod}
   \leanok
   A modular form mod $\ell$ of weight $k \in \mathbb{Z} / (\ell - 1) \mathbb{Z}$ is a sequence $a : \mathbb{N} → \mathbb{Z} / \ell \mathbb{Z}$
   such that there exists an integer modular form $b$ of weight $k'$ where
@@ -202,7 +202,7 @@
 \begin{definition} [multiplication and exponentiation]
   \label{def:mulpow}
   \uses{def:ModularFormMod}
-  \lean{mul,pow}
+  \lean{Modulo2.mul, Modulo2.pow}
   \leanok
   It's worth stated how multiplication and exponentiation are defined here, because they are not defined in the normal way.
   The multiplication of two modular forms mod $\ell$ called $a$ and $b$ is defined as 
@@ -306,6 +306,16 @@
   Then $\omega (a ^ i)$ = $i \omega (a)$.
 \end{theorem}
 
+\begin{theorem}
+  \label{thm:Filtration_congruence}
+  \uses{def:Filtration}
+  \lean{Filtration_congruence}
+  \leanok
+  Let a be a modular form mod $\ell$ of weight $k$. Then 
+  $(\omega (a) \equiv k \mod (\ell - 1)$. 
+\end{theorem}
+
+
 \begin{definition}[Delta]
   \label{def:Delta}
   \uses{def:ModularFormMod}
@@ -375,6 +385,7 @@
   \leanok
 \end{proof}
 
+
 \begin{theorem}
   \label{thm:Filt_U_pos}
   \uses{lem:Filt_fl, thm:Filtration_Log, lem:const_of_Filt_zero, thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one}
@@ -383,6 +394,152 @@
   This is part (2) of Lemma 3.3. \\
   If $\ell \mid \omega (\Theta^{\ell - 1} f_\ell)$ then 
   $\omega (f_\ell | U) > 0$.
+\end{theorem}
+\begin{proof}
+  \leanok
+\end{proof}
+
+
+\begin{lemma}
+  \label{lem:Filt_Theta_congruence_of_div} 
+  \uses{thm:Filtration_congruence, thm:Filt_Theta_bound, thm:Filt_Theta_iff}
+  \lean{Filt_Theta_congruence_of_div}
+  \leanok
+  Let $a$ be a modular form mod $\ell$. If $\ell \mid \omega (a)$ then
+  there exists an $\alpha \in \mathbb{N}$ such that 
+  $\omega (\Theta a) = \omega (a) + \ell + 1 - (\alpha + 1) (\ell - 1)$.
+\end{lemma}
+\begin{proof}
+  \leanok
+\end{proof}
+
+
+\begin{theorem}
+  \label{thm:Filt_Theta_l_sub_two}
+  \uses{thm:Filt_Theta_pow_l_sub_one, thm:Filt_U_pos, lem:Filt_fl, thm:le_Filt_Theta_fl}
+  \lean{Filt_Theta_l_sub_two}
+  \leanok
+  If $(f_\ell | U) = 0$ then $\ell \mid \omega (\Theta^{\ell - 2} f_\ell)$.
+\end{theorem}
+\begin{proof}
+  \leanok
+\end{proof}
+
+
+\begin{lemma}
+  \label{lem:Filt_Theta_lel_add_one_div_two}
+  \uses{thm:Filt_Theta_iff, lem:Filt_fl}
+  \lean{Filt_Theta_lel_add_one_div_two}
+  \leanok
+  For all $m \in \mathbb{N}$ with $m \le \frac{\ell + 1}{2}$,
+  $\omega (\Theta^m f_\ell) = \frac{\ell^2 - 1}{2} + m (\ell + 1)$.
+\end{lemma}
+\begin{proof}
+  \leanok
+  Induction.
+\end{proof}
+
+
+\begin{theorem}
+  \label{thm:Filt_Theta_l_add_one_div_two}
+  \uses{lem:Filt_Theta_lel_add_one_div_two}
+  \lean{Filt_Theta_l_add_one_div_two}
+  \leanok
+  $\ell \mid \omega (\Theta^{\frac{\ell + 1}{2}} f_\ell)$.
+\end{theorem}
+\begin{proof}
+  \leanok
+\end{proof}
+
+
+\begin{definition}
+  \label{def:alpha}
+  \uses{lem:Filt_Theta_lel_add_one_div_two, lem:Filt_Theta_congruence_of_div, thm:Filt_Theta_l_add_one_div_two}
+  \lean{Final.Hidden.alpha}
+  \leanok
+  We define $\alpha$ to be the natural number such that 
+  $\omega (\Theta^{\frac{\ell + 3}{2}} f_\ell) = \frac{\ell^2 - 1}{2} + \frac{\ell + 3}{2} (\ell + 1) - (\alpha + 1) (\ell - 1)$. \\
+  Such an $\alpha$ exists, because 
+  $\ell \mid \omega (\Theta^{\frac{\ell + 1}{2}} f_\ell) = \frac{\ell^2 - 1}{2} + \frac{\ell + 1}{2} (\ell + 1)$.
+\end{definition}
+
+\begin{definition}
+  \label{def:j} 
+  \uses{thm:Filt_Theta_l_sub_two}
+  \lean{Final.Hidden.j}
+  \leanok
+  We define $j$ to be the least natural number such that
+  $\ell \mid \omega (\Theta^{\frac{\ell + 3}{2} + j} f_\ell).$
+  Such a $j$ exists, because $\ell \mid \omega (\Theta^{\ell - 2} f_\ell).$ \\ \\
+  Note : This definition requires that $(f_\ell | U) = 0.$ We will assume this fact from now on.
+\end{definition}
+
+
+\begin{lemma}
+  \label{lem:alpha_bound}
+  \uses{def:alpha, thm:le_Filt_Theta_fl}
+  \lean{Final.Hidden.alpha_bound}
+  \leanok
+  $\alpha \le \frac{\ell + 3}{2}$.
+\end{lemma}
+\begin{proof}
+  \leanok
+\end{proof}
+
+\begin{lemma}
+  \label{lem:j_bound}
+  \uses{def:j, thm:Filt_Theta_l_sub_two}
+  \lean{Final.Hidden.j_bound}
+  \leanok
+  $j \le \frac{\ell - 7}{2}$.
+\end{lemma}
+\begin{proof}
+  \leanok
+\end{proof}
+
+\begin{lemma}
+  \label{lem:Filt_Theta_lej}
+  \uses{def:alpha, def:j, thm:Filt_Theta_iff, lem:alpha_bound}
+  \lean{Final.Hidden.Filt_Theta_lej}
+  \leanok
+  For all $m \le j$, 
+  $\omega (\Theta^{\frac{\ell + 3}{2} + m} f_\ell) = 
+    \frac{\ell^2 - 1}{2} + (\frac{\ell + 3}{2} + m) (\ell + 1) - (\alpha + 1) (\ell - 1).$
+\end{lemma}
+\begin{proof}
+  \leanok
+\end{proof}
+
+
+\begin{lemma}
+  \label{lem:ldiv_j_add_a}
+  \uses{lem:Filt_Theta_lej}
+  \lean{Final.Hidden.ldiv_j_add_a}
+  \leanok
+  $\ell \mid (j + 1) + (\alpha + 1)$. 
+\end{lemma}
+\begin{proof}
+  \leanok
+\end{proof}
+
+\begin{lemma}
+  \label{lem:alpha_equal}
+  \uses{lem:ldiv_j_add_a, lem:alpha_bound, lem:j_bound}
+  \lean{Final.Hidden.alpha_equal}
+  \leanok
+  $\alpha + 1 = \frac{\ell + 5}{2}$.
+\end{lemma}
+\begin{proof}
+  \leanok
+\end{proof}
+
+\begin{theorem}
+  \label{thm:Filt_Theta_l_add_three_div_two}
+  \uses{lem:alpha_equal}
+  \lean{Filt_Theta_l_add_three_div_two}
+  \leanok
+  $ \omega (\Theta^{\frac{\ell + 3}{2}} f_\ell)= \frac{\ell^2 - 1}{2} + 4 $.
+
 \end{theorem}
 \begin{proof}
   \leanok
