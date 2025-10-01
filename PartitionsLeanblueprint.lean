@@ -21,3 +21,5 @@ import PartitionsLeanblueprint.PartitionDefs
 import PartitionsLeanblueprint.DescentArgument
 
 import PartitionsLeanblueprint.Basis
+
+import PartitionsLeanblueprint.FinalSection
