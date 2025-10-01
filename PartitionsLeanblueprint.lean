@@ -18,4 +18,6 @@ import PartitionsLeanblueprint.PrimaryLemmas
 
 import PartitionsLeanblueprint.PartitionDefs
 
-import PartitionsLeanblueprint.FinalSection
+import PartitionsLeanblueprint.DescentArgument
+
+import PartitionsLeanblueprint.Basis

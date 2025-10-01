@@ -73,6 +73,8 @@ def perm_setoid : Setoid ( Fin n → ℕ ) where
 def orbit_finset {k} (x : Fin k → ℕ) : Finset (Fin k → ℕ) :=
   univ.image (fun c : Equiv.Perm (Fin k) ↦ x ∘ c)
 
+def Stab {k} (x : Fin k → ℕ) : Finset (Equiv.Perm (Fin k)) := {c : Equiv.Perm (Fin k) | x ∘ c = x}
+
 lemma orbit_equiv {k} {x y: Fin k → ℕ} : y ∈ orbit_finset x ↔ perm_equiv x y := by
   unfold perm_equiv orbit_finset; constructor <;> intro h <;>
   simp_all only [mem_image, mem_univ, true_and]
@@ -110,38 +112,14 @@ def subtype_univ_equiv {α : Type*} [Fintype α] : ({a : α // a ∈ (Finset.uni
     right_inv := fun _ => rfl
 
 
--- If the tuple x is not constant, ie [k,k,k, ..], then
--- ℓ | (# of permutations of x ∈ antidiagonalTuple ℓ n)
-lemma non_diag_vanish {k n : ℕ} {x : Fin k → ℕ} [Fact (Nat.Prime k)] (h : ¬ ∀ i j, x i = x j) :
-    k ∣ #{ b ∈ antidiagonalTuple k n | perm_equiv x b } := by
 
-  push_neg at h
-  obtain ⟨w, u, h⟩ := h
-
-  by_cases xiT : x ∈ antidiagonalTuple k n
-
-  { -- x ∈ antidiagonalTuple k n → card = (k)! / ∏ m ∈ univ.image x, (#{n | x n = m})!
-    have perm_in_set {b} (h : perm_equiv x b) : b ∈ { b ∈ antidiagonalTuple k n | perm_equiv x b } := by
-      refine mem_filter.mpr ⟨?_, h⟩
-      apply mem_antidiagonalTuple.mpr
-      trans ∑ i, x i
-      exact sum_eq_of_perm_equiv (perm_equiv_symm h)
-      apply mem_antidiagonalTuple.mp xiT
-
-
-    rw[← orbit_eq_tuple xiT]
-
-    -- the stabilizer : the set of permutations which leave x unchanged
-    let Stab : Finset (Equiv.Perm (Fin k)) := {c : Equiv.Perm (Fin k) | x ∘ c = x}
-
-    -- the orbit stabilizer theorem, stated in finset language
-    have decomp : #(Finset.univ : Finset (Equiv.Perm (Fin k))) = #(orbit_finset x) * #Stab := by
+lemma orbit_decomp {k} (x : Fin k → ℕ) : #(Finset.univ : Finset (Equiv.Perm (Fin k))) = #(orbit_finset x) * #(Stab x) := by
       {
         let f : Equiv.Perm (Fin k) → (Fin k → ℕ) := fun g ↦ x ∘ g
         calc
           _  = ∑ y ∈ Finset.univ.image f, ((Finset.univ.filter (fun g ↦ f g = y)).card) := by
             exact card_eq_sum_card_image f Finset.univ
-          _ = ∑ y ∈ orbit_finset x, #Stab := by
+          _ = ∑ y ∈ orbit_finset x, #(Stab x) := by
             refine Finset.sum_congr rfl ?_
             intro y hy
             simp only [f, Stab]
@@ -168,58 +146,26 @@ lemma non_diag_vanish {k n : ℕ} {x : Fin k → ℕ} [Fact (Nat.Prime k)] (h : 
             intro x hx z hz
             simp_all
 
-          _ = #(orbit_finset x) * #Stab := sum_const_nat λ _ ↦ congrFun rfl
+          _ = #(orbit_finset x) * #(Stab x) := sum_const_nat λ _ ↦ congrFun rfl
       }
 
-    have card_univ : #(Finset.univ : Finset (Equiv.Perm (Fin k))) = (k)! := by
-      rw [Finset.card_univ, Fintype.card_perm, Fintype.card_fin]
 
-    have decomp_div : #(orbit_finset x) = #(univ : Finset (Equiv.Perm (Fin k))) / #Stab := by
-      refine Nat.eq_div_of_mul_eq_left ?_ (id (Eq.symm decomp))
+lemma decomp_div {k} (x : Fin k → ℕ): #(orbit_finset x) = #(univ : Finset (Equiv.Perm (Fin k))) / #(Stab x) := by
+      refine Nat.eq_div_of_mul_eq_left ?_ (id (Eq.symm (orbit_decomp x)))
       unfold Stab; apply Finset.card_ne_zero.mpr
       use 1; simp
 
-    rw[decomp_div, card_univ]
-
-    have Stabpos : #Stab ≠ 0 := Finset.card_ne_zero.mpr ⟨1, by simp [Stab]⟩
-    have kPrime : Nat.Prime k := Fact.out
-    have kn0 : k ≠ 0 := Ne.symm (NeZero.ne' k)
-
-    suffices getStabbed : ¬ k ∣ #Stab by
-      have unStabbed : #Stab ∣ (k)! := by
-        use #(orbit_finset x); rw[mul_comm, ← decomp, card_univ]
-      have : k ∣ k ! := dvd_factorial (zero_lt_of_ne_zero kn0) (le_refl k)
-      obtain ⟨t, ht⟩ := unStabbed
-      have hmul : k ∣ (Stab.card : ℕ) * t := by rw[← ht]; exact this
-
-      rcases (Nat.Prime.dvd_mul kPrime).1 hmul with h|h
-      contradiction
-      rw[ht]; rw [mul_div_cancel_left₀ t Stabpos]
-      exact h
-
-
-    clear! n perm_in_set decomp card_univ decomp_div
-
-
-    -- Final Step : ¬ k ∣ #Stab
-
-    intro divStab
-
-    have Stab_pi : #Stab = ∏ m ∈ univ.image x, (#{n | x n = m})! := by
+lemma Stab_pi {k} (x : Fin k → ℕ) : #(Stab x) = ∏ m ∈ univ.image x, (#{n | x n = m})! := by
 
       { -- rewriting to be able to apply DomMulAct.stabilizer_card
-
-        clear! w u kPrime kn0 divStab Stabpos
 
         let y : Fin k → {m // m ∈ image x univ} :=
           fun n ↦ ⟨x n, mem_image_of_mem x (mem_univ n)⟩
 
-        unfold Stab
-
         let Stab' := {g : Equiv.Perm (Fin k) // y ∘ g = y}
 
 
-        have Stabsyou : #Stab = Fintype.card Stab' := by
+        have Stabsyou : #(Stab x) = Fintype.card Stab' := by
           unfold Stab' Stab
           apply card_eq_of_equiv_fintype
           apply Equiv.subtypeEquivProp
@@ -267,6 +213,69 @@ lemma non_diag_vanish {k n : ℕ} {x : Fin k → ℕ} [Fact (Nat.Prime k)] (h : 
 
         apply DomMulAct.stabilizer_card
       }
+
+
+lemma orbit_card {k} (x : Fin k → ℕ) : #(orbit_finset x) = k ! / ∏ m ∈ univ.image x, (#{n | x n = m})! := by
+  have card_univ : #(Finset.univ : Finset (Equiv.Perm (Fin k))) = (k)! := by
+    rw [Finset.card_univ, Fintype.card_perm, Fintype.card_fin]
+  rw[← card_univ, ← Stab_pi]; exact decomp_div x
+
+-- If the tuple x is not constant, ie [k,k,k, ..], then
+-- ℓ | (# of permutations of x ∈ antidiagonalTuple ℓ n)
+lemma non_diag_vanish {k n : ℕ} {x : Fin k → ℕ} [Fact (Nat.Prime k)] (h : ¬ ∀ i j, x i = x j) :
+    k ∣ #{ b ∈ antidiagonalTuple k n | perm_equiv x b } := by
+
+  push_neg at h
+  obtain ⟨w, u, h⟩ := h
+
+  by_cases xiT : x ∈ antidiagonalTuple k n
+
+  { -- x ∈ antidiagonalTuple k n → card = (k)! / ∏ m ∈ univ.image x, (#{n | x n = m})!
+    have perm_in_set {b} (h : perm_equiv x b) : b ∈ { b ∈ antidiagonalTuple k n | perm_equiv x b } := by
+      refine mem_filter.mpr ⟨?_, h⟩
+      apply mem_antidiagonalTuple.mpr
+      trans ∑ i, x i
+      exact sum_eq_of_perm_equiv (perm_equiv_symm h)
+      apply mem_antidiagonalTuple.mp xiT
+
+
+    rw[← orbit_eq_tuple xiT]
+
+    -- the stabilizer : the set of permutations which leave x unchanged
+
+
+    -- the orbit stabilizer theorem, stated in finset language
+
+    have card_univ : #(Finset.univ : Finset (Equiv.Perm (Fin k))) = (k)! := by
+      rw [Finset.card_univ, Fintype.card_perm, Fintype.card_fin]
+
+
+    rw[decomp_div, card_univ]
+
+    have Stabpos : #(Stab x) ≠ 0 := Finset.card_ne_zero.mpr ⟨1, by simp [Stab]⟩
+    have kPrime : Nat.Prime k := Fact.out
+    have kn0 : k ≠ 0 := Ne.symm (NeZero.ne' k)
+
+    suffices getStabbed : ¬ k ∣ #(Stab x) by
+      have unStabbed : #(Stab x) ∣ (k)! := by
+        use #(orbit_finset x); rw[mul_comm, ← (orbit_decomp x), card_univ]
+      have : k ∣ k ! := dvd_factorial (zero_lt_of_ne_zero kn0) (le_refl k)
+      obtain ⟨t, ht⟩ := unStabbed
+      have hmul : k ∣ ((Stab x).card : ℕ) * t := by rw[← ht]; exact this
+
+      rcases (Nat.Prime.dvd_mul kPrime).1 hmul with h|h
+      contradiction
+      rw[ht]; rw [mul_div_cancel_left₀ t Stabpos]
+      exact h
+
+
+    clear! n perm_in_set card_univ
+
+
+    -- Final Step : ¬ k ∣ #Stab
+
+    intro divStab
+
 
     have : ∀ m ∈ univ.image x, ¬ k ∣ (#{n | x n = m})! := by
       intro m hm
@@ -325,6 +334,13 @@ lemma Pi_eq_of_perm_equiv {n : ℕ} {a : ℕ → ZMod n} {x y : Fin n → ℕ} (
   obtain ⟨c, hc⟩ := hxy
   simp only [hc, Function.comp_apply]
   exact Fintype.prod_equiv c (fun x ↦ a (y (c x))) (fun x ↦ a (y x)) (congrFun rfl)
+
+lemma antidiag_of_perm_equiv {k n} {x y : Fin k → ℕ} (h : x ∈ antidiagonalTuple k n)
+    (p : perm_equiv y x) : y ∈ antidiagonalTuple k n := by
+  rw[mem_antidiagonalTuple] at *
+  obtain ⟨c, rfl⟩ := p; trans ∑ i, x i
+  exact Fintype.sum_equiv c (x ∘ ⇑c) x (congrFun rfl)
+  exact h
 
 -- every element of a non-diagonal tuple is non-constant
 lemma non_const_of_tuple_non_diag {k n : ℕ} (h : ¬ k ∣ n) (x : Fin k → ℕ) (hx : x ∈ antidiagonalTuple k n ) :

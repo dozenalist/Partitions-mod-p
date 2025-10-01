@@ -467,7 +467,7 @@ theorem Filt_U_pos [Fact (ℓ ≥ 5)] : ℓ ∣ 𝔀 (Θ^[ℓ - 1] (f ℓ)) → 
   have zepo : ∀ n, ((f ℓ) -l Θ^[ℓ - 1] (f ℓ))
       (by simp only [CharP.cast_eq_zero, zero_mul, add_zero]) n = 0
 
-    | 0 => by rw [sub_congr_left_apply, Theta_Pow_apply, Nat.cast_zero,
+    | 0 => by rw [sub_congr_left_apply, Theta_pow_apply, Nat.cast_zero,
         ZMod.pow_card_sub_one, fl_zero, mul_zero, sub_zero]
 
     | _ + 1 => Thecon _ ▸ rfl

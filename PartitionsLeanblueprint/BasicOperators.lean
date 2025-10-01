@@ -159,13 +159,13 @@ lemma Theta_pow_one {a : ModularFormMod ℓ k} :
 
 
 @[simp]
-lemma Theta_Pow_apply {n j : ℕ} {a : ModularFormMod ℓ k} : Θ^[j] a n = n ^ j * a n := by
+lemma Theta_pow_apply {n j : ℕ} {a : ModularFormMod ℓ k} : Θ^[j] a n = n ^ j * a n := by
   induction j with
   | zero => simp
   | succ j ih => simp[ih]; ring
 
 lemma Theta_pow_l_eq_Theta {a : ModularFormMod ℓ k} [Fact (Nat.Prime ℓ)] : Θ^[ℓ] a == Θ a := by
-  intro n; rw[Theta_Pow_apply, ZMod.pow_card, Theta_apply]
+  intro n; rw[Theta_pow_apply, ZMod.pow_card, Theta_apply]
 
 
 lemma val_of_NeZero (a : ModularFormMod ℓ k) [NeZero (ℓ - 1)] [NeZero a] : ∃ k, a k ≠ 0 := by

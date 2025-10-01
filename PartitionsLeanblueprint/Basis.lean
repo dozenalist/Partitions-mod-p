@@ -1,4 +1,5 @@
-
+import PartitionsLeanblueprint.ModularFormDefs
+import PartitionsLeanblueprint.ModuloDefs2
 
 /- The Goal of this file is to define E₄ and E₆, and to prove that
 the space of Modular Forms Mod ℓ of weight 12ℓ + k' has a ZMod ℓ basis of the form

@@ -1,6 +1,6 @@
-ModularForm
-IntegerModularForm
-ModularFormMod
+ModularFormDefs.Regular.ModularForm
+ModularFormDefs.Integer.IntegerModularForm
+Modulo2.ModularFormMod
 Theta
 U_Operator
 hasWeight
@@ -37,3 +37,4 @@ Final.Hidden.Filt_Theta_lej
 Final.Hidden.ldiv_j_add_a
 Final.Hidden.alpha_equal
 Filt_Theta_l_add_three_div_two
+fl_delta_add_one
