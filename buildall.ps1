@@ -1,1 +1,1 @@
-leanblueprint all; robocopy blueprint\web docs /MIR; python fix_links.py
+leanblueprint all; robocopy blueprint\web docs /MIR; python fix_links2.py
