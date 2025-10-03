@@ -14,13 +14,15 @@ variable [Fact (Nat.Prime ℓ)] [Fact (ℓ ≥ 5)] [Fact (ℓ ≥ 13)]
 lemma Del_two : Δ 2 = (-24 : ZMod ℓ) := sorry
 
 
+private instance Oddl : Odd ℓ :=
+  let t : ℓ ≥ 5 := Fact.out
+  Nat.Prime.odd_of_ne_two Fact.out (by linarith)
 
 instance : NeZero (δ ℓ) := {out := ne_zero_of_lt delta_pos}
 
 
 
 lemma fl_delta_add_one : f ℓ (δ ℓ + 1) = 1 := by
-
 
   let q : Fin (δ ℓ) → ℕ
     | 0 => 2
@@ -376,29 +378,184 @@ lemma fl_delta_add_one : f ℓ (δ ℓ + 1) = 1 := by
         not_false_eq_true, zero_pow, zero_sub, neg_neg]
 
 
-
 lemma Theta_l_add_three_div_two_fl_delta_add_one :
     Θ^[(ℓ + 3)/2] (f ℓ) (δ ℓ + 1) = (δ ℓ + 1) ^ ((ℓ + 3) / 2) := by
   rw[Theta_pow_apply, fl_delta_add_one, mul_one]; congr
   exact Lean.Grind.Semiring.natCast_succ (δ ℓ)
 
 
-lemma its_actually_241 (flu : f ℓ |𝓤 = 0) :
+lemma Theta_l_add_three_div_two_eq_241 (flu : f ℓ |𝓤 = 0) :
     Θ^[(ℓ + 3)/2] (f ℓ) (δ ℓ + 1) = 241 * (δ ℓ) ^ ((ℓ + 3) / 2) := sorry
 
 
-lemma sike (flu : f ℓ |𝓤 = 0) : False := by
+omit [Fact (Nat.Prime ℓ)] [Fact (ℓ ≥ 5)] [Fact (ℓ ≥ 13)] in
+
+lemma pow_congr_reduce_of_dvd {a c n : ℤ} {b : ℕ} (an0 : a ≠ 0) (adiv : a ∣ (n^2 - 1))
+    ( h : ((n^2 - 1)/a + 1) ^ b ≡ c * ((n^2 - 1)/a) ^ b [ZMOD n] ) :
+  (-a + 1) ^ (b) ≡ c [ZMOD n] := by
+
+  obtain ⟨k, hk⟩ := adiv
+  rw[hk, Int.mul_ediv_cancel_left _ an0] at h
+  have h1 : a * k ≡ -1 [ZMOD n] := by
+    trans n ^ 2 - 1; rw[hk]
+    trans 0 ^ 2 - 1; gcongr
+    exact Final.Hidden.Int.modEq_self; rfl
+
+  have : a * (k + 1) ≡ a - 1 [ZMOD n] := by
+    calc
+      a * (k + 1) = a * k + a := by ring
+      _ ≡ -1 + a [ZMOD n] := by gcongr
+      _ = a - 1 := by ring
+
+  have h3 : (a - 1) ^ b ≡ c * (a * k) ^ b [ZMOD n] := by
+    calc
+      _ ≡ (a * (k + 1)) ^ b [ZMOD n] := by gcongr
+      _ = a ^ b * (k + 1) ^ b := by rw [mul_pow]
+      _ ≡ c * (a ^ b * k ^ b) [ZMOD n] := by
+        rw[← mul_assoc, mul_comm c, mul_assoc]; gcongr
+      _ = c * (a * k) ^ b := by rw[mul_pow]
+
+  calc
+    (-a + 1) ^ b = (-(a - 1)) ^ b := by ring
+    _ = (-1) ^ b * (a - 1) ^ b := by rw [← mul_pow]; ring
+    _ ≡ (-1) ^ b * (c * (a * k) ^ b) [ZMOD n] := by gcongr
+    _ ≡ c * ((-1)^b * (-1)^b) [ZMOD n] := by
+      rw[mul_comm, mul_assoc]; gcongr
+    _ = c * 1 := by congr; exact pow_mul_pow_eq_one b rfl
+    _ = c := mul_one c
+
+
+
+lemma flu_ne_zero (flu : f ℓ |𝓤 = 0) : False := by
 
   have equel : (δ ℓ + 1) ^ ((ℓ + 3) / 2) ≡ 241 * (δ ℓ) ^ ((ℓ + 3) / 2) [ZMOD ℓ] := by
     suffices (δ ℓ + 1) ^ ((ℓ + 3) / 2) = (241 * (δ ℓ) ^ ((ℓ + 3) / 2) : ZMod ℓ) by
       rw[← ZMod.intCast_eq_intCast_iff]; norm_cast at *
-    rw[← Theta_l_add_three_div_two_fl_delta_add_one, ← its_actually_241 flu]
+    rw[← Theta_l_add_three_div_two_fl_delta_add_one, ← Theta_l_add_three_div_two_eq_241 flu]
 
-  have nequal :  (δ ℓ + 1) ^ ((ℓ + 3) / 2) ≡ 241 * (δ ℓ) ^ ((ℓ + 3) / 2) [MOD ℓ] := by
+  have nequal : (δ ℓ + 1) ^ ((ℓ + 3) / 2) ≡ 241 * (δ ℓ) ^ ((ℓ + 3) / 2) [MOD ℓ] := by
     rw[← Int.natCast_modEq_iff]; norm_cast at *
 
+  have delcast : (δ ℓ : ℤ) = (ℓ ^ 2 - 1) / 24 := by
+    unfold δ; trans ((ℓ ^ 2 - 1) : ℕ) / 24; rfl
+    congr; trans ((ℓ ^ 2) : ℕ) - 1
+    exact Int.natCast_pred_of_pos (Nat.pos_of_neZero (ℓ ^ 2))
+    rfl
 
-  sorry
+  have deldiv : (24 : ℤ) ∣ (ℓ ^ 2 - 1) := by
+    trans ↑(24 : ℕ); exact Int.dvd_of_emod_eq_zero rfl
+    trans ↑((ℓ^2 - 1) : ℕ)
+    rw[Int.natCast_dvd_natCast]
+    exact delta_integer
+    apply dvd_of_eq; rw[Int.natCast_pred_of_pos (Nat.pos_of_neZero (ℓ ^ 2))]; rfl
+
+  have inter : (-23) ^ ((ℓ + 3)/2) ≡ 241 [ZMOD ℓ] := by
+    apply pow_congr_reduce_of_dvd (OfNat.zero_ne_ofNat 24).symm deldiv
+    rwa[← delcast]
+
+  have binder : (-23) ^ 2 * (-23) ^ ((ℓ - 1)/2) ≡ 241 [ZMOD ℓ] := calc
+
+    (-23) ^ 2 * (-23) ^ ((ℓ - 1)/2) = (-23) ^ (4/2 + (ℓ - 1)/2) := by
+      rw[pow_add]
+
+    _ = (-23) ^ ((4 + ℓ - 1)/2) := by
+      congr; symm; rw[Nat.add_sub_assoc]; apply Nat.add_div_of_dvd_right
+      use 2; exact NeZero.one_le
+
+    _ = (-23) ^ ((ℓ + 3)/2) := by
+      congr 2; symm; apply Nat.eq_sub_of_add_eq'
+      rw[add_comm ℓ, ← add_assoc]
+
+    _ ≡ 241 [ZMOD ℓ] := inter
+
+  by_cases l23 : ℓ = 23
+  {
+    simp_all[l23]
+    contrapose! inter
+    simp only [Int.modEq_iff_dvd, Int.sub_neg, Int.reduceAdd, Int.reduceDvd]
+    trivial
+  }
+  have ln0 : (-23 : ZMod ℓ) ≠ 0 := by
+    contrapose! l23; rw [neg_eq_zero] at l23
+    have : (23 : ℕ) = (0 : ZMod ℓ) := by
+      rw[← l23]; rfl
+
+    rw[ZMod.natCast_zmod_eq_zero_iff_dvd] at this
+    rwa[← Nat.prime_dvd_prime_iff_eq]
+    exact Fact.out
+    exact Nat.properDivisors_eq_singleton_one_iff_prime.mp rfl
 
 
--- lemma slorp {a b c n : ℕ}  ( h : (a + 1) ^ b ≡ c * a ^ b [MOD n] ) : sorry := sorry
+  have lrw : (ℓ - 1)/ 2 = ℓ / 2 := by
+    obtain ⟨k,hk⟩ := Nat.exists_eq_add_one.mpr (@NeZero.one_le ℓ _)
+    rw[hk, add_tsub_cancel_right]; refine Eq.symm (Nat.succ_div_of_not_dvd ?_)
+    have : Odd ℓ := Oddl
+    have : ¬ Odd k := by
+      rw[hk] at this
+      exact Nat.odd_add_one.mp this
+    contrapose! this; refine Nat.odd_iff.mpr ?_
+    refine Nat.two_dvd_ne_zero.mp ?_
+    omega
+
+
+  have rcases : ((-23 : ZMod ℓ)) ^ ((ℓ - 1)/2) = 1 ∨ (-23 : ZMod ℓ) ^ ((ℓ - 1)/2) = -1 := by
+    simp only [lrw]
+    apply ZMod.pow_div_two_eq_neg_one_or_one
+    exact ln0
+
+
+  have bindf : (-23 : ZMod ℓ) ^ 2 * (-23 : ZMod ℓ) ^ ((ℓ - 1) / 2) = 241 := by
+    calc
+       (-23 : ZMod ℓ) ^ 2 * (-23 : ZMod ℓ) ^ ((ℓ - 1) / 2) =
+          ↑ ((-23 : ℤ) ^ 2 * (-23 : ℤ) ^ ((ℓ - 1) / 2)) := by zify
+
+      _ = ↑(241 : ℤ) := by
+        rwa[ZMod.intCast_eq_intCast_iff]
+
+      _ = 241 := Int.cast_ofNat 241
+
+  have lprime : Nat.Prime ℓ := Fact.out
+  have lg13 : ℓ ≥ 13 := Fact.out
+
+  rcases rcases with rcases | rcases
+
+  simp only [even_two, Even.neg_pow, rcases, mul_one] at bindf
+
+  have : ((23 ^ 2: ℕ) : ZMod ℓ) = ((241 : ℕ) : ZMod ℓ) := by
+    norm_cast at *
+
+  simp only [ZMod.eq_iff_modEq_nat, Nat.reducePow, Nat.modEq_iff_dvd] at this
+  simp only [Nat.cast_ofNat, Int.reduceSub, dvd_neg] at this
+  have : ℓ ∣ 288 := by zify; exact this
+  have rw288 : 288 = 2 ^ 5 * 3 ^ 2 := rfl
+
+
+  have ldiv : ℓ ∣ 2 ^ 5 ∨ ℓ ∣ 3 ^ 2 := by
+    rw[rw288] at this;
+    exact (Nat.Prime.dvd_mul lprime).mp this
+
+  rcases ldiv with lp | lp
+  <;> apply Nat.Prime.dvd_of_dvd_pow lprime at lp <;>
+  apply Nat.le_of_dvd at lp <;> omega
+
+
+  simp only [even_two, Even.neg_pow, rcases, mul_neg, mul_one] at bindf
+
+  have : (-(23 ^ 2: ℕ) : ZMod ℓ) = ((241 : ℕ) : ZMod ℓ) := by
+    norm_cast at *
+
+  simp only [Nat.reducePow, Nat.cast_ofNat] at this
+  have : ((-529 : ℤ) : ZMod ℓ) = ((241 : ℤ) : ZMod ℓ) := by
+    norm_cast at *
+  simp only [ZMod.intCast_eq_intCast_iff,
+    Int.modEq_iff_dvd, Int.sub_neg, Int.reduceAdd] at this
+
+  have : ℓ ∣ 770 := by zify; exact this
+  have rw770 : 770 = 2 * 5 * 7 * 11 := rfl
+
+
+  have ldiv : ℓ ∣ 2 ∨ ℓ ∣ 5 ∨ ℓ ∣ 7 ∨ ℓ ∣ 11 := by
+    simpa only [rw770, Nat.Prime.dvd_mul lprime, or_assoc]
+
+  rcases ldiv with lp | lp | lp | lp
+  <;> apply Nat.le_of_dvd at lp <;> omega

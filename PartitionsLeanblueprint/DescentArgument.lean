@@ -310,10 +310,10 @@ section omission_inequalities
 
 omit [Fact (Nat.Prime ℓ)] [Fact (ℓ ≥ 5)] [Fact (ℓ ≥ 13)]
 
-@[simp] private lemma Int.modEq_self  {n : ℤ} : n ≡ 0 [ZMOD n] := by
+@[simp] lemma Int.modEq_self  {n : ℤ} : n ≡ 0 [ZMOD n] := by
   rw [Int.modEq_zero_iff_dvd]
 
-private lemma Int.modEq_of_Eq {a b n : ℤ} : a = b → a ≡ b [ZMOD n] := by
+lemma Int.modEq_of_Eq {a b n : ℤ} : a = b → a ≡ b [ZMOD n] := by
   intro h; rw[h]
 
 
