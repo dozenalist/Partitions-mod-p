@@ -345,12 +345,12 @@ lemma l_death_ineq [Fact (Nat.Prime ℓ)] [Fact (ℓ ≥ 5)] :
     omega
 
   _ ≤ (ℓ + 3) * (ℓ + 1) / 2 := by
-            apply Nat.div_le_div_right; ring_nf; omega
+    apply Nat.div_le_div_right; ring_nf; omega
 
   _ = _ := by
-            refine Nat.mul_div_right_comm ?_ (ℓ + 1)
-            obtain ⟨k,hk⟩ := Oddl
-            rw[hk]; use k + 2; ring
+    refine Nat.mul_div_right_comm ?_ (ℓ + 1)
+    obtain ⟨k,hk⟩ := Oddl
+    rw[hk]; use k + 2; ring
 
 
 lemma l_second_death : (ℓ + 5) * (ℓ - 1) ≤ (ℓ + 3) * (ℓ + 1) := calc
@@ -593,7 +593,7 @@ open Final.Hidden
 theorem Filt_Theta_l_add_three_div_two (flu : f ℓ |𝓤 = 0) :
     𝔀 (Θ^[(ℓ + 3)/2] (f ℓ)) = (ℓ^2 - 1)/2 + 4 := by
 
-  have flufact : Fact (f ℓ |𝓤 = 0) := {out := flu}
+  have flufact : Fact (f ℓ |𝓤 = 0) := ⟨flu⟩
 
   have lg : ℓ ≥ 13 := Fact.out
 

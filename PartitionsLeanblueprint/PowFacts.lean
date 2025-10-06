@@ -20,12 +20,7 @@ variable {a b : ModularFormMod ℓ k}
 
 open Nat Finset ZMod Finset.Nat
 
--- @[simp]
--- lemma flt {p : ℕ} {n : ZMod p} [Fact (Nat.Prime p)] : n ^ p = n := pow_card n
 
--- @[simp]
--- lemma flt2 {p : ℕ} {n : ZMod p} [Fact (Nat.Prime p)] : n ^ (p - 1) = if n ≠ 0 then 1 else 0 :=
---   pow_card_sub_one n
 
 attribute [simp] pow_card pow_card_sub_one
 
@@ -151,9 +146,9 @@ lemma orbit_decomp {k} (x : Fin k → ℕ) : #(Finset.univ : Finset (Equiv.Perm 
 
 
 lemma decomp_div {k} (x : Fin k → ℕ): #(orbit_finset x) = #(univ : Finset (Equiv.Perm (Fin k))) / #(Stab x) := by
-      refine Nat.eq_div_of_mul_eq_left ?_ (id (Eq.symm (orbit_decomp x)))
-      unfold Stab; apply Finset.card_ne_zero.mpr
-      use 1; simp
+  refine Nat.eq_div_of_mul_eq_left ?_ (id (Eq.symm (orbit_decomp x)))
+  unfold Stab; apply Finset.card_ne_zero.mpr
+  use 1; simp
 
 lemma Stab_pi {k} (x : Fin k → ℕ) : #(Stab x) = ∏ m ∈ univ.image x, (#{n | x n = m})! := by
 
@@ -583,27 +578,163 @@ def self_mul (a : ModularFormMod ℓ k) : (j : ℕ) → ModularFormMod ℓ (k * 
   | 0 => Mcongr (by rw [Nat.cast_zero, mul_zero]) (const 1)
   | j + 1 => Mcongr (by rw [Nat.cast_add, Nat.cast_one]; group) (a * self_mul a j)
 
-theorem adT_succ_left {k n} : antidiagonalTuple (k+1) n =
-    List.toFinset (
-      (List.Nat.antidiagonal n).flatMap fun ni =>
-        ((antidiagonalTuple k ni.2).toList.map fun x => (Fin.cons ni.1 x : Fin (k + 1) → ℕ))) := by
-  ext; simp [antidiagonalTuple, Multiset.Nat.antidiagonalTuple, List.Nat.antidiagonalTuple]
-
--- lemma adT_succ_right {k n} : antidiagonalTuple k (n + 1) =
---  List.toFinset (
---       (List.Nat.antidiagonal (n + 1)).flatMap fun ni =>
---         ((antidiagonalTuple (k) ni.2).toList.map fun x =>
---           (Fin.snoc (α := fun _ => ℕ) k ni.1 : Fin k → ℕ))) := by
---   ext; simp [antidiagonalTuple, Multiset.Nat.antidiagonalTuple, List.Nat.antidiagonalTuple]
 
 
-instance {x j : ℕ} : Fintype {z : Fin j → ℕ // x + ∑ i, z i = n} := by
-  sorry
+instance inst_antdiagFintype {j : ℕ} : Fintype {z : Fin j → ℕ // ∑ i, z i = n} := by
 
-instance {j : ℕ} : Fintype {z : Fin j → ℕ // ∑ i, z i = n} := by
-  sorry
+  apply Fintype.subtype (antidiagonalTuple j n)
+  simp only [mem_antidiagonalTuple, implies_true]
+
+
+
+instance inst_IsEmpty_of_lt {x j : ℕ} (xn : x > n) : IsEmpty {z : Fin j → ℕ // x + ∑ i, z i = n} := by
+  refine Subtype.isEmpty_of_false ?_
+  intro z; apply Nat.ne_of_gt
+  exact Nat.lt_add_right (∑ i, z i) xn
+
+
+instance inst_antidaigFintype_add {x j : ℕ} : Fintype {z : Fin j → ℕ // x + ∑ i, z i = n} := by
+  by_cases xn : x > n
+  have : IsEmpty {z : Fin j → ℕ // x + ∑ i, z i = n} := inst_IsEmpty_of_lt xn
+  apply Fintype.ofIsEmpty
+
+  apply Fintype.subtype (antidiagonalTuple j (n - x))
+  intro z; simp_all only [mem_antidiagonalTuple, not_gt_eq]
+  constructor <;> intro h
+  simp_all only [add_tsub_cancel_of_le]
+  subst h
+  simp_all only [add_tsub_cancel_left]
+
+
+def PowFacts.Hidden.g {j} : { x : Fin (j + 1) // ↑x < j} ≃ Fin j where
+
+  toFun := fun ⟨x, prop⟩ ↦ ⟨x.val, prop⟩
+
+  invFun := fun ⟨x, prop⟩ ↦ ⟨ ⟨x, prop.trans (Nat.lt_succ_self j)⟩, prop⟩
+
+  left_inv := congrFun rfl
+
+  right_inv := congrFun rfl
+
+
+lemma le_sum_fintype {α : Type} {j : α} [Fintype α] {x : α → ℕ} : x j ≤ ∑ i : α, x i := calc
+  x j ≤ ∑ i ∈ univ \ {j}, x i + x j := by
+    nth_rw 1 [← zero_add (x j)]; gcongr; exact Nat.zero_le _
+  _ = _ := Eq.symm (sum_eq_sum_diff_singleton_add (mem_univ j) x)
+
+
+
+def PowFacts.Hidden.e {n j} {i : Fin (n + 1)} : (i : Fin (n + 1)) × { z : Fin j → ℕ // ↑i + ∑ i, z i = n }
+    ≃ { z : Fin (j + 1) → ℕ // ∑ i, z i = n } where
+
+
+  toFun := fun ⟨i, ⟨z, _⟩⟩ ↦ ⟨ fun k ↦ if h : k < j then z ⟨k, h⟩ else i , by
+
+      expose_names; rw[sum_dite, add_comm]; trans ↑i + ∑ i, z i; congr 1
+      rw[sum_const, smul_eq_mul]; nth_rw 2 [← one_mul (Fin.val i)]
+      congr; apply @Fintype.card_eq_one_of_forall_eq _ _ ⟨ ( ⟨j, Nat.lt_succ_self j⟩ : Fin (j + 1) ),
+                by simp only [mem_filter, mem_univ, true_and, lt_self_iff_false, not_false_eq_true]⟩
+      intro k;
+      obtain ⟨k, property_1⟩ := k
+      simp_all only [Subtype.mk.injEq]
+      simp_all only [not_lt, mem_filter, mem_univ, true_and]
+      have : k ≤ j := Fin.is_le k
+      apply Fin.eq_of_val_eq
+      exact Eq.symm (Nat.le_antisymm property_1 this)
+
+
+      trans ∑ x : {x : Fin (j + 1) // ↑x < j}, z ⟨↑↑x, x.2⟩
+
+      apply sum_bijective (fun ⟨z,prop⟩ ↦ ⟨z, by rw[mem_filter] at prop; exact prop.2⟩)
+
+      refine Function.bijective_iff_has_inverse.mpr ?_
+
+      use (fun ⟨z,prop⟩ ↦ ⟨z, by rw[mem_filter]; exact ⟨mem_univ _, prop⟩⟩)
+      constructor <;> intro k <;> simp only [Subtype.coe_eta]
+
+      simp only [mem_univ, implies_true]
+      intro k kuniv; rfl
+
+      apply sum_equiv g
+      simp only [mem_univ, implies_true]
+      intro k kuniv
+      unfold g; dsimp
+
+      exact property  ⟩
+
+
+  invFun :=
+      let hj := Nat.lt_succ_self j
+      let hi {k} {klj : k < j} := klj.trans hj
+      fun ⟨z , zsum⟩ ↦ ⟨ ⟨z ⟨j, hj⟩, by
+      apply lt_succ_of_le; exact Trans.trans le_sum_fintype zsum⟩ ,
+      ⟨ fun ⟨k, klj⟩ ↦ z ⟨k, hi⟩, by
+
+        dsimp; trans z ⟨j, hj⟩ + ∑ i : {x : Fin (j + 1) // ↑x < j}, z ⟨↑↑i, i.2.trans hj⟩
+        congr 1; symm; apply sum_equiv g
+        simp only [mem_univ, implies_true]
+        intro k kuniv
+        unfold g; dsimp
+        exact λ _ _ _ _ _ ↦ id
+
+        trans z ⟨j, hj⟩ + ∑ i ∈ univ \ { ⟨j,hj⟩ }, z i
+        congr 1; refine Eq.symm (sum_subtype (univ \ {⟨j, hj⟩}) ?_ z)
+        intro k; simp only [mem_sdiff, mem_univ, true_and, mem_singleton]
+        constructor <;> intro hk
+        contrapose! hk
+        have : ↑k ≤ j := Fin.is_le k
+        have : ↑k = j := Nat.le_antisymm this hk
+        rename_i x this_1
+        subst zsum
+        simp_all only [le_refl]
+        obtain ⟨val, property⟩ := x
+        ext : 1
+        simp_all only
+        rename_i x
+        subst zsum
+        obtain ⟨val, property⟩ := x
+        apply Aesop.BuiltinRules.not_intro
+        intro a_1
+        subst a_1
+        simp_all only [lt_self_iff_false]
+
+        trans ∑ i, z i
+        refine Eq.symm (sum_eq_add_sum_diff_singleton (mem_univ _) z)
+        exact zsum
+      ⟩ ⟩
+
+
+  left_inv := by
+    refine Function.leftInverse_iff_comp.mpr ?_
+    ext k; simp only [Function.comp_apply, lt_self_iff_false, Fin.is_lt,
+        ↓reduceDIte, Fin.eta, id_eq]
+    simp_all only [Function.comp_apply, lt_self_iff_false, Fin.is_lt, Fin.eta,
+      dite_eq_ite, ↓reduceIte, ↓reduceDIte, subset_refl, Set.coe_inclusion, id_eq]
+
+
+  right_inv := by
+    refine Function.rightInverse_iff_comp.mpr ?_
+    ext k; simp only [Function.comp_apply, lt_self_iff_false, Fin.is_lt,
+        ↓reduceDIte, Fin.eta, id_eq]
+    simp_all only [Function.comp_apply, lt_self_iff_false, Fin.is_lt, Fin.eta,
+      dite_eq_ite, ↓reduceIte, ↓reduceDIte, subset_refl, Set.coe_inclusion, id_eq]
+    simp_all only [ite_eq_left_iff, not_lt]
+    expose_names
+    intro a_1
+    obtain ⟨val, property⟩ := k
+    subst property
+    simp_all only
+    have : ↑x ≤ j := Fin.is_le x
+    have : x = j := Nat.le_antisymm this a_1
+    apply congrArg
+    ext; simp_all only
+
+
+open PowFacts.Hidden
+
 
 lemma Pow_eq_self_mul {a : ModularFormMod ℓ k} {j} : self_mul a j = a ** j := by
+
   induction j with
   | zero =>
     unfold self_mul; ext n
@@ -612,31 +743,79 @@ lemma Pow_eq_self_mul {a : ModularFormMod ℓ k} {j} : self_mul a j = a ** j := 
     unfold self_mul;
     ext n; simp only [ih, cast_eval, mul_apply, pow_apply]
 
+
     calc
-      _ = ∑ x ∈ antidiagonal n, ∑ z ∈ antidiagonalTuple j x.2, a (x.1) * ∏ y, a (z y) := by
+      _ = ∑ x ∈ antidiagonal n, ∑ z ∈ antidiagonalTuple j x.2, a x.1 * ∏ y, a (z y) := by
         simp_rw[mul_sum]
 
-      _ = ∑ x ∈ range n, ∑ z ∈ antidiagonalTuple j (n - x), a (x) * ∏ y, a (z y) := by
-        sorry
+      _ = ∑ x ∈ range (n + 1), ∑ z ∈ antidiagonalTuple j (n - x), a x * ∏ y, a (z y) := by
+        apply sum_antidiagonal_eq_sum_range_succ_mk
 
-      _ = ∑ x : Fin n, ∑ z : {z : Fin j → ℕ // x + ∑ i, z i = n}, a x * ∏ y, a (z.1 y) := sorry
+      _ = ∑ x : Fin (n + 1),  ∑ z ∈ antidiagonalTuple j (n - x), a x * ∏ y, a (z y) := by
+        apply sum_range
 
-      _ = ∑ z : {z : Fin (j+1) → ℕ // ∑ i, z i = n}, ∏ y, a (z.1 y) := sorry
-
-      _ = ∑ z ∈ antidiagonalTuple (j + 1) n, ∏ y, a (z y) := sorry
-
-
-    -- induction n with
-    -- | zero => simp[antidiagonalTuple_zero_right]; ring
-    -- | succ n igntul =>
-      --simp[antidiagonal_succ', antidiagonalTuple_zero_right]
+      _ = ∑ x : Fin (n + 1), ∑ z : {z : Fin j → ℕ // x + ∑ i, z i = n}, a x * ∏ y, a (z.1 y) := by
+        congr; ext k; apply sum_subtype; intro x; simp_rw[mem_antidiagonalTuple]
+        constructor <;> intro h
+        have : ↑k ≤ n := Fin.is_le k
+        simp_all only [add_tsub_cancel_of_le]
+        exact Nat.eq_sub_of_add_eq' h
 
 
+      _ = ∑ z : {z : Fin (j+1) → ℕ // ∑ i, z i = n}, ∏ y, a (z.1 y) := by
+          rw[Finset.sum_sigma']; simp
+          apply Finset.sum_equiv e
+          intro; simp only [mem_univ]
+          intro z zuniv
+          unfold e; dsimp
+
+          obtain ⟨fst, snd⟩ := z
+          obtain ⟨z, property⟩ := snd
+          dsimp; symm
+
+          rw[prod_apply_dite, mul_comm]; congr 1
+
+          rw[prod_const]; nth_rw 2 [← pow_one (a ↑fst)]
+          congr; apply @Fintype.card_eq_one_of_forall_eq _ _ ⟨ ( ⟨j, Nat.lt_succ_self j⟩ : Fin (j + 1) ),
+                  by simp only [mem_filter, mem_univ, true_and, lt_self_iff_false, not_false_eq_true]⟩
+
+          intro k;
+          simp_all only [mem_univ]
+          obtain ⟨k, property_1⟩ := k
+          simp_all only [Subtype.mk.injEq]
+          simp_all only [not_lt, mem_filter, mem_univ, true_and]
+          have : k ≤ j := Fin.is_le k
+          apply Fin.eq_of_val_eq
+          exact Eq.symm (Nat.le_antisymm property_1 this)
 
 
-theorem bla (X Y α : Type) [Fintype X] [Fintype Y] [AddCommGroup α] (f : X × Y → α) :
-    ∑ x : X × Y, f x = ∑ x : X, ∑ y : Y, f (x,y) := by
-  exact Fintype.sum_prod_type f
+          trans ∏ x : {x : Fin (j + 1) // ↑x < j}, a (z ⟨↑↑x, x.2⟩ )
+
+          apply prod_bijective (fun ⟨z,prop⟩ ↦ ⟨z, by rw[mem_filter] at prop; exact prop.2⟩)
+
+          refine Function.bijective_iff_has_inverse.mpr ?_
+
+          use (fun ⟨z,prop⟩ ↦ ⟨z, by rw[mem_filter]; exact ⟨mem_univ _, prop⟩⟩)
+          constructor <;> intro k <;> simp only [Subtype.coe_eta]
+
+          simp only [mem_univ, implies_true]
+          intro k kuniv; rfl
+
+          apply prod_equiv g
+          simp only [mem_univ, implies_true]
+          intro k kuniv
+          unfold g; dsimp
+
+
+          exact Fin.ofNat (n + 1) ℓ
+
+
+
+      _ = ∑ z ∈ antidiagonalTuple (j + 1) n, ∏ y, a (z y) := by
+        symm; apply sum_subtype; intro x; simp_rw[mem_antidiagonalTuple]
+
+
+
 
 
 lemma leading_pow_zeros [Fact (Nat.Prime ℓ)] {a : ModularFormMod ℓ k} {j n : ℕ} (h : a 0 = 0) (nltj : n < j) :
