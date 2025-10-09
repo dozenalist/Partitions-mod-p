@@ -29,7 +29,7 @@ def Delta : ModularFormMod ℓ 12 where
 
   sequence
     | 0 => 0
-    | n + 1 => (ZModpow Etaish 24) n
+    | n + 1 => (Sequencepow Etaish 24) n
 
   modular := sorry
 
@@ -41,8 +41,8 @@ def f (ℓ : ℕ) [NeZero ℓ] [Fact (Nat.Prime ℓ)] : ModularFormMod ℓ (12 *
 -- or fℓ : ModularFormMod ℓ (((ℓ^2 - 1)/2) : ℕ) := Mcongr (Δ ** δ ℓ) (by sorry)
 
 @[simp] lemma Del_one : Δ 1 = (1 : ZMod ℓ) := by
-  trans (ZModpow Etaish 24) 0; rfl
-  rw[ZModpow_apply, antidiagonalTuple_zero_right]
+  trans (Sequencepow Etaish 24) 0; rfl
+  rw[Sequencepow_apply, antidiagonalTuple_zero_right]
   simp only [sum_singleton, Pi.zero_apply, prod_const, card_univ, Fintype.card_fin]
   suffices Etaish 0 = (1 : ZMod ℓ) by rw[this, one_pow]
   rw[Etaish]
@@ -287,6 +287,7 @@ lemma delta_integer [Fact (ℓ ≥ 5)]: 24 ∣ ℓ ^ 2 - 1 := by
   }
   { rw[don]; exact Nat.dvd_mul_right_of_dvd h (ℓ - 1) }
 
+omit [NeZero ℓ] [Fact (Nat.Prime ℓ)] in
 lemma delta_pos [Fact (ℓ ≥ 5)] : (ℓ^2 - 1) / 24 > 0 := by
   have lg5 : ℓ ≥ 5 := Fact.out
   have fivesq : 5 * 5 = 25 := rfl
@@ -440,8 +441,7 @@ theorem Filt_Theta_pow_l_sub_one [Fact (ℓ ≥ 5)] :
   have : 𝔀 (Θ (Theta_pow (ℓ - 1) (f ℓ))) - (ℓ + 1) = 𝔀 (Theta_pow (ℓ - 1) (f ℓ)) :=
     Eq.symm (Nat.eq_sub_of_add_eq (add_assoc _ _ 1 ▸ (Filt_Theta_iff.2 h).symm))
 
-
-  exact this ▸ Nat.sub_eq_of_eq_add Filt_eq -- rw[← this]; exact Nat.sub_eq_of_eq_add Filt_eq also works
+  exact this ▸ Nat.sub_eq_of_eq_add Filt_eq
 
 
 -- (pt 2)

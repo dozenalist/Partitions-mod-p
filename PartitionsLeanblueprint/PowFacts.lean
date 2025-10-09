@@ -80,7 +80,7 @@ lemma orbit_equiv {k} {x y: Fin k → ℕ} : y ∈ orbit_finset x ↔ perm_equiv
 
 
 lemma perm_of_orbit {k} {x b : Fin k → ℕ} (h : b ∈ orbit_finset x) : perm_equiv x b := by
-  rcases Finset.mem_image.mp h with ⟨c, _, rfl⟩
+  rcases Finset.mem_image.mp h with ⟨c, -, rfl⟩
   use c⁻¹; ext i; simp only [Function.comp_apply, Equiv.Perm.apply_inv_self]
 
 lemma orbit_eq_tuple {k n} {x : Fin k → ℕ} (h : x ∈ antidiagonalTuple k n) :
@@ -109,40 +109,40 @@ def subtype_univ_equiv {α : Type*} [Fintype α] : ({a : α // a ∈ (Finset.uni
 
 
 lemma orbit_decomp {k} (x : Fin k → ℕ) : #(Finset.univ : Finset (Equiv.Perm (Fin k))) = #(orbit_finset x) * #(Stab x) := by
-      {
-        let f : Equiv.Perm (Fin k) → (Fin k → ℕ) := fun g ↦ x ∘ g
-        calc
-          _  = ∑ y ∈ Finset.univ.image f, ((Finset.univ.filter (fun g ↦ f g = y)).card) := by
-            exact card_eq_sum_card_image f Finset.univ
-          _ = ∑ y ∈ orbit_finset x, #(Stab x) := by
-            refine Finset.sum_congr rfl ?_
-            intro y hy
-            simp only [f, Stab]
-            have hyy := orbit_equiv.1 hy
-            obtain ⟨d, rfl⟩ := hyy
-            have {c : Equiv.Perm (Fin k)} : (y ∘ ⇑d) ∘ ⇑c = y ∘ ⇑d ↔ ((y ∘ ⇑d) ∘ ⇑c) ∘ ⇑d⁻¹ = y := by
-              constructor <;> intro h; rw[h]; ext
-              simp only [Function.comp_apply, Equiv.Perm.apply_inv_self]
-              nth_rw 2[← h]; ext; simp only [Function.comp_apply, Equiv.Perm.inv_apply_self]
+  {
+    let f : Equiv.Perm (Fin k) → (Fin k → ℕ) := fun g ↦ x ∘ g
+    calc
+      _  = ∑ y ∈ Finset.univ.image f, ((Finset.univ.filter (fun g ↦ f g = y)).card) := by
+        exact card_eq_sum_card_image f Finset.univ
+      _ = ∑ y ∈ orbit_finset x, #(Stab x) := by
+        refine Finset.sum_congr rfl ?_
+        intro y hy
+        simp only [f, Stab]
+        have hyy := orbit_equiv.1 hy
+        obtain ⟨d, rfl⟩ := hyy
+        have {c : Equiv.Perm (Fin k)} : (y ∘ ⇑d) ∘ ⇑c = y ∘ ⇑d ↔ ((y ∘ ⇑d) ∘ ⇑c) ∘ ⇑d⁻¹ = y := by
+          constructor <;> intro h; rw[h]; ext
+          simp only [Function.comp_apply, Equiv.Perm.apply_inv_self]
+          nth_rw 2[← h]; ext; simp only [Function.comp_apply, Equiv.Perm.inv_apply_self]
 
-            simp only [this]
+        simp only [this]
 
-            have im_eq :  Finset.image (fun g => g * d) { g : Equiv.Perm (Fin k) | (y ∘ d) ∘ g = y } =
-                ({ c : Equiv.Perm (Fin k) | ((y ∘ d) ∘ c) ∘ ⇑d⁻¹ = y } : Finset (Equiv.Perm (Fin k))) := by
-              ext c
-              constructor
-              intro h
-              simp_all; nth_rw 2[← h]; ext; simp
-              intro h
-              simp_all; nth_rw 2[← h]; ext; simp
+        have im_eq :  Finset.image (fun g => g * d) { g : Equiv.Perm (Fin k) | (y ∘ d) ∘ g = y } =
+            ({ c : Equiv.Perm (Fin k) | ((y ∘ d) ∘ c) ∘ ⇑d⁻¹ = y } : Finset (Equiv.Perm (Fin k))) := by
+          ext c
+          constructor
+          intro h
+          simp_all; nth_rw 2[← h]; ext; simp
+          intro h
+          simp_all; nth_rw 2[← h]; ext; simp
 
-            rw[← im_eq]
-            refine Eq.symm (Finset.card_image_of_injOn ?_)
-            intro x hx z hz
-            simp_all
+        rw[← im_eq]
+        refine Eq.symm (Finset.card_image_of_injOn ?_)
+        intro x hx z hz
+        simp_all
 
-          _ = #(orbit_finset x) * #(Stab x) := sum_const_nat λ _ ↦ congrFun rfl
-      }
+      _ = #(orbit_finset x) * #(Stab x) := sum_const_nat λ _ ↦ congrFun rfl
+  }
 
 
 lemma decomp_div {k} (x : Fin k → ℕ): #(orbit_finset x) = #(univ : Finset (Equiv.Perm (Fin k))) / #(Stab x) := by
@@ -152,62 +152,62 @@ lemma decomp_div {k} (x : Fin k → ℕ): #(orbit_finset x) = #(univ : Finset (E
 
 lemma Stab_pi {k} (x : Fin k → ℕ) : #(Stab x) = ∏ m ∈ univ.image x, (#{n | x n = m})! := by
 
-      { -- rewriting to be able to apply DomMulAct.stabilizer_card
+  { -- rewriting to be able to apply DomMulAct.stabilizer_card
 
-        let y : Fin k → {m // m ∈ image x univ} :=
-          fun n ↦ ⟨x n, mem_image_of_mem x (mem_univ n)⟩
+    let y : Fin k → {m // m ∈ image x univ} :=
+      fun n ↦ ⟨x n, mem_image_of_mem x (mem_univ n)⟩
 
-        let Stab' := {g : Equiv.Perm (Fin k) // y ∘ g = y}
+    let Stab' := {g : Equiv.Perm (Fin k) // y ∘ g = y}
 
 
-        have Stabsyou : #(Stab x) = Fintype.card Stab' := by
-          unfold Stab' Stab
-          apply card_eq_of_equiv_fintype
-          apply Equiv.subtypeEquivProp
-          ext c; constructor <;> intro h
-          simp at h
-          funext n; simp[y]
-          trans (x ∘ c) n
-          simp; rw[h]
-          simp_all[y]
-          ext n
-          exact congrArg Subtype.val (congrFun h n)
+    have Stabsyou : #(Stab x) = Fintype.card Stab' := by
+      unfold Stab' Stab
+      apply card_eq_of_equiv_fintype
+      apply Equiv.subtypeEquivProp
+      ext c; constructor <;> intro h
+      simp at h
+      funext n; simp[y]
+      trans (x ∘ c) n
+      simp; rw[h]
+      simp_all[y]
+      ext n
+      exact congrArg Subtype.val (congrFun h n)
 
-        have rrw (m : ℕ) : #{n | x n = m} = Fintype.card { a // y a = m } := by
-          apply card_eq_of_equiv_fintype
-          apply Equiv.subtypeEquivProp
-          ext n; constructor <;> intro h <;> simp_all[y]
+    have rrw (m : ℕ) : #{n | x n = m} = Fintype.card { a // y a = m } := by
+      apply card_eq_of_equiv_fintype
+      apply Equiv.subtypeEquivProp
+      ext n; constructor <;> intro h <;> simp_all[y]
 
-        rw[Stabsyou]
-        simp_rw [rrw]
-        unfold Stab'
+    rw[Stabsyou]
+    simp_rw [rrw]
+    unfold Stab'
 
-        have rrr : ∏ m ∈ image x univ, (Fintype.card { a // x a = m })! =
-            ∏ m : {m // m ∈ image x univ}, (Fintype.card { a // y a = m })! := by
+    have rrr : ∏ m ∈ image x univ, (Fintype.card { a // x a = m })! =
+        ∏ m : {m // m ∈ image x univ}, (Fintype.card { a // y a = m })! := by
 
-          let f (α : Type 0) [Fintype α] : ℕ := Nat.factorial (Fintype.card α)
+      let f (α : Type 0) [Fintype α] : ℕ := Nat.factorial (Fintype.card α)
 
-          have eq3 {m}: (Fintype.card { a // x a = m })! = f { a // x a = m } := by simp[f]
-          have eq4 {m}: (Fintype.card { a // y a = m })! = f { a // y a = m } := by simp[f]
+      have eq3 {m}: (Fintype.card { a // x a = m })! = f { a // x a = m } := by simp[f]
+      have eq4 {m}: (Fintype.card { a // y a = m })! = f { a // y a = m } := by simp[f]
 
-          have eq5 {m}: f { a // x a = m } = f { a // y a = m } := by congr
+      have eq5 {m}: f { a // x a = m } = f { a // y a = m } := by congr
 
-          let h (m : ℕ) := f { a // y a = m }
+      let h (m : ℕ) := f { a // y a = m }
 
-          have eq6 {m} : f { a // y a = m } = h m := by
-            obtain ⟨val, property⟩ := m
-            simp_all only [Subtype.mk.injEq, h, f, y]
+      have eq6 {m} : f { a // y a = m } = h m := by
+        obtain ⟨val, property⟩ := m
+        simp_all only [Subtype.mk.injEq, h, f, y]
 
-          simp_rw[eq3,eq4,eq5]
-          simp; symm
-          simp_rw[eq6]
+      simp_rw[eq3,eq4,eq5]
+      simp; symm
+      simp_rw[eq6]
 
-          rw [prod_attach]
+      rw [prod_attach]
 
-        rw[rrr]
+    rw[rrr]
 
-        apply DomMulAct.stabilizer_card
-      }
+    apply DomMulAct.stabilizer_card
+  }
 
 
 lemma orbit_card {k} (x : Fin k → ℕ) : #(orbit_finset x) = k ! / ∏ m ∈ univ.image x, (#{n | x n = m})! := by
@@ -236,10 +236,6 @@ lemma non_diag_vanish {k n : ℕ} {x : Fin k → ℕ} [Fact (Nat.Prime k)] (h : 
 
     rw[← orbit_eq_tuple xiT]
 
-    -- the stabilizer : the set of permutations which leave x unchanged
-
-
-    -- the orbit stabilizer theorem, stated in finset language
 
     have card_univ : #(Finset.univ : Finset (Equiv.Perm (Fin k))) = (k)! := by
       rw [Finset.card_univ, Fintype.card_perm, Fintype.card_fin]
@@ -384,7 +380,8 @@ lemma non_const_of_tuple_diag {k n : ℕ} (x : Fin k → ℕ) (kn0 : k ≠ 0) (h
     (Nat.mul_right_inj kn0).mp this.symm
 
 
-theorem Pow_Prime {n : ℕ} {a : ModularFormMod ℓ k} [Fact (Nat.Prime ℓ)] : (a ** ℓ) n = if ℓ ∣ n then (a (n / ℓ)) else 0 := by
+theorem Pow_Prime {n : ℕ} {a : ModularFormMod ℓ k} [Fact (Nat.Prime ℓ)] :
+    (a ** ℓ) n = if ℓ ∣ n then (a (n / ℓ)) else 0 := by
 
   by_cases h : ℓ ∣ n
 
@@ -563,11 +560,13 @@ theorem Pow_Prime {n : ℕ} {a : ModularFormMod ℓ k} [Fact (Nat.Prime ℓ)] : 
   }
 
 
-theorem Pow_Prime' {a : ModularFormMod ℓ k} [Fact (Nat.Prime ℓ)] : (a ** ℓ) == fun n ↦ if ℓ ∣ n then (a (n / ℓ)) else 0 :=
+theorem Pow_Prime' {a : ModularFormMod ℓ k} [Fact (Nat.Prime ℓ)] :
+    (a ** ℓ) == fun n ↦ if ℓ ∣ n then (a (n / ℓ)) else 0 :=
   λ _ ↦ Pow_Prime
 
 
 end Pow_Prime
+
 
 
 lemma pow_2_eq_mul_self (a : ModularFormMod ℓ k) (n : ℕ) : (pow a 2) n = (a * a) n := by
@@ -579,12 +578,9 @@ def self_mul (a : ModularFormMod ℓ k) : (j : ℕ) → ModularFormMod ℓ (k * 
   | j + 1 => Mcongr (by rw [Nat.cast_add, Nat.cast_one]; group) (a * self_mul a j)
 
 
-
 instance inst_antdiagFintype {j : ℕ} : Fintype {z : Fin j → ℕ // ∑ i, z i = n} := by
-
   apply Fintype.subtype (antidiagonalTuple j n)
   simp only [mem_antidiagonalTuple, implies_true]
-
 
 
 instance inst_IsEmpty_of_lt {x j : ℕ} (xn : x > n) : IsEmpty {z : Fin j → ℕ // x + ∑ i, z i = n} := by
@@ -606,7 +602,7 @@ instance inst_antidaigFintype_add {x j : ℕ} : Fintype {z : Fin j → ℕ // x 
   simp_all only [add_tsub_cancel_left]
 
 
-def PowFacts.Hidden.g {j} : { x : Fin (j + 1) // ↑x < j} ≃ Fin j where
+def PowFacts.Hidden.g {j} : {x : Fin (j + 1) // ↑x < j} ≃ Fin j where
 
   toFun := fun ⟨x, prop⟩ ↦ ⟨x.val, prop⟩
 
@@ -732,17 +728,17 @@ def PowFacts.Hidden.e {n j} {i : Fin (n + 1)} : (i : Fin (n + 1)) × { z : Fin j
 
 open PowFacts.Hidden
 
-
-lemma Pow_eq_self_mul {a : ModularFormMod ℓ k} {j} : self_mul a j = a ** j := by
+-- exponentiation is repeated multiplication
+lemma pow_eq_self_mul {a : ModularFormMod ℓ k} {j} : a ** j = self_mul a j := by
 
   induction j with
   | zero =>
     unfold self_mul; ext n
     cases n <;> simp[pow_apply]
   | succ j ih =>
-    unfold self_mul;
-    ext n; simp only [ih, cast_eval, mul_apply, pow_apply]
-
+    unfold self_mul; ext n
+    simp only [ih.symm, cast_eval, mul_apply, pow_apply]
+    symm
 
     calc
       _ = ∑ x ∈ antidiagonal n, ∑ z ∈ antidiagonalTuple j x.2, a x.1 * ∏ y, a (z y) := by
@@ -810,10 +806,8 @@ lemma Pow_eq_self_mul {a : ModularFormMod ℓ k} {j} : self_mul a j = a ** j := 
           exact Fin.ofNat (n + 1) ℓ
 
 
-
       _ = ∑ z ∈ antidiagonalTuple (j + 1) n, ∏ y, a (z y) := by
         symm; apply sum_subtype; intro x; simp_rw[mem_antidiagonalTuple]
-
 
 
 
@@ -831,7 +825,7 @@ lemma leading_pow_zeros [Fact (Nat.Prime ℓ)] {a : ModularFormMod ℓ k} {j n :
       calc
         _ < j := nltj
         _ = ∑ _ : Fin j, 1 := by
-          rw[sum_const, Finset.card_univ, Fintype.card_fin, smul_eq_mul, mul_one]
+          rw [sum_const, Finset.card_univ, Fintype.card_fin, smul_eq_mul, mul_one]
         _ ≤ _ := sum_le_sum (λ i _ ↦ hx i)
     }
   apply sum_eq_zero

@@ -470,6 +470,14 @@ def Imul {k j : ℕ} (a : IntegerModularForm k) (b : IntegerModularForm j) : Int
 instance : HMul (IntegerModularForm k) (IntegerModularForm j) (IntegerModularForm (k + j)) where
   hMul := Imul
 
+def Ipow (a : IntegerModularForm k) (j : ℕ) : IntegerModularForm (k * j) where
+  sequence n := ∑ x ∈ Finset.Nat.antidiagonalTuple j n, ∏ y, a (x y)
+  -- sum over all x1 + ... + xj = n
+
+  summable := sorry
+
+  modular := sorry
+
 
 
 @[simp]

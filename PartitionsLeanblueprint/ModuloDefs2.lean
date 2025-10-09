@@ -31,7 +31,7 @@ structure ModularFormMod (ℓ : ℕ) [NeZero ℓ] (k : ZMod (ℓ - 1)) where
 variable {k : ℕ}
 
 def Reduce (a : IntegerModularForm k) ℓ [NeZero ℓ] : ModularFormMod ℓ (k : ZMod (ℓ - 1)) where
-  sequence := reduce ℓ a
+  sequence n := (a n : ZMod ℓ)
   modular := ⟨k, a, rfl, rfl⟩
 
 
@@ -81,6 +81,10 @@ def natify (a : ModularFormMod ℓ k) : ℕ → ℕ :=
   fun n ↦ (a n).val
 
 
+variable  {α : Type*}
+
+def Sequencepow (a : ℕ → α) (j : ℕ) [CommRing α] : ℕ → α :=
+  fun n ↦ ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y)
 
 def pow (a : ModularFormMod ℓ k) (j : ℕ) : ModularFormMod ℓ (k * j) where
   sequence n := ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y)
@@ -88,8 +92,7 @@ def pow (a : ModularFormMod ℓ k) (j : ℕ) : ModularFormMod ℓ (k * j) where
 
   modular := sorry
 
-def ZModpow (a : ℕ → ZMod n) (j : ℕ) : ℕ → ZMod n :=
-  fun n ↦ ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y)
+
 
 
 instance instSMulZ : SMul ℤ (ModularFormMod ℓ k) where
@@ -118,6 +121,10 @@ variable {k j : ZMod (ℓ-1)}
 
 @[simp]
 theorem natify_apply (a : ModularFormMod ℓ k) (n : ℕ) : natify a n = (a n).val := rfl
+
+@[simp]
+theorem Reduce_apply {k ℓ} [NeZero ℓ] (a : IntegerModularForm k ) (n : ℕ) :
+  Reduce a ℓ n = a n := rfl
 
 @[simp]
 theorem toFun_eq_coe (f : ModularFormMod ℓ k) : ⇑f = (f : ℕ → ZMod ℓ) := rfl
@@ -174,9 +181,9 @@ theorem coe_pow (a : ModularFormMod ℓ k) (j : ℕ) : ⇑(pow a j) = fun n ↦ 
 
 theorem pow_apply (a : ModularFormMod ℓ k) (j n : ℕ) : (pow a j) n = ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
 
-theorem coe_ZModpow {ℓ : ℕ} (a : ℕ → ZMod ℓ) (j : ℕ) : ⇑(ZModpow a j) = fun n ↦ ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
+theorem coe_Sequencepow {ℓ : ℕ} (a : ℕ → ZMod ℓ) (j : ℕ) : ⇑(Sequencepow a j) = fun n ↦ ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
 
-theorem ZModpow_apply {ℓ : ℕ} (a : ℕ → ZMod ℓ) (j n : ℕ) : (ZModpow a j) n = ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
+theorem Sequencepow_apply {ℓ : ℕ} (a : ℕ → ZMod ℓ) (j n : ℕ) : (Sequencepow a j) n = ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
 
 @[ext]
 theorem ModularFormMod.ext {a b : ModularFormMod ℓ k} (h : ∀ n, a n = b n) : a = b :=

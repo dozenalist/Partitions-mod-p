@@ -1,4 +1,5 @@
 import PartitionsLeanblueprint.DescentArgument
+import PartitionsLeanblueprint.PartitionDefs
 import PartitionsLeanblueprint.Basis
 
 
@@ -8,7 +9,11 @@ and that Θ^[(ℓ + 3)/2] (f ℓ) (2) = 241, and from there derive a contradicti
 
 open Modulo2 Finset.Nat Finset
 
-variable [Fact (Nat.Prime ℓ)] [Fact (ℓ ≥ 5)] [Fact (ℓ ≥ 13)]
+variable [Fact (Nat.Prime ℓ)] [Fact (ℓ ≥ 13)]
+
+instance inst_lge5 : Fact (ℓ ≥ 5) :=
+  ⟨ @Nat.le_of_add_right_le 5 ℓ 8 Fact.out ⟩
+
 
 
 lemma Del_two : Δ 2 = (-24 : ZMod ℓ) := sorry
@@ -18,7 +23,7 @@ private instance Oddl : Odd ℓ :=
   let t : ℓ ≥ 5 := Fact.out
   Nat.Prime.odd_of_ne_two Fact.out (by linarith)
 
-instance : NeZero (δ ℓ) := {out := ne_zero_of_lt delta_pos}
+instance : NeZero (δ ℓ) := ⟨ne_zero_of_lt delta_pos⟩
 
 
 
@@ -388,11 +393,11 @@ lemma Theta_l_add_three_div_two_eq_241 (flu : f ℓ |𝓤 = 0) :
     Θ^[(ℓ + 3)/2] (f ℓ) (δ ℓ + 1) = 241 * (δ ℓ) ^ ((ℓ + 3) / 2) := sorry
 
 
-omit [Fact (Nat.Prime ℓ)] [Fact (ℓ ≥ 5)] [Fact (ℓ ≥ 13)] in
 
+omit [Fact (Nat.Prime ℓ)] [Fact (ℓ ≥ 13)] in
 lemma pow_congr_reduce_of_dvd {a c n : ℤ} {b : ℕ} (an0 : a ≠ 0) (adiv : a ∣ (n^2 - 1))
     ( h : ((n^2 - 1)/a + 1) ^ b ≡ c * ((n^2 - 1)/a) ^ b [ZMOD n] ) :
-  (-a + 1) ^ (b) ≡ c [ZMOD n] := by
+      (-a + 1) ^ (b) ≡ c [ZMOD n] := by
 
   obtain ⟨k, hk⟩ := adiv
   rw[hk, Int.mul_ediv_cancel_left _ an0] at h
@@ -472,8 +477,7 @@ lemma flu_ne_zero (flu : f ℓ |𝓤 = 0) : False := by
   {
     simp_all[l23]
     contrapose! inter
-    simp only [Int.modEq_iff_dvd, Int.sub_neg, Int.reduceAdd, Int.reduceDvd]
-    trivial
+    simpa only [Int.modEq_iff_dvd, Int.sub_neg, Int.reduceAdd, Int.reduceDvd]
   }
   have ln0 : (-23 : ZMod ℓ) ≠ 0 := by
     contrapose! l23; rw [neg_eq_zero] at l23
@@ -559,3 +563,8 @@ lemma flu_ne_zero (flu : f ℓ |𝓤 = 0) : False := by
 
   rcases ldiv with lp | lp | lp | lp
   <;> apply Nat.le_of_dvd at lp <;> omega
+
+
+
+theorem MainResult : ¬ ramanujan_congruence ℓ :=
+  λ h ↦ flu_ne_zero <| h |> flu_eq_zero
