@@ -18,7 +18,8 @@ Formalized :
 
 - The definitions of δℓ as a natural number and of Δ and fℓ as Modular Forms of their respective weights
 
-- Some of the introductory results of the paper, and some of the main lemmas. Lemmas 2.1 and 3.2 are formalized, and Lemma 3.3 is proven, assuming Lemmas 2.1 and 3.2. 
+- Some of the introductory results of the paper, and some of the main lemmas. Everything after lemma 3.3 is fully formalized, assuming everthing that comes before it.
+
 
 
 TODO : 
@@ -33,8 +34,6 @@ TODO :
 
 - Prove Lemmas 2.1 and 3.2, as well as the Filtration Log property
 
-- Formalize the end of the paper (Everything after Lemma 3.3)
-
 
 Note : 
 
@@ -47,5 +46,5 @@ To get around this, we can assert that a == b, meaning that for all n, a n = b n
 
 We can also assert that a = Mcongr b (h : k + 0 = k), where Mcongr casts the type of b to match the type of a, given a proof that these two types are equal. 
 
-When adding or subtracting two Modular Forms whose types are technically different but provabely equal, we can use, for example, a +r b (h : (the type of a) = (the type of b) ) in which the sum here inherits the type of b, given a proof that the two types are equal. 
+When adding or subtracting two Modular Forms whose types are technically different but provably equal, we can use, for example, a +r b (h : (the weight of a) = (the weight of b) ) in which the sum here inherits the type of b, given a proof that the two types are equal. 
 
