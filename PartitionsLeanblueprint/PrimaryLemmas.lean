@@ -292,7 +292,7 @@ lemma delta_pos [Fact (ℓ ≥ 5)] : (ℓ^2 - 1) / 24 > 0 := by
   have lg5 : ℓ ≥ 5 := Fact.out
   have fivesq : 5 * 5 = 25 := rfl
   have lsq : ℓ ^ 2 ≥ 25 :=
-    fivesq ▸ pow_two ℓ ▸ mul_le_mul lg5 lg5 (Nat.zero_le 5) (Nat.zero_le ℓ)
+    fivesq ▸ pow_two ℓ ▸ mul_le_mul (by simpa only using by simpa only) ‹_› (Nat.zero_le 5) (Nat.zero_le ℓ)
   apply Nat.div_pos
   omega
   exact Nat.zero_lt_succ 23
@@ -472,8 +472,8 @@ theorem Filt_U_pos [Fact (ℓ ≥ 5)] : ℓ ∣ 𝔀 (Θ^[ℓ - 1] (f ℓ)) → 
 
     | _ + 1 => Thecon _ ▸ rfl
 
-  have feq : f ℓ == Θ^[ℓ - 1] (f ℓ)
-  { simpa only [sub_congr_left_apply, sub_eq_zero] using zepo } -- idk if I like this
+  have feq : f ℓ == Θ^[ℓ - 1] (f ℓ) := by
+    simpa only [sub_congr_left_apply, sub_eq_zero] using zepo
 
   apply Filt_eq_of_Mod_eq at feq
   have wrong : ℓ ∣ 𝔀 (f ℓ) := feq ▸ h

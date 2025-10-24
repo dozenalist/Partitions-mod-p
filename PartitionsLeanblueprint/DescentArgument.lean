@@ -410,26 +410,24 @@ lemma Filt_Theta_lej [Fact (f ℓ |𝓤 = 0)] {m} (mle : m ≤ j) :
   | zero => rw[add_zero, Nat.find_spec exists_Filt_Theta_l_add_three_div_two]; rfl
 
   | succ m ih =>
+    specialize ih (Nat.le_of_succ_le mle)
+    have mlt : m < j := trans (lt_add_one m) mle
 
-    {
-      specialize ih (Nat.le_of_succ_le mle)
-      have mlt : m < j := trans (lt_add_one m) mle
+    have nmdiv : ¬ ℓ ∣ 𝔀 (Θ^[(ℓ + 3) / 2 + m] (f ℓ)) := by
+      apply Nat.find_min at mlt; exact mlt
 
-      have nmdiv : ¬ ℓ ∣ 𝔀 (Θ^[(ℓ + 3) / 2 + m] (f ℓ)) := by
-        apply Nat.find_min at mlt; exact mlt
+    have lrw : (ℓ + 3) / 2 + (m + 1) = (ℓ + 3) / 2 + m + 1 := (add_assoc ..).symm
 
-      have lrw : (ℓ + 3) / 2 + (m + 1) = (ℓ + 3) / 2 + m + 1 := (add_assoc ..).symm
+    rw[(Filt_Theta_iff' lrw).2 nmdiv, ih]
 
-      rw[(Filt_Theta_iff' lrw).2 nmdiv, ih]
+    trans (ℓ ^ 2 - 1) / 2 + (((ℓ + 3) / 2 + m) * (ℓ + 1) + (ℓ + 1)) - (α + 1) * (ℓ - 1)
+    rw[← add_assoc, add_assoc]
 
-      trans (ℓ ^ 2 - 1) / 2 + (((ℓ + 3) / 2 + m) * (ℓ + 1) + (ℓ + 1)) - (α + 1) * (ℓ - 1)
-      rw[← add_assoc, add_assoc]
+    refine Eq.symm (Nat.sub_add_comm ?_)
+    exact m_death_ineq m
 
-      refine Eq.symm (Nat.sub_add_comm ?_)
-      exact m_death_ineq m
+    congr 2; ring
 
-      congr 2; ring
-    }
 
 
 lemma ldiv_j_add_a [Fact (f ℓ |𝓤 = 0)] : ℓ ∣ (j + 1) + (α + 1) := by
@@ -448,10 +446,13 @@ lemma ldiv_j_add_a [Fact (f ℓ |𝓤 = 0)] : ℓ ∣ (j + 1) + (α + 1) := by
     use c + 1; rw[hc]; ring
 
 
-  have : (k + 1) + (a + 1) ≡ 0 [ZMOD l]
-  { calc
+  suffices (k + 1) + (a + 1) ≡ 0 [ZMOD l] by
+    zify; rwa [← Int.modEq_zero_iff_dvd]
+
+  calc
 
     _ ≡ 0 + (k + 1) * (l + 1) - (a + 1)*(l - 1) [ZMOD l] := by
+
       rw[zero_add, sub_eq_add_neg]; gcongr
       trans (k + 1) * (0 + 1); rw[zero_add, mul_one]
       gcongr; exact Int.modEq_self.symm
@@ -485,44 +486,44 @@ lemma ldiv_j_add_a [Fact (f ℓ |𝓤 = 0)] : ℓ ∣ (j + 1) + (α + 1) := by
       rfl
 
     _ = 𝔀 (Θ^[(ℓ + 3)/2 + j] (f ℓ)) := by
-      {
-        symm
-        suffices 𝔀 (Θ^[(ℓ + 3)/2 + j] (f ℓ)) =
-          (ℓ ^ 2 - 1) / 2 + ((ℓ + 3) / 2 + j) * (ℓ + 1) - (α + 1) * (ℓ - 1) by
+    {
+      symm
 
-            rw[this]; unfold l k a;
-            trans ↑(((ℓ ^ 2 - 1) / 2 : ℕ) + (((ℓ + 3) / 2 + j) : ℕ) * ((ℓ + 1) : ℕ)) - ↑((α + 1) * (ℓ - 1))
-            refine Int.ofNat_sub ?_; exact m_death_ineq j
+      have : 𝔀 (Θ^[(ℓ + 3)/2 + j] (f ℓ)) =
+          (ℓ ^ 2 - 1) / 2 + ((ℓ + 3) / 2 + j) * (ℓ + 1) - (α + 1) * (ℓ - 1) :=
+        Filt_Theta_lej (le_refl j)
 
-            trans ↑((ℓ ^ 2 - 1) / 2 : ℕ) + ↑(((ℓ + 3) / 2 + j) : ℕ) * ↑((ℓ + 1) : ℕ) - ↑(α + 1) * ↑(ℓ - 1)
-            rfl
+      rw[this]; unfold l k a;
+      trans ↑(((ℓ ^ 2 - 1) / 2 : ℕ) + (((ℓ + 3) / 2 + j) : ℕ) * ((ℓ + 1) : ℕ)) - ↑((α + 1) * (ℓ - 1))
+      refine Int.ofNat_sub ?_; exact m_death_ineq j
 
-            trans  ↑((ℓ ^ 2 - 1) / 2 : ℕ) + (↑(((ℓ + 3) / 2 + j) : ℕ) * ↑((ℓ + 1) : ℕ) - ↑(α + 1) * ↑(ℓ - 1))
-            apply Int.add_sub_assoc
+      trans ↑((ℓ ^ 2 - 1) / 2 : ℕ) + ↑(((ℓ + 3) / 2 + j) : ℕ) * ↑((ℓ + 1) : ℕ) - ↑(α + 1) * ↑(ℓ - 1)
+      rfl
 
-            trans (↑((ℓ ^ 2 - 1): ℕ)) / 2 + (↑(((ℓ + 3) / 2 + j) : ℕ) * ↑((ℓ + 1) : ℕ) - ↑(α + 1) * ↑(ℓ - 1))
-            rfl
+      trans  ↑((ℓ ^ 2 - 1) / 2 : ℕ) + (↑(((ℓ + 3) / 2 + j) : ℕ) * ↑((ℓ + 1) : ℕ) - ↑(α + 1) * ↑(ℓ - 1))
+      apply Int.add_sub_assoc
 
-            trans (↑ℓ ^ 2 - 1) / 2 + (↑(((ℓ + 3) / 2 + j) : ℕ) * ↑((ℓ + 1) : ℕ) - ↑(α + 1) * ↑(ℓ - 1))
-            have : ↑((ℓ ^ 2 - 1): ℕ) = ((ℓ ^ 2) : ℕ) - (1 : ℤ) := by
-              refine Int.natCast_pred_of_pos ?_; exact Nat.pos_of_neZero (ℓ ^ 2)
-            rw[this]; rfl
+      trans (↑((ℓ ^ 2 - 1): ℕ)) / 2 + (↑(((ℓ + 3) / 2 + j) : ℕ) * ↑((ℓ + 1) : ℕ) - ↑(α + 1) * ↑(ℓ - 1))
+      rfl
 
-            have rw1 : ↑(((ℓ + 3) / 2 + j) : ℕ) = ((↑ℓ + 3) / 2 + ↑j : ℤ) := rfl
-            have rw2 : ↑((ℓ + 1) : ℕ) = (↑ℓ + 1 : ℤ) := rfl
-            have rw3 : ↑((α + 1) : ℕ) = (↑α + 1 : ℤ) := rfl
-            have rw4 : ↑(ℓ - 1) = (↑ℓ - 1 : ℤ) := by
-              apply Int.natCast_pred_of_pos (Nat.pos_of_neZero ℓ)
-            have rw5 : ((↑ℓ + 1) / 2 + (↑j + 1 : ℤ)) = (↑ℓ + 3) / 2 + ↑j := by
-              trans (↑ℓ + 1) / 2 + 2/2 + ↑j
-              ring; congr; trans (↑ℓ + 1 + 2) / 2
-              refine Eq.symm (Int.add_ediv_of_dvd_left ?_)
-              exact divl; congr 1
+      trans (↑ℓ ^ 2 - 1) / 2 + (↑(((ℓ + 3) / 2 + j) : ℕ) * ↑((ℓ + 1) : ℕ) - ↑(α + 1) * ↑(ℓ - 1))
+      have : ↑((ℓ ^ 2 - 1): ℕ) = ((ℓ ^ 2) : ℕ) - (1 : ℤ) := by
+        refine Int.natCast_pred_of_pos ?_; exact Nat.pos_of_neZero (ℓ ^ 2)
+      rw[this]; rfl
 
-            rw[rw1,rw2,rw3,rw4,rw5, Int.add_sub_assoc]
+      have rw1 : ↑(((ℓ + 3) / 2 + j) : ℕ) = ((↑ℓ + 3) / 2 + ↑j : ℤ) := rfl
+      have rw2 : ↑((ℓ + 1) : ℕ) = (↑ℓ + 1 : ℤ) := rfl
+      have rw3 : ↑((α + 1) : ℕ) = (↑α + 1 : ℤ) := rfl
+      have rw4 : ↑(ℓ - 1) = (↑ℓ - 1 : ℤ) := by
+        apply Int.natCast_pred_of_pos (Nat.pos_of_neZero ℓ)
+      have rw5 : ((↑ℓ + 1) / 2 + (↑j + 1 : ℤ)) = (↑ℓ + 3) / 2 + ↑j := by
+        trans (↑ℓ + 1) / 2 + 2/2 + ↑j
+        ring; congr; trans (↑ℓ + 1 + 2) / 2
+        refine Eq.symm (Int.add_ediv_of_dvd_left ?_)
+        exact divl; congr 1
 
-        exact Filt_Theta_lej (le_refl j)
-      }
+      rw[rw1,rw2,rw3,rw4,rw5, Int.add_sub_assoc]
+    }
 
 
     _ ≡ 0 [ZMOD l] := by
@@ -530,25 +531,7 @@ lemma ldiv_j_add_a [Fact (f ℓ |𝓤 = 0)] : ℓ ∣ (j + 1) + (α + 1) := by
       have : ℓ ∣ (𝔀 (Θ^[(ℓ + 3) / 2 + j] (f ℓ))) :=
         Nat.find_spec j._proof_1
       zify at this; exact this
-  }
 
-  unfold k a l Int.ModEq at this
-  simp_all
-  obtain ⟨k,hk⟩ := this
-  have kg0 : k ≥ 0 := by
-    apply le_of_eq at hk
-    contrapose! hk
-    calc
-    ↑ℓ * k < 0 := by
-      apply mul_neg_of_pos_of_neg
-      suffices ℓ > 0 from Int.natCast_pos.mpr this
-      exact Nat.pos_of_neZero ℓ
-      exact hk
-    _ ≤ _ := by norm_cast; apply Nat.le_add_left
-
-  use k.toNat; zify
-  trans ↑ℓ * k; exact hk
-  congr; exact Int.eq_natCast_toNat.mpr kg0
 
 
 lemma alpha_equal [Fact (f ℓ |𝓤 = 0)] : α + 1 = (ℓ + 5) / 2 := by
@@ -645,13 +628,11 @@ theorem Filt_Theta_l_add_three_div_two (flu : f ℓ |𝓤 = 0) :
       trans 13 ^ 2 + 4 * 13
       exact Nat.le_add_left 5 (13 ^ 2 + 47)
       apply add_le_add; exact Nat.pow_le_pow_left lg 2
-      rwa[ mul_le_mul_left zero_lt_four]
+      rwa[mul_le_mul_left zero_lt_four]
 
     _ = ((ℓ^2 + 4*ℓ - (ℓ^2 + 4*ℓ) + 3 + 5)) / 2 := by
-      congr; refine Nat.sub_add_comm (le_refl _)
+      congr; exact Nat.sub_add_comm (le_refl _)
 
     _ = (0 + 8) / 2 := by
       rw[add_assoc]; congr
-      exact Eq.symm (Nat.eq_sub_of_add_eq' rfl)
-
-    _ = 4 := rfl
+      exact Nat.sub_self _

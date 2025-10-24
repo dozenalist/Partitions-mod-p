@@ -96,7 +96,7 @@ lemma orbit_eq_tuple {k n} {x : Fin k → ℕ} (h : x ∈ antidiagonalTuple k n)
   obtain ⟨c,rfl⟩ := this
   apply Finset.mem_image.mpr
   use c⁻¹; constructor
-  simp_all only [mem_filter, mem_univ]
+  exact mem_univ _
   ext i; simp only [Function.comp_apply, Equiv.Perm.apply_inv_self]
 
 
@@ -737,7 +737,7 @@ lemma pow_eq_self_mul {a : ModularFormMod ℓ k} {j} : a ** j = self_mul a j := 
     cases n <;> simp[pow_apply]
   | succ j ih =>
     unfold self_mul; ext n
-    simp only [ih.symm, cast_eval, mul_apply, pow_apply]
+    simp only [← ih, cast_eval, mul_apply, pow_apply]
     symm
 
     calc
@@ -759,51 +759,51 @@ lemma pow_eq_self_mul {a : ModularFormMod ℓ k} {j} : a ** j = self_mul a j := 
 
 
       _ = ∑ z : {z : Fin (j+1) → ℕ // ∑ i, z i = n}, ∏ y, a (z.1 y) := by
-          rw[Finset.sum_sigma']; simp
-          apply Finset.sum_equiv e
-          intro; simp only [mem_univ]
-          intro z zuniv
-          unfold e; dsimp
+        rw[Finset.sum_sigma']; simp
+        apply Finset.sum_equiv e
+        intro; simp only [mem_univ]
+        intro z zuniv
+        unfold e; dsimp
 
-          obtain ⟨fst, snd⟩ := z
-          obtain ⟨z, property⟩ := snd
-          dsimp; symm
+        obtain ⟨fst, snd⟩ := z
+        obtain ⟨z, property⟩ := snd
+        dsimp; symm
 
-          rw[prod_apply_dite, mul_comm]; congr 1
+        rw[prod_apply_dite, mul_comm]; congr 1
 
-          rw[prod_const]; nth_rw 2 [← pow_one (a ↑fst)]
-          congr; apply @Fintype.card_eq_one_of_forall_eq _ _ ⟨ ( ⟨j, Nat.lt_succ_self j⟩ : Fin (j + 1) ),
-                  by simp only [mem_filter, mem_univ, true_and, lt_self_iff_false, not_false_eq_true]⟩
+        rw[prod_const]; nth_rw 2 [← pow_one (a ↑fst)]
+        congr; apply @Fintype.card_eq_one_of_forall_eq _ _ ⟨ ( ⟨j, Nat.lt_succ_self j⟩ : Fin (j + 1) ),
+                by simp only [mem_filter, mem_univ, true_and, lt_self_iff_false, not_false_eq_true] ⟩
 
-          intro k;
-          simp_all only [mem_univ]
-          obtain ⟨k, property_1⟩ := k
-          simp_all only [Subtype.mk.injEq]
-          simp_all only [not_lt, mem_filter, mem_univ, true_and]
-          have : k ≤ j := Fin.is_le k
-          apply Fin.eq_of_val_eq
-          exact Eq.symm (Nat.le_antisymm property_1 this)
-
-
-          trans ∏ x : {x : Fin (j + 1) // ↑x < j}, a (z ⟨↑↑x, x.2⟩ )
-
-          apply prod_bijective (fun ⟨z,prop⟩ ↦ ⟨z, by rw[mem_filter] at prop; exact prop.2⟩)
-
-          refine Function.bijective_iff_has_inverse.mpr ?_
-
-          use (fun ⟨z,prop⟩ ↦ ⟨z, by rw[mem_filter]; exact ⟨mem_univ _, prop⟩⟩)
-          constructor <;> intro k <;> simp only [Subtype.coe_eta]
-
-          simp only [mem_univ, implies_true]
-          intro k kuniv; rfl
-
-          apply prod_equiv g
-          simp only [mem_univ, implies_true]
-          intro k kuniv
-          unfold g; dsimp
+        intro k;
+        simp_all only [mem_univ]
+        obtain ⟨k, property_1⟩ := k
+        simp_all only [Subtype.mk.injEq]
+        simp_all only [not_lt, mem_filter, mem_univ, true_and]
+        have : k ≤ j := Fin.is_le k
+        apply Fin.eq_of_val_eq
+        exact Eq.symm (Nat.le_antisymm property_1 this)
 
 
-          exact Fin.ofNat (n + 1) ℓ
+        trans ∏ x : {x : Fin (j + 1) // ↑x < j}, a (z ⟨↑↑x, x.2⟩ )
+
+        apply prod_bijective (fun ⟨z,prop⟩ ↦ ⟨z, by rw[mem_filter] at prop; exact prop.2⟩)
+
+        refine Function.bijective_iff_has_inverse.mpr ?_
+
+        use (fun ⟨z,prop⟩ ↦ ⟨z, by rw[mem_filter]; exact ⟨mem_univ _, prop⟩⟩)
+        constructor <;> intro k <;> simp only [Subtype.coe_eta]
+
+        simp only [mem_univ, implies_true]
+        intro k kuniv; rfl
+
+        apply prod_equiv g
+        simp only [mem_univ, implies_true]
+        intro k kuniv
+        unfold g; dsimp
+
+
+        exact Fin.ofNat (n + 1) ℓ
 
 
       _ = ∑ z ∈ antidiagonalTuple (j + 1) n, ∏ y, a (z y) := by
