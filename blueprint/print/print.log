@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.6.5)  24 OCT 2025 13:58
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.6.5)  27 OCT 2025 02:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -181,6 +181,12 @@ LaTeX Info: Redefining \] on input line 2950.
 \l_MT_below_shortintertext_sep=\dimen174
 \xmathstrut@box=\box55
 \xmathstrut@dim=\dimen175
+)
+(c:/texlive/2025/texmf-dist/tex/latex/stmaryrd/stmaryrd.sty
+Package: stmaryrd 1994/03/03 St Mary's Road symbol package
+\symstmry=\mathgroup6
+LaTeX Font Info:    Overwriting symbol font `stmry' in version `bold'
+(Font)                  U/stmry/m/n --> U/stmry/b/n on input line 89.
 )
 (c:/texlive/2025/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2025-05-20 v7.01m Hypertext links for LaTeX
@@ -923,6 +929,10 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 32.
 (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
+LaTeX Font Info:    Trying to load font information for U+stmry on input line 3
+2.
+
+(c:/texlive/2025/texmf-dist/tex/latex/stmaryrd/Ustmry.fd)
 
 [1
 
@@ -963,9 +973,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 468--475
 
  []
 
-)
 
-[3] (C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/print.aux)
+
+[3])
+
+[4] (C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/print.aux)
  ***********
 LaTeX2e <2025-06-01>
 L3 programming layer <2025-05-26>
@@ -974,13 +986,13 @@ Package rerunfilecheck Info: File `print.out' has not changed.
 (rerunfilecheck)             Checksum: 5BAE4E4C47032E8C934C1266925A8B9F;270.
  ) 
 Here is how much of TeX's memory you used:
- 16755 strings out of 468533
- 307580 string characters out of 5451482
- 919630 words of memory out of 5000000
- 44918 multiletter control sequences out of 15000+600000
- 632188 words of font info for 88 fonts, out of 8000000 for 9000
+ 17001 strings out of 468533
+ 310725 string characters out of 5451482
+ 918918 words of memory out of 5000000
+ 45151 multiletter control sequences out of 15000+600000
+ 633412 words of font info for 94 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  90i,12n,107p,542b,483s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 Output written on C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/
-print.pdf (4 pages).
+print.pdf (5 pages).

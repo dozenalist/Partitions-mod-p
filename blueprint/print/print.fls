@@ -43,6 +43,8 @@ INPUT c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsgen.sty
 INPUT c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsbsy.sty
 INPUT c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsbsy.sty
 INPUT c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsopn.sty
+INPUT c:/texlive/2025/texmf-dist/tex/latex/stmaryrd/stmaryrd.sty
+INPUT c:/texlive/2025/texmf-dist/tex/latex/stmaryrd/stmaryrd.sty
 INPUT c:/texlive/2025/texmf-dist/tex/latex/hyperref/hyperref.sty
 INPUT c:/texlive/2025/texmf-dist/tex/latex/hyperref/hyperref.sty
 INPUT c:/texlive/2025/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
@@ -178,6 +180,12 @@ INPUT c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
+INPUT c:/texlive/2025/texmf-dist/tex/latex/stmaryrd/Ustmry.fd
+INPUT c:/texlive/2025/texmf-dist/tex/latex/stmaryrd/Ustmry.fd
+INPUT c:/texlive/2025/texmf-dist/tex/latex/stmaryrd/Ustmry.fd
+INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/stmaryrd/stmary10.tfm
+INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/stmaryrd/stmary8.tfm
+INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/stmaryrd/stmary6.tfm
 INPUT ./content.tex
 INPUT ./content.tex
 INPUT ./content.tex
@@ -189,6 +197,9 @@ INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam5.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
+INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/stmaryrd/stmary10.tfm
+INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/stmaryrd/stmary7.tfm
+INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/stmaryrd/stmary5.tfm
 INPUT C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/print.aux
 INPUT C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/print.out
 INPUT C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/print.out

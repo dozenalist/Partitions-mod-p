@@ -577,3 +577,74 @@
 \end{proof}
 
 
+
+\begin{definition}
+  \label{def:ramanujan_congruence}
+  \lean{ramanujan_congruence}
+  \leanok
+  Let $p$ be the partion function. We say that there is a Ramanujan congruence mod a prime $\ell$ if 
+  $\forall n \in \mathbb{N}, \ell \mid p (\ell n - \delta_\ell).$
+\end{definition}
+
+
+\begin{theorem}
+  \label{thm:partitionProduct_eq}
+  \lean{partitionProduct_eq}
+  \leanok
+  If $n > 0$ and $m \ge n$, then $p (n)$ is equal to the nth coefficient in the product exapansion of
+  \[ \prod_{i = 0}^{m} (1 - X^(i + 1))^{-1} \]
+  Note : In lean, $p (0) = 0$.
+\end{theorem}
+\begin{proof}
+  \leanok
+  This proof is almost entirely due to Archive.Wiedijk100Theorems.Partition
+\end{proof}
+
+
+\begin{definition} 
+  \label{def:eventuallyEq}
+  \lean{eventuallyEq}
+  \leanok
+  Let $\alpha$ be a field, and let $f, g : \mathbb{N} \to \alpha \llbracket X \rrbracket$ be two sequences of power series with coefficients in $\alpha$.
+  We say that $f$ and $g$ are eventually equal, and write $f \longrightarrow g$, if
+  $\forall n \in \mathbb{N}, \exists m \in \mathbb{N}, \forall k \le n, \forall j \ge m$, 
+  the jth coefficient of $f(k)$ is equal to the jth coefficient of $g(k)$. This is an equivalence relation.
+\end{definition}
+
+\begin{theorem}
+  \label{thm:eventuallyEq_mul}
+  \uses{def:eventuallyEq}
+  \lean{eventuallyEq_mul}
+  \leanok
+  If $f \longrightarrow f'$ and $g \longrightarrow g'$, then $f g \longrightarrow f' g'$.
+\end{theorem}
+\begin{proof}
+  \leanok
+\end{proof}
+
+
+\begin{lemma}
+  \label{lem:coeff_sum_X_pow_mul}
+  \lean{coeff_sum_X_pow_mul}
+  \leanok
+  Let $n, N, \ell \in \mathbb{N}$ with $n < N$ and $\ell > 0$. Let $a : \mathbb{N} \to \alpha$ be a sequence with coefficients in a field $\alpha$.
+  Then the nth coefficient of 
+  \[ \sum_{i = 0}^{N} a (n) X ^ (i * \ell) = 
+      \begin{cases}
+        a (n / \ell) & \text{ if } \ell \mid n, \\
+        0 & \text{ otherwise.}
+      \end{cases} \]
+
+\end{lemma}
+\begin{proof}
+  \leanok
+\end{proof}
+
+
+
+
+
+
+
+
+

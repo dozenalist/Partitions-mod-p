@@ -19,7 +19,7 @@ import PartitionsLeanblueprint.PrimaryLemmas
 and the power series product expansions for some functions.
 It defines what it means for two sequences of power series to be "eventually equal",
 and proves that if there exists a ramanujan congruence mod ℓ then fℓ|𝓤 = 0,
-assuming that the delta function is eventually equal to its product expansion (on line 683)
+assuming that the delta function is eventually equal to its product expansion (on line 683).
 We may want to define the Delta function as the reduction of its product expansion,
 in which cases we would get this fact for free. -/
 
@@ -246,7 +246,7 @@ def ppart [Field α] : ℕ → α ⟦X⟧
   | 0 => 0
   | n => Fintype.card (Partition n)
 
-lemma ppart_zero {α} [Field α] : ppart 0 = (0 : α ⟦X⟧) := rfl
+lemma ppart_zero [Field α] : ppart 0 = (0 : α ⟦X⟧) := rfl
 
 lemma ppart_eq [Field α] (n : ℕ) : ↑(partition n) = (ppart n : α ⟦X⟧) := by
   cases n; rw[partition_zero, cast_zero]; rfl; rfl
@@ -864,11 +864,6 @@ theorem flu_eq_zero [Fact (ℓ ≥ 5)] : ramanujan_congruence ℓ → f ℓ |�
     trans 5 * 5; rw[pow_two]; gcongr; exact le_refl _
 
   ext n
-
-  by_cases npos : n = 0
-  · rw [npos, U_apply, mul_zero, fl_zero, zero_apply]
-
-  rw [← ne_eq, ← Nat.pos_iff_ne_zero] at npos
 
   rw [U_apply, zero_apply, fl_eq_reduce, Reduce_apply]
 

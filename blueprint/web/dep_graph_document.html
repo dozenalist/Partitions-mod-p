@@ -124,6 +124,36 @@
 
 
     
+    <div class="dep-modal-container" id="def:eventuallyEq_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:eventuallyEq" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">43</span></div>
+    <div class="thm_thmcontent"><p>  Let \(\alpha \) be a field, and let \(f, g : \mathbb {N} \to \alpha \@undefined X \@undefined \) be two sequences of power series with coefficients in \(\alpha \). We say that \(f\) and \(g\) are eventually equal, and write \(f \longrightarrow g\), if \(\forall n \in \mathbb {N}, \exists m \in \mathbb {N}, \forall k \le n, \forall j \ge m\), the jth coefficient of \(f(k)\) is equal to the jth coefficient of \(g(k)\). This is an equivalence relation. </p>
+</div>
+
+    <a class="latex_link" href="index.html#def:eventuallyEq">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L360">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
     <div class="dep-modal-container" id="def:f_l_modal">
       <div class="dep-modal-content">
           <button class="dep-closebtn">
@@ -398,7 +428,37 @@
     <a class="latex_link" href="index.html#def:perm_equiv">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L31">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L32">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:ramanujan_congruence_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:ramanujan_congruence" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">41</span></div>
+    <div class="thm_thmcontent"><p>  Let \(p\) be the partion function. We say that there is a Ramanujan congruence mod a prime \(\ell \) if \(\forall n \in \mathbb {N}, \ell \mid p (\ell n - \delta _\ell ).\) </p>
+</div>
+
+    <a class="latex_link" href="index.html#def:ramanujan_congruence">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L48">Lean</a>
     
     
   
@@ -560,6 +620,39 @@
 
 
     
+    <div class="dep-modal-container" id="lem:coeff_sum_X_pow_mul_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lem:coeff_sum_X_pow_mul" style="display: none">
+    <div class="thm_thmheading">
+      <span class="lemma_thmcaption">
+      Lemma
+      </span>
+      <span class="lemma_thmlabel">45</span></div>
+    <div class="thm_thmcontent"><p>  Let \(n, N, \ell \in \mathbb {N}\) with \(n {\lt} N\) and \(\ell {\gt} 0\). Let \(a : \mathbb {N} \to \alpha \) be a sequence with coefficients in a field \(\alpha \). Then the nth coefficient of </p>
+<div class="displaymath" id="a0000000032">
+  \[  \sum _{i = 0}^{N} a (n) X ^(i * \ell ) = \begin{cases}  a (n / \ell ) &  \text{ if } \ell \mid n, \\ 0 &  \text{ otherwise.} \end{cases}  \]
+</div>
+</div>
+
+    <a class="latex_link" href="index.html#lem:coeff_sum_X_pow_mul">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L438">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
     <div class="dep-modal-container" id="lem:const_of_Filt_zero_modal">
       <div class="dep-modal-content">
           <button class="dep-closebtn">
@@ -608,7 +701,7 @@
     <a class="latex_link" href="index.html#lem:Filt_fl">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L310">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L320">Lean</a>
     
     
   
@@ -638,7 +731,7 @@
     <a class="latex_link" href="index.html#lem:Filt_Theta_congruence_of_div">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L355">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L365">Lean</a>
     
     
   
@@ -822,9 +915,9 @@
       <span class="lean_link">Lean</span>
       <ul class="tooltip_list">
         
-           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L337" class="lean_decl">non_const_of_tuple_non_diag</a></li>
+           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L338" class="lean_decl">non_const_of_tuple_non_diag</a></li>
         
-           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L360" class="lean_decl">non_const_of_tuple_diag</a></li>
+           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L361" class="lean_decl">non_const_of_tuple_diag</a></li>
         
       </ul>
   </div>
@@ -860,7 +953,7 @@
     <a class="latex_link" href="index.html#lem:non_diag_vanish">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L220">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L221">Lean</a>
     
     
   
@@ -890,7 +983,37 @@
     <a class="latex_link" href="index.html#lem:Pi_eq_of_perm_equiv">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L322">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L323">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:eventuallyEq_mul_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:eventuallyEq_mul" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">44</span></div>
+    <div class="thm_thmcontent"><p>   If \(f \longrightarrow f'\) and \(g \longrightarrow g'\), then \(f g \longrightarrow f' g'\). </p>
+</div>
+
+    <a class="latex_link" href="index.html#thm:eventuallyEq_mul">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L399">Lean</a>
     
     
   
@@ -920,7 +1043,7 @@
     <a class="latex_link" href="index.html#thm:Filt_Theta_bound">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L324">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L334">Lean</a>
     
     
   
@@ -950,7 +1073,7 @@
     <a class="latex_link" href="index.html#thm:Filt_Theta_iff">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L327">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L337">Lean</a>
     
     
   
@@ -1070,7 +1193,7 @@
     <a class="latex_link" href="index.html#thm:Filt_Theta_pow_l_sub_one">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L432">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L442">Lean</a>
     
     
   
@@ -1100,7 +1223,7 @@
     <a class="latex_link" href="index.html#thm:Filt_U_pos">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L448">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L458">Lean</a>
     
     
   
@@ -1190,7 +1313,41 @@
     <a class="latex_link" href="index.html#thm:le_Filt_Theta_fl">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L425">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L435">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:partitionProduct_eq_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:partitionProduct_eq" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">42</span></div>
+    <div class="thm_thmcontent"><p>  If \(n {\gt} 0\) and \(m \ge n\), then \(p (n)\) is equal to the nth coefficient in the product exapansion of </p>
+<div class="displaymath" id="a0000000029">
+  \[  \prod _{i = 0}^{m} (1 - X^(i + 1))^{-1}  \]
+</div>
+<p> Note : In lean, \(p (0) = 0\). </p>
+</div>
+
+    <a class="latex_link" href="index.html#thm:partitionProduct_eq">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L304">Lean</a>
     
     
   
@@ -1223,7 +1380,7 @@
     <a class="latex_link" href="index.html#thm:Pow_Prime">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L383">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L384">Lean</a>
     
     
   
@@ -1311,7 +1468,7 @@ graphContainer.graphviz({useWorker: true})
     .width(width)
     .height(height)
     .fit(true)
-    .renderDot(`strict digraph "" {	graph [bgcolor=transparent];	node [label="\N",		penwidth=1.8	];	edge [arrowhead=vee];	"lem:alpha_bound"	[color=green,		fillcolor="#9CEC8B",		label=alpha_bound,		shape=ellipse,		style=filled];	"lem:Filt_Theta_lej"	[color=green,		fillcolor="#9CEC8B",		label=Filt_Theta_lej,		shape=ellipse,		style=filled];	"lem:alpha_bound" -> "lem:Filt_Theta_lej"	[style=dashed];	"lem:ldiv_j_add_a"	[color=green,		fillcolor="#9CEC8B",		label=ldiv_j_add_a,		shape=ellipse,		style=filled];	"lem:Filt_Theta_lej" -> "lem:ldiv_j_add_a"	[style=dashed];	"lem:alpha_equal"	[color=green,		fillcolor="#9CEC8B",		label=alpha_equal,		shape=ellipse,		style=filled];	"thm:Filt_Theta_l_add_three_div_two"	[color=green,		fillcolor="#9CEC8B",		label=Filt_Theta_l_add_three_div_two,		shape=ellipse,		style=filled];	"lem:alpha_equal" -> "thm:Filt_Theta_l_add_three_div_two"	[style=dashed];	"thm:Theta_l_add_three_div_two_eq_241"	[color=green,		label=Theta_l_add_three_div_two_eq_241,		shape=ellipse];	"thm:Filt_Theta_l_add_three_div_two" -> "thm:Theta_l_add_three_div_two_eq_241"	[style=dashed];	"lem:ldiv_j_add_a" -> "lem:alpha_equal"	[style=dashed];	flu_ne_zero	[color=green,		fillcolor="#9CEC8B",		label=flu_ne_zero,		shape=ellipse,		style=filled];	"def:f_l"	[color=green,		fillcolor="#B0ECA3",		label=f_l,		shape=box,		style=filled];	"lem:fl_delta_add_one"	[color=green,		fillcolor="#1CAC78",		label=fl_delta_add_one,		shape=ellipse,		style=filled];	"def:f_l" -> "lem:fl_delta_add_one"	[style=dashed];	"thm:le_Filt_Theta_fl"	[color=green,		label=le_Filt_Theta_fl,		shape=ellipse];	"def:f_l" -> "thm:le_Filt_Theta_fl"	[style=dashed];	"lem:Filt_fl"	[color=green,		label=Filt_fl,		shape=ellipse];	"def:f_l" -> "lem:Filt_fl"	[style=dashed];	"lem:fl_delta_add_one" -> flu_ne_zero	[style=dashed];	"thm:le_Filt_Theta_fl" -> "lem:alpha_bound"	[style=dashed];	"thm:Filt_Theta_l_sub_two"	[color=green,		fillcolor="#9CEC8B",		label=Filt_Theta_l_sub_two,		shape=ellipse,		style=filled];	"thm:le_Filt_Theta_fl" -> "thm:Filt_Theta_l_sub_two"	[style=dashed];	"lem:Filt_Theta_lel_add_one_div_two"	[color=green,		fillcolor="#9CEC8B",		label=Filt_Theta_lel_add_one_div_two,		shape=ellipse,		style=filled];	"lem:Filt_fl" -> "lem:Filt_Theta_lel_add_one_div_two"	[style=dashed];	"thm:Filt_Theta_pow_l_sub_one"	[color=green,		fillcolor="#9CEC8B",		label=Filt_Theta_pow_l_sub_one,		shape=ellipse,		style=filled];	"lem:Filt_fl" -> "thm:Filt_Theta_pow_l_sub_one"	[style=dashed];	"thm:Filt_U_pos"	[color=green,		fillcolor="#9CEC8B",		label=Filt_U_pos,		shape=ellipse,		style=filled];	"lem:Filt_fl" -> "thm:Filt_U_pos"	[style=dashed];	"def:j"	[color=green,		fillcolor="#B0ECA3",		label=j,		shape=box,		style=filled];	"thm:Filt_Theta_l_sub_two" -> "def:j"	[style=dashed];	"thm:Filt_Theta_l_add_one_div_two"	[color=green,		fillcolor="#9CEC8B",		label=Filt_Theta_l_add_one_div_two,		shape=ellipse,		style=filled];	"lem:Filt_Theta_lel_add_one_div_two" -> "thm:Filt_Theta_l_add_one_div_two"	[style=dashed];	"thm:Filt_Theta_pow_l_sub_one" -> "thm:Filt_Theta_l_sub_two"	[style=dashed];	"thm:Filt_U_pos" -> "thm:Filt_Theta_l_sub_two"	[style=dashed];	"lem:non_const_of_tuple"	[color=green,		fillcolor="#1CAC78",		label=non_const_of_tuple,		shape=ellipse,		style=filled];	"thm:Pow_Prime"	[color=green,		fillcolor="#1CAC78",		label=Pow_Prime,		shape=ellipse,		style=filled];	"lem:non_const_of_tuple" -> "thm:Pow_Prime"	[style=dashed];	"thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one"	[color=green,		fillcolor="#1CAC78",		label=U_pow_l_eq_self_sub_Theta_pow_l_sub_one,		shape=ellipse,		style=filled];	"thm:Pow_Prime" -> "thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one"	[style=dashed];	"thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one" -> "thm:Filt_U_pos"	[style=dashed];	"lem:Pi_eq_of_perm_equiv"	[color=green,		fillcolor="#1CAC78",		label=Pi_eq_of_perm_equiv,		shape=ellipse,		style=filled];	"lem:Pi_eq_of_perm_equiv" -> "thm:Pow_Prime"	[style=dashed];	"def:ModularForm"	[color=green,		fillcolor="#B0ECA3",		label=ModularForm,		shape=box,		style=filled];	"def:IntegerModularForm"	[color=green,		fillcolor="#B0ECA3",		label=IntegerModularForm,		shape=box,		style=filled];	"def:ModularForm" -> "def:IntegerModularForm"	[style=dashed];	"def:ModularFormMod"	[color=green,		fillcolor="#B0ECA3",		label=ModularFormMod,		shape=box,		style=filled];	"def:IntegerModularForm" -> "def:ModularFormMod"	[style=dashed];	"def:Theta"	[color=green,		fillcolor="#B0ECA3",		label=Theta,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:Theta"	[style=dashed];	"def:U_Operator"	[color=green,		fillcolor="#B0ECA3",		label=U_Operator,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:U_Operator"	[style=dashed];	"def:hasWeight"	[color=green,		fillcolor="#B0ECA3",		label=hasWeight,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:hasWeight"	[style=dashed];	"def:mulpow"	[color=green,		fillcolor="#B0ECA3",		label=mulpow,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:mulpow"	[style=dashed];	"def:Delta"	[color=green,		fillcolor="#B0ECA3",		label=Delta,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:Delta"	[style=dashed];	"def:Theta" -> "thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one"	[style=dashed];	"thm:Filt_Theta_bound"	[color=green,		label=Filt_Theta_bound,		shape=ellipse];	"def:Theta" -> "thm:Filt_Theta_bound"	[style=dashed];	"def:U_Operator" -> "thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one"	[style=dashed];	"def:Filtration"	[color=green,		fillcolor="#B0ECA3",		label=Filtration,		shape=box,		style=filled];	"def:hasWeight" -> "def:Filtration"	[style=dashed];	"def:mulpow" -> "lem:fl_delta_add_one"	[style=dashed];	"def:mulpow" -> "thm:Pow_Prime"	[style=dashed];	"thm:Filtration_Log"	[color=green,		label=Filtration_Log,		shape=ellipse];	"def:mulpow" -> "thm:Filtration_Log"	[style=dashed];	"def:Delta" -> "def:f_l"	[style=dashed];	"thm:Filt_Theta_iff"	[color=green,		label=Filt_Theta_iff,		shape=ellipse];	"thm:Filt_Theta_bound" -> "thm:Filt_Theta_iff"	[style=dashed];	"def:Filtration" -> "thm:le_Filt_Theta_fl"	[style=dashed];	"thm:Filtration_congruence"	[color=green,		label=Filtration_congruence,		shape=ellipse];	"def:Filtration" -> "thm:Filtration_congruence"	[style=dashed];	"lem:const_of_Filt_zero"	[color=green,		label=const_of_Filt_zero,		shape=ellipse];	"def:Filtration" -> "lem:const_of_Filt_zero"	[style=dashed];	"lem:Filt_Theta_congruence_of_div"	[color=green,		fillcolor="#9CEC8B",		label=Filt_Theta_congruence_of_div,		shape=ellipse,		style=filled];	"thm:Filtration_congruence" -> "lem:Filt_Theta_congruence_of_div"	[style=dashed];	"lem:const_of_Filt_zero" -> "thm:Filtration_Log"	[style=dashed];	"thm:Filtration_Log" -> "lem:Filt_fl"	[style=dashed];	"def:j" -> "lem:Filt_Theta_lej"	[style=dashed];	"lem:j_bound"	[color=green,		fillcolor="#9CEC8B",		label=j_bound,		shape=ellipse,		style=filled];	"def:j" -> "lem:j_bound"	[style=dashed];	"lem:j_bound" -> "lem:alpha_equal"	[style=dashed];	"def:alpha"	[color=green,		fillcolor="#B0ECA3",		label=alpha,		shape=box,		style=filled];	"lem:Filt_Theta_congruence_of_div" -> "def:alpha"	[style=dashed];	"def:alpha" -> "lem:alpha_bound"	[style=dashed];	"thm:Filt_Theta_l_add_one_div_two" -> "def:alpha"	[style=dashed];	"thm:Theta_l_add_three_div_two_eq_241" -> flu_ne_zero	[style=dashed];	"thm:Filt_Theta_iff" -> "lem:Filt_Theta_lel_add_one_div_two"	[style=dashed];	"thm:Filt_Theta_iff" -> "thm:Filt_Theta_pow_l_sub_one"	[style=dashed];	"thm:Filt_Theta_iff" -> "lem:Filt_Theta_congruence_of_div"	[style=dashed];	"lem:non_diag_vanish"	[color=green,		fillcolor="#1CAC78",		label=non_diag_vanish,		shape=ellipse,		style=filled];	"lem:non_diag_vanish" -> "lem:fl_delta_add_one"	[style=dashed];	"lem:non_diag_vanish" -> "thm:Pow_Prime"	[style=dashed];	"def:perm_equiv"	[color=green,		fillcolor="#B0ECA3",		label=perm_equiv,		shape=box,		style=filled];	"def:perm_equiv" -> "lem:Pi_eq_of_perm_equiv"	[style=dashed];	"def:perm_equiv" -> "lem:non_diag_vanish"	[style=dashed];}`)
+    .renderDot(`strict digraph "" {	graph [bgcolor=transparent];	node [label="\N",		penwidth=1.8	];	edge [arrowhead=vee];	"lem:Filt_fl"	[color=green,		label=Filt_fl,		shape=ellipse];	"thm:Filt_U_pos"	[color=green,		fillcolor="#9CEC8B",		label=Filt_U_pos,		shape=ellipse,		style=filled];	"lem:Filt_fl" -> "thm:Filt_U_pos"	[style=dashed];	"lem:Filt_Theta_lel_add_one_div_two"	[color=green,		fillcolor="#9CEC8B",		label=Filt_Theta_lel_add_one_div_two,		shape=ellipse,		style=filled];	"lem:Filt_fl" -> "lem:Filt_Theta_lel_add_one_div_two"	[style=dashed];	"thm:Filt_Theta_pow_l_sub_one"	[color=green,		fillcolor="#9CEC8B",		label=Filt_Theta_pow_l_sub_one,		shape=ellipse,		style=filled];	"lem:Filt_fl" -> "thm:Filt_Theta_pow_l_sub_one"	[style=dashed];	"thm:Filt_Theta_l_sub_two"	[color=green,		fillcolor="#9CEC8B",		label=Filt_Theta_l_sub_two,		shape=ellipse,		style=filled];	"thm:Filt_U_pos" -> "thm:Filt_Theta_l_sub_two"	[style=dashed];	"thm:Filt_Theta_l_add_one_div_two"	[color=green,		fillcolor="#9CEC8B",		label=Filt_Theta_l_add_one_div_two,		shape=ellipse,		style=filled];	"lem:Filt_Theta_lel_add_one_div_two" -> "thm:Filt_Theta_l_add_one_div_two"	[style=dashed];	"thm:Filt_Theta_pow_l_sub_one" -> "thm:Filt_Theta_l_sub_two"	[style=dashed];	"def:j"	[color=green,		fillcolor="#B0ECA3",		label=j,		shape=box,		style=filled];	"thm:Filt_Theta_l_sub_two" -> "def:j"	[style=dashed];	"lem:Filt_Theta_lej"	[color=green,		fillcolor="#9CEC8B",		label=Filt_Theta_lej,		shape=ellipse,		style=filled];	"def:j" -> "lem:Filt_Theta_lej"	[style=dashed];	"lem:j_bound"	[color=green,		fillcolor="#9CEC8B",		label=j_bound,		shape=ellipse,		style=filled];	"def:j" -> "lem:j_bound"	[style=dashed];	"def:alpha"	[color=green,		fillcolor="#B0ECA3",		label=alpha,		shape=box,		style=filled];	"thm:Filt_Theta_l_add_one_div_two" -> "def:alpha"	[style=dashed];	"lem:Filt_Theta_congruence_of_div"	[color=green,		fillcolor="#9CEC8B",		label=Filt_Theta_congruence_of_div,		shape=ellipse,		style=filled];	"lem:Filt_Theta_congruence_of_div" -> "def:alpha"	[style=dashed];	"lem:alpha_bound"	[color=green,		fillcolor="#9CEC8B",		label=alpha_bound,		shape=ellipse,		style=filled];	"def:alpha" -> "lem:alpha_bound"	[style=dashed];	"lem:alpha_bound" -> "lem:Filt_Theta_lej"	[style=dashed];	"lem:Pi_eq_of_perm_equiv"	[color=green,		fillcolor="#1CAC78",		label=Pi_eq_of_perm_equiv,		shape=ellipse,		style=filled];	"thm:Pow_Prime"	[color=green,		fillcolor="#1CAC78",		label=Pow_Prime,		shape=ellipse,		style=filled];	"lem:Pi_eq_of_perm_equiv" -> "thm:Pow_Prime"	[style=dashed];	"thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one"	[color=green,		fillcolor="#1CAC78",		label=U_pow_l_eq_self_sub_Theta_pow_l_sub_one,		shape=ellipse,		style=filled];	"thm:Pow_Prime" -> "thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one"	[style=dashed];	"thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one" -> "thm:Filt_U_pos"	[style=dashed];	"lem:non_const_of_tuple"	[color=green,		fillcolor="#1CAC78",		label=non_const_of_tuple,		shape=ellipse,		style=filled];	"lem:non_const_of_tuple" -> "thm:Pow_Prime"	[style=dashed];	"def:ModularForm"	[color=green,		fillcolor="#B0ECA3",		label=ModularForm,		shape=box,		style=filled];	"def:IntegerModularForm"	[color=green,		fillcolor="#B0ECA3",		label=IntegerModularForm,		shape=box,		style=filled];	"def:ModularForm" -> "def:IntegerModularForm"	[style=dashed];	"def:ModularFormMod"	[color=green,		fillcolor="#B0ECA3",		label=ModularFormMod,		shape=box,		style=filled];	"def:IntegerModularForm" -> "def:ModularFormMod"	[style=dashed];	"def:U_Operator"	[color=green,		fillcolor="#B0ECA3",		label=U_Operator,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:U_Operator"	[style=dashed];	"def:mulpow"	[color=green,		fillcolor="#B0ECA3",		label=mulpow,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:mulpow"	[style=dashed];	"def:Theta"	[color=green,		fillcolor="#B0ECA3",		label=Theta,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:Theta"	[style=dashed];	"def:hasWeight"	[color=green,		fillcolor="#B0ECA3",		label=hasWeight,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:hasWeight"	[style=dashed];	"def:Delta"	[color=green,		fillcolor="#B0ECA3",		label=Delta,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:Delta"	[style=dashed];	"def:U_Operator" -> "thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one"	[style=dashed];	"def:mulpow" -> "thm:Pow_Prime"	[style=dashed];	"thm:Filtration_Log"	[color=green,		label=Filtration_Log,		shape=ellipse];	"def:mulpow" -> "thm:Filtration_Log"	[style=dashed];	"lem:fl_delta_add_one"	[color=green,		fillcolor="#1CAC78",		label=fl_delta_add_one,		shape=ellipse,		style=filled];	"def:mulpow" -> "lem:fl_delta_add_one"	[style=dashed];	"def:Theta" -> "thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one"	[style=dashed];	"thm:Filt_Theta_bound"	[color=green,		label=Filt_Theta_bound,		shape=ellipse];	"def:Theta" -> "thm:Filt_Theta_bound"	[style=dashed];	"def:Filtration"	[color=green,		fillcolor="#B0ECA3",		label=Filtration,		shape=box,		style=filled];	"def:hasWeight" -> "def:Filtration"	[style=dashed];	"def:f_l"	[color=green,		fillcolor="#B0ECA3",		label=f_l,		shape=box,		style=filled];	"def:Delta" -> "def:f_l"	[style=dashed];	"lem:const_of_Filt_zero"	[color=green,		label=const_of_Filt_zero,		shape=ellipse];	"def:Filtration" -> "lem:const_of_Filt_zero"	[style=dashed];	"thm:Filtration_congruence"	[color=green,		label=Filtration_congruence,		shape=ellipse];	"def:Filtration" -> "thm:Filtration_congruence"	[style=dashed];	"thm:le_Filt_Theta_fl"	[color=green,		label=le_Filt_Theta_fl,		shape=ellipse];	"def:Filtration" -> "thm:le_Filt_Theta_fl"	[style=dashed];	"lem:const_of_Filt_zero" -> "thm:Filtration_Log"	[style=dashed];	"thm:Filtration_congruence" -> "lem:Filt_Theta_congruence_of_div"	[style=dashed];	"thm:le_Filt_Theta_fl" -> "thm:Filt_Theta_l_sub_two"	[style=dashed];	"thm:le_Filt_Theta_fl" -> "lem:alpha_bound"	[style=dashed];	"thm:Filtration_Log" -> "lem:Filt_fl"	[style=dashed];	flu_ne_zero	[color=green,		fillcolor="#9CEC8B",		label=flu_ne_zero,		shape=ellipse,		style=filled];	"lem:fl_delta_add_one" -> flu_ne_zero	[style=dashed];	"def:perm_equiv"	[color=green,		fillcolor="#B0ECA3",		label=perm_equiv,		shape=box,		style=filled];	"def:perm_equiv" -> "lem:Pi_eq_of_perm_equiv"	[style=dashed];	"lem:non_diag_vanish"	[color=green,		fillcolor="#1CAC78",		label=non_diag_vanish,		shape=ellipse,		style=filled];	"def:perm_equiv" -> "lem:non_diag_vanish"	[style=dashed];	"lem:non_diag_vanish" -> "thm:Pow_Prime"	[style=dashed];	"lem:non_diag_vanish" -> "lem:fl_delta_add_one"	[style=dashed];	"def:eventuallyEq"	[color=green,		fillcolor="#B0ECA3",		label=eventuallyEq,		shape=box,		style=filled];	"thm:eventuallyEq_mul"	[color=green,		fillcolor="#1CAC78",		label=eventuallyEq_mul,		shape=ellipse,		style=filled];	"def:eventuallyEq" -> "thm:eventuallyEq_mul"	[style=dashed];	"lem:ldiv_j_add_a"	[color=green,		fillcolor="#9CEC8B",		label=ldiv_j_add_a,		shape=ellipse,		style=filled];	"lem:Filt_Theta_lej" -> "lem:ldiv_j_add_a"	[style=dashed];	"lem:alpha_equal"	[color=green,		fillcolor="#9CEC8B",		label=alpha_equal,		shape=ellipse,		style=filled];	"lem:ldiv_j_add_a" -> "lem:alpha_equal"	[style=dashed];	"lem:j_bound" -> "lem:alpha_equal"	[style=dashed];	"thm:Filt_Theta_l_add_three_div_two"	[color=green,		fillcolor="#9CEC8B",		label=Filt_Theta_l_add_three_div_two,		shape=ellipse,		style=filled];	"lem:alpha_equal" -> "thm:Filt_Theta_l_add_three_div_two"	[style=dashed];	"thm:Theta_l_add_three_div_two_eq_241"	[color=green,		label=Theta_l_add_three_div_two_eq_241,		shape=ellipse];	"thm:Filt_Theta_l_add_three_div_two" -> "thm:Theta_l_add_three_div_two_eq_241"	[style=dashed];	"thm:Theta_l_add_three_div_two_eq_241" -> flu_ne_zero	[style=dashed];	"thm:Filt_Theta_iff"	[color=green,		label=Filt_Theta_iff,		shape=ellipse];	"thm:Filt_Theta_bound" -> "thm:Filt_Theta_iff"	[style=dashed];	"thm:Filt_Theta_iff" -> "lem:Filt_Theta_lel_add_one_div_two"	[style=dashed];	"thm:Filt_Theta_iff" -> "thm:Filt_Theta_pow_l_sub_one"	[style=dashed];	"thm:Filt_Theta_iff" -> "lem:Filt_Theta_congruence_of_div"	[style=dashed];	"def:f_l" -> "lem:Filt_fl"	[style=dashed];	"def:f_l" -> "thm:le_Filt_Theta_fl"	[style=dashed];	"def:f_l" -> "lem:fl_delta_add_one"	[style=dashed];	"def:ramanujan_congruence"	[color=green,		fillcolor="#B0ECA3",		label=ramanujan_congruence,		shape=box,		style=filled];	"lem:coeff_sum_X_pow_mul"	[color=green,		fillcolor="#1CAC78",		label=coeff_sum_X_pow_mul,		shape=ellipse,		style=filled];	"thm:partitionProduct_eq"	[color=green,		fillcolor="#1CAC78",		label=partitionProduct_eq,		shape=ellipse,		style=filled];}`)
     .on("end", interactive);
 
 latexLabelEscaper = function(label) {
