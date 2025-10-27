@@ -1,7 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1761559526.70402 "print.tex" "C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/print.pdf" "print" 1761559528.90233 0
-  "C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/print.aux" 1761559528 3565 551dca9f097383a7054cfa12d46e0fc8 "pdflatex"
-  "C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/print.out" 1761559528 270 5bae4e4c47032e8c934c1266925a8b9f "pdflatex"
+["pdflatex"] 1761560822.03677 "print.tex" "C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/print.pdf" "print" 1761560824.35899 0
+  "C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/print.aux" 1761560824 3620 83f11c53206152820d487ef7142b0d7e "pdflatex"
+  "C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/print.out" 1761560824 270 5bae4e4c47032e8c934c1266925a8b9f "pdflatex"
   "c:/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1749158670 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/adobe/zapfding/pzdr.tfm" 1749166932 1528 7e12f4c0fcf5a072cebdcfbfc610f54c ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm" 1749156498 916 f87d7c45f9c908e672703b83b72241a3 ""
@@ -49,6 +49,7 @@
   "c:/texlive/2025/texmf-dist/tex/latex/base/fontenc.sty" 1749163215 5275 2f50a1b91fdc3c2c6ff41843a6854061 ""
   "c:/texlive/2025/texmf-dist/tex/latex/base/report.cls" 1749163215 23203 f495085ac76be4e20c5e1e88646a241e ""
   "c:/texlive/2025/texmf-dist/tex/latex/base/size10.clo" 1749163215 8448 686612a86f0e04f41ea577f5ec7e83d8 ""
+  "c:/texlive/2025/texmf-dist/tex/latex/base/textcomp.sty" 1749163215 2846 e26604d3d895e65d874c07f30c291f3f ""
   "c:/texlive/2025/texmf-dist/tex/latex/base/ts1enc.def" 1749163215 8090 bcb38b4f148e75e16d2c33225dbca53b ""
   "c:/texlive/2025/texmf-dist/tex/latex/etoolbox/etoolbox.sty" 1749158323 46850 d87daedc2abdc653769a6f1067849fe0 ""
   "c:/texlive/2025/texmf-dist/tex/latex/fontspec/fontspec-xetex.sty" 1749158689 164981 148a15871e0e3c3101b8203733535af2 ""
@@ -90,10 +91,10 @@
   "c:/texlive/2025/texmf-dist/web2c/texmf.cnf" 1749156342 42148 61becc7c670cd061bb319c643c27fdd4 ""
   "c:/texlive/2025/texmf-var/web2c/xetex/xelatex.fmt" 1749167090 5890108 9fe61e3d9965bab3584e80916f40d468 ""
   "c:/texlive/2025/texmf.cnf" 1749166961 713 e69b156964470283e0530f5060668171 ""
-  "content.tex" 1761559519 22754 9ea297a9a5f19a383b3d81d5f83423c4 ""
+  "content.tex" 1761560812 22997 cad0e015805310077fdbc082f738b7c9 ""
   "macros/common.tex" 1750298264 820 60fafcc3aa944a5e60030581a943ef6b ""
   "macros/print.tex" 1750298264 1101 87627b2ec24fef68edc71c13f43f7bab ""
-  "print.tex" 1761553329 1155 95100b34d860d340af58b0ed7da57da2 ""
+  "print.tex" 1761560522 1165 51dd6f1772bd2dfcdb0faf253258acd7 ""
   (generated)
   "C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/print.aux"
   "C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/print.log"

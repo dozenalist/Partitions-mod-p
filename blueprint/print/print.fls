@@ -45,6 +45,8 @@ INPUT c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsbsy.sty
 INPUT c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsopn.sty
 INPUT c:/texlive/2025/texmf-dist/tex/latex/stmaryrd/stmaryrd.sty
 INPUT c:/texlive/2025/texmf-dist/tex/latex/stmaryrd/stmaryrd.sty
+INPUT c:/texlive/2025/texmf-dist/tex/latex/base/textcomp.sty
+INPUT c:/texlive/2025/texmf-dist/tex/latex/base/textcomp.sty
 INPUT c:/texlive/2025/texmf-dist/tex/latex/hyperref/hyperref.sty
 INPUT c:/texlive/2025/texmf-dist/tex/latex/hyperref/hyperref.sty
 INPUT c:/texlive/2025/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty

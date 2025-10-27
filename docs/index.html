@@ -2799,7 +2799,7 @@
 
   </div>
 </div>
-<div class="theorem_thmwrapper theorem-style-plain" id="flu_ne_zero">
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:flu_ne_zero">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
@@ -2812,7 +2812,7 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="index.html#flu_ne_zero">#</a>
+    <a class="icon proof" href="index.html#thm:flu_ne_zero">#</a>
     
     <a class="icon proof" href="index.html#a0000000027"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
@@ -3023,7 +3023,7 @@
         </div>
   </div>
   <div class="definition_thmcontent">
-  <p>  Let \(\alpha \) be a field, and let \(f, g : \mathbb {N} \to \alpha \@undefined X \@undefined \) be two sequences of power series with coefficients in \(\alpha \). We say that \(f\) and \(g\) are eventually equal, and write \(f \longrightarrow g\), if \(\forall n \in \mathbb {N}, \exists m \in \mathbb {N}, \forall k \le n, \forall j \ge m\), the jth coefficient of \(f(k)\) is equal to the jth coefficient of \(g(k)\). This is an equivalence relation. </p>
+  <p>  Let \(\alpha \) be a field, and let \(f, g : \mathbb {N} \to \alpha [[X]]\) be two sequences of power series with coefficients in \(\alpha \). We say that \(f\) and \(g\) are eventually equal, and write \(f \longrightarrow g\), if \(\forall n \in \mathbb {N}, \exists m \in \mathbb {N}, \forall k \le n, \forall j \ge m\), the jth coefficient of \(f(k)\) is equal to the jth coefficient of \(g(k)\). This is an equivalence relation. </p>
 
   </div>
 </div>
@@ -3230,7 +3230,7 @@
   <div class="lemma_thmcontent">
   <p>   Let \(j, \ell , N, M \in \mathbb {N}\) with \(\ell {\gt} 0\) and \(N, M {\gt} \ell j\). Let \(a, b : \mathbb {N} \to \alpha \). Then the \(\ell j\) th coefficient of </p>
 <div class="displaymath" id="a0000000034">
-  \[  \sum _{i = 0}^{N} a (i) X ^i * \sum _{i = 0}^{M} b (i) X ^{\ell i} = \sum _{x + y = j} a (\ell x) b (y)  \]
+  \[  \sum _{i = 0}^{N} a (i) X ^i \sum _{i = 0}^{M} b (i) X ^{\ell i} = \sum _{x + y = j} a (\ell x) b (y)  \]
 </div>
 
   </div>
@@ -3289,9 +3289,9 @@
         </div>
   </div>
   <div class="lemma_thmcontent">
-  <p>  Let \(m, N \in \mathbb {N}\). Let \(f : \mathbb {N} \to \alpha \@undefined X \@undefined \) be a sequence with \(f(0) = 0\), the zero power series. Then </p>
+  <p>  Let \(m, N \in \mathbb {N}\). Let \(f : \mathbb {N} \to \alpha [[X]]\) be a sequence with \(f(0) = 0\), the zero power series. Then </p>
 <div class="displaymath" id="a0000000036">
-  \[  X ^m * \sum _{i = 0}^{N} f (i) X ^i = \sum _{i = 0}^{N + m} f (i - m) X ^i  \]
+  \[  X ^m \sum _{i = 0}^{N} f (i) X ^i = \sum _{i = 0}^{N + m} f (i - m) X ^i  \]
 </div>
 
   </div>
@@ -3433,7 +3433,7 @@
   <div class="lemma_thmcontent">
   <p>   Let \(\ell , K \in \mathbb {N}\) with \(\ell {\gt} 0\). Then there exists a \(c : \mathbb {N} \to \alpha \) and \(M \in \mathbb {N}\) such that </p>
 <div class="displaymath" id="a0000000040">
-  \[  \prod _{i = 0}^{K} (1 - (X) ^{\ell * (i + 1)}) ^\ell = \sum _{i = 0}^{M} c (i) X ^{\ell * i}  \]
+  \[  \prod _{i = 0}^{K} (1 - (X) ^{\ell (i + 1)}) ^\ell = \sum _{i = 0}^{M} c (i) X ^{\ell i}  \]
 </div>
 
   </div>
@@ -3513,7 +3513,7 @@
   <div class="theorem_thmcontent">
   <p>   The coefficients of the Delta Product are eventually equal to the coefficients of the Delta function. In other words, </p>
 <div class="displaymath" id="a0000000041">
-  \[  X \prod _{i \le \cdot } (1 - X ^{i + 1}) ^{24} \longrightarrow \sum _{i \le \cdot } \Delta (i) X ^i  \]
+  \[  X \prod _{i \,  \le \:  \cdot } (1 - X ^{i + 1}) ^{24} \longrightarrow \sum _{i \,  \le \:  \cdot } \Delta (i) X ^i  \]
 </div>
 
   </div>
@@ -3586,7 +3586,7 @@
   <div class="theorem_thmcontent">
   <p>   If \(\ell \ge 5\) is prime, then the coefficients of the \(f_\ell \) Product are eventually equal to the coefficients of the \(f_\ell \) function. In other words, </p>
 <div class="displaymath" id="a0000000043">
-  \[  (X \prod _{i \le \cdot } (1 - X ^{i + 1}) ^{24}) ^{\delta _\ell } \longrightarrow \sum _{i \le \cdot } f_\ell (i) X ^i  \]
+  \[  (X \prod _{i \,  \le \:  \cdot } (1 - X ^{i + 1}) ^{24}) ^{\delta _\ell } \longrightarrow \sum _{i \,  \le \:  \cdot } f_\ell (i) X ^i  \]
 </div>
 
   </div>
@@ -3642,7 +3642,7 @@
           
           <li><a href="index.html#thm:partitionProduct_eq">Theorem 42</a></li>
           
-          <li><a href="index.html#lem:coeff_zero_of_ndvd">Lemma 48</a></li>
+          <li><a href="index.html#lem:prod_eq_sum">Lemma 49</a></li>
           
           <li><a href="index.html#lem:coeff_mul_shift_of_zero">Lemma 47</a></li>
           
@@ -3682,6 +3682,86 @@
   </div>
 </div>
 <div class="proof_wrapper" id="a0000000044">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:MainResult">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">53</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#thm:MainResult">#</a>
+    
+    <a class="icon proof" href="index.html#a0000000045"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#thm:flu_eq_zero">Theorem 52</a></li>
+          
+          <li><a href="index.html#thm:flu_ne_zero">Theorem 40</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/FinalSection.lean#L569" class="lean_decl">MainResult</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   If \(\ell \ge 13\) is prime, then there does not exists a ramanujan congruence mod \(\ell \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000045">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof

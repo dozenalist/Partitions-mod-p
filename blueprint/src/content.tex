@@ -565,7 +565,7 @@
 \end{theorem}
 
 \begin{theorem}
-  \label{flu_ne_zero}
+  \label{thm:flu_ne_zero}
   \uses{thm:Theta_l_add_three_div_two_eq_241, lem:fl_delta_add_one}
   \lean{flu_ne_zero}
   \leanok
@@ -605,7 +605,7 @@
   \label{def:eventuallyEq}
   \lean{eventuallyEq}
   \leanok
-  Let $\alpha$ be a field, and let $f, g : \mathbb{N} \to \alpha \llbracket X \rrbracket$ be two sequences of power series with coefficients in $\alpha$.
+  Let $\alpha$ be a field, and let $f, g : \mathbb{N} \to \alpha [[X]]$ be two sequences of power series with coefficients in $\alpha$.
   We say that $f$ and $g$ are eventually equal, and write $f \longrightarrow g$, if
   $\forall n \in \mathbb{N}, \exists m \in \mathbb{N}, \forall k \le n, \forall j \ge m$, 
   the jth coefficient of $f(k)$ is equal to the jth coefficient of $g(k)$. This is an equivalence relation.
@@ -648,7 +648,7 @@
   \leanok
   Let $j, \ell, N, M \in \mathbb{N}$ with $\ell > 0$ and $N, M > \ell j$. 
   Let $a, b : \mathbb{N} \to \alpha$. Then the $\ell j$ th coefficient of
-  \[ \sum_{i = 0}^{N} a (i) X ^ i * \sum_{i = 0}^{M} b (i) X ^ {\ell i} = 
+  \[ \sum_{i = 0}^{N} a (i) X ^ i \sum_{i = 0}^{M} b (i) X ^ {\ell i} = 
       \sum_{x + y = j} a (\ell x) b (y) \] 
 \end{lemma}
 \begin{proof}
@@ -660,9 +660,9 @@
   \label{lem:coeff_mul_shift_of_zero}
   \lean{coeff_mul_shift_of_zero}
   \leanok
-  Let $m, N \in \mathbb{N}$. Let $f : \mathbb{N} \to \alpha \llbracket X \rrbracket$ be a sequence 
+  Let $m, N \in \mathbb{N}$. Let $f : \mathbb{N} \to \alpha [[X]]$ be a sequence 
   with $f(0) = 0$, the zero power series. Then
-  \[ X ^ m * \sum_{i = 0}^{N} f (i) X ^ i = \sum_{i = 0}^{N + m} f (i - m) X ^ i \]
+  \[ X ^ m \sum_{i = 0}^{N} f (i) X ^ i = \sum_{i = 0}^{N + m} f (i - m) X ^ i \]
 \end{lemma}
 \begin{proof}
   \leanok
@@ -687,8 +687,8 @@
   \leanok
   Let $\ell, K \in \mathbb{N}$ with $\ell > 0$. Then there exists a  $c : \mathbb{N} \to \alpha$ 
   and $M \in \mathbb{N}$ such that 
-  \[ \prod _{i = 0}^{K} (1 - (X) ^ {\ell * (i + 1)}) ^ \ell = 
-      \sum_{i = 0}^{M} c (i) X ^ {\ell * i} \]
+  \[ \prod _{i = 0}^{K} (1 - (X) ^ {\ell (i + 1)}) ^ \ell = 
+      \sum_{i = 0}^{M} c (i) X ^ {\ell i} \]
 \end{lemma}
 \begin{proof}
   \leanok
@@ -701,8 +701,8 @@
   \leanok
   The coefficients of the Delta Product are eventually equal to the coefficients of the Delta function.
   In other words, 
-  \[ X \prod_{i \le \cdot} (1 - X ^ {i + 1}) ^ {24} \longrightarrow 
-    \sum_{i \le \cdot} \Delta (i) X ^ i \]
+  \[ X \prod_{i \, \le \: \cdot} (1 - X ^ {i + 1}) ^ {24} \longrightarrow 
+    \sum_{i \, \le \: \cdot} \Delta (i) X ^ i \]
 \end{theorem}
 
 \begin{theorem}
@@ -713,8 +713,8 @@
   If $\ell \ge 5$ is prime, then
   the coefficients of the $f_\ell$ Product are eventually equal to the coefficients of the $f_\ell$ function.
   In other words,
-  \[ (X \prod_{i \le \cdot} (1 - X ^ {i + 1}) ^ {24}) ^ {\delta_\ell} \longrightarrow 
-    \sum_{i \le \cdot} f_\ell (i) X ^ i \]
+  \[ (X \prod_{i \, \le \: \cdot} (1 - X ^ {i + 1}) ^ {24}) ^ {\delta_\ell} \longrightarrow 
+    \sum_{i \, \le \: \cdot} f_\ell (i) X ^ i \]
 \end{theorem}
 \begin{proof}
   \leanok
@@ -724,11 +724,22 @@
 \begin{theorem} 
   \label{thm:flu_eq_zero}
   \uses{def:U_Operator, def:ramanujan_congruence, thm:fl_Product_eventually_sum, 
-    thm:partitionProduct_eq, lem:coeff_zero_of_ndvd, lem:coeff_mul_shift_of_zero, lem:coeff_sum_squash}
+    thm:partitionProduct_eq, lem:prod_eq_sum, lem:coeff_mul_shift_of_zero, lem:coeff_sum_squash}
   \lean{flu_eq_zero}
   \leanok
   Let $\ell \ge 5$ be prime. If there is a ramanujan congruence mod $\ell$,
   then $(f_\ell | U) = 0.$
+\end{theorem}
+\begin{proof}
+  \leanok
+\end{proof}
+
+\begin{theorem}
+  \label{thm:MainResult}
+  \uses{thm:flu_eq_zero, thm:flu_ne_zero}
+  \lean{MainResult}
+  \leanok
+  If $\ell \ge 13$ is prime, then there does not exists a ramanujan congruence mod $\ell$.
 \end{theorem}
 \begin{proof}
   \leanok
