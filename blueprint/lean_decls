@@ -45,3 +45,10 @@ partitionProduct_eq
 eventuallyEq
 eventuallyEq_mul
 coeff_sum_X_pow_mul
+coeff_sum_squash
+coeff_mul_shift_of_zero
+coeff_zero_of_ndvd
+prod_eq_sum
+DeltaProduct_eventually_sum
+fl_Product_eventually_sum
+flu_eq_zero

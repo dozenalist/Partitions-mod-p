@@ -2966,7 +2966,7 @@
   <div class="theorem_thmcontent">
   <p>  If \(n {\gt} 0\) and \(m \ge n\), then \(p (n)\) is equal to the nth coefficient in the product exapansion of </p>
 <div class="displaymath" id="a0000000029">
-  \[  \prod _{i = 0}^{m} (1 - X^(i + 1))^{-1}  \]
+  \[  \prod _{i = 0}^{m} (1 - X^{i + 1})^{-1}  \]
 </div>
 <p> Note : In lean, \(p (0) = 0\). </p>
 
@@ -3149,12 +3149,537 @@
   <div class="lemma_thmcontent">
   <p>  Let \(n, N, \ell \in \mathbb {N}\) with \(n {\lt} N\) and \(\ell {\gt} 0\). Let \(a : \mathbb {N} \to \alpha \) be a sequence with coefficients in a field \(\alpha \). Then the nth coefficient of </p>
 <div class="displaymath" id="a0000000032">
-  \[  \sum _{i = 0}^{N} a (n) X ^(i * \ell ) = \begin{cases}  a (n / \ell ) &  \text{ if } \ell \mid n, \\ 0 &  \text{ otherwise.} \end{cases}  \]
+  \[  \sum _{i = 0}^{N} a (n) X ^{\ell i} = \begin{cases}  a (n / \ell ) &  \text{ if } \ell \mid n, \\ 0 &  \text{ otherwise.} \end{cases}  \]
 </div>
 
   </div>
 </div>
 <div class="proof_wrapper" id="a0000000031">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:coeff_sum_squash">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">46</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#lem:coeff_sum_squash">#</a>
+    
+    <a class="icon proof" href="index.html#a0000000033"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#lem:coeff_sum_X_pow_mul">Lemma 45</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L472" class="lean_decl">coeff_sum_squash</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   Let \(j, \ell , N, M \in \mathbb {N}\) with \(\ell {\gt} 0\) and \(N, M {\gt} \ell j\). Let \(a, b : \mathbb {N} \to \alpha \). Then the \(\ell j\) th coefficient of </p>
+<div class="displaymath" id="a0000000034">
+  \[  \sum _{i = 0}^{N} a (i) X ^i * \sum _{i = 0}^{M} b (i) X ^{\ell i} = \sum _{x + y = j} a (\ell x) b (y)  \]
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000033">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:coeff_mul_shift_of_zero">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">47</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#lem:coeff_mul_shift_of_zero">#</a>
+    
+    <a class="icon proof" href="index.html#a0000000035"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L541" class="lean_decl">coeff_mul_shift_of_zero</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Let \(m, N \in \mathbb {N}\). Let \(f : \mathbb {N} \to \alpha \@undefined X \@undefined \) be a sequence with \(f(0) = 0\), the zero power series. Then </p>
+<div class="displaymath" id="a0000000036">
+  \[  X ^m * \sum _{i = 0}^{N} f (i) X ^i = \sum _{i = 0}^{N + m} f (i - m) X ^i  \]
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000035">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:coeff_zero_of_ndvd">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">48</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#lem:coeff_zero_of_ndvd">#</a>
+    
+    <a class="icon proof" href="index.html#a0000000037"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L564" class="lean_decl">coeff_zero_of_ndvd</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Let \(M, \ell , k \in \mathbb {N}\) with \(\ell \nmid k\). Then the kth coefficient of </p>
+<div class="displaymath" id="a0000000038">
+  \[  \prod _{i = 0}^{M} (1 - X ^{\ell (i + 1)}) ^\ell = 0  \]
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000037">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:prod_eq_sum">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">49</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#lem:prod_eq_sum">#</a>
+    
+    <a class="icon proof" href="index.html#a0000000039"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#lem:coeff_zero_of_ndvd">Lemma 48</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L633" class="lean_decl">prod_eq_sum</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   Let \(\ell , K \in \mathbb {N}\) with \(\ell {\gt} 0\). Then there exists a \(c : \mathbb {N} \to \alpha \) and \(M \in \mathbb {N}\) such that </p>
+<div class="displaymath" id="a0000000040">
+  \[  \prod _{i = 0}^{K} (1 - (X) ^{\ell * (i + 1)}) ^\ell = \sum _{i = 0}^{M} c (i) X ^{\ell * i}  \]
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000039">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:DeltaProduct_eventually_sum">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">50</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#thm:DeltaProduct_eventually_sum">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#def:Delta">Definition 18</a></li>
+          
+          <li><a href="index.html#def:eventuallyEq">Definition 43</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L684" class="lean_decl">DeltaProduct_eventually_sum</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   The coefficients of the Delta Product are eventually equal to the coefficients of the Delta function. In other words, </p>
+<div class="displaymath" id="a0000000041">
+  \[  X \prod _{i \le \cdot } (1 - X ^{i + 1}) ^{24} \longrightarrow \sum _{i \le \cdot } \Delta (i) X ^i  \]
+</div>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:fl_Product_eventually_sum">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">51</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#thm:fl_Product_eventually_sum">#</a>
+    
+    <a class="icon proof" href="index.html#a0000000042"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#def:f_l">Definition 19</a></li>
+          
+          <li><a href="index.html#thm:DeltaProduct_eventually_sum">Theorem 50</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L721" class="lean_decl">fl_Product_eventually_sum</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   If \(\ell \ge 5\) is prime, then the coefficients of the \(f_\ell \) Product are eventually equal to the coefficients of the \(f_\ell \) function. In other words, </p>
+<div class="displaymath" id="a0000000043">
+  \[  (X \prod _{i \le \cdot } (1 - X ^{i + 1}) ^{24}) ^{\delta _\ell } \longrightarrow \sum _{i \le \cdot } f_\ell (i) X ^i  \]
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000042">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:flu_eq_zero">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">52</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#thm:flu_eq_zero">#</a>
+    
+    <a class="icon proof" href="index.html#a0000000044"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#def:U_Operator">Definition 5</a></li>
+          
+          <li><a href="index.html#def:ramanujan_congruence">Definition 41</a></li>
+          
+          <li><a href="index.html#thm:fl_Product_eventually_sum">Theorem 51</a></li>
+          
+          <li><a href="index.html#thm:partitionProduct_eq">Theorem 42</a></li>
+          
+          <li><a href="index.html#lem:coeff_zero_of_ndvd">Lemma 48</a></li>
+          
+          <li><a href="index.html#lem:coeff_mul_shift_of_zero">Lemma 47</a></li>
+          
+          <li><a href="index.html#lem:coeff_sum_squash">Lemma 46</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L859" class="lean_decl">flu_eq_zero</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   Let \(\ell \ge 5\) be prime. If there is a ramanujan congruence mod \(\ell \), then \((f_\ell | U) = 0.\) </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000044">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
