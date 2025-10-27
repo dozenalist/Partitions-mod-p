@@ -479,6 +479,9 @@ def Ipow (a : IntegerModularForm k) (j : ℕ) : IntegerModularForm (k * j) where
   modular := sorry
 
 
+theorem coe_Ipow (a : IntegerModularForm k) (j : ℕ) : ⇑(Ipow a j) = fun n ↦ ∑ x ∈ Finset.Nat.antidiagonalTuple j n, ∏ y, a (x y) := rfl
+
+theorem Ipow_apply (a : IntegerModularForm k) (j n : ℕ) : (Ipow a j) n = ∑ x ∈ Finset.Nat.antidiagonalTuple j n, ∏ y, a (x y) := rfl
 
 @[simp]
 theorem coe_zero' : ⇑(0 : IntegerModularForm k) = (0 : ℕ → ℤ) := rfl

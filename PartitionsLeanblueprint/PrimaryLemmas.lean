@@ -297,12 +297,22 @@ lemma delta_pos [Fact (ℓ ≥ 5)] : (ℓ^2 - 1) / 24 > 0 := by
   omega
   exact Nat.zero_lt_succ 23
 
+instance delta_ne_zero {n} [Fact (n ≥ 5)] : NeZero (δ n) where
+  out := have h := @delta_pos n _
+    by rwa [Nat.ne_zero_iff_zero_lt]
+
 
 lemma twelve_delta [Fact (ℓ ≥ 5)] : 12*(δ ℓ) = (ℓ^2 - 1) / 2 := by
   rw[δ]; refine Eq.symm (Nat.div_eq_of_eq_mul_right zero_lt_two ?_)
   trans 24 * ((ℓ ^ 2 - 1) / 24)
   exact Eq.symm (Nat.mul_div_cancel' delta_integer)
   rw[← mul_assoc]; rfl
+
+lemma not_dvd_delta [Fact (ℓ ≥ 5)] : ¬ ℓ ∣ δ ℓ := by
+  have h := @not_dvd_filt ℓ _ _
+  contrapose! h; calc
+    _ ∣ 12 * δ ℓ := Nat.dvd_mul_left_of_dvd h 12
+    _ = (ℓ ^ 2 - 1)/2 := twelve_delta
 
 lemma Filt_Del : 𝔀 (Δ : ModularFormMod ℓ 12) = 12 := sorry
 
