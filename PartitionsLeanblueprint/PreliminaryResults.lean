@@ -18,7 +18,7 @@ open ZMod Nat ModularFormDefs.Integer
 
 -- This is the cleaner way of stating it, using == and -l
 theorem U_pow_l_eq_self_sub_Theta_pow_l_sub_one {a : ModularFormMod ℓ k} :
-  a|𝓤 ** ℓ == (a -l Θ^[ℓ - 1] a) (by simp) := by
+    a|𝓤 ** ℓ == (a -l Θ^[ℓ - 1] a) (by simp) := by
   intro n; simp[Pow_Prime]; symm; calc
     _ = if (n : ZMod ℓ) = 0 then a n else 0 := by
       by_cases h : (n : ZMod ℓ) = 0 <;> simp only [h, reduceIte, sub_zero, sub_self]

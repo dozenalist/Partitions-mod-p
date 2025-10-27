@@ -5,6 +5,7 @@ import Mathlib.GroupTheory.Perm.Centralizer
 import Mathlib.Data.Nat.Prime.Factorial
 
 
+
 /- This files proves some facts about powers of modular forms mod ℓ.
 Namely, that (∑ a(n) * q^n) ^ ℓ is congruent to ∑ a(n) * q^(ℓ*n) mod ℓ,
 but stated in the language of sequences. -/
