@@ -6,7 +6,6 @@ import Mathlib.FieldTheory.Finite.Basic
 /- This file states and proves some basic theorems which are found in the
 introduction of the paper, before the beginning of the proof of Theorem 3.1 -/
 
-open Modulo2
 
 noncomputable section
 
@@ -14,7 +13,7 @@ variable {ℓ n : ℕ} [NeZero ℓ] [Fact (Nat.Prime ℓ)]
 variable {k j : ZMod (ℓ-1)}
 variable {a b : ModularFormMod ℓ k}
 
-open ZMod Nat ModularFormDefs.Integer
+open ZMod Nat Modulo
 
 -- This is the cleaner way of stating it, using == and -l
 theorem U_pow_l_eq_self_sub_Theta_pow_l_sub_one {a : ModularFormMod ℓ k} :

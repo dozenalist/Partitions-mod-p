@@ -132,7 +132,7 @@
 
 \begin{definition} [Modular Form]
   \label{def:ModularForm}
-  \lean{ModularFormDefs.Regular.ModularForm}
+  \lean{ModularForm}
   \leanok
   In lean, A modular form of weight $k \in \mathbb{N}$ is a function $f : \mathbb{C} → \mathbb{C}$ such that : \\ \\
   (1) $f$ is holomorphic on $\mathbb{H}$ \\
@@ -144,7 +144,7 @@
 \begin{definition} [Integer Modular Form]
   \label{def:IntegerModularForm}
   \uses{def:ModularForm}
-  \lean{ModularFormDefs.Integer.IntegerModularForm}
+  \lean{IntegerModularForm}
   \leanok
   An integer modular form of weight $k \in \mathbb{N}$ is a sequence $a : \mathbb{N} → \mathbb{Z}$
   such that $\sum_{n=0}^{\infty} a(n) q^n$ is a modular form of weight $k$, where $q = e ^ {2 \pi i z}.$
@@ -153,7 +153,7 @@
 \begin{definition} [ModularFormMod $\ell$]
   \label{def:ModularFormMod}
   \uses{def:IntegerModularForm}
-  \lean{Modulo2.ModularFormMod}
+  \lean{ModularFormMod}
   \leanok
   A modular form mod $\ell$ of weight $k \in \mathbb{Z} / (\ell - 1) \mathbb{Z}$ is a sequence $a : \mathbb{N} → \mathbb{Z} / \ell \mathbb{Z}$
   such that there exists an integer modular form $b$ of weight $k'$ where
@@ -202,7 +202,7 @@
 \begin{definition} [multiplication and exponentiation]
   \label{def:mulpow}
   \uses{def:ModularFormMod}
-  \lean{Modulo2.mul, Modulo2.pow}
+  \lean{Modulo.mul, Modulo.Mpow}
   \leanok
   It's worth stated how multiplication and exponentiation are defined here, because they are not defined in the normal way.
   The multiplication of two modular forms mod $\ell$ called $a$ and $b$ is defined as 
@@ -229,17 +229,17 @@
   \uses{def:perm_equiv}
   \lean{non_diag_vanish}
   \leanok
-  If $x = (x_1, x_2, ..., x_k)$ is not constant (i.e not all $x_i$ are equal) then for any $n \in \mathbb{N}$,
-  \[ k \mid \# \{y = (y_1, y_2, ..., y_k) : \sum_{i = 1}^k y_i = n \text{   and $x$ and $y$ are permutationally equivalent} \} \]
+  If $x = (x_1, ..., x_k)$ is not constant (i.e not all $x_i$ are equal) then for any $n \in \mathbb{N}$,
+  \[ k \mid \# \{y = (y_1, ..., y_k) : \sum_{i = 1}^k y_i = n \text{   and $x$ and $y$ are permutationally equivalent} \} \]
 \end{lemma}
 \begin{proof}
   \leanok
 \end{proof}
 
 \begin{lemma}
-  \label{lem:Pi_eq_of_perm_equiv}
+  \label{lem:prod_eq_of_perm_equiv}
   \uses{def:perm_equiv}
-  \lean{Pi_eq_of_perm_equiv}
+  \lean{prod_eq_of_perm_equiv}
   \leanok
   If $x$ and $y$ are permutationally equivalent then $\prod_{i = 1}^k a(x_i) = \prod_{i = 1}^k a(y_i)$.
 \end{lemma}
@@ -261,11 +261,11 @@
 
 \begin{theorem}[Pow Prime] 
   \label{thm:Pow_Prime}
-  \uses{def:mulpow, lem:non_diag_vanish, lem:Pi_eq_of_perm_equiv, lem:non_const_of_tuple}
+  \uses{def:mulpow, lem:non_diag_vanish, lem:prod_eq_of_perm_equiv, lem:non_const_of_tuple}
   \lean{Pow_Prime}
   \leanok
   Let $\ell$ be a prime and $a$ a modular form mod $\ell$ of any weight. Then \\
-  \[(a ^ \ell) n = \begin{cases} a (n / \ell) & \text{if $\ell \mid n$} \\
+  \[a ^ \ell (n) = \begin{cases} a (n / \ell) & \text{if $\ell \mid n$} \\
     0 & \text{otherwise} \end{cases} \]
 \end{theorem}
 \begin{proof}
@@ -318,26 +318,28 @@
 
 \begin{definition}[Delta]
   \label{def:Delta}
-  \uses{def:ModularFormMod}
-  \lean{Delta}
+  \uses{def:IntegerModularForm}
+  \lean{Integer.Delta}
   \leanok
   
   $\Delta$ is the sequence obtained from $q (\prod_{n = 1}^{\infty} (1 - q^n))^{24}$.
-  It is a modular form mod $\ell$ of weight $12$. 
+  It is an integer modular form of weight $12$. The modular form mod $\ell$, also called 
+  $\Delta$, is defined to the the reduction of $\Delta$.
 \end{definition}
 
 \begin{definition}
-  \label{def:f_l}
+  \label{def:fl}
   \uses{def:Delta}
-  \lean{f}
+  \lean{Integer.fl}
   \leanok
   For a prime $\ell \ge 5$, we define $\delta_\ell = \frac{\ell^2 - 1}{24} \in \mathbb{N}$. 
-  We define $f_\ell = \Delta^{\delta_\ell}$, which is a modular form mod $\ell$ of weight $12 \delta_\ell$. 
+  We define $f_\ell = \Delta^{\delta_\ell}$, which is an integer modular form of weight $12 \delta_\ell$. 
+  We also define the reduction of fl as an modular form mod $\ell$
 \end{definition}
 
 \begin{lemma}
   \label{lem:Filt_fl}
-  \uses{thm:Filtration_Log, def:f_l}
+  \uses{thm:Filtration_Log, def:fl}
   \lean{Filt_fl}
   \leanok
   $ \omega (f_\ell) = 12 \delta_\ell = \frac{\ell^2 - 1}{2}.$
@@ -364,7 +366,7 @@
 
 \begin{theorem}
   \label{thm:le_Filt_Theta_fl}
-  \uses{def:f_l, def:Filtration}
+  \uses{def:fl, def:Filtration}
   \lean{le_Filt_Theta_fl}
   \leanok
   This is Lemma 3.2. \\
@@ -547,7 +549,7 @@
 
 \begin{lemma}
   \label{lem:fl_delta_add_one}
-  \uses{def:f_l, def:mulpow, lem:non_diag_vanish} 
+  \uses{def:fl, def:mulpow, lem:non_diag_vanish} 
   \lean{fl_delta_add_one}
   \leanok
   $f_\ell (\delta_\ell + 1) = 1$. 
@@ -699,7 +701,7 @@
   \uses{def:Delta, def:eventuallyEq}
   \lean{DeltaProduct_eventually_sum}
   \leanok
-  The coefficients of the Delta Product are eventually equal to the coefficients of the Delta function.
+  The coefficients of the Delta product are eventually equal to the coefficients of the Delta function.
   In other words, 
   \[ X \prod_{i \, \le \: \cdot} (1 - X ^ {i + 1}) ^ {24} \longrightarrow 
     \sum_{i \, \le \: \cdot} \Delta (i) X ^ i \]
@@ -707,11 +709,11 @@
 
 \begin{theorem}
   \label{thm:fl_Product_eventually_sum}
-  \uses{def:f_l, thm:DeltaProduct_eventually_sum, thm:eventuallyEq_mul}
+  \uses{def:fl, thm:DeltaProduct_eventually_sum, thm:eventuallyEq_mul}
   \lean{fl_Product_eventually_sum}
   \leanok
   If $\ell \ge 5$ is prime, then
-  the coefficients of the $f_\ell$ Product are eventually equal to the coefficients of the $f_\ell$ function.
+  the coefficients of the $f_\ell$ product are eventually equal to the coefficients of the $f_\ell \:$ function.
   In other words,
   \[ (X \prod_{i \, \le \: \cdot} (1 - X ^ {i + 1}) ^ {24}) ^ {\delta_\ell} \longrightarrow 
     \sum_{i \, \le \: \cdot} f_\ell (i) X ^ i \]

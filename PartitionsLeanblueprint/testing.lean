@@ -61,5 +61,20 @@ infixl : 100 "⊚" => swap_comp
 lemma condo {p q : Prop} : (p → q) → ¬ q → ¬ p :=
   (· ⊚ · <| ·)
 
-#check flip
+
+lemma transing {a b c d e f : ℕ} (h1 : a ≤ b) (h2 : b < c)
+    (h3 : c ≤ d) (h4 : d ≤ e) (h5 : e ≤ f) : a < f := calc
+  a ≤ b := h1
+  b < c := h2
+  c ≤ d := h3
+  d ≤ e := h4
+  e ≤ f := h5
+
+
+infixl:15 " › " => Trans.trans
+
+lemma transin {a b c d e f : ℕ} (h1 : a ≤ b) (h2 : b < c)
+    (h3 : c ≤ d) (h4 : d ≤ e) (h5 : e < f) : a < f :=
+  h1 › h2 › h3 › h4 › h5
+
 #check ModularForm

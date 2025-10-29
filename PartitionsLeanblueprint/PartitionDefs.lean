@@ -11,6 +11,7 @@ import Mathlib.Tactic.IntervalCases
 import PartitionsLeanblueprint.ModuloDefs2
 import PartitionsLeanblueprint.BasicOperators
 import PartitionsLeanblueprint.PrimaryLemmas
+import PartitionsLeanblueprint.Basis
 -- can't figure out how to import Archive\Wiedijk100Theorems\Partition
 
 
@@ -18,16 +19,14 @@ import PartitionsLeanblueprint.PrimaryLemmas
 /- This file defines the partition function, ramanujan congruences,
 and the power series product expansions for some functions.
 It defines what it means for two sequences of power series to be "eventually equal",
-and proves that if there exists a ramanujan congruence mod ℓ then fℓ|𝓤 = 0,
-assuming that the delta function is eventually equal to its product expansion (on line 683).
-We may want to define the Delta function as the reduction of its product expansion,
-in which cases we would get this fact for free. -/
+and proves that if there exists a ramanujan congruence mod ℓ then fℓ|𝓤 = 0 -/
 
 
 noncomputable section
 
 
-open Nat PowerSeries Finset Modulo2 ModularFormDefs.Integer
+open Nat PowerSeries Finset Modulo
+
 
 def partition : ℕ → ℕ
   | 0 => 0
@@ -41,22 +40,21 @@ def ramanujan_congruence' (ℓ β : ℕ) : Prop :=
   ∀ n, ℓ ∣ partition (ℓ*n - β)
 
 
-lemma ramanujan_congruence_unique (ℓ : ℕ) [Fact (Nat.Prime ℓ)] :
-    ∃ β, ramanujan_congruence' ℓ β → ramanujan_congruence' ℓ (δ ℓ) := by
-  sorry
+-- lemma ramanujan_congruence_unique (ℓ : ℕ) [Fact (Nat.Prime ℓ)] :
+--     ∃ β, ramanujan_congruence' ℓ β → ramanujan_congruence' ℓ (δ ℓ) := by
+--   sorry
 
 abbrev ramanujan_congruence ℓ := ramanujan_congruence' ℓ (δ ℓ)
 
 
 section ProductExpansion
 
+/- We work over an arbitrary field α and substitute α = (ZMod ℓ) for the proof of flu_ne_zero -/
 variable {α : Type*}
 
 /- The following few theorems are from Archive\Wiedijk100Theorems\Partition -/
 
 open Finset.HasAntidiagonal
-
-
 
 
 /-- A convenience constructor for the power series whose coefficients indicate a subset. -/
@@ -214,32 +212,32 @@ theorem partialGF_prop (α : Type*) [CommSemiring α] (n : ℕ) (s : Finset ℕ)
 def partitionProduct (m : ℕ) [Field α] :=
   ∏ i ∈ range m, (1 - (X : α⟦X⟧) ^ (i + 1) )⁻¹
 
-def DeltaProduct [Field α] (m : ℕ) :=
-  (X : α⟦X⟧) * ∏ i ∈ range m, (1 - X ^ (i + 1)) ^ 24
+-- def DeltaProduct1 [Field α] (m : ℕ) :=
+--   (X : α⟦X⟧) * ∏ i ∈ range m, (1 - X ^ (i + 1)) ^ 24
 
-def Integer_Eta (n : ℕ) : ℤ :=
-  if h : (∃ m : ℤ, n = m * (3*m - 1) / 2)
-    then
-      let m := Classical.choose h
-      if m % 2 = 0 then 1 else -1
-    else 0
+-- def Integer_Eta (n : ℕ) : ℤ :=
+--   if h : (∃ m : ℤ, n = m * (3*m - 1) / 2)
+--     then
+--       let m := Classical.choose h
+--       if m % 2 = 0 then 1 else -1
+--     else 0
 
-def Integer_Delta : IntegerModularForm 12 where
+-- def Integer_Delta : IntegerModularForm 12 where
 
-  sequence
-    | 0 => 0
-    | n + 1 => (Sequencepow Integer_Eta 24) n
+--   sequence
+--     | 0 => 0
+--     | n + 1 => (Sequencepow Integer_Eta 24) n
 
-  summable := sorry
+--   summable := sorry
 
-  modular := sorry
-
-
-def Integer_fl (ℓ : ℕ) : IntegerModularForm (12 * δ ℓ) :=
-  Ipow Integer_Delta (δ ℓ)
+--   modular := sorry
 
 
-def flProduct (ℓ : ℕ) (m : ℕ) [Field α] :=
+-- def Integer_fl (ℓ : ℕ) : IntegerModularForm (12 * δ ℓ) :=
+--   Integer_Delta ** (δ ℓ)
+
+
+def flProduct (ℓ : ℕ) (m : ℕ) [CommRing α] :=
   (@DeltaProduct α _ ^ (δ ℓ)) m
 
 def ppart [Field α] : ℕ → α ⟦X⟧
@@ -259,8 +257,9 @@ lemma apart_eq [Field α] (n : ℕ) : ↑(partition n) = (apart n : α) := by
   cases n; rw[partition_zero, cast_zero]; rfl; rfl
 
 
-theorem fl_eq_reduce {ℓ : ℕ} [Fact (Nat.Prime ℓ)] : f ℓ == Reduce (Integer_fl ℓ) ℓ := by
-  sorry
+theorem fl_eq_reduce {ℓ : ℕ} [Fact (Nat.Prime ℓ)] : fl ℓ == Reduce (Integer.fl ℓ) ℓ := by
+  intro n; rw[fl, cast_eval, Reduce_apply]
+
 
 
 
@@ -350,30 +349,30 @@ end ProductExpansion
 
 section PowerSeriesFacts
 
-variable {α} [Field α]
+variable {α : Type*}
 
 /- Two sequences of power series are eventually equal if for any coefficient n,
 there is some number m, such that these sequences match on all coeffients
 less than n from the index m onward. As an example, the function
 fun n ↦ ∑ i ∈ range n, (natpart i) * (X : α⟦X⟧) ^ i
 is eventually equal to fun n ↦ ∏ i ∈ range n, 1 / (1 - X ^ (i + 1)) -/
-def eventuallyEq (f h : ℕ → α ⟦X⟧) : Prop :=
+def eventuallyEq [Semiring α] (f h : ℕ → α ⟦X⟧) : Prop :=
   ∀ n, ∃ m, ∀ k ≤ n, ∀ j ≥ m, coeff α k (f j) = coeff α k (h j)
 
 -- this clashes with the standard usage of ⟶ for a momorphism
 infixl : 25 (priority := high) " ⟶ " => eventuallyEq
 
 @[refl]
-theorem eventuallyEq.refl (f : ℕ → α⟦X⟧) : f ⟶ f := λ _ ↦ ⟨0, λ _ _ _ _ ↦ rfl⟩
+theorem eventuallyEq.refl [Semiring α] (f : ℕ → α⟦X⟧) : f ⟶ f := λ _ ↦ ⟨0, λ _ _ _ _ ↦ rfl⟩
 
 @[symm]
-theorem eventuallyEq.symm (f h : ℕ → α⟦X⟧) : (f ⟶ h) → (h ⟶ f) := by
+theorem eventuallyEq.symm [Semiring α] (f h : ℕ → α⟦X⟧) : (f ⟶ h) → (h ⟶ f) := by
   intro eq n
   obtain ⟨m, fo⟩ := eq n
   use m, (λ n ngm j jgm ↦ (fo n ngm j jgm).symm)
 
 @[trans]
-theorem eventuallyEq.trans (f h g : ℕ → α⟦X⟧) : (f ⟶ h) → (h ⟶ g) → (f ⟶ g) := by
+theorem eventuallyEq.trans [Semiring α] (f h g : ℕ → α⟦X⟧) : (f ⟶ h) → (h ⟶ g) → (f ⟶ g) := by
   intro feq heq n
   obtain ⟨M, fo⟩ := feq n
   obtain ⟨N, ho⟩ := heq n
@@ -381,13 +380,13 @@ theorem eventuallyEq.trans (f h g : ℕ → α⟦X⟧) : (f ⟶ h) → (h ⟶ g)
   rw [fo k klen j <| le_of_max_le_left jgMax, ho k klen j <| le_of_max_le_right jgMax]
 
 
-instance : IsEquiv (ℕ → α⟦X⟧) eventuallyEq where
+instance [Semiring α] : IsEquiv (ℕ → α⟦X⟧) eventuallyEq where
   refl := eventuallyEq.refl
   symm := eventuallyEq.symm
   trans := eventuallyEq.trans
 
 @[gcongr]
-theorem eventuallyEq_add {a b c d : ℕ → α ⟦X⟧} (hab : a ⟶ b) (hcd : c ⟶ d) : a + c ⟶ b + d := by
+theorem eventuallyEq_add [Semiring α] {a b c d : ℕ → α ⟦X⟧} (hab : a ⟶ b) (hcd : c ⟶ d) : a + c ⟶ b + d := by
   intro k
   obtain ⟨M, fo⟩ := hab k
   obtain ⟨N, go⟩ := hcd k
@@ -396,7 +395,7 @@ theorem eventuallyEq_add {a b c d : ℕ → α ⟦X⟧} (hab : a ⟶ b) (hcd : c
   rw [fo n nle j <| le_of_max_le_left jg, go n nle j <| le_of_max_le_right jg]
 
 @[gcongr]
-theorem eventuallyEq_mul {a b c d : ℕ → α ⟦X⟧} (hab : a ⟶ b) (hcd : c ⟶ d) : a * c ⟶ b * d := by
+theorem eventuallyEq_mul [Semiring α] {a b c d : ℕ → α ⟦X⟧} (hab : a ⟶ b) (hcd : c ⟶ d) : a * c ⟶ b * d := by
   intro k
   simp only [Pi.mul_apply, coeff_mul, map_add]
   obtain ⟨M, fo⟩ := hab k
@@ -410,32 +409,32 @@ theorem eventuallyEq_mul {a b c d : ℕ → α ⟦X⟧} (hab : a ⟶ b) (hcd : c
   exact le_of_max_le_right jg
 
 @[gcongr]
-theorem eventuallyEq_pow {a b : ℕ → α ⟦X⟧} (hab : a ⟶ b) (n : ℕ) : a ^ n ⟶ b ^ n := by
+theorem eventuallyEq_pow [Semiring α] {a b : ℕ → α ⟦X⟧} (hab : a ⟶ b) (n : ℕ) : a ^ n ⟶ b ^ n := by
   induction n with
   | zero => simp only [pow_zero]; rfl
-  | succ => simp only [pow_succ]; gcongr
+  | succ => simp only [_root_.pow_succ]; gcongr
 
 
-def PowerSeries.lift (a : ℕ → Polynomial α) : ℕ → α ⟦X⟧ :=
+def PowerSeries.lift [Semiring α] (a : ℕ → Polynomial α) : ℕ → α ⟦X⟧ :=
   fun n ↦ ↑(a n)
 
-@[simp] lemma lift_apply (a : ℕ → Polynomial α) (n : ℕ) :
+@[simp] lemma lift_apply [Semiring α] (a : ℕ → Polynomial α) (n : ℕ) :
   lift a n = ↑(a n) := rfl
 
 
-theorem eventuallyEq_zero_iff {a : ℕ → α ⟦X⟧} :
+theorem eventuallyEq_zero_iff [Semiring α] {a : ℕ → α ⟦X⟧} :
     (a ⟶ 0) ↔ ∀ n, ∃ m, ∀ k ≤ n, ∀ j ≥ m, coeff α k (a j) = 0 := by
   unfold eventuallyEq; simp only [Pi.zero_apply, map_zero]
 
 
 
-lemma coeff_sum_X_pow {n N : ℕ} {a : ℕ → α} (h : n < N) :
+lemma coeff_sum_X_pow [Semiring α] {n N : ℕ} {a : ℕ → α} (h : n < N) :
     coeff α n (∑ i ∈ range N, (PowerSeries.C α (a i)) * (X : α⟦X⟧) ^ i ) = a n := by
   simp [map_sum, coeff_X_pow]
   exact λ nle ↦ (not_lt_of_ge nle h).rec
 
 
-lemma coeff_sum_X_pow_mul {n N ℓ : ℕ} [NeZero ℓ] {a : ℕ → α} (h : n < N) :
+lemma coeff_sum_X_pow_mul [Semiring α] {n N ℓ : ℕ} [NeZero ℓ] {a : ℕ → α} (h : n < N) :
     (coeff α n) (∑ i ∈ range N, (C α) (a i) * X ^ (ℓ * i)) = if ℓ ∣ n then a (n / ℓ) else 0 := by
 
   simp [map_sum, coeff_X_pow]
@@ -455,11 +454,11 @@ lemma coeff_sum_X_pow_mul {n N ℓ : ℕ} [NeZero ℓ] {a : ℕ → α} (h : n <
   rw [sum_const_zero]
   rw [add_zero]; congr; exact Nat.eq_div_of_mul_eq_right ln0 rfl
   apply sum_eq_zero; intro x xlN
-  rw[dvd_def] at ldiv; push_neg at ldiv
+  rw [dvd_def] at ldiv; push_neg at ldiv
   exact if_neg (ldiv x)
 
 
-lemma sum_X_pow_eventually_zero_iff (f : ℕ → α) :
+lemma sum_X_pow_eventually_zero_iff [Semiring α] (f : ℕ → α) :
     ( (∑ i ∈ range ·, (C α) (f i) * (X : α ⟦X⟧) ^ i) ⟶ 0 ) ↔ ∀ n, f n = 0 := by
   constructor <;> intro h n
   obtain ⟨m, fo⟩ := h n
@@ -469,7 +468,7 @@ lemma sum_X_pow_eventually_zero_iff (f : ℕ → α) :
   simp only [h, map_zero, zero_mul, sum_const_zero, Pi.zero_apply, implies_true, exists_const]
 
 
-lemma coeff_sum_squash {j ℓ N M : ℕ} [NeZero ℓ] {a b : ℕ → α} (jlN : ℓ * j < N) (jlM : ℓ * j < M) :
+lemma coeff_sum_squash [Semiring α] {j ℓ N M : ℕ} [NeZero ℓ] {a b : ℕ → α} (jlN : ℓ * j < N) (jlM : ℓ * j < M) :
   coeff α (ℓ * j) ( (∑ i ∈ range N, (PowerSeries.C α (a i)) * (X : α⟦X⟧) ^ i)
     * (∑ i ∈ range M, (PowerSeries.C α (b i)) * (X : α⟦X⟧) ^ (ℓ * i)) )
       = ∑ ⟨x,y⟩ ∈ antidiagonal j, a (ℓ * x) * b y := by
@@ -492,7 +491,7 @@ lemma coeff_sum_squash {j ℓ N M : ℕ} [NeZero ℓ] {a b : ℕ → α} (jlN : 
       rw [coeff_sum_X_pow_mul (plM hp)]
 
     _ = ∑ p ∈ antidiagonal (ℓ * j) with ℓ ∣ p.2, a (p.1) * b (p.2 / ℓ) := by
-      simp_rw[mul_ite, sum_ite, mul_zero, sum_const_zero, add_zero]
+      simp_rw [mul_ite, sum_ite, mul_zero, sum_const_zero, add_zero]
 
     _ = _ := by
       symm; apply Finset.sum_bij (fun x _ ↦ (ℓ * x.1, ℓ * x.2))
@@ -521,7 +520,7 @@ lemma coeff_sum_squash {j ℓ N M : ℕ} [NeZero ℓ] {a b : ℕ → α} (jlN : 
       exact Nat.eq_div_of_mul_eq_right ln0 rfl
 
 
-lemma coeff_mul_shift {m N : ℕ} (f : ℕ → α ⟦X⟧) :
+lemma coeff_mul_shift [CommSemiring α] {m N : ℕ} (f : ℕ → α ⟦X⟧) :
     X ^ m * ∑ i ∈ range N, f i * X ^ i = ∑ i ∈ Ico m (N + m), f (i - m) * X ^ i := by
 
   simp_rw [mul_sum, ← mul_assoc, mul_comm, mul_assoc, ← pow_add]
@@ -534,11 +533,11 @@ lemma coeff_mul_shift {m N : ℕ} (f : ℕ → α ⟦X⟧) :
   use b - m, by omega
   exact Nat.sub_add_cancel bin.1
   simp only [mem_range]; intro a alN
-  congr 2; apply congrArg; exact Nat.eq_sub_of_add_eq rfl
+  congr! 2; exact Nat.eq_sub_of_add_eq rfl
   ac_rfl
 
 
-lemma coeff_mul_shift_of_zero {m N : ℕ} (f : ℕ → α ⟦X⟧) (f0 : f 0 = 0) :
+lemma coeff_mul_shift_of_zero [CommRing α] {m N : ℕ} (f : ℕ → α ⟦X⟧) (f0 : f 0 = 0) :
     X ^ m * ∑ i ∈ range N, f i * X ^ i = ∑ i ∈ range (N + m), f (i - m) * X ^ i := calc
 
   _ = ∑ i ∈ Ico m (N + m), f (i - m) * X ^ i := coeff_mul_shift f
@@ -554,14 +553,14 @@ lemma coeff_mul_shift_of_zero {m N : ℕ} (f : ℕ → α ⟦X⟧) (f0 : f 0 = 0
     rw[zero_mul]
 
 
-lemma Polynomial.coe_prod (m : ℕ) (f : ℕ → Polynomial α) :
+lemma Polynomial.coe_prod [CommSemiring α] (m : ℕ) (f : ℕ → Polynomial α) :
     ∏ i ∈ range m, (f i : α ⟦X⟧) = ((∏ i ∈ range m, f i : Polynomial α) : α ⟦X⟧) := by
   induction m with
   | zero => simp only [range_zero, prod_empty, Polynomial.coe_one]
   | succ m ih => simp only [prod_range_succ, ih, Polynomial.coe_mul]
 
 
-lemma coeff_zero_of_ndvd {ℓ M k : ℕ} (ndvd : ¬ ℓ ∣ k) :
+lemma coeff_zero_of_ndvd [Field α] {ℓ M k : ℕ} (ndvd : ¬ ℓ ∣ k) :
     coeff α k (∏ i ∈ range M, (1 - (X : α ⟦X⟧) ^ (ℓ * (i + 1))) ^ ℓ) = 0 := by
 
   rw[coeff_prod]
@@ -603,7 +602,7 @@ lemma coeff_zero_of_ndvd {ℓ M k : ℕ} (ndvd : ¬ ℓ ∣ k) :
 
 
 
-lemma coeff_sum_eventually_zero (m : ℕ) (f : ℕ → Polynomial α) :
+lemma coeff_sum_eventually_zero [Semiring α] (m : ℕ) (f : ℕ → Polynomial α) :
     ∃ N, ∀ n ≥ N, coeff α n (∑ i ∈ range m, f i) = 0 := by
   simp only [ge_iff_le, map_sum, Polynomial.coeff_coe]
   set M := sup (range m) (Polynomial.natDegree ∘ f) with Meq
@@ -616,7 +615,7 @@ lemma coeff_sum_eventually_zero (m : ℕ) (f : ℕ → Polynomial α) :
     _ < n := Mle
 
 
-lemma coeff_prod_eventually_zero (m : ℕ) (f : ℕ → Polynomial α) :
+lemma coeff_prod_eventually_zero [CommSemiring α] (m : ℕ) (f : ℕ → Polynomial α) :
     ∃ N, ∀ n ≥ N, coeff α n (∏ i ∈ range m, f i) = 0 := by
   simp only [ge_iff_le, map_prod, Polynomial.coeff_coe]
   set M := ∑ i ∈ range m, (f i).natDegree with Meq
@@ -661,7 +660,7 @@ lemma prod_eq_sum (α) [Field α] (ℓ K : ℕ) [NeZero ℓ] : ∃ c : ℕ → �
   exact ldi x
 
 
-theorem partitionProduct_eventually_natpart_sum :
+theorem partitionProduct_eventually_natpart_sum [Field α] :
     (partitionProduct ·) ⟶ (∑ i ∈ range ·, (natpart i) * (X : α⟦X⟧) ^ i) := by
   intro n; dsimp; use n + 1; intro k kle j jg
   have klj : k < j := by omega
@@ -670,7 +669,7 @@ theorem partitionProduct_eventually_natpart_sum :
   rfl
 
 
-theorem partitionProduct_mul_eq_natpart_sum (n : ℕ) (f : ℕ → Polynomial α) :
+theorem partitionProduct_mul_eq_natpart_sum [Field α] (n : ℕ) (f : ℕ → Polynomial α) :
   ∃ M, ∀ m ≥ M, (coeff α n) ( (f m) * (partitionProduct m : α⟦X⟧) ) =
     (coeff α n) ( (f m) * ∑ i ∈ range m, (natpart i) * (X : α⟦X⟧) ^ i ) := by
   have hf := @partitionProduct_eventually_natpart_sum
@@ -679,153 +678,203 @@ theorem partitionProduct_mul_eq_natpart_sum (n : ℕ) (f : ℕ → Polynomial α
   simp_all only [Pi.mul_apply, lift_apply]; congr
 
 
+lemma coeff_X_mul [Semiring α] (f : α ⟦X⟧) {n : ℕ} (npos : n > 0) :
+    (coeff α n) (X * f) = coeff α (n - 1) f := by
+  rw [coeff_mul]; trans  ∑ p ∈ antidiagonal n, (coeff α p.1) (X ^ 1) * (coeff α p.2) f
+  rw [pow_one]
+  simp_rw [coeff_X_pow]; simp only [ite_mul, one_mul, zero_mul, sum_ite]
+  simp only [sum_const_zero, add_zero]
+  trans ∑ x ∈ {(1, n - 1)}, (coeff α x.2) f
+  congr; ext x; simp only [mem_filter, mem_antidiagonal, mem_singleton]
+  constructor; rintro ⟨xsum, x1⟩; ext <;> dsimp
+  exact x1; omega
+  intro hx; simp_all only [gt_iff_lt, and_true]; exact add_sub_of_le npos
+  rw [sum_singleton]
 
 
-theorem DeltaProduct_eventually_sum :
-    (DeltaProduct ·) ⟶ (∑ i ∈ range ·, Integer_Delta i * (X : α⟦X⟧) ^ i) := by
-  sorry
+open Nat in
+lemma DeltaProduct_coeff_le [CommRing α] {n m j : ℕ} (nlm : n ≤ m) (mlj : m ≤ j) :
+    (coeff α n) (DeltaProduct m) = (coeff α n) (DeltaProduct j) := by
+
+  by_cases n0 : n = 0
+  simp [n0]
+
+  have npos : n > 0 := zero_lt_of_ne_zero n0
+  simp only [DeltaProduct, coeff_X_mul _ npos];
+  set k := n - 1 with keq; symm; calc
+    _ = (coeff α k) ((∏ i ∈ Ico 0 m, (1 - X ^ (i + 1)) ^ 24) *
+        (∏ i ∈ Ico m j, (1 - X ^ (i + 1)) ^ 24)) := by
+      rw [prod_Ico_consecutive, Ico_zero_eq_range]
+      exact Nat.zero_le m; exact mlj
+    _ = _ := by
+      rw [Ico_zero_eq_range, coeff_mul]
+
+      have coeff_eq_ite {k : ℕ} (klt : k < m) :
+          (coeff α k) (∏ i ∈ Ico m j, (1 - X ^ (i + 1)) ^ 24) = if k = 0 then 1 else 0 := by
+        split_ifs with k0
+        rw [k0]; simp
+
+        rw [coeff_prod]; apply sum_eq_zero;
+        intro x xin; rw [mem_finsuppAntidiag] at xin
+
+        have exy : ∃ y ∈ Ico m j, x y ≠ 0 ∧ x y < m := by
+          contrapose! xin
+
+          intro sum_eq
+          contrapose! sum_eq
+          have fozer {k} (hk : x k ≠ 0) : k ∈ Ico m j := by
+            have : k ∈ x.support := Finsupp.mem_support_iff.mpr hk
+            exact sum_eq this
+
+          by_cases ex : ∃ y, x y ≠ 0
+          obtain ⟨y, yn0⟩ := ex
+          have : y ≥ m := List.left_le_of_mem_range' (fozer yn0)
+          apply Nat.ne_of_gt; calc
+            _ < m := klt
+            _ ≤ x y := xin y (fozer yn0) yn0
+            _ ≤ _ := CanonicallyOrderedAddCommMonoid.single_le_sum (fozer yn0)
 
 
-private def g (k) [NeZero k] (x : Fin k → ℕ) : (ℕ →₀ ℕ) where
-  support := { i ∈ range k | x (Fin.ofNat k i) ≠ 0 }
-  toFun n := if h : n < k then x (Fin.ofNat k n) else 0
-  mem_support_toFun := by
-    intro n
-    simp only [Fin.ofNat_eq_cast, ne_eq, mem_filter,
-        mem_range, dite_eq_right_iff, not_forall]
-    constructor <;> intro h
-    use h.1, h.2
-    obtain ⟨h1, h2⟩ := h; use h1, h2
+          push_neg at ex
+          suffices (Ico m j).sum ⇑x = 0 by symm; rwa[this]
+          exact sum_eq_zero (λ y _ ↦ ex y)
 
-@[simp] lemma g_apply (k) [NeZero k] (x : Fin k → ℕ) (i : ℕ) :
-    (g k x) i = if i < k then x (Fin.ofNat k i) else 0 := rfl
+        obtain ⟨y, yin, xyn0, xylm⟩ := exy
+        rw [prod_eq_zero]; use yin
+        rw [coeff_pow]
+        set f : ℕ → α := fun n ↦ (coeff α n) (1 - X ^ (y + 1)) with hf
+        trans ∑ l ∈ (range 24).finsuppAntidiag (x y), ∏ i ∈ range 24, f (l i); rfl
+        rw [finsuppAntidiag_to_antidiagonalTuple 24 (x y) f]
+        rw [hf]; dsimp; apply sum_eq_zero; intro z zin
+        rw [mem_antidiagonalTuple] at zin
+
+        have exb : ∃ b, z b > 0 := by
+          contrapose! zin
+          have : ∑ i, z i = 0 := sum_eq_zero λ x _ ↦ eq_zero_of_le_zero (zin x)
+          symm; rwa [this]
+        obtain ⟨b, bn0⟩ := exb
+
+        rw [prod_eq_zero]
+        use mem_univ b
+        have ble : z b < y := by
+
+          have : z b ≤ ∑ i, z i := le_sum_fintype
+          have : m ≤ y := by rw [mem_Ico] at yin; exact yin.1
+          omega
+
+        simp only [map_sub, coeff_one]; rw [if_neg (Nat.ne_of_gt bn0)]
+        simp only [zero_sub, neg_eq_zero, coeff_pow]
+
+        set f : ℕ → α := fun n ↦ (coeff α n) (X) with hf
+        trans ∑ l ∈ (range (y + 1)).finsuppAntidiag (z b), ∏ i ∈ range (y + 1), f (l i); rfl
+        rw [finsuppAntidiag_to_antidiagonalTuple _ _ f, hf]
 
 
-lemma g_support {k} [NeZero k] {x : Fin k → ℕ} :
-    (g k x).support = { i ∈ range k | x (Fin.ofNat k i) ≠ 0 } := rfl
+        apply sum_eq_zero; intro x xsum
+        have exc : ∃ c : Fin (y + 1), x c < 1 := by
+          contrapose! xsum; rw[mem_antidiagonalTuple]
+          push_neg; apply Nat.ne_of_gt;
+          have : ∑ i : Fin (y + 1), 1 ≤ ∑ i, x i := sum_le_sum λ i _ ↦ xsum i
+          simp only [sum_const, Finset.card_univ, Fintype.card_fin, smul_eq_mul, mul_one] at this
+          omega
+
+        obtain ⟨c, c0⟩ := exc; rw [lt_one_iff] at c0
+        dsimp; rw [prod_eq_zero]
+        use mem_univ c; rw[c0, coeff_zero_X]
 
 
-private def e (k) [NeZero k] : Fin k ≃ (range k) where
 
-  toFun := λ ⟨val, prop⟩ ↦ ⟨val, by rwa [mem_range]⟩
 
-  invFun := λ ⟨val, prop⟩ ↦ ⟨val, by rwa [← mem_range]⟩
+      calc
+        _ = ∑ p ∈ antidiagonal k, (coeff α p.1) (∏ i ∈ range m, (1 - X ^ (i + 1)) ^ 24) *
+            if p.2 = 0 then 1 else 0 := by
+          congr! with p pin;
 
-  left_inv := λ n ↦ rfl
+          have plt : p.2 < m := by
+            have : p.2 ≤ k := antidiagonal.snd_le pin
+            omega
+          rw [coeff_eq_ite plt]
+        _ =  ∑ x ∈ {(k,0)}, (coeff α x.1) (∏ i ∈ range m, (1 - X ^ (i + 1)) ^ 24) := by
+          simp only [mul_ite, mul_one, mul_zero, sum_ite, sum_const_zero, add_zero]
+          congr with x; simp only [mem_filter, mem_antidiagonal, mem_singleton]
+          simp_all only [gt_iff_lt, k]
+          obtain ⟨fst, snd⟩ := x
+          simp_all only [Prod.mk.injEq, and_congr_left_iff, add_zero, implies_true]
 
-  right_inv := λ n ↦ rfl
+        _ = _ := by simp only [sum_singleton]
+
+
+
+
+lemma coeff_int_cast [Ring α] (f : α ⟦X⟧) (n : ℕ) (k : ℤ) : (coeff α n) (k * f) = k * (coeff α n) f := by
+  trans (coeff α n) (k • f); congr; exact (zsmul_eq_mul f k).symm
+  trans k • (coeff α n) f; rfl
+  exact zsmul_eq_mul ((coeff α n) f) k
+
+
+
+theorem DeltaProduct_eventually_sum [CommRing α] :
+    (DeltaProduct ·) ⟶ (∑ i ∈ range ·, Integer.Delta i * (X : α⟦X⟧) ^ i) := by
+
+  intro n
+  by_cases n0 : n = 0
+  use 0; intro k kle j jg; simp_all
+  symm; apply sum_eq_zero; intro x xlt
+  by_cases x0 : x = 0
+  rw [x0, Integer.Delta_zero, pow_zero]
+  refine X_dvd_iff.mp ?_; trans 0; exact X_dvd_iff.mpr rfl
+  apply dvd_of_eq; exact Eq.symm (Lean.Grind.IntModule.zero_hmul 1)
+  trans Integer.Delta x * (coeff α 0) (X ^ x)
+
+  simp only [← coeff_zero_eq_constantCoeff]
+  exact coeff_int_cast ..
+  rw [coeff_X_pow, if_neg fun a ↦ x0 (id (Eq.symm a)), mul_zero]
+
+  simp_rw [Integer.Delta_apply]
+  use n + 1; intro k kle j jg
+  have : j > k := by omega
+  trans (coeff α k) (∑ x ∈ range j, C α ((coeff ℤ x) (DeltaProduct x)) * X ^ x)
+  set f : ℕ → α := fun n ↦ (coeff ℤ n) (DeltaProduct n) with feq
+  rw [coeff_sum_X_pow (a := f) this]
+
+  simp only [feq]; symm
+
+  convert DeltaProduct_coeff_cast (g := Int.castRingHom α) k k using 1
+
+  symm; apply DeltaProduct_coeff_le (le_refl k) <| le_of_lt this
+  congr! 2 with x xin; simp only [map_intCast]; rfl
+
 
 
 
 open Finset.Nat in
-theorem fl_Product_eventually_sum (ℓ) [Fact (Nat.Prime ℓ)] [Fact (ℓ ≥ 5)] :
-    (flProduct ℓ ·) ⟶ (∑ i ∈ range ·, ((Integer_fl ℓ i) : α ⟦X⟧) * (X : α⟦X⟧) ^ i) := by
+theorem fl_Product_eventually_sum [CommRing α] (ℓ) [Fact (ℓ ≥ 5)] :
+    (flProduct ℓ ·) ⟶ (∑ i ∈ range ·, ((Integer.fl ℓ i) : α ⟦X⟧) * (X : α⟦X⟧) ^ i) := by
 
-  unfold flProduct Integer_fl; dsimp; symm; calc
+  unfold flProduct Integer.fl; dsimp; symm; calc
 
-    _ ⟶ (fun x ↦ ∑ i ∈ range x, ↑(Integer_Delta i) * (X : α ⟦X⟧) ^ i) ^ (δ ℓ) := by
+    _ ⟶ (fun x ↦ ∑ i ∈ range x, ↑(Integer.Delta i) * (X : α ⟦X⟧) ^ i) ^ (δ ℓ) := by
 
       intro k; use k + 1; intro n nlek M Mgk
       dsimp
-      simp_rw [Ipow_apply, coeff_pow]
+      simp_rw [Integer.Ipow_apply, coeff_pow]
 
-      have rw1 (i) : (((∑ x ∈ antidiagonalTuple (δ ℓ) i, ∏ y, Integer_Delta (x y)) : ℤ) : α ⟦X⟧) =
-        (C α) (∑ x ∈ antidiagonalTuple (δ ℓ) i, ∏ y, Integer_Delta (x y)) := by
+
+      have rw1 (i) : (((∑ x ∈ antidiagonalTuple (δ ℓ) i, ∏ y, Integer.Delta (x y)) : ℤ) : α ⟦X⟧) =
+        (C α) (∑ x ∈ antidiagonalTuple (δ ℓ) i, ∏ y, Integer.Delta (x y)) := by
           simp only [map_sum, map_prod, map_intCast, Int.cast_sum, Int.cast_prod]
 
-      have rw2 (i) : (Integer_Delta i : α ⟦X⟧) = (C α) (Integer_Delta i) := by
+      have rw2 (i) : (Integer.Delta i : α ⟦X⟧) = (C α) (Integer.Delta i) := by
         simp only [map_intCast]
 
       have nlM : n < M := by omega
       simp_rw [rw1, coeff_sum_X_pow nlM]
 
-      trans ∑ l ∈ (range (δ ℓ)).finsuppAntidiag n, ∏ i ∈ range (δ ℓ), ↑(Integer_Delta (l i))
-      {
-        apply Finset.sum_nbij (g (δ ℓ))
-        simp only [mem_antidiagonalTuple, mem_finsuppAntidiag]
-        intro x xsum; constructor; calc
-          _ = ∑ i ∈ range (δ ℓ), x (Fin.ofNat (δ ℓ) i) := by
-            apply sum_congr rfl; intro i ilt; simp only [g_apply, Fin.ofNat_eq_cast,
-              ite_eq_left_iff, not_lt]
-            intro ige; rw [mem_range] at ilt; omega
-          _ = ∑ i, x i := by
-            trans ∑ i : {i // i ∈ range (δ ℓ)}, x (Fin.ofNat (δ ℓ) (i.val))
-            rw [Finset.sum_subtype]; intro n; rfl
-            apply sum_bij (fun ⟨i, prop⟩ _ ↦ ⟨i, by rwa [← mem_range]⟩)
-            intros; exact mem_univ _
-            simp
-            intro ⟨b, prop⟩ _; use ⟨b, by rwa [mem_range]⟩;
-            simp only [univ_eq_attach, mem_attach, exists_const]
-            intro a ha ; simp only [Fin.ofNat_eq_cast]
-            have alt : a.val < δ ℓ := by
-              rw [← mem_range]; exact a.2
-            congr
-            apply Fin.eq_of_val_eq
-            exact Fin.val_cast_of_lt alt
+      trans ∑ l ∈ (range (δ ℓ)).finsuppAntidiag n, ∏ i ∈ range (δ ℓ), ↑(Integer.Delta (l i))
+      set f := fun m ↦ ((Integer.Delta m) : α) with hf
 
-          _ = n := xsum
+      rw [finsuppAntidiag_to_antidiagonalTuple (δ ℓ) n f]
 
-        intro i xin0; rw [g_support, mem_filter] at xin0; exact xin0.1
-
-
-        intro a asum b bsum heq
-        ext ⟨k, klt⟩
-        have : g (δ ℓ) a k = g (δ ℓ) b k := congrFun (congrArg DFunLike.coe heq) k
-        simp only [g_apply] at this
-        simp only [if_pos klt] at this
-        trans a (Fin.ofNat (δ ℓ) k); congr; exact Eq.symm ( mod_eq_of_lt klt)
-        trans b (Fin.ofNat (δ ℓ) k); exact this
-        symm; congr; exact Eq.symm ( mod_eq_of_lt klt)
-        intro x xin; use fun i ↦ x (i.val)
-        simp_all only [mem_coe, mem_antidiagonalTuple, mem_finsuppAntidiag]
-        constructor; calc
-          _ = ∑ i : {i // i ∈ range (δ ℓ)}, x ↑i := by
-            symm; apply sum_bij (fun ⟨i, prop⟩ _ ↦ ⟨i, by rwa [← mem_range]⟩)
-            intros; exact mem_univ _
-            simp
-            intro ⟨b, prop⟩ _; use ⟨b, by rwa [mem_range]⟩;
-            simp only [univ_eq_attach, mem_attach, exists_const]
-            intro a ha ; simp only [Fin.ofNat_eq_cast]
-
-          _ = ∑ i ∈ range (δ ℓ), x i := by
-            rw [sum_subtype (range (δ ℓ))]; intro; rfl
-
-          _ = n := xin.1
-
-        ext i; simp only [g_apply, Fin.ofNat_eq_cast, Fin.val_natCast]
-
-        obtain ⟨-, xsup⟩ := xin
-        have i0 (i) (hi : x i ≠ 0) : i ∈ range (δ ℓ) := by
-          simp only [subset_iff, Finsupp.mem_support_iff] at xsup
-          exact xsup hi
-
-        by_cases ilt : i < δ ℓ
-        simp only [if_pos ilt]; congr; exact mod_eq_of_lt ilt
-        simp only [if_neg ilt]; contrapose! ilt
-        rw[← mem_range]; exact i0 i ilt.symm
-
-        intro x xin; calc
-          _ = ∏ i : {i // i ∈ range (δ ℓ)},
-              (Integer_Delta (x (Fin.ofNat (δ ℓ) ↑i)) : α) := by
-            symm; apply prod_bij (fun ⟨i, prop⟩ _ ↦ ⟨i, by rwa [← mem_range]⟩)
-            intros; exact mem_univ _
-            simp
-            intro ⟨b, prop⟩ _; use ⟨b, by rwa [mem_range]⟩;
-            simp only [univ_eq_attach, mem_attach, exists_const]
-            intro a ha ; simp only [Fin.ofNat_eq_cast]
-            congr
-            have alt : a.val < δ ℓ := by
-              rw [← mem_range]; exact a.2
-            apply Fin.eq_of_val_eq
-            exact Fin.val_cast_of_lt alt
-
-          _ = ∏ i ∈ range (δ ℓ), (Integer_Delta (x (Fin.ofNat (δ ℓ) i)) : α) := by
-            rw[prod_subtype (range (δ ℓ))]; intro; rfl
-
-          _ = _ := by
-            apply prod_congr rfl; intro i ilt
-            congr; rw[g_apply, if_pos (by rwa [← mem_range])]
-      }
 
       apply sum_congr rfl; intro y yin
       apply prod_congr rfl; intro i ilt
@@ -856,7 +905,7 @@ instance : CharP ((ZMod ℓ) ⟦X⟧) ℓ := by
   simp only [CharP.cast_eq_zero, map_zero]
 
 
-theorem flu_eq_zero [Fact (ℓ ≥ 5)] : ramanujan_congruence ℓ → f ℓ |𝓤 = 0 := by
+theorem flu_eq_zero [Fact (ℓ ≥ 5)] : ramanujan_congruence ℓ → fl ℓ |𝓤 = 0 := by
 
   intro h
   have lg5 : ℓ ≥ 5 := Fact.out
@@ -865,13 +914,13 @@ theorem flu_eq_zero [Fact (ℓ ≥ 5)] : ramanujan_congruence ℓ → f ℓ |�
 
   ext n
 
-  rw [U_apply, zero_apply, fl_eq_reduce, Reduce_apply]
+  rw [U_apply, Modulo.zero_apply, fl_eq_reduce, Reduce_apply]
 
   set g : ℕ → Polynomial (ZMod ℓ) :=
     fun n ↦ Polynomial.X ^ (δ ℓ) * (∏ i ∈ range n, (1 - Polynomial.X ^ (i + 1)) ^ (ℓ ^ 2)) with geq
 
   obtain ⟨ m, goeq ⟩ := partitionProduct_mul_eq_natpart_sum (ℓ * n) g
-  obtain ⟨ m', floeq ⟩ := @fl_Product_eventually_sum (ZMod ℓ) _ ℓ _ _ (ℓ * n)
+  obtain ⟨ m', floeq ⟩ := @fl_Product_eventually_sum (ZMod ℓ) _ ℓ _ (ℓ * n)
   dsimp at floeq
 
   set M := max' {m, m', ℓ * n + 1} (insert_nonempty ..) with Meq
@@ -894,7 +943,7 @@ theorem flu_eq_zero [Fact (ℓ ≥ 5)] : ramanujan_congruence ℓ → f ℓ |�
   calc
 
   _ = (coeff (ZMod ℓ) (ℓ * n))
-      (∑ i ∈ range M, C (ZMod ℓ) ↑( (Integer_fl ℓ) i ) * X ^ i) := by
+      (∑ i ∈ range M, C (ZMod ℓ) ↑( (Integer.fl ℓ) i ) * X ^ i) := by
     rwa [coeff_sum_X_pow]
 
   _ = (coeff (ZMod ℓ) (ℓ * n))
@@ -907,7 +956,7 @@ theorem flu_eq_zero [Fact (ℓ ≥ 5)] : ramanujan_congruence ℓ → f ℓ |�
     congr; simp only [mul_pow]; congr
     simp_rw[← prod_pow _ (δ ℓ)]
     congr; ext i : 1; rw[← pow_mul]
-    congr; unfold δ; exact Nat.mul_div_cancel' delta_integer
+    congr; unfold delta; exact Nat.mul_div_cancel' delta_integer
 
   _ = (coeff (ZMod ℓ) (ℓ * n))
       ( X ^ (δ ℓ) * (∏ i ∈ range M, (1 - X ^ (i + 1)) ^ (ℓ ^ 2)) *

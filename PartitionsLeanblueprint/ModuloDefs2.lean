@@ -9,14 +9,13 @@ a sequence b is modular if there exists an Integer Modular Form a of any weight 
 b is the reduction of a mod ℓ -/
 
 
-open ModularFormDefs Regular Integer
+open Integer
 
 noncomputable section
 
-namespace Modulo2
 
 
-def reduce (ℓ : ℕ) (a : ℕ → ℤ) [NeZero ℓ] : (ℕ → ZMod ℓ) :=
+def Modulo.reduce (ℓ : ℕ) (a : ℕ → ℤ) [NeZero ℓ] : (ℕ → ZMod ℓ) :=
   fun n ↦ a n
 
 
@@ -25,13 +24,15 @@ structure ModularFormMod (ℓ : ℕ) [NeZero ℓ] (k : ZMod (ℓ - 1)) where
 
   sequence : (ℕ → ZMod ℓ)
 
-  modular : ∃ k' : ℕ, ∃ a : IntegerModularForm k', k' = k ∧ sequence = reduce ℓ a
+  modular : ∃ k' : ℕ, ∃ a : IntegerModularForm k', k' = k ∧ sequence = Modulo.reduce ℓ a
 -- or (k : Fin ℓ), ℓ ∣ k' - k.1
 
 
+namespace Modulo
+
 variable {k : ℕ}
 
-def Reduce (a : IntegerModularForm k) ℓ [NeZero ℓ] : ModularFormMod ℓ (k : ZMod (ℓ - 1)) where
+def Reduce (a : IntegerModularForm k) ℓ [NeZero ℓ] : ModularFormMod ℓ k where
   sequence n := (a n : ZMod ℓ)
   modular := ⟨k, a, rfl, rfl⟩
 
@@ -55,7 +56,7 @@ instance [NeZero (ℓ - 1)] : Zero (ModularFormMod ℓ k) where
     modular := by
       use k.val, 0; constructor
       simp only [ZMod.natCast_val, ZMod.cast_id', id_eq]
-      ext n; simp only [reduce, coe_zero', Pi.zero_apply, Int.cast_zero]
+      ext n; simp only [reduce, coe_zero, Pi.zero_apply, Int.cast_zero]
   }
 
 
@@ -82,16 +83,14 @@ def natify (a : ModularFormMod ℓ k) : ℕ → ℕ :=
   fun n ↦ (a n).val
 
 
-variable  {α : Type*}
 
-def Sequencepow (a : ℕ → α) (j : ℕ) [CommRing α] : ℕ → α :=
-  fun n ↦ ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y)
-
-def pow (a : ModularFormMod ℓ k) (j : ℕ) : ModularFormMod ℓ (k * j) where
+def Mpow (a : ModularFormMod ℓ k) (j : ℕ) : ModularFormMod ℓ (k * j) where
   sequence n := ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y)
   -- sum over all x1 + ... + xj = n
 
   modular := sorry
+
+scoped infixl:80 " ** " => Mpow
 
 
 
@@ -147,7 +146,7 @@ theorem coe_mul (f g : ModularFormMod ℓ k) : ⇑ (f * g) =
 theorem mul_coe (f : ModularFormMod ℓ k) (g : ModularFormMod ℓ j ) :
   (f * g : ℕ → ZMod ℓ) = f * g := rfl
 
-@[simp]
+
 theorem mul_apply (f : ModularFormMod ℓ k) (g : ModularFormMod ℓ j ) (n : ℕ) : (f * g) n =
   ∑ ⟨x,y⟩ ∈ antidiagonal n, f x * g y := rfl
 
@@ -178,13 +177,9 @@ theorem sub_apply (f g : ModularFormMod ℓ k) (z : ℕ) : (f - g) z = f z - g z
   Eq.symm (Mathlib.Tactic.Abel.unfold_sub (f z) (g z) ((f - g) z) rfl)
 
 
-theorem coe_pow (a : ModularFormMod ℓ k) (j : ℕ) : ⇑(pow a j) = fun n ↦ ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
+theorem coe_Mpow (a : ModularFormMod ℓ k) (j : ℕ) : ⇑(Mpow a j) = fun n ↦ ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
 
-theorem pow_apply (a : ModularFormMod ℓ k) (j n : ℕ) : (pow a j) n = ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
-
-theorem coe_Sequencepow {ℓ : ℕ} (a : ℕ → ZMod ℓ) (j : ℕ) : ⇑(Sequencepow a j) = fun n ↦ ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
-
-theorem Sequencepow_apply {ℓ : ℕ} (a : ℕ → ZMod ℓ) (j n : ℕ) : (Sequencepow a j) n = ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
+theorem Mpow_apply (a : ModularFormMod ℓ k) (j n : ℕ) : (Mpow a j) n = ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
 
 @[ext]
 theorem ModularFormMod.ext {a b : ModularFormMod ℓ k} (h : ∀ n, a n = b n) : a = b :=
@@ -236,6 +231,60 @@ instance {ℓ : ℕ} [Fact (Nat.Prime ℓ)] : NeZero (ℓ - 1) where
     let lg2 := Prime.two_le Fact.out
     Nat.sub_ne_zero_iff_lt.mpr lg2
 
-end Modulo2
+end Modulo
+
+
+variable {α : Type*} {k j : ℕ} [CommSemiring α]
+open Finset.Nat Finset
+
+def Sequencemul (a b : ℕ → α) : ℕ → α :=
+  fun n ↦ ∑ ⟨x,y⟩ ∈ antidiagonal n, a x * b y
+
+
+def Sequencepow (a : ℕ → α) (j : ℕ) : ℕ → α :=
+  fun n ↦ ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y)
+
+
+theorem coe_Sequencemul (f g : ℕ → α) : Sequencemul f g =
+  fun n ↦ ∑ ⟨x,y⟩ ∈ antidiagonal n, f x * g y := rfl
+
+
+theorem Sequencemul_apply (f g : ℕ → α) (n : ℕ) : (Sequencemul f g) n =
+  ∑ ⟨x,y⟩ ∈ antidiagonal n, f x * g y := rfl
+
+theorem coe_Sequencepow (a : ℕ → α) (j : ℕ) :
+  Sequencepow a j = fun n ↦ ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
+
+theorem Sequencepow_apply (a : ℕ → α) (j n : ℕ) :
+  (Sequencepow a j) n = ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
+
+
+theorem Integer.mul_eq_Sequencemul (a : IntegerModularForm k) (b : IntegerModularForm j) :
+  ⇑(a * b) = Sequencemul a b := rfl
+
+theorem Integer.Ipow_eq_Sequencepow (a : IntegerModularForm k) (j : ℕ) :
+  Ipow a j = Sequencepow a j := rfl
+
+theorem Integer.mul_eq_Sequencemul_apply (a : IntegerModularForm k) (b : IntegerModularForm j) (n : ℕ) :
+  (a * b) n = Sequencemul a b n := rfl
+
+theorem Integer.Ipow_eq_Sequencepow_apply (a : IntegerModularForm k) (j : ℕ) (n : ℕ) :
+  Ipow a j n = Sequencepow a j n := rfl
+
+
+variable {ℓ : ℕ} [NeZero ℓ] {k j : ZMod (ℓ - 1)}
+
+theorem Modulo.mul_eq_Sequencemul (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) :
+  ⇑(a * b) = Sequencemul a b := rfl
+
+theorem Modulo.Mpow_eq_Sequencepow (a : ModularFormMod ℓ k) (j : ℕ) :
+  Mpow a j = Sequencepow a j := rfl
+
+theorem Modulo.mul_eq_Sequencemul_apply (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (n : ℕ) :
+  ⇑(a * b) n = Sequencemul a b n := rfl
+
+theorem Modulo.Mpow_eq_Sequencepow_apply (a : ModularFormMod ℓ k) (j : ℕ) (n : ℕ) :
+  Mpow a j n = Sequencepow a j n := rfl
+
 
 end section

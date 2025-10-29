@@ -5,10 +5,10 @@ import Mathlib.Logic.Function.Iterate
 import Mathlib.Data.Nat.Prime.Defs
 
 /- This file defines some basic operators on Modular Forms Mod ℓ, such as the
-Theta and U operators, the Filtration function, and some simple functions for dealing with cast equality
-It also defines notation that aligns with the paper -/
+Theta and U operators, the Filtration function, and some simple functions
+for dealing with cast equality. It also defines notation that aligns with the paper -/
 
-open ModularFormDefs Integer Modulo2
+open Modulo
 
 noncomputable section
 
@@ -96,6 +96,19 @@ lemma Mod_eq_of_Eq {a b : α} (h : a = b) : a == b :=
 
 lemma Eq_of_Mod_eq {a b : α} (h : a == b) : a = b :=
   DFunLike.ext _ _ h
+
+
+
+@[simp] theorem Modulo.Mpow_zero (a : ModularFormMod ℓ k) :
+    a ** 0 = Mcongr (by rw[Nat.cast_zero, mul_zero]) (const 1) := by
+  ext n; rw [Mpow_apply]
+  match n with
+  | 0 => simp
+  | n + 1 => simp
+
+@[simp] theorem Modulo.Mpow_one (a : ModularFormMod ℓ k) :
+    a ** 1 = Mcongr (by rw [Nat.cast_one, mul_one] ) a := by
+  ext n; simp [Mpow_apply]
 
 
 def Theta (a : ModularFormMod ℓ k) : ModularFormMod ℓ (k + 2) where
@@ -251,24 +264,14 @@ lemma sub_congr_left_apply {k j : ZMod (ℓ - 1)} (a : ModularFormMod ℓ k) (b 
   rw[sub_congr_left, sub_apply, triangle_eval]
 
 
-infixl:30 "mod" => Reduce
-
-syntax:30 term " (mod " term ")" : term
-
 macro_rules
   | `($a (mod $l)) => `(Reduce $a $l)
 
 
-infixl:80 (priority := high) "**" => pow
-
-
--- namespace ModPow
--- scoped infixl:80 "^" => pow
--- end ModPow
 
 @[simp]
 theorem const_pow (c : ZMod ℓ) [Fact (Nat.Prime ℓ)] (j : ℕ) : (const c) ** j == const (c ^ j) := by
-  intro n; simp only [pow_apply]
+  intro n; simp only [Mpow_apply]
   match n with
   | 0 => simp[Finset.Nat.antidiagonalTuple_zero_right]
   | n + 1 =>
@@ -350,17 +353,16 @@ lemma Filt_decomp_iff' {j : ℕ} {a : ModularFormMod ℓ k} (wj : hasWeight a j)
   contrapose! h
   exact (Filt_decomp_iff wj).1 filta k h
 
-
-@[simp]
-lemma Filt_const {c : ZMod ℓ} : 𝔀 (const c) = 0 := by
+open Integer in
+@[simp] lemma Filt_const {c : ZMod ℓ} : 𝔀 (const c) = 0 := by
   unfold Filtration
   suffices h: hasWeight (const c) 0 from
     (Nat.find_eq_zero (Filtration._proof_1 (const c))).mpr h
   obtain ⟨n,b,n0,hb⟩ := (const c).modular
   use Iconst ↑c.val; ext n; rw [ZMod.natCast_val, reduce]
   match n with
-  | 0 => rw [Modulo2.const_zero, Integer.Iconst_zero, ZMod.intCast_cast, ZMod.cast_id', id_eq]
-  | n + 1 => rw [Modulo2.const_succ, Integer.Iconst_succ, Int.cast_zero]
+  | 0 => rw [const_zero, Iconst_zero, ZMod.intCast_cast, ZMod.cast_id', id_eq]
+  | n + 1 => rw [const_succ, Iconst_succ, Int.cast_zero]
 
 
 @[simp]

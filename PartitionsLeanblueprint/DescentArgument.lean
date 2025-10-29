@@ -6,6 +6,7 @@ import PartitionsLeanblueprint.PrimaryLemmas
 It proves that 𝔀 (Θ^[(ℓ + 3)/2] (f ℓ)) = (ℓ^2 - 1)/2 + 4.
 From here on, information about a basis will be needed -/
 
+open Modulo
 
 opaque ℓ : ℕ  -- this may be a bad idea, but it made everything slightly easier
 variable [Fact (Nat.Prime ℓ)] [Fact (ℓ ≥ 5)]
@@ -17,18 +18,18 @@ private instance Oddl : Odd ℓ :=
 
 
 -- (3.6)
-theorem Filt_Theta_l_sub_two (flu : f ℓ |𝓤 = 0) : ℓ ∣ 𝔀 (Θ^[ℓ - 2] (f ℓ)) := by
+theorem Filt_Theta_l_sub_two (flu : fl ℓ |𝓤 = 0) : ℓ ∣ 𝔀 (Θ^[ℓ - 2] (fl ℓ)) := by
 
-  have filt_fl : 𝔀 (f ℓ |𝓤) = 0 := flu ▸ Filt_zero
-  have sub_one : 𝔀 (Θ^[ℓ - 1] (f ℓ)) = (ℓ^2 - 1) / 2 := Lemma_stitch filt_fl
+  have filt_fl : 𝔀 (fl ℓ |𝓤) = 0 := flu ▸ Filt_zero
+  have sub_one : 𝔀 (Θ^[ℓ - 1] (fl ℓ)) = (ℓ^2 - 1) / 2 := Lemma_stitch filt_fl
   by_contra! ndvd
   have lg5 : ℓ ≥ 5 := Fact.out
   have lrw : ℓ - 1 = (ℓ - 2) + 1 := by
     refine (Nat.sub_eq_iff_eq_add ?_).mp rfl; refine (Nat.le_sub_one_iff_lt ?_).mpr ?_ <;> linarith
-  have : 𝔀 (f ℓ) = 𝔀 (Θ^[ℓ - 2] (f ℓ)) + ℓ + 1 := by
-    trans 𝔀 (Θ^[ℓ - 1] (f ℓ)); rw [Filt_fl, (Lemma_stitch filt_fl)]
+  have : 𝔀 (fl ℓ) = 𝔀 (Θ^[ℓ - 2] (fl ℓ)) + ℓ + 1 := by
+    trans 𝔀 (Θ^[ℓ - 1] (fl ℓ)); rw [Filt_fl, (Lemma_stitch filt_fl)]
     rw [Filt_Theta_cast lrw, Filt_eq_of_Mod_eq Theta_pow_succ, Filt_Theta_iff.2 ndvd]
-  have : 𝔀 (f ℓ) ≤ 𝔀 (Θ^[ℓ - 2] (f ℓ)) := le_Filt_Theta_fl (ℓ - 2)
+  have : 𝔀 (fl ℓ) ≤ 𝔀 (Θ^[ℓ - 2] (fl ℓ)) := le_Filt_Theta_fl (ℓ - 2)
   linarith
 
 
@@ -101,7 +102,7 @@ lemma ndvd_of_lel_add_one_div_two {m} (mmle : m ≤ (ℓ - 1)/2) :
 
 
 lemma Filt_Theta_lel_add_one_div_two {m} (mle : m ≤ (ℓ + 1)/2) :
-    𝔀 (Θ^[m] (f ℓ)) = (ℓ^2 - 1)/2 + m * (ℓ + 1) := by
+    𝔀 (Θ^[m] (fl ℓ)) = (ℓ^2 - 1)/2 + m * (ℓ + 1) := by
   induction m with
 
   | zero => simp only [Theta_pow_zero', Filt_cast, Filt_fl, zero_mul, add_zero]
@@ -118,7 +119,7 @@ lemma Filt_Theta_lel_add_one_div_two {m} (mle : m ≤ (ℓ + 1)/2) :
 
 
 
-theorem Filt_Theta_l_add_one_div_two : ℓ ∣ 𝔀 (Θ^[(ℓ + 1)/2] (f ℓ)) := by
+theorem Filt_Theta_l_add_one_div_two : ℓ ∣ 𝔀 (Θ^[(ℓ + 1)/2] (fl ℓ)) := by
 
   use ℓ + 1; calc
   _ = (ℓ^2 - 1)/2 + (ℓ + 1)/2 * (ℓ + 1) := Filt_Theta_lel_add_one_div_two (le_refl _)
@@ -145,7 +146,7 @@ theorem Filt_Theta_l_add_one_div_two : ℓ ∣ 𝔀 (Θ^[(ℓ + 1)/2] (f ℓ)) :
 
 -- (3.7)
 lemma exists_Filt_Theta_l_add_three_div_two :
-    ∃ α, 𝔀 (Θ^[(ℓ + 3)/2] (f ℓ)) = (ℓ^2 - 1)/2 + (ℓ + 3)/2 * (ℓ + 1) - (α + 1) * (ℓ - 1) := by
+    ∃ α, 𝔀 (Θ^[(ℓ + 3)/2] (fl ℓ)) = (ℓ^2 - 1)/2 + (ℓ + 3)/2 * (ℓ + 1) - (α + 1) * (ℓ - 1) := by
 
   have leq : (ℓ + 3)/2 = (ℓ + 1)/2 + 1 :=
     Nat.div_eq_sub_div zero_lt_two (by linarith)
@@ -166,7 +167,7 @@ There is no requirement for them to be ≥ 1, they are both just natural numbers
 variable [Fact (ℓ ≥ 13)]
 
 lemma alpha_bound_ex {α : ℕ}
-    (h : 𝔀 (Θ^[(ℓ + 3)/2] (f ℓ)) = (ℓ^2 - 1)/2 + (ℓ + 3)/2 * (ℓ + 1) - (α + 1) * (ℓ - 1)) :
+    (h : 𝔀 (Θ^[(ℓ + 3)/2] (fl ℓ)) = (ℓ^2 - 1)/2 + (ℓ + 3)/2 * (ℓ + 1) - (α + 1) * (ℓ - 1)) :
   α ≤ (ℓ + 3) / 2 := by
 
   have aleb : (ℓ^2 - 1)/2 + (ℓ + 3)/2 * (ℓ + 1) - (α + 1) * (ℓ - 1) ≥ (ℓ^2 - 1)/2 := by
@@ -186,8 +187,8 @@ lemma alpha_bound_ex {α : ℕ}
       have : (ℓ ^ 2 - 1) / 2 + (ℓ + 3) / 2 * (ℓ + 1) - (α + 1) * (ℓ - 1) = 0 :=
         Nat.sub_eq_zero_of_le theweeds
       rw[this] at h
-      have bound : 𝔀 (Θ^[(ℓ + 3) / 2] (f ℓ)) > 0 := calc
-        _ ≥ 𝔀 (f ℓ) := le_Filt_Theta_fl _
+      have bound : 𝔀 (Θ^[(ℓ + 3) / 2] (fl ℓ)) > 0 := calc
+        _ ≥ 𝔀 (fl ℓ) := le_Filt_Theta_fl _
         _ = (ℓ^2 - 1)/2 := Filt_fl
         _ ≥ (ℓ^2 - 1)/24 :=
           Nat.div_le_div_left Nat.AtLeastTwo.prop zero_lt_two
@@ -278,7 +279,7 @@ lemma alpha_bound : α ≤ (ℓ + 3) / 2 :=
   alpha_bound_ex h
 
 
-lemma l_div_Filt_Theta_add (flu : f ℓ |𝓤 = 0) : ℓ ∣ 𝔀 (Θ^[(ℓ+3)/2 + (ℓ - 7)/2] (f ℓ)) := by
+lemma l_div_Filt_Theta_add (flu : fl ℓ |𝓤 = 0) : ℓ ∣ 𝔀 (Θ^[(ℓ+3)/2 + (ℓ - 7)/2] (fl ℓ)) := by
   have : (ℓ + 3) / 2 + (ℓ - 7) / 2 = ℓ - 2 := by
     trans ((ℓ + 3) + (ℓ - 7)) / 2
     refine Eq.symm (Nat.add_div_of_dvd_right ?_)
@@ -296,10 +297,10 @@ lemma l_div_Filt_Theta_add (flu : f ℓ |𝓤 = 0) : ℓ ∣ 𝔀 (Θ^[(ℓ+3)/2
   exact Filt_Theta_l_sub_two flu
 
 
-noncomputable def j [Fact (f ℓ |𝓤 = 0)] :=
-  Nat.find ( ⟨(ℓ - 7)/2, l_div_Filt_Theta_add Fact.out⟩ : ∃ j, ℓ ∣ 𝔀 (Θ^[(ℓ+3)/2 + j] (f ℓ)) )
+noncomputable def j [Fact (fl ℓ |𝓤 = 0)] :=
+  Nat.find ( ⟨(ℓ - 7)/2, l_div_Filt_Theta_add Fact.out⟩ : ∃ j, ℓ ∣ 𝔀 (Θ^[(ℓ+3)/2 + j] (fl ℓ)) )
 
-lemma j_bound [Fact (f ℓ |𝓤 = 0)] : j ≤ (ℓ - 7)/2 := by
+lemma j_bound [Fact (fl ℓ |𝓤 = 0)] : j ≤ (ℓ - 7)/2 := by
   rw [j, Nat.find_le_iff]
   use (ℓ - 7)/2, le_refl _
   exact l_div_Filt_Theta_add Fact.out
@@ -402,8 +403,8 @@ lemma m_death_ineq (m : ℕ) : (α + 1) * (ℓ - 1) ≤ (ℓ ^ 2 - 1) / 2 + ((�
   apply Nat.add_le_add_left (Nat.zero_le m)
 
 
-lemma Filt_Theta_lej [Fact (f ℓ |𝓤 = 0)] {m} (mle : m ≤ j) :
-    𝔀 (Θ^[(ℓ + 3)/2 + m] (f ℓ)) = (ℓ^2 - 1)/2 + ((ℓ + 3)/2 + m) * (ℓ + 1) - (α + 1) * (ℓ - 1) := by
+lemma Filt_Theta_lej [Fact (fl ℓ |𝓤 = 0)] {m} (mle : m ≤ j) :
+    𝔀 (Θ^[(ℓ + 3)/2 + m] (fl ℓ)) = (ℓ^2 - 1)/2 + ((ℓ + 3)/2 + m) * (ℓ + 1) - (α + 1) * (ℓ - 1) := by
 
   induction m with
 
@@ -413,7 +414,7 @@ lemma Filt_Theta_lej [Fact (f ℓ |𝓤 = 0)] {m} (mle : m ≤ j) :
     specialize ih (Nat.le_of_succ_le mle)
     have mlt : m < j := trans (lt_add_one m) mle
 
-    have nmdiv : ¬ ℓ ∣ 𝔀 (Θ^[(ℓ + 3) / 2 + m] (f ℓ)) := by
+    have nmdiv : ¬ ℓ ∣ 𝔀 (Θ^[(ℓ + 3) / 2 + m] (fl ℓ)) := by
       apply Nat.find_min at mlt; exact mlt
 
     have lrw : (ℓ + 3) / 2 + (m + 1) = (ℓ + 3) / 2 + m + 1 := (add_assoc ..).symm
@@ -430,7 +431,7 @@ lemma Filt_Theta_lej [Fact (f ℓ |𝓤 = 0)] {m} (mle : m ≤ j) :
 
 
 
-lemma ldiv_j_add_a [Fact (f ℓ |𝓤 = 0)] : ℓ ∣ (j + 1) + (α + 1) := by
+lemma ldiv_j_add_a [Fact (fl ℓ |𝓤 = 0)] : ℓ ∣ (j + 1) + (α + 1) := by
 
   let k := (j : ℤ)
   let a := (α : ℤ)
@@ -485,11 +486,11 @@ lemma ldiv_j_add_a [Fact (f ℓ |𝓤 = 0)] : ℓ ∣ (j + 1) + (α + 1) := by
       trans 0 + 0 ^ 2; gcongr <;> exact Int.modEq_self
       rfl
 
-    _ = 𝔀 (Θ^[(ℓ + 3)/2 + j] (f ℓ)) := by
+    _ = 𝔀 (Θ^[(ℓ + 3)/2 + j] (fl ℓ)) := by
     {
       symm
 
-      have : 𝔀 (Θ^[(ℓ + 3)/2 + j] (f ℓ)) =
+      have : 𝔀 (Θ^[(ℓ + 3)/2 + j] (fl ℓ)) =
           (ℓ ^ 2 - 1) / 2 + ((ℓ + 3) / 2 + j) * (ℓ + 1) - (α + 1) * (ℓ - 1) :=
         Filt_Theta_lej (le_refl j)
 
@@ -528,13 +529,13 @@ lemma ldiv_j_add_a [Fact (f ℓ |𝓤 = 0)] : ℓ ∣ (j + 1) + (α + 1) := by
 
     _ ≡ 0 [ZMOD l] := by
       rw[Int.modEq_zero_iff_dvd]
-      have : ℓ ∣ (𝔀 (Θ^[(ℓ + 3) / 2 + j] (f ℓ))) :=
+      have : ℓ ∣ (𝔀 (Θ^[(ℓ + 3) / 2 + j] (fl ℓ))) :=
         Nat.find_spec j._proof_1
       zify at this; exact this
 
 
 
-lemma alpha_equal [Fact (f ℓ |𝓤 = 0)] : α + 1 = (ℓ + 5) / 2 := by
+lemma alpha_equal [Fact (fl ℓ |𝓤 = 0)] : α + 1 = (ℓ + 5) / 2 := by
 
   have lel : (α + 1) + (j + 1) ≥ ℓ := by
     apply Nat.le_of_dvd
@@ -573,10 +574,10 @@ end Final.Hidden
 open Final.Hidden
 
 -- (3.8)
-theorem Filt_Theta_l_add_three_div_two (flu : f ℓ |𝓤 = 0) :
-    𝔀 (Θ^[(ℓ + 3)/2] (f ℓ)) = (ℓ^2 - 1)/2 + 4 := by
+theorem Filt_Theta_l_add_three_div_two (flu : fl ℓ |𝓤 = 0) :
+    𝔀 (Θ^[(ℓ + 3)/2] (fl ℓ)) = (ℓ^2 - 1)/2 + 4 := by
 
-  have flufact : Fact (f ℓ |𝓤 = 0) := ⟨flu⟩
+  have flufact : Fact (fl ℓ |𝓤 = 0) := ⟨flu⟩
 
   have lg : ℓ ≥ 13 := Fact.out
 

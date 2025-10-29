@@ -13,15 +13,14 @@ It also defines Modular Forms Mod ℓ, but in a way that is innacurate.
 This file is the root of the project. -/
 
 
-namespace ModularFormDefs
 
-noncomputable section ModularFormsRegular
-
-namespace Regular
+noncomputable section
 
 open Classical
 attribute [instance] Classical.propDecidable
 -- makes all propositions decidable (either True or False). needed for Filtration if / else function
+
+section ModularForm
 
 open Complex UpperHalfPlane
 
@@ -78,12 +77,10 @@ lemma ClassofForm (f : ModularForm k) : ModularFormClass k f where
   squish := f.squish
   bounded := f.bounded
 
-
-
-
 end define
 
-section properties
+
+namespace ModularForm
 
 variable {k j : ℕ}
 
@@ -253,7 +250,7 @@ def mPow (f : ModularForm k) (n : ℕ) : (ModularForm (k * n)) :=
 
 variable {f : ModularForm k}
 
-theorem ModularForm.toFun_eq_coe (f : ModularForm k) : ⇑f = (f : ℂ → ℂ) := rfl
+theorem toFun_eq_coe (f : ModularForm k) : ⇑f = (f : ℂ → ℂ) := rfl
 
 @[simp]
 theorem coe_add (f g : ModularForm k) : ⇑(f + g) = f + g := rfl
@@ -300,7 +297,7 @@ theorem coe_sub (f g : ModularForm k) : ⇑(f - g) = f - g := rfl
 theorem sub_apply (f g : ModularForm k) (z : ℍ) : (f - g) z = f z - g z := rfl
 
 @[ext]
-theorem ModularForm.ext {f g : ModularForm k} (h : ∀ x, f x = g x) : f = g :=
+theorem ext {f g : ModularForm k} (h : ∀ x, f x = g x) : f = g :=
   DFunLike.ext f g h
 
 instance : NatCast (ModularForm 0) where
@@ -317,9 +314,6 @@ instance : IntCast (ModularForm 0) where
 lemma coe_intCast (z : ℤ) :
     ⇑(z : ModularForm 0) = z := rfl
 
-end properties
-
-section algebra
 
 variable {k j : ℕ}
 
@@ -352,20 +346,18 @@ theorem tibbles : ∀ f : ModularForm k, ModularFormClass k f :=
       squish := f.squish
       bounded := f.bounded }
 
-
-end algebra
+end ModularForm
 
 -- can treat modular forms as components of a module now
-end Regular
-end ModularFormsRegular
 
-noncomputable section ModularFormsModulo
-open Regular
+end ModularForm
 
 
 variable {k j : ℕ}
 
 section misc
+
+namespace misc
 
 open Real Complex Nat
 
@@ -398,8 +390,10 @@ def Eisenstein k : (ModularForm k) where
 
 end misc
 
+end misc
 
-lemma Class_add {f g : ℂ → ℂ} (hf : ModularFormClass k f) (hg : ModularFormClass k g) :
+
+lemma ModularForm.Class_add {f g : ℂ → ℂ} (hf : ModularFormClass k f) (hg : ModularFormClass k g) :
   ModularFormClass k (f + g) :=
   {holo := AnalyticOn.add hf.holo hg.holo
    shift := by simp [hf.shift, hg.shift]
@@ -414,8 +408,9 @@ lemma Class_add {f g : ℂ → ℂ} (hf : ModularFormClass k f) (hg : ModularFor
 -- how to do this automatically
 
 
+section IntegerModularForm
 
-namespace Integer
+open misc
 
 -- An integer modular form of weight k is an integer sequence whose infinite q series
 -- converges to a modular form of weight k
@@ -441,6 +436,8 @@ instance : Zero (IntegerModularForm k) where
     summable := by simp; unfold Summable HasSum; use 0; simp
     modular := by simp; sorry  }
 
+namespace Integer
+
 def Iconst (x : ℤ) : IntegerModularForm 0 where
   sequence := fun n ↦ if n = 0 then x else 0
   summable := by
@@ -460,10 +457,10 @@ instance : Add (IntegerModularForm k) where
       have : ∑' n, ((a n) + (b n)) * q ^ n = ∑' n, (a n) * q ^ n + ∑' n,  (b n) * q ^ n := by
         simpa[add_mul] using Summable.tsum_add a.2 b.2
       rw[this]
-      apply Class_add a.3 b.3 }
+      apply ModularForm.Class_add a.3 b.3 }
 
-def Imul {k j : ℕ} (a : IntegerModularForm k) (b : IntegerModularForm j) : IntegerModularForm (k + j) where
-  sequence := fun n ↦ ∑ m ∈ Finset.range (n + 1), a m * b (n - m)
+def Imul {k j : ℕ} (f : IntegerModularForm k) (g : IntegerModularForm j) : IntegerModularForm (k + j) where
+  sequence n := ∑ ⟨x,y⟩ ∈ (Finset.antidiagonal n), f x * g y
   summable := sorry
   modular := sorry
 
@@ -479,19 +476,29 @@ def Ipow (a : IntegerModularForm k) (j : ℕ) : IntegerModularForm (k * j) where
   modular := sorry
 
 
-theorem coe_Ipow (a : IntegerModularForm k) (j : ℕ) : ⇑(Ipow a j) = fun n ↦ ∑ x ∈ Finset.Nat.antidiagonalTuple j n, ∏ y, a (x y) := rfl
+scoped infixl:80 " ** " => Ipow
 
-theorem Ipow_apply (a : IntegerModularForm k) (j n : ℕ) : (Ipow a j) n = ∑ x ∈ Finset.Nat.antidiagonalTuple j n, ∏ y, a (x y) := rfl
 
-@[simp]
-theorem coe_zero' : ⇑(0 : IntegerModularForm k) = (0 : ℕ → ℤ) := rfl
+instance instSMulZ : SMul ℤ (IntegerModularForm k) where
+  smul c a :=
+  { sequence := c • a
+    summable := sorry
+    modular := sorry}
 
-@[simp]
-theorem zero_apply' (z : ℤ) : (0 : ModularForm k) z = 0 := rfl
+instance instSMulN : SMul ℕ (IntegerModularForm k) where
+  smul c a :=
+  { sequence := c • a
+    summable := sorry
+    modular := sorry}
 
-@[ext]
-theorem IntegerModularForm.ext {a b : IntegerModularForm k} (h : ∀ n, a n = b n) : a = b :=
-  DFunLike.ext a b h
+instance instNeg : Neg (IntegerModularForm k) where
+  neg := fun a ↦
+  { sequence := -a
+    summable := sorry
+    modular := sorry }
+
+instance instSub : Sub (IntegerModularForm k) :=
+  ⟨fun f g => f + -g⟩
 
 instance : NatCast (IntegerModularForm 0) where
   natCast n := Iconst n
@@ -507,12 +514,99 @@ instance : IntCast (IntegerModularForm 0) where
 -- lemma coe_intCast (z : ℤ) :
 --     ⇑(z : ModularFormMod ℓ 0) = z := rfl
 
+open Finset.Nat Finset
+
+@[simp]
+theorem toFun_eq_coe (f : IntegerModularForm k) : ⇑f = (f : ℕ → ℤ) := rfl
+
+@[simp]
+theorem coe_apply (f : IntegerModularForm k) (n : ℕ) : f.sequence n = f n := rfl
+
+@[simp]
+theorem coe_add (f g : IntegerModularForm k) : ⇑(f + g) = f + g := rfl
+
+@[simp]
+theorem add_apply (f g : IntegerModularForm k) (z : ℕ) : (f + g) z = f z + g z := rfl
+
+@[simp]
+theorem coe_mul (f g : IntegerModularForm k) : ⇑ (f * g) =
+  fun n ↦ ∑ ⟨x,y⟩ ∈ antidiagonal n, f x * g y := rfl
+
+@[simp]
+theorem mul_coe (f : IntegerModularForm k) (g : IntegerModularForm j ) :
+  (f * g : ℕ → ℤ) = f * g := rfl
+
+
+theorem mul_apply (f : IntegerModularForm k) (g : IntegerModularForm j ) (n : ℕ) : (f * g) n =
+  ∑ ⟨x,y⟩ ∈ antidiagonal n, f x * g y := rfl
+
+@[simp]
+theorem coe_smulz (f : IntegerModularForm k) (n : ℤ) : ⇑(n • f) = n • ⇑f := rfl
+
+@[simp]
+theorem coe_smuln (f : IntegerModularForm k) (n : ℕ) : ⇑(n • f) = n • ⇑f := rfl
+
+@[simp]
+theorem smul_apply (f : IntegerModularForm k) (n z : ℕ) : (n • f) z = n • f z := rfl
+
+@[simp]
+theorem coe_zero : ⇑(0 : IntegerModularForm k) = (0 : ℕ → ℤ) := rfl
+
+@[simp]
+theorem zero_apply (z : ℕ) : (0 : IntegerModularForm k) z = 0 := rfl
+
+@[simp]
+theorem coe_neg (f : IntegerModularForm k) : ⇑(-f) = -f := rfl
+
+@[simp]
+theorem coe_sub (f g : IntegerModularForm k) : ⇑(f - g) = f - g :=
+  Eq.symm (Mathlib.Tactic.Abel.unfold_sub (⇑f) (⇑g) (⇑(f - g)) rfl)
+
+@[simp]
+theorem sub_apply (f g : IntegerModularForm k) (z : ℕ) : (f - g) z = f z - g z :=
+  Eq.symm (Mathlib.Tactic.Abel.unfold_sub (f z) (g z) ((f - g) z) rfl)
+
+
+theorem coe_Ipow (a : IntegerModularForm k) (j : ℕ) : ⇑(Ipow a j) = fun n ↦ ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
+
+theorem Ipow_apply (a : IntegerModularForm k) (j n : ℕ) : (Ipow a j) n = ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
+
+
+
 
 @[simp]
 theorem Iconst_zero (x : ℤ) : (Iconst x) 0 = x := rfl
 
 @[simp]
 theorem Iconst_succ (x : ℤ) (n : ℕ) : (Iconst x) n.succ = 0 := rfl
+
+@[ext]
+theorem IntegerModularForm.ext {a b : IntegerModularForm k} (h : ∀ n, a n = b n) : a = b :=
+  DFunLike.ext a b h
+
+@[simp] theorem Ipow_zero (a : IntegerModularForm k) : a ** 0 = Iconst 1 := by
+  ext n; rw [Ipow_apply]
+  match n with
+  | 0 => simp
+  | n + 1 => simp
+
+def Icongr {m n : ℕ} (h : m = n) (a : IntegerModularForm m) : IntegerModularForm n :=
+  h ▸ a
+
+@[simp]
+lemma cast_eval {k j : ℕ} {h : k = j} {n : ℕ} {a : IntegerModularForm k} :
+  Icongr h a n = a n := by
+  subst h; rfl
+
+
+@[simp]
+lemma triangle_eval {k j : ℕ} {h : k = j} {n : ℕ} {a : IntegerModularForm k} :
+  (h ▸ a) n = a n := by
+  subst h; rfl
+
+@[simp] theorem Ipow_one (a : IntegerModularForm k) : a ** 1 = Icongr ((mul_one k).symm ▸ rfl) a := by
+  ext n; simp [Ipow_apply]
+
 
 instance : AddCommGroup (IntegerModularForm k) := sorry
 
@@ -526,9 +620,4 @@ instance : DirectSum.GAlgebra ℤ (IntegerModularForm) := sorry
 end Integer
 
 
-end ModularFormsModulo
-
-
-end ModularFormDefs
-
-#min_imports
+end IntegerModularForm

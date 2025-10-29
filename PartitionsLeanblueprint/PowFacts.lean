@@ -12,7 +12,7 @@ but stated in the language of sequences. -/
 
 noncomputable section
 
-open Modulo2
+open Modulo
 
 
 variable {ℓ n : ℕ} [NeZero ℓ]
@@ -32,14 +32,17 @@ section Pow_Prime
 def perm_equiv {n : ℕ} (a b : Fin n → ℕ) :=
   ∃ c : Equiv.Perm (Fin n), a = b ∘ c
 
-lemma perm_equiv_refl {n : ℕ} (a : Fin n → ℕ) : perm_equiv a a :=
+@[refl]
+lemma perm_equiv.refl {n : ℕ} (a : Fin n → ℕ) : perm_equiv a a :=
   ⟨1, by rw [Equiv.Perm.coe_one]; rfl⟩
 
-theorem perm_equiv_symm {n} {a b : Fin n → ℕ} : perm_equiv a b → perm_equiv b a := by
+@[symm]
+theorem perm_equiv.symm {n} {a b : Fin n → ℕ} : perm_equiv a b → perm_equiv b a := by
   rintro ⟨c, hc⟩; use c⁻¹; rw[hc]; ext x;
   simp only [Function.comp_apply, Equiv.Perm.apply_inv_self]
 
-theorem perm_equiv_trans {n} {a b c : Fin n → ℕ} : perm_equiv a b → perm_equiv b c → perm_equiv a c := by
+@[trans]
+theorem perm_equiv.trans {n} {a b c : Fin n → ℕ} : perm_equiv a b → perm_equiv b c → perm_equiv a c := by
   rintro ⟨σ, hσ⟩ ⟨τ, hτ⟩
   refine ⟨σ.trans τ, ?_⟩
   ext i
@@ -63,7 +66,7 @@ lemma sum_eq_of_perm_equiv {n} {a b : Fin n → ℕ} (h : perm_equiv a b) :
 -- the equivalence class of functions that are permutations of x
 def perm_setoid : Setoid ( Fin n → ℕ ) where
   r := perm_equiv
-  iseqv := ⟨perm_equiv_refl, perm_equiv_symm, perm_equiv_trans⟩
+  iseqv := ⟨perm_equiv.refl, perm_equiv.symm, perm_equiv.trans⟩
 
 
 def orbit_finset {k} (x : Fin k → ℕ) : Finset (Fin k → ℕ) :=
@@ -231,7 +234,7 @@ lemma non_diag_vanish {k n : ℕ} {x : Fin k → ℕ} [Fact (Nat.Prime k)] (h : 
       refine mem_filter.mpr ⟨?_, h⟩
       apply mem_antidiagonalTuple.mpr
       trans ∑ i, x i
-      exact sum_eq_of_perm_equiv (perm_equiv_symm h)
+      exact sum_eq_of_perm_equiv (perm_equiv.symm h)
       apply mem_antidiagonalTuple.mp xiT
 
 
@@ -320,7 +323,7 @@ lemma non_diag_vanish {k n : ℕ} {x : Fin k → ℕ} [Fact (Nat.Prime k)] (h : 
   }
 
 -- the products over two permutationally equivalent functions are equal
-lemma Pi_eq_of_perm_equiv {n : ℕ} {a : ℕ → ZMod n} {x y : Fin n → ℕ} (hxy : perm_equiv x y) :
+lemma prod_eq_of_perm_equiv {α} [CommMonoid α] {a : ℕ → α} {x y : Fin n → ℕ} (hxy : perm_equiv x y) :
     ∏ z, a (y z) = ∏ z, a (x z) := by
   symm; unfold perm_equiv at hxy
   obtain ⟨c, hc⟩ := hxy
@@ -387,7 +390,7 @@ theorem Pow_Prime {n : ℕ} {a : ModularFormMod ℓ k} [Fact (Nat.Prime ℓ)] :
   by_cases h : ℓ ∣ n
 
   { -- antidiagonalTuple is diagonal (ie ℓ ∣ len) → only diagonal tuple remains
-    simp [pow_apply,h]
+    simp [Mpow_apply, h]
     obtain ⟨k,rfl⟩ := h
     have la : ℓ * k / ℓ = k := by
       refine Eq.symm (Nat.eq_div_of_mul_eq_right ?_ rfl); exact Ne.symm (NeZero.ne' ℓ)
@@ -433,7 +436,7 @@ theorem Pow_Prime {n : ℕ} {a : ModularFormMod ℓ k} [Fact (Nat.Prime ℓ)] :
                     subst cc; simp_all only [mem_sdiff, mem_singleton, and_imp, mem_filter, Tup]
 
                   have : ∀ i j, c i = c j := by intros; simp[cc]
-                  have cex : c = x := perm_equiv_const this (perm_equiv_symm hxc)
+                  have cex : c = x := perm_equiv_const this (perm_equiv.symm hxc)
                   rw[cc] at cex; exact False.elim (xconst (id (Eq.symm cex)))
 
                   refine mem_filter.mpr ?_; constructor
@@ -449,7 +452,7 @@ theorem Pow_Prime {n : ℕ} {a : ModularFormMod ℓ k} [Fact (Nat.Prime ℓ)] :
               have pi_eq : ∀ z ∈ {b ∈ antidiagonalTuple ℓ (ℓ * k) | perm_equiv x b}, ∏ y, a (z y) = ∏ y, a (x y) := by
                 intro z hz
                 have hxz : perm_equiv x z := by simp_all only [mem_filter]
-                exact Pi_eq_of_perm_equiv hxz
+                exact prod_eq_of_perm_equiv hxz
 
               rw[Tup_eq]
 
@@ -488,7 +491,7 @@ theorem Pow_Prime {n : ℕ} {a : ModularFormMod ℓ k} [Fact (Nat.Prime ℓ)] :
               trans ∑ z ∈ Tup with perm_equiv x z, ∏ y, a (z y)
               congr; funext z; apply propext
               have : ⟦z⟧ = Quot.mk (⇑perm_setoid) x ↔ perm_equiv z x := Quotient.eq
-              rw[this]; constructor <;> exact perm_equiv_symm
+              rw[this]; constructor <;> exact perm_equiv.symm
               exact Step x
           _ = 0 := sum_const_zero
 
@@ -509,7 +512,7 @@ theorem Pow_Prime {n : ℕ} {a : ModularFormMod ℓ k} [Fact (Nat.Prime ℓ)] :
 
 
   { -- antidiagonalTuple is not diagonal → no tuples remain
-    simp[pow_apply,h]
+    simp[Mpow_apply,h]
 
     have blister : ∀ x ∈ antidiagonalTuple ℓ n, ℓ ∣ #{ b ∈ antidiagonalTuple ℓ n | perm_equiv x b } :=
       λ x hx ↦ non_diag_vanish (non_const_of_tuple_non_diag h x hx)
@@ -522,7 +525,7 @@ theorem Pow_Prime {n : ℕ} {a : ModularFormMod ℓ k} [Fact (Nat.Prime ℓ)] :
           have pi_eq : ∀ z ∈ {b ∈ antidiagonalTuple ℓ n | perm_equiv x b}, ∏ y, a (z y) = ∏ y, a (x y) := by
             intro z hz
             have hxz : perm_equiv x z := by simp_all only [mem_filter]
-            exact Pi_eq_of_perm_equiv hxz
+            exact prod_eq_of_perm_equiv hxz
           calc
             _ = ∑ _ ∈ {b ∈ antidiagonalTuple ℓ n | perm_equiv x b}, ∏ y, a (x y) := sum_congr rfl pi_eq
             _ = #{b ∈ antidiagonalTuple ℓ n | perm_equiv x b} * ∏ y, a (x y) := by simp
@@ -555,7 +558,7 @@ theorem Pow_Prime {n : ℕ} {a : ModularFormMod ℓ k} [Fact (Nat.Prime ℓ)] :
           trans ∑ z ∈ antidiagonalTuple ℓ n with perm_equiv x z, ∏ y, a (z y)
           congr; funext z; apply propext
           have : ⟦z⟧ = Quot.mk (⇑perm_setoid) x ↔ perm_equiv z x := Quotient.eq
-          rw[this]; constructor <;> exact perm_equiv_symm
+          rw[this]; constructor <;> exact perm_equiv.symm
           exact Step x
       _ = 0 := sum_const_zero
   }
@@ -569,14 +572,26 @@ theorem Pow_Prime' {a : ModularFormMod ℓ k} [Fact (Nat.Prime ℓ)] :
 end Pow_Prime
 
 
+variable {α} [CommSemiring α] {i m : ℕ}
 
-lemma pow_2_eq_mul_self (a : ModularFormMod ℓ k) (n : ℕ) : (pow a 2) n = (a * a) n := by
-  rw[pow_apply]; simp[antidiagonalTuple_two]
+lemma Sequencepow_two (a : ℕ → α) : (Sequencepow a 2) = (Sequencemul a a) := by
+  ext n; rw[Sequencepow_apply, Sequencemul_apply]; simp[antidiagonalTuple_two]
 
 
-def self_mul (a : ModularFormMod ℓ k) : (j : ℕ) → ModularFormMod ℓ (k * j)
-  | 0 => Mcongr (by rw [Nat.cast_zero, mul_zero]) (const 1)
-  | j + 1 => Mcongr (by rw [Nat.cast_add, Nat.cast_one]; group) (a * self_mul a j)
+lemma Modulo.Mpow_two (a : ModularFormMod ℓ k) : (Mpow a 2) n = (a * a) n := by
+  rw [mul_eq_Sequencemul_apply, Mpow_eq_Sequencepow_apply, Sequencepow_two]
+
+lemma Integer.Ipow_two (a : IntegerModularForm m) : (Ipow a 2) n = (a * a) n := by
+  rw [mul_eq_Sequencemul_apply, Ipow_eq_Sequencepow_apply, Sequencepow_two]
+
+
+def Sself_mul (a : ℕ → α) : ℕ → ℕ → α
+  | 0 => fun n ↦ if n = 0 then 1 else 0
+  | j + 1 => Sequencemul a (Sself_mul a j)
+
+
+lemma Sself_mul_succ (a : ℕ → α) (j : ℕ) :
+  Sself_mul a (j + 1) = Sequencemul a (Sself_mul a j) := rfl
 
 
 instance inst_antdiagFintype {j : ℕ} : Fintype {z : Fin j → ℕ // ∑ i, z i = n} := by
@@ -730,15 +745,15 @@ def PowFacts.Hidden.e {n j} {i : Fin (n + 1)} : (i : Fin (n + 1)) × { z : Fin j
 open PowFacts.Hidden
 
 -- exponentiation is repeated multiplication
-lemma pow_eq_self_mul {a : ModularFormMod ℓ k} {j} : a ** j = self_mul a j := by
+lemma Sequencepow_eq_Sself_mul (a : ℕ → α) (j) : Sequencepow a j = Sself_mul a j := by
 
   induction j with
   | zero =>
-    unfold self_mul; ext n
-    cases n <;> simp[pow_apply]
+    unfold Sself_mul; ext n
+    cases n <;> simp[Sequencepow_apply]
   | succ j ih =>
-    unfold self_mul; ext n
-    simp only [← ih, cast_eval, mul_apply, pow_apply]
+    unfold Sself_mul; ext n
+    simp only [← ih, cast_eval, Sequencemul_apply, Sequencepow_apply]
     symm
 
     calc
@@ -772,7 +787,7 @@ lemma pow_eq_self_mul {a : ModularFormMod ℓ k} {j} : a ** j = self_mul a j := 
 
         rw[prod_apply_dite, mul_comm]; congr 1
 
-        rw[prod_const]; nth_rw 2 [← pow_one (a ↑fst)]
+        rw[prod_const]; nth_rw 2 [← _root_.pow_one (a ↑fst)]
         congr; apply @Fintype.card_eq_one_of_forall_eq _ _ ⟨ ( ⟨j, Nat.lt_succ_self j⟩ : Fin (j + 1) ),
                 by simp only [mem_filter, mem_univ, true_and, lt_self_iff_false, not_false_eq_true] ⟩
 
@@ -804,7 +819,7 @@ lemma pow_eq_self_mul {a : ModularFormMod ℓ k} {j} : a ** j = self_mul a j := 
         unfold g; dsimp
 
 
-        exact Fin.ofNat (n + 1) ℓ
+        exact Fin.ofNat (n + 1) j
 
 
       _ = ∑ z ∈ antidiagonalTuple (j + 1) n, ∏ y, a (z y) := by
@@ -812,11 +827,78 @@ lemma pow_eq_self_mul {a : ModularFormMod ℓ k} {j} : a ** j = self_mul a j := 
 
 
 
+def Integer.Iself_mul (a : IntegerModularForm m) : (j : ℕ) → IntegerModularForm (m * j)
+  | 0 => Iconst 1
+  | j + 1 => Icongr (by group) (a * Iself_mul a j)
+
+lemma Integer.Iself_mul_succ (a : IntegerModularForm m) (j : ℕ) :
+  Iself_mul a (j + 1) = Icongr (by group) (a * Iself_mul a j) := rfl
+
+
+lemma Integer.Iself_mul_eq_Sself_mul (a : IntegerModularForm m) (j : ℕ) :
+    Iself_mul a j = Sself_mul a j := by
+  induction j with
+  | zero =>
+    ext n
+    cases n; trans 1; rfl; rfl
+    trans 0; rfl; rfl
+  | succ j ih =>
+    ext n
+    trans (a * Iself_mul a j) n; rw [Iself_mul_succ, cast_eval]
+    rw [Sself_mul_succ, mul_eq_Sequencemul_apply, ih]
+
+
+theorem Integer.Ipow_eq_Iself_mul (a : IntegerModularForm m) (j) : Ipow a j = Iself_mul a j := by
+  ext n; rw [Ipow_eq_Sequencepow_apply, Iself_mul_eq_Sself_mul, Sequencepow_eq_Sself_mul]
+
+
+
+def Modulo.Mself_mul (a : ModularFormMod ℓ k) : (j : ℕ) → ModularFormMod ℓ (k * j)
+  | 0 => Mcongr (by rw [Nat.cast_zero, mul_zero]) (const 1)
+  | j + 1 => Mcongr (by rw [Nat.cast_add, Nat.cast_one]; group) (a * Mself_mul a j)
+
+
+lemma Modulo.Mself_mul_zero (a : ModularFormMod ℓ k) :
+    Mself_mul a 0 = Mcongr (by rw [Nat.cast_zero, mul_zero]) (const 1) := rfl
+
+
+lemma Modulo.Mself_mul_succ (a : ModularFormMod ℓ k) (j : ℕ) :
+  Mself_mul a (j + 1) = Mcongr (by rw [Nat.cast_add, Nat.cast_one]; group) (a * Mself_mul a j) := rfl
+
+
+lemma Modulo.Mself_mul_eq_Sself_mul (a : ModularFormMod ℓ k) (j : ℕ) :
+    Mself_mul a j = Sself_mul a j := by
+  induction j with
+  | zero =>
+    ext n
+    cases n; trans 1; rw[Mself_mul_zero, cast_eval]; rfl; rfl
+    trans 0; rw[Mself_mul_zero, cast_eval]; rfl; rfl
+  | succ j ih =>
+    ext n
+    trans (a * Mself_mul a j) n; rw [Mself_mul_succ, cast_eval]
+    rw [Sself_mul_succ, mul_eq_Sequencemul_apply, ih]
+
+
+theorem Modulo.Mpow_eq_Mself_mul (a : ModularFormMod ℓ k) (j : ℕ) : Mpow a j = Mself_mul a j := by
+  ext n; rw [Mpow_eq_Sequencepow_apply, Mself_mul_eq_Sself_mul, Sequencepow_eq_Sself_mul]
+
+
+
+lemma Integer.Ipow_succ (a : IntegerModularForm m) (j) :
+    Ipow a (j + 1) = Icongr (by group) (a * Ipow a j) := by
+  simp only [Ipow_eq_Iself_mul, Iself_mul_succ]
+
+lemma Modulo.Mpow_succ (a : ModularFormMod ℓ k) (j) : a ** (j + 1) =
+    Mcongr (by rw [Nat.cast_add, Nat.cast_one]; group) (a * a ** j) := by
+  simp only [Mpow_eq_Mself_mul, Mself_mul_succ]
+
+
+
 
 lemma leading_pow_zeros [Fact (Nat.Prime ℓ)] {a : ModularFormMod ℓ k} {j n : ℕ} (h : a 0 = 0) (nltj : n < j) :
     (a ** j) n = 0 := by
 
-  rw[pow_apply]
+  rw[Mpow_apply]
   have smoke : ∀ x ∈ antidiagonalTuple j n, ∃ y, x y = 0 := by
     {
       intro x hx; rw[mem_antidiagonalTuple] at hx
@@ -833,3 +915,145 @@ lemma leading_pow_zeros [Fact (Nat.Prime ℓ)] {a : ModularFormMod ℓ k} {j n :
   intro x hx; apply prod_eq_zero_iff.2
   obtain ⟨y,hy⟩ := smoke x hx
   exact ⟨y, mem_univ y, hy ▸ h⟩
+
+
+end section
+
+
+noncomputable section
+
+open Finset Finset.Nat Nat
+
+private def g (k) [NeZero k] (x : Fin k → ℕ) : (ℕ →₀ ℕ) where
+  support := { i ∈ range k | x (Fin.ofNat k i) ≠ 0 }
+  toFun n := if h : n < k then x (Fin.ofNat k n) else 0
+  mem_support_toFun := by
+    intro n
+    simp only [Fin.ofNat_eq_cast, ne_eq, mem_filter,
+        mem_range, dite_eq_right_iff, not_forall]
+    constructor <;> intro h
+    use h.1, h.2
+    obtain ⟨h1, h2⟩ := h; use h1, h2
+
+private lemma g_apply (k) [NeZero k] (x : Fin k → ℕ) (i : ℕ) :
+    (g k x) i = if i < k then x (Fin.ofNat k i) else 0 := rfl
+
+
+private lemma g_support {k} [NeZero k] {x : Fin k → ℕ} :
+    (g k x).support = { i ∈ range k | x (Fin.ofNat k i) ≠ 0 } := rfl
+
+
+private def e (k) [NeZero k] : Fin k ≃ (range k) where
+
+  toFun := λ ⟨val, prop⟩ ↦ ⟨val, by rwa [mem_range]⟩
+
+  invFun := λ ⟨val, prop⟩ ↦ ⟨val, by rwa [← mem_range]⟩
+
+  left_inv := λ n ↦ rfl
+
+  right_inv := λ n ↦ rfl
+
+open Finset.Nat in
+theorem finsuppAntidiag_to_antidiagonalTuple {α : Type*} [CommSemiring α] (k n : ℕ) (f : ℕ → α) :
+  ∑ l ∈ finsuppAntidiag (range k) n, ∏ i ∈ (range k), f (l i) =
+    ∑ x ∈ antidiagonalTuple k n, ∏ y, f (x y) := by
+
+  by_cases kn0 : k = 0
+  {
+    rw[kn0]; simp; congr 1; cases n <;> simp
+  }
+
+  have : NeZero k := ⟨kn0⟩
+
+  symm; apply Finset.sum_nbij (g k)
+  {
+    simp only [mem_antidiagonalTuple, mem_finsuppAntidiag]
+    intro x xsum; constructor; calc
+      _ = ∑ i ∈ range k, x (Fin.ofNat k i) := by
+        apply sum_congr rfl; intro i ilt; simp only [g_apply, Fin.ofNat_eq_cast,
+          ite_eq_left_iff, not_lt]
+        intro ige; rw [mem_range] at ilt; omega
+      _ = ∑ i, x i := by
+        trans ∑ i : {i // i ∈ range k}, x (Fin.ofNat k (i.val))
+        rw [Finset.sum_subtype]; intro n; rfl
+        apply sum_bij (fun ⟨i, prop⟩ _ ↦ ⟨i, by rwa [← mem_range]⟩)
+        intros; exact mem_univ _
+        simp
+        intro ⟨b, prop⟩ _; use ⟨b, by rwa [mem_range]⟩;
+        simp only [univ_eq_attach, mem_attach, exists_const]
+        intro a ha ; simp only [Fin.ofNat_eq_cast]
+        have alt : a.val < k := by
+          rw [← mem_range]; exact a.2
+        congr
+        apply Fin.eq_of_val_eq
+        exact Fin.val_cast_of_lt alt
+
+      _ = n := xsum
+
+    intro i xin0; rw [g_support, mem_filter] at xin0; exact xin0.1
+  }
+  {
+    intro a asum b bsum heq
+    ext ⟨j, jlt⟩
+    have : g k a j = g k b j := congrFun (congrArg DFunLike.coe heq) j
+    simp only [g_apply] at this
+    simp only [if_pos jlt] at this
+    trans a (Fin.ofNat k j); congr; exact Eq.symm ( mod_eq_of_lt jlt)
+    trans b (Fin.ofNat k j); exact this
+    symm; congr; exact Eq.symm ( mod_eq_of_lt jlt)
+  }
+  {
+    intro x xin; use fun i ↦ x (i.val)
+    simp_all only [mem_coe, mem_antidiagonalTuple, mem_finsuppAntidiag]
+    constructor; calc
+      _ = ∑ i : {i // i ∈ range k}, x ↑i := by
+        symm; apply sum_bij (fun ⟨i, prop⟩ _ ↦ ⟨i, by rwa [← mem_range]⟩)
+        intros; exact mem_univ _
+        simp
+        intro ⟨b, prop⟩ _; use ⟨b, by rwa [mem_range]⟩;
+        simp only [univ_eq_attach, mem_attach, exists_const]
+        intro a ha ; simp only [Fin.ofNat_eq_cast]
+
+      _ = ∑ i ∈ range k, x i := by
+        rw [sum_subtype (range k)]; intro; rfl
+
+      _ = n := xin.1
+
+    ext i; simp only [g_apply, Fin.ofNat_eq_cast, Fin.val_natCast]
+
+    obtain ⟨-, xsup⟩ := xin
+    have i0 (i) (hi : x i ≠ 0) : i ∈ range k := by
+      simp only [subset_iff, Finsupp.mem_support_iff] at xsup
+      exact xsup hi
+
+    by_cases ilt : i < k
+    simp only [if_pos ilt]; congr; exact mod_eq_of_lt ilt
+    simp only [if_neg ilt]; contrapose! ilt
+    rw[← mem_range]; exact i0 i ilt.symm
+  }
+  {
+    intro x xin; calc
+      _ = ∏ i : {i // i ∈ range k},
+          f (x (Fin.ofNat k ↑i)) := by
+        symm; apply prod_bij (fun ⟨i, prop⟩ _ ↦ ⟨i, by rwa [← mem_range]⟩)
+        intros; exact mem_univ _
+        simp
+        intro ⟨b, prop⟩ _; use ⟨b, by rwa [mem_range]⟩;
+        simp only [univ_eq_attach, mem_attach, exists_const]
+        intro a ha ; simp only [Fin.ofNat_eq_cast]
+        congr
+        have alt : a.val < k := by
+          rw [← mem_range]; exact a.2
+        apply Fin.eq_of_val_eq
+        exact Fin.val_cast_of_lt alt
+
+      _ = ∏ i ∈ range k, f (x (Fin.ofNat k i)) := by
+        rw[prod_subtype (range k)]; intro; rfl
+
+      _ = _ := by
+        apply prod_congr rfl; intro i ilt
+        congr; rw[g_apply, if_pos (by rwa [← mem_range])]
+  }
+
+
+end section

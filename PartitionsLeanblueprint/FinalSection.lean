@@ -1,22 +1,19 @@
 import PartitionsLeanblueprint.DescentArgument
 import PartitionsLeanblueprint.PartitionDefs
-import PartitionsLeanblueprint.Basis
 
 
-/- The goal of this file is to prove that (f ℓ) (δ ℓ + 1) = 1,
-that Θ^[(ℓ + 3)/2] (f ℓ) = δ^((ℓ + 3)/2) * E₄ * f ℓ,
-and that Θ^[(ℓ + 3)/2] (f ℓ) (2) = 241, and from there derive a contradiction -/
 
-open Modulo2 Finset.Nat Finset
+/- This file assumes that Θ^[(ℓ + 3)/2] (fl ℓ) (δ ℓ + 1) = 241 * (δ ℓ) ^ ((ℓ + 3) / 2),
+and it proves the main result of the paper:
+that there does not exist a ramanujan congruence mod ℓ ≥ 13 -/
+
+open Modulo Finset.Nat Finset
 
 variable [Fact (Nat.Prime ℓ)] [Fact (ℓ ≥ 13)]
 
 instance inst_lge5 : Fact (ℓ ≥ 5) :=
   ⟨ @Nat.le_of_add_right_le 5 ℓ 8 Fact.out ⟩
 
-
-
-lemma Del_two : Δ 2 = (-24 : ZMod ℓ) := sorry
 
 
 private instance Oddl : Odd ℓ :=
@@ -27,7 +24,7 @@ instance : NeZero (δ ℓ) := ⟨ne_zero_of_lt delta_pos⟩
 
 
 
-lemma fl_delta_add_one : f ℓ (δ ℓ + 1) = 1 := by
+lemma fl_delta_add_one : fl ℓ (δ ℓ + 1) = 1 := by
 
   let q : Fin (δ ℓ) → ℕ
     | 0 => 2
@@ -83,7 +80,7 @@ lemma fl_delta_add_one : f ℓ (δ ℓ + 1) = 1 := by
     exact memQ.1 hx
 
 
-  unfold f; simp[pow_apply]; calc
+  simp only [fl_eq_Delta, Mpow_apply, q]; calc
 
     _ = ∑ x ∈ (antidiagonalTuple (δ ℓ) (δ ℓ + 1)) \ Q, ∏ y, Δ (x y)
       + ∑ x ∈ Q, ∏ y, Δ (x y) := Eq.symm (Finset.sum_sdiff Qad)
@@ -98,7 +95,7 @@ lemma fl_delta_add_one : f ℓ (δ ℓ + 1) = 1 := by
         rw[prod_eq_zero_iff]
         suffices ∃ a, x a = 0 by
           obtain ⟨a, ha⟩ := this
-          use a, mem_univ a, ha ▸ rfl
+          use a, mem_univ a, ha ▸ Delta_zero
         contrapose! xnQ; simp_rw[← Nat.one_le_iff_ne_zero] at xnQ
         rw[memQ]
 
@@ -240,7 +237,7 @@ lemma fl_delta_add_one : f ℓ (δ ℓ + 1) = 1 := by
 
         have delany : δ ℓ ≥ 2 := by
             have lg : ℓ ≥ 13 := Fact.out
-            unfold δ; trans (169 - 1) / 24
+            unfold delta; trans (169 - 1) / 24
             apply Nat.div_le_div
             rw[Nat.sub_le_sub_iff_right]
             trans 13 ^ 2; exact (le_refl _)
@@ -257,6 +254,7 @@ lemma fl_delta_add_one : f ℓ (δ ℓ + 1) = 1 := by
             simp_all only [Nat.not_ofNat_le_one]
 
         have qimage : image q univ = {1, 2} := by
+
           refine Eq.symm ((fun {α} {s₁ s₂} ↦ Finset.ext_iff.mpr) ?_)
           intro a; rw[mem_insert, mem_singleton]; constructor <;> intro ha
           rcases ha with a1|a2
@@ -335,12 +333,12 @@ lemma fl_delta_add_one : f ℓ (δ ℓ + 1) = 1 := by
       congr; simp_all only [Fin.mk_zero', implies_true, q]
 
     _ =  δ ℓ • (-24 * 1) := by
-      congr; exact Del_two
+      congr; exact Delta_two
       apply prod_eq_one; intros
-      exact Del_one
+      exact Delta_one
 
     _ = ↑((ℓ ^ 2 - 1) / 24 : ℕ) * -24 := by
-      rw[mul_one, δ]; exact nsmul_eq_mul ((ℓ ^ 2 - 1) / 24) (-24)
+      rw[mul_one, delta]; exact nsmul_eq_mul ((ℓ ^ 2 - 1) / 24) (-24)
 
     _ = ↑((ℓ ^ 2 - 1) : ℕ) / ↑(24 : ℕ) * -24 := by
       congr; refine Nat.cast_div ?_ ?_; exact delta_integer
@@ -384,13 +382,13 @@ lemma fl_delta_add_one : f ℓ (δ ℓ + 1) = 1 := by
 
 
 lemma Theta_l_add_three_div_two_fl_delta_add_one :
-    Θ^[(ℓ + 3)/2] (f ℓ) (δ ℓ + 1) = (δ ℓ + 1) ^ ((ℓ + 3) / 2) := by
+    Θ^[(ℓ + 3)/2] (fl ℓ) (δ ℓ + 1) = (δ ℓ + 1) ^ ((ℓ + 3) / 2) := by
   rw[Theta_pow_apply, fl_delta_add_one, mul_one]; congr
   exact Lean.Grind.Semiring.natCast_succ (δ ℓ)
 
 
-lemma Theta_l_add_three_div_two_eq_241 (flu : f ℓ |𝓤 = 0) :
-    Θ^[(ℓ + 3)/2] (f ℓ) (δ ℓ + 1) = 241 * (δ ℓ) ^ ((ℓ + 3) / 2) := sorry
+lemma Theta_l_add_three_div_two_eq_241 (flu : fl ℓ |𝓤 = 0) :
+    Θ^[(ℓ + 3)/2] (fl ℓ) (δ ℓ + 1) = 241 * (δ ℓ) ^ ((ℓ + 3) / 2) := sorry
 
 
 
@@ -431,7 +429,7 @@ lemma pow_congr_reduce_of_dvd {a c n : ℤ} {b : ℕ} (an0 : a ≠ 0) (adiv : a 
 
 
 
-lemma flu_ne_zero (flu : f ℓ |𝓤 = 0) : False := by
+lemma flu_ne_zero (flu : fl ℓ |𝓤 = 0) : False := by
 
   have equel : (δ ℓ + 1) ^ ((ℓ + 3) / 2) ≡ 241 * (δ ℓ) ^ ((ℓ + 3) / 2) [ZMOD ℓ] := by
     suffices (δ ℓ + 1) ^ ((ℓ + 3) / 2) = (241 * (δ ℓ) ^ ((ℓ + 3) / 2) : ZMod ℓ) by
@@ -442,7 +440,7 @@ lemma flu_ne_zero (flu : f ℓ |𝓤 = 0) : False := by
     rw[← Int.natCast_modEq_iff]; norm_cast at *
 
   have delcast : (δ ℓ : ℤ) = (ℓ ^ 2 - 1) / 24 := by
-    unfold δ; trans ((ℓ ^ 2 - 1) : ℕ) / 24; rfl
+    unfold delta; trans ((ℓ ^ 2 - 1) : ℕ) / 24; rfl
     congr; trans ((ℓ ^ 2) : ℕ) - 1
     exact Int.natCast_pred_of_pos (Nat.pos_of_neZero (ℓ ^ 2))
     rfl
