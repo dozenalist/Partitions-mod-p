@@ -1,9 +1,8 @@
 import PartitionsLeanblueprint.PreliminaryResults
 import PartitionsLeanblueprint.Basis
 
-/- This file defines Δ and fℓ. It states lemmas 2.1 and 3.2,
-and proves lemma 3.3 assuming them. This is currently where the main
-body of the paper lives. -/
+/- This file states lemmas 2.1 and 3.2, and proves lemma 3.3 assuming them.
+It also proves some other basic facts. -/
 
 noncomputable section
 
@@ -52,9 +51,7 @@ lemma not_dvd_filt : ¬ ℓ ∣ (ℓ ^ 2 - 1) / 2 := by
     exact Nat.not_dvd_of_pos_of_lt (Nat.zero_lt_sub_of_lt lg2) (Nat.sub_one_lt_of_lt lg2)
 
 
-lemma fl_lt_delta {n : ℕ} (nlt : n < (ℓ^2 - 1)/24) : fl ℓ n = 0 := by
-  rw [fl_eq_Delta]; exact leading_pow_zeros Delta_zero nlt
-
+omit [Fact (Nat.Prime ℓ)] in
 @[simp] lemma fl_zero [Fact (ℓ ≥ 5)]: fl ℓ 0 = 0 :=
 
   let lg5 : ℓ ≥ 5 := Fact.out
@@ -65,60 +62,10 @@ lemma fl_lt_delta {n : ℕ} (nlt : n < (ℓ^2 - 1)/24) : fl ℓ n = 0 := by
   fl_lt_delta ((Nat.one_le_div_iff (Nat.zero_lt_succ 23)).mpr (Nat.le_sub_one_of_lt lsq))
 
 
-@[simp] lemma fl_delta : fl ℓ (δ ℓ) = 1 := by
-  simp only [delta, fl_eq_Delta, Mpow_apply]
-  calc
-    _ = ∑ x ∈ antidiagonalTuple ((ℓ ^ 2 - 1) / 24) ((ℓ ^ 2 - 1) / 24) \ {fun _ ↦ 1}, ∏ y, Δ (x y) +
-    ∑ x ∈ {fun _ ↦ 1}, ∏ y, Δ (x y) := by
-      apply Eq.symm (sum_sdiff _); intro x hx
-      apply mem_antidiagonalTuple.2
-      rw [mem_singleton] at hx
-      rw[hx]; dsimp only
-      rw[sum_const, card_univ, Fintype.card_fin, smul_eq_mul, mul_one]
-
-    _ = (0 : ZMod ℓ) + 1 := by
-      congr
-      {
-        apply sum_eq_zero; intro x hx
-        apply prod_eq_zero_iff.2
-        simp only [mem_sdiff, mem_singleton] at hx
-        obtain ⟨hx, xn1⟩ := hx
-        rw[mem_antidiagonalTuple] at hx
-        apply le_of_eq at hx; contrapose! hx
-
-        calc
-          (ℓ ^ 2 - 1) / 24 = ∑ i : Fin ((ℓ ^ 2 - 1) / 24), 1 := by
-            rw[sum_const, Finset.card_univ, Fintype.card_fin, smul_eq_mul, mul_one]
-          _ < ∑ i, x i := by
-            have xn0 : ∀ i, x i ≥ 1 := by
-              simp_rw[Nat.one_le_iff_ne_zero]
-              intro i; contrapose! hx
-              use i, mem_univ i; rw[hx]; exact Delta_zero
-            have : ∃ j, x j ≠ 1 := by
-              contrapose! xn1; ext j; exact xn1 j
-            obtain ⟨j, jn1⟩ := this
-            have jg2 : x j ≥ 2 := by
-              apply (Nat.two_le_iff (x j)).2
-              exact ⟨Nat.one_le_iff_ne_zero.1 (xn0 j), jn1⟩
-            calc
-            _ = ∑ i ∈ univ \ {j}, 1 + 1 :=
-              sum_eq_sum_diff_singleton_add (mem_univ j) _
-
-            _ < ∑ i ∈ univ \ {j}, x i + x j := by
-              apply add_lt_add_of_le_of_lt
-              exact sum_le_sum (λ i hi ↦ xn0 i)
-              exact jg2
-            _ = _ := (sum_eq_sum_diff_singleton_add (mem_univ j) _).symm
-      }
-      simp only [sum_singleton, prod_const, card_univ, Fintype.card_fin]
-      rw[Delta_one]; exact one_pow _
-
-    0 + 1 = 1 := zero_add 1
-
 
 instance fl_ne_zero : NeZero (fl ℓ) where
   out := λ f0 ↦
-    let h := @fl_delta ℓ _ _
+    let h := @fl_delta ℓ _
     let g := DFunLike.ext_iff.1 f0 (δ ℓ)
     one_ne_zero (h.symm.trans g)
 
@@ -224,6 +171,7 @@ lemma delta_integer [Fact (ℓ ≥ 5)]: 24 ∣ ℓ ^ 2 - 1 := by
   }
   { rw[don]; exact Nat.dvd_mul_right_of_dvd h (ℓ - 1) }
 
+
 omit [NeZero ℓ] [Fact (Nat.Prime ℓ)] in
 lemma delta_pos [Fact (ℓ ≥ 5)] : (ℓ^2 - 1) / 24 > 0 := by
   have lg5 : ℓ ≥ 5 := Fact.out
@@ -235,7 +183,7 @@ lemma delta_pos [Fact (ℓ ≥ 5)] : (ℓ^2 - 1) / 24 > 0 := by
   exact Nat.zero_lt_succ 23
 
 instance delta_ne_zero {n} [Fact (n ≥ 5)] : NeZero (δ n) where
-  out := have h := @delta_pos n _
+  out := have := @delta_pos n _
     by rwa [Nat.ne_zero_iff_zero_lt]
 
 
@@ -250,6 +198,7 @@ lemma not_dvd_delta [Fact (ℓ ≥ 5)] : ¬ ℓ ∣ δ ℓ := by
   contrapose! h; calc
     _ ∣ 12 * δ ℓ := Nat.dvd_mul_left_of_dvd h 12
     _ = (ℓ ^ 2 - 1)/2 := twelve_delta
+
 
 lemma Filt_Delta : 𝔀 (Δ : ModularFormMod ℓ 12) = 12 := sorry
 
@@ -405,8 +354,7 @@ theorem Filt_U_pos [Fact (ℓ ≥ 5)] : ℓ ∣ 𝔀 (Θ^[ℓ - 1] (fl ℓ)) →
   obtain ⟨d,hd⟩ := this c
 
   have Thecon : ((fl ℓ) -l Θ^[ℓ - 1] (fl ℓ)) (by simp only [CharP.cast_eq_zero, zero_mul,
-    add_zero]) == const d :=
-    calc
+    add_zero]) == const d := calc
       _ == (fl ℓ |𝓤)**ℓ := U_pow_l_eq_self_sub_Theta_pow_l_sub_one.symm
       _ == const c**ℓ := fconn
       _ == const d := hd
@@ -414,8 +362,7 @@ theorem Filt_U_pos [Fact (ℓ ≥ 5)] : ℓ ∣ 𝔀 (Θ^[ℓ - 1] (fl ℓ)) →
   have zepo : ∀ n, ((fl ℓ) -l Θ^[ℓ - 1] (fl ℓ))
       (by simp only [CharP.cast_eq_zero, zero_mul, add_zero]) n = 0
 
-    | 0 => by rw [sub_congr_left_apply, Theta_pow_apply, Nat.cast_zero,
-        ZMod.pow_card_sub_one, fl_zero, mul_zero, sub_zero]
+    | 0 => by rw [sub_congr_left_apply, Theta_pow_apply, fl_zero, mul_zero, sub_zero]
 
     | _ + 1 => Thecon _ ▸ rfl
 

@@ -28,7 +28,7 @@ attribute [simp] pow_card pow_card_sub_one
 
 section Pow_Prime
 
--- Declares that two functions, which can be thought of as tuples, are permutations of one another
+/-- Declares that two functions, which can be thought of as tuples, are permutations of one another -/
 def perm_equiv {n : ℕ} (a b : Fin n → ℕ) :=
   ∃ c : Equiv.Perm (Fin n), a = b ∘ c
 
@@ -634,6 +634,11 @@ lemma le_sum_fintype {α : Type} {j : α} [Fintype α] {x : α → ℕ} : x j �
     nth_rw 1 [← zero_add (x j)]; gcongr; exact Nat.zero_le _
   _ = _ := Eq.symm (sum_eq_sum_diff_singleton_add (mem_univ j) x)
 
+lemma le_antidiag_right {k n : ℕ} {x : Fin k → ℕ} (hx : x ∈ antidiagonalTuple k n) (y : Fin k) : x y ≤ n := by
+  rw [mem_antidiagonalTuple] at hx; contrapose! hx
+  apply Nat.ne_of_gt; exact hx |> Trans.trans <| le_sum_fintype
+
+
 
 
 def PowFacts.Hidden.e {n j} {i : Fin (n + 1)} : (i : Fin (n + 1)) × { z : Fin j → ℕ // ↑i + ∑ i, z i = n }
@@ -894,11 +899,8 @@ lemma Modulo.Mpow_succ (a : ModularFormMod ℓ k) (j) : a ** (j + 1) =
 
 
 
-
-lemma leading_pow_zeros [Fact (Nat.Prime ℓ)] {a : ModularFormMod ℓ k} {j n : ℕ} (h : a 0 = 0) (nltj : n < j) :
-    (a ** j) n = 0 := by
-
-  rw[Mpow_apply]
+lemma leading_Spow_zeros {a : ℕ → α} {j n : ℕ} (h : a 0 = 0) (nltj : n < j) : (Sequencepow a j) n = 0 := by
+  rw[Sequencepow_apply]
   have smoke : ∀ x ∈ antidiagonalTuple j n, ∃ y, x y = 0 := by
     {
       intro x hx; rw[mem_antidiagonalTuple] at hx
@@ -912,9 +914,21 @@ lemma leading_pow_zeros [Fact (Nat.Prime ℓ)] {a : ModularFormMod ℓ k} {j n :
         _ ≤ _ := sum_le_sum (λ i _ ↦ hx i)
     }
   apply sum_eq_zero
-  intro x hx; apply prod_eq_zero_iff.2
+  intro x hx
   obtain ⟨y,hy⟩ := smoke x hx
-  exact ⟨y, mem_univ y, hy ▸ h⟩
+  rw [prod_eq_zero (mem_univ y)]
+  exact hy ▸ h
+
+
+lemma leading_Ipow_zeros {a : IntegerModularForm m} {j n : ℕ} (h : a 0 = 0) (nltj : n < j) :
+    (Integer.Ipow a j) n = 0 := by
+  rw [Integer.Ipow_eq_Sequencepow_apply]; exact leading_Spow_zeros h nltj
+
+
+lemma leading_Mpow_zeros {a : ModularFormMod ℓ k} {j n : ℕ} (h : a 0 = 0) (nltj : n < j) :
+    (a ** j) n = 0 := by
+rw [Mpow_eq_Sequencepow_apply]; exact leading_Spow_zeros h nltj
+
 
 
 end section

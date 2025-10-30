@@ -16,7 +16,8 @@ variable {ℓ n : ℕ} {k j : ZMod (ℓ-1)} [NeZero ℓ]
 variable {a b c : ModularFormMod ℓ k}
 variable {d : ModularFormMod ℓ j}
 
--- h ▸ a works like subst h at a but works within types
+
+/-- Casts a modular form mod ℓ to a different but provably equal weight -/
 def Mcongr {m n : ZMod (ℓ - 1)} (h : m = n) (a : ModularFormMod ℓ m) : ModularFormMod ℓ n :=
   h ▸ a
 
@@ -35,13 +36,13 @@ lemma triangle_eval {k j : ZMod (ℓ -1)} {h : k = j} {n : ℕ} {a : ModularForm
 universe u
 variable {α β χ  : Type u} [FunLike α ℕ (ZMod n)] [FunLike β ℕ (ZMod n)] [FunLike χ ℕ (ZMod n)]
 
--- two modular forms of different weight can be "equal" if they are the same sequence
--- this is an equivalence relation, so we can put it into calc blocks and such
+
 def Mod_eq (a : α) (b : β) :=
   ∀ n, a n = b n
 
 
--- make sure it doesn't clash with boolean ==
+/-- Two modular forms of different weight can be "equal" if they are the same sequence.
+This is an equivalence relation, so we can put it into calc blocks and such. -/
 infixl:50 (priority := high) "==" => Mod_eq
 
 
@@ -119,16 +120,22 @@ def U_Operator (a : ModularFormMod ℓ k) : ModularFormMod ℓ k where
   sequence := fun n ↦ a (ℓ * n)
   modular := sorry
 
-
+/-- Θ sends modular forms mod ℓ of weight k to weight k + 2 by
+(Θ a) n = n * a n -/
 notation "Θ" => Theta
 
+/-- The U operator sends modular forms mod ℓ of weight k to weight k by
+(a |𝓤) n = a (ℓ * n) -/
 postfix:90 "|𝓤" => U_Operator
+
+
+@[simp]
+lemma Theta_apply : Θ a n = n * a n := rfl
 
 @[simp]
 lemma U_apply : (a|𝓤) n = a (ℓ * n) := rfl
 
-@[simp]
-lemma Theta_apply : Θ a n = n * a n := rfl
+
 
 
 
@@ -140,6 +147,7 @@ def Theta_pow : (n : ℕ) → ModularFormMod ℓ k → ModularFormMod ℓ (k + n
 macro_rules
   | `(Θ^[$n]) => `(Theta_pow $n)
 
+/-- The Θ function, applied repeatedly -/
 notation "Θ^["n"]" => Theta_pow n
 
 
@@ -237,9 +245,14 @@ def sub_congr_left (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (h : k 
 -- Use these two add or subtract modular forms of different but provably equal weights
 -- with an r, the weight of the result is the weight of the right argument. with an l, the left
 -- example: (a : ModularFormMod ℓ k) +r (b : ModularFormMod ℓ j) (h : k = j) : ModularFormMod ℓ j
+
+/-- cast the sum to inherit the weight of the right argument -/
 infixl:65 " +r " => add_congr_right
+/-- cast the sum to inherit the weight of the left argument -/
 infixl:65 " +l " => add_congr_left
+/-- cast the difference to inherit the weight of the right argument -/
 infixl:65 " -r " => sub_congr_right
+/-- cast the difference to inherit the weight of the left argument -/
 infixl:65 " -l " => sub_congr_left
 
 
@@ -291,18 +304,19 @@ theorem const_pow (c : ZMod ℓ) [Fact (Nat.Prime ℓ)] (j : ℕ) : (const c) **
 
 
 
--- A modular form mod ℓ, denoted a, has weight k if there exists a modular form b
--- of weight k such that a is the reduction of b (mod ℓ)
--- A modular form mod ℓ can have many weights
+/-- A modular form mod ℓ, denoted a, has weight k if there exists a modular form b
+of weight k such that a is the reduction of b (mod ℓ).
+A modular form mod ℓ has many weights. -/
 def hasWeight (a : ModularFormMod ℓ k) (j : ℕ) : Prop :=
   ∃ b : IntegerModularForm j, a = reduce ℓ b
 
--- The filtration of a is the least natural number k such that a has weight k
+
+
 def Filtration (a : ModularFormMod ℓ k) : ℕ :=
   Nat.find (let ⟨k,b,h⟩ := a.modular; ⟨k, b, h.2⟩ : ∃ k, hasWeight a k)
 
 
-
+/-- The filtration of a is the least natural number k such that a has weight k -/
 notation "𝔀" => Filtration
 
 lemma Weight_eq_of_Mod_eq (h : a == d) {j} : hasWeight a j → hasWeight d j := by

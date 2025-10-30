@@ -28,6 +28,7 @@ section define
 
 variable (k : ℕ)
 
+/-- A traditional modular form as a function on the upper half plane satisfying some properties -/
 structure ModularForm (k : ℕ) : Type where
 
   toFun : ℂ → ℂ
@@ -412,9 +413,8 @@ section IntegerModularForm
 
 open misc
 
--- An integer modular form of weight k is an integer sequence whose infinite q series
--- converges to a modular form of weight k
-
+/-- An integer modular form of weight k is an integer sequence whose infinite q series
+converges to a modular form of weight k -/
 structure IntegerModularForm (k : ℕ) where
 
   sequence : (ℕ → ℤ)
@@ -438,6 +438,7 @@ instance : Zero (IntegerModularForm k) where
 
 namespace Integer
 
+/-- Coercsion to the constant integer modular forms of weight 0 -/
 def Iconst (x : ℤ) : IntegerModularForm 0 where
   sequence := fun n ↦ if n = 0 then x else 0
   summable := by
@@ -590,6 +591,7 @@ theorem IntegerModularForm.ext {a b : IntegerModularForm k} (h : ∀ n, a n = b 
   | 0 => simp
   | n + 1 => simp
 
+/-- Casts an integer modular form to a different but provably equal weight -/
 def Icongr {m n : ℕ} (h : m = n) (a : IntegerModularForm m) : IntegerModularForm n :=
   h ▸ a
 

@@ -19,7 +19,9 @@ def Modulo.reduce (ℓ : ℕ) (a : ℕ → ℤ) [NeZero ℓ] : (ℕ → ZMod ℓ
   fun n ↦ a n
 
 
--- A modular form mod ℓ has a weight defined by the congruence of its weight mod ℓ - 1
+/-- A modular form mod ℓ is a sequence in ZMod ℓ such that there exists some
+integer modular of appropriate weight that reduces to that sequence mod ℓ.
+It has a weight defined by the congruence of the weight of its carrier mod ℓ - 1 -/
 structure ModularFormMod (ℓ : ℕ) [NeZero ℓ] (k : ZMod (ℓ - 1)) where
 
   sequence : (ℕ → ZMod ℓ)

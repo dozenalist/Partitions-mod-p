@@ -10,8 +10,8 @@ import Mathlib.Tactic.ApplyFun
 import Mathlib.Tactic.IntervalCases
 import PartitionsLeanblueprint.ModuloDefs2
 import PartitionsLeanblueprint.BasicOperators
-import PartitionsLeanblueprint.PrimaryLemmas
 import PartitionsLeanblueprint.Basis
+import PartitionsLeanblueprint.PrimaryLemmas
 -- can't figure out how to import Archive\Wiedijk100Theorems\Partition
 
 
@@ -65,13 +65,6 @@ def indicatorSeries (α : Type*) [Semiring α] (s : Set ℕ) : PowerSeries α :=
 theorem coeff_indicator (s : Set ℕ) [Semiring α] (n : ℕ) :
     coeff α n (indicatorSeries _ s) = if n ∈ s then 1 else 0 :=
   coeff_mk _ _
-
-theorem coeff_indicator_pos (s : Set ℕ) [Semiring α] (n : ℕ) (h : n ∈ s) :
-    coeff α n (indicatorSeries _ s) = 1 := by rw [coeff_indicator, if_pos h]
-
-theorem coeff_indicator_neg (s : Set ℕ) [Semiring α] (n : ℕ) (h : n ∉ s) :
-    coeff α n (indicatorSeries _ s) = 0 := by rw [coeff_indicator, if_neg h]
-
 
 theorem constantCoeff_indicator (s : Set ℕ) [Semiring α] :
     constantCoeff α (indicatorSeries _ s) = if 0 ∈ s then 1 else 0 :=
@@ -208,37 +201,15 @@ theorem partialGF_prop (α : Type*) [CommSemiring α] (n : ℕ) (s : Finset ℕ)
 
 
 
-
+/-- The generating function for the standard partition function, with p(0) = 1 -/
 def partitionProduct (m : ℕ) [Field α] :=
   ∏ i ∈ range m, (1 - (X : α⟦X⟧) ^ (i + 1) )⁻¹
 
--- def DeltaProduct1 [Field α] (m : ℕ) :=
---   (X : α⟦X⟧) * ∏ i ∈ range m, (1 - X ^ (i + 1)) ^ 24
-
--- def Integer_Eta (n : ℕ) : ℤ :=
---   if h : (∃ m : ℤ, n = m * (3*m - 1) / 2)
---     then
---       let m := Classical.choose h
---       if m % 2 = 0 then 1 else -1
---     else 0
-
--- def Integer_Delta : IntegerModularForm 12 where
-
---   sequence
---     | 0 => 0
---     | n + 1 => (Sequencepow Integer_Eta 24) n
-
---   summable := sorry
-
---   modular := sorry
 
 
--- def Integer_fl (ℓ : ℕ) : IntegerModularForm (12 * δ ℓ) :=
---   Integer_Delta ** (δ ℓ)
-
-
-def flProduct (ℓ : ℕ) (m : ℕ) [CommRing α] :=
-  (@DeltaProduct α _ ^ (δ ℓ)) m
+/-- The generating function for fl, defined as DeltaProduct ^ (δ ℓ) -/
+-- def flProduct (ℓ : ℕ) (m : ℕ) [CommRing α] :=
+--   (@DeltaProduct α _ ^ (δ ℓ)) m
 
 def ppart [Field α] : ℕ → α ⟦X⟧
   | 0 => 0
@@ -272,6 +243,7 @@ theorem partitionGF_prop [Field α] (n m : ℕ) :
   rw [partitionProduct]
   convert partialGF_prop α n
     ((range m).map mkUniv) _ (fun _ => Set.univ) (fun _ _ => trivial) using 2
+
   congr; simp only [true_and, forall_const, Set.mem_univ]
   {
     rw [Finset.prod_map]
@@ -351,15 +323,17 @@ section PowerSeriesFacts
 
 variable {α : Type*}
 
-/- Two sequences of power series are eventually equal if for any coefficient n,
+
+def eventuallyEq [Semiring α] (f h : ℕ → α ⟦X⟧) : Prop :=
+  ∀ n, ∃ m, ∀ k ≤ n, ∀ j ≥ m, coeff α k (f j) = coeff α k (h j)
+
+
+
+/-- Two sequences of power series are eventually equal if for any coefficient n,
 there is some number m, such that these sequences match on all coeffients
 less than n from the index m onward. As an example, the function
 fun n ↦ ∑ i ∈ range n, (natpart i) * (X : α⟦X⟧) ^ i
 is eventually equal to fun n ↦ ∏ i ∈ range n, 1 / (1 - X ^ (i + 1)) -/
-def eventuallyEq [Semiring α] (f h : ℕ → α ⟦X⟧) : Prop :=
-  ∀ n, ∃ m, ∀ k ≤ n, ∀ j ≥ m, coeff α k (f j) = coeff α k (h j)
-
--- this clashes with the standard usage of ⟶ for a momorphism
 infixl : 25 (priority := high) " ⟶ " => eventuallyEq
 
 @[refl]
@@ -412,7 +386,7 @@ theorem eventuallyEq_mul [Semiring α] {a b c d : ℕ → α ⟦X⟧} (hab : a �
 theorem eventuallyEq_pow [Semiring α] {a b : ℕ → α ⟦X⟧} (hab : a ⟶ b) (n : ℕ) : a ^ n ⟶ b ^ n := by
   induction n with
   | zero => simp only [pow_zero]; rfl
-  | succ => simp only [_root_.pow_succ]; gcongr
+  | succ => simp only [pow_succ]; gcongr
 
 
 def PowerSeries.lift [Semiring α] (a : ℕ → Polynomial α) : ℕ → α ⟦X⟧ :=
@@ -525,7 +499,7 @@ lemma coeff_mul_shift [CommSemiring α] {m N : ℕ} (f : ℕ → α ⟦X⟧) :
 
   simp_rw [mul_sum, ← mul_assoc, mul_comm, mul_assoc, ← pow_add]
   apply sum_bij (fun i _ ↦ i + m)
-  simp only [mem_range, mem_Ico, le_add_iff_nonneg_left, _root_.zero_le, true_and]
+  simp only [mem_range, mem_Ico, le_add_iff_nonneg_left, zero_le, true_and]
   intro a alN; exact add_lt_add_right alN _
   intro a alN b blN; exact (Nat.add_right_cancel ·)
   simp_all only [mem_Ico, mem_range]
@@ -560,12 +534,11 @@ lemma Polynomial.coe_prod [CommSemiring α] (m : ℕ) (f : ℕ → Polynomial α
   | succ m ih => simp only [prod_range_succ, ih, Polynomial.coe_mul]
 
 
-lemma coeff_zero_of_ndvd [Field α] {ℓ M k : ℕ} (ndvd : ¬ ℓ ∣ k) :
+lemma coeff_zero_of_ndvd [CommRing α] {ℓ M k : ℕ} (ndvd : ¬ ℓ ∣ k) :
     coeff α k (∏ i ∈ range M, (1 - (X : α ⟦X⟧) ^ (ℓ * (i + 1))) ^ ℓ) = 0 := by
 
   rw[coeff_prod]
   apply sum_eq_zero; intro x xin
-  rw [prod_eq_zero_iff]
 
   have exa : ∃ a ∈ range M, ¬ ℓ ∣ x a := by
     contrapose! xin
@@ -576,10 +549,10 @@ lemma coeff_zero_of_ndvd [Field α] {ℓ M k : ℕ} (ndvd : ¬ ℓ ∣ k) :
     _ = k := ndvd ▸ rfl
 
   obtain ⟨a, alt, nad⟩ := exa
-  use a, alt
+  rw [prod_eq_zero]
+  use alt
   rw[coeff_pow]
   apply sum_eq_zero; intro y yin
-  rw [prod_eq_zero_iff]
 
   have exb : ∃ a ∈ range ℓ, ¬ ℓ ∣ y a := by
     contrapose! yin
@@ -590,7 +563,9 @@ lemma coeff_zero_of_ndvd [Field α] {ℓ M k : ℕ} (ndvd : ¬ ℓ ∣ k) :
     _ = x a := nad ▸ rfl
 
   obtain ⟨b, blt, nbd⟩ := exb
-  use b, blt
+
+  rw [prod_eq_zero]
+  use blt
 
   simp only [map_sub, coeff_one]
   split_ifs with yb0
@@ -629,7 +604,7 @@ lemma coeff_prod_eventually_zero [CommSemiring α] (m : ℕ) (f : ℕ → Polyno
     _ < n := Mle
 
 
-lemma prod_eq_sum (α) [Field α] (ℓ K : ℕ) [NeZero ℓ] : ∃ c : ℕ → α, ∃ M,
+lemma prod_eq_sum (α) [CommRing α] (ℓ K : ℕ) [NeZero ℓ] : ∃ c : ℕ → α, ∃ M,
     (∏ i ∈ range K, (1 - (X : α ⟦X⟧) ^ (ℓ * (i + 1))) ^ ℓ) = ∑ i ∈ range M, C α (c i) * X ^ (ℓ * i) := by
 
   have ln0 : ℓ ≠ 0 := Ne.symm (NeZero.ne' ℓ)
@@ -678,131 +653,6 @@ theorem partitionProduct_mul_eq_natpart_sum [Field α] (n : ℕ) (f : ℕ → Po
   simp_all only [Pi.mul_apply, lift_apply]; congr
 
 
-lemma coeff_X_mul [Semiring α] (f : α ⟦X⟧) {n : ℕ} (npos : n > 0) :
-    (coeff α n) (X * f) = coeff α (n - 1) f := by
-  rw [coeff_mul]; trans  ∑ p ∈ antidiagonal n, (coeff α p.1) (X ^ 1) * (coeff α p.2) f
-  rw [pow_one]
-  simp_rw [coeff_X_pow]; simp only [ite_mul, one_mul, zero_mul, sum_ite]
-  simp only [sum_const_zero, add_zero]
-  trans ∑ x ∈ {(1, n - 1)}, (coeff α x.2) f
-  congr; ext x; simp only [mem_filter, mem_antidiagonal, mem_singleton]
-  constructor; rintro ⟨xsum, x1⟩; ext <;> dsimp
-  exact x1; omega
-  intro hx; simp_all only [gt_iff_lt, and_true]; exact add_sub_of_le npos
-  rw [sum_singleton]
-
-
-open Nat in
-lemma DeltaProduct_coeff_le [CommRing α] {n m j : ℕ} (nlm : n ≤ m) (mlj : m ≤ j) :
-    (coeff α n) (DeltaProduct m) = (coeff α n) (DeltaProduct j) := by
-
-  by_cases n0 : n = 0
-  simp [n0]
-
-  have npos : n > 0 := zero_lt_of_ne_zero n0
-  simp only [DeltaProduct, coeff_X_mul _ npos];
-  set k := n - 1 with keq; symm; calc
-    _ = (coeff α k) ((∏ i ∈ Ico 0 m, (1 - X ^ (i + 1)) ^ 24) *
-        (∏ i ∈ Ico m j, (1 - X ^ (i + 1)) ^ 24)) := by
-      rw [prod_Ico_consecutive, Ico_zero_eq_range]
-      exact Nat.zero_le m; exact mlj
-    _ = _ := by
-      rw [Ico_zero_eq_range, coeff_mul]
-
-      have coeff_eq_ite {k : ℕ} (klt : k < m) :
-          (coeff α k) (∏ i ∈ Ico m j, (1 - X ^ (i + 1)) ^ 24) = if k = 0 then 1 else 0 := by
-        split_ifs with k0
-        rw [k0]; simp
-
-        rw [coeff_prod]; apply sum_eq_zero;
-        intro x xin; rw [mem_finsuppAntidiag] at xin
-
-        have exy : ∃ y ∈ Ico m j, x y ≠ 0 ∧ x y < m := by
-          contrapose! xin
-
-          intro sum_eq
-          contrapose! sum_eq
-          have fozer {k} (hk : x k ≠ 0) : k ∈ Ico m j := by
-            have : k ∈ x.support := Finsupp.mem_support_iff.mpr hk
-            exact sum_eq this
-
-          by_cases ex : ∃ y, x y ≠ 0
-          obtain ⟨y, yn0⟩ := ex
-          have : y ≥ m := List.left_le_of_mem_range' (fozer yn0)
-          apply Nat.ne_of_gt; calc
-            _ < m := klt
-            _ ≤ x y := xin y (fozer yn0) yn0
-            _ ≤ _ := CanonicallyOrderedAddCommMonoid.single_le_sum (fozer yn0)
-
-
-          push_neg at ex
-          suffices (Ico m j).sum ⇑x = 0 by symm; rwa[this]
-          exact sum_eq_zero (λ y _ ↦ ex y)
-
-        obtain ⟨y, yin, xyn0, xylm⟩ := exy
-        rw [prod_eq_zero]; use yin
-        rw [coeff_pow]
-        set f : ℕ → α := fun n ↦ (coeff α n) (1 - X ^ (y + 1)) with hf
-        trans ∑ l ∈ (range 24).finsuppAntidiag (x y), ∏ i ∈ range 24, f (l i); rfl
-        rw [finsuppAntidiag_to_antidiagonalTuple 24 (x y) f]
-        rw [hf]; dsimp; apply sum_eq_zero; intro z zin
-        rw [mem_antidiagonalTuple] at zin
-
-        have exb : ∃ b, z b > 0 := by
-          contrapose! zin
-          have : ∑ i, z i = 0 := sum_eq_zero λ x _ ↦ eq_zero_of_le_zero (zin x)
-          symm; rwa [this]
-        obtain ⟨b, bn0⟩ := exb
-
-        rw [prod_eq_zero]
-        use mem_univ b
-        have ble : z b < y := by
-
-          have : z b ≤ ∑ i, z i := le_sum_fintype
-          have : m ≤ y := by rw [mem_Ico] at yin; exact yin.1
-          omega
-
-        simp only [map_sub, coeff_one]; rw [if_neg (Nat.ne_of_gt bn0)]
-        simp only [zero_sub, neg_eq_zero, coeff_pow]
-
-        set f : ℕ → α := fun n ↦ (coeff α n) (X) with hf
-        trans ∑ l ∈ (range (y + 1)).finsuppAntidiag (z b), ∏ i ∈ range (y + 1), f (l i); rfl
-        rw [finsuppAntidiag_to_antidiagonalTuple _ _ f, hf]
-
-
-        apply sum_eq_zero; intro x xsum
-        have exc : ∃ c : Fin (y + 1), x c < 1 := by
-          contrapose! xsum; rw[mem_antidiagonalTuple]
-          push_neg; apply Nat.ne_of_gt;
-          have : ∑ i : Fin (y + 1), 1 ≤ ∑ i, x i := sum_le_sum λ i _ ↦ xsum i
-          simp only [sum_const, Finset.card_univ, Fintype.card_fin, smul_eq_mul, mul_one] at this
-          omega
-
-        obtain ⟨c, c0⟩ := exc; rw [lt_one_iff] at c0
-        dsimp; rw [prod_eq_zero]
-        use mem_univ c; rw[c0, coeff_zero_X]
-
-
-
-
-      calc
-        _ = ∑ p ∈ antidiagonal k, (coeff α p.1) (∏ i ∈ range m, (1 - X ^ (i + 1)) ^ 24) *
-            if p.2 = 0 then 1 else 0 := by
-          congr! with p pin;
-
-          have plt : p.2 < m := by
-            have : p.2 ≤ k := antidiagonal.snd_le pin
-            omega
-          rw [coeff_eq_ite plt]
-        _ =  ∑ x ∈ {(k,0)}, (coeff α x.1) (∏ i ∈ range m, (1 - X ^ (i + 1)) ^ 24) := by
-          simp only [mul_ite, mul_one, mul_zero, sum_ite, sum_const_zero, add_zero]
-          congr with x; simp only [mem_filter, mem_antidiagonal, mem_singleton]
-          simp_all only [gt_iff_lt, k]
-          obtain ⟨fst, snd⟩ := x
-          simp_all only [Prod.mk.injEq, and_congr_left_iff, add_zero, implies_true]
-
-        _ = _ := by simp only [sum_singleton]
-
 
 
 
@@ -817,32 +667,17 @@ theorem DeltaProduct_eventually_sum [CommRing α] :
     (DeltaProduct ·) ⟶ (∑ i ∈ range ·, Integer.Delta i * (X : α⟦X⟧) ^ i) := by
 
   intro n
-  by_cases n0 : n = 0
-  use 0; intro k kle j jg; simp_all
-  symm; apply sum_eq_zero; intro x xlt
-  by_cases x0 : x = 0
-  rw [x0, Integer.Delta_zero, pow_zero]
-  refine X_dvd_iff.mp ?_; trans 0; exact X_dvd_iff.mpr rfl
-  apply dvd_of_eq; exact Eq.symm (Lean.Grind.IntModule.zero_hmul 1)
-  trans Integer.Delta x * (coeff α 0) (X ^ x)
-
-  simp only [← coeff_zero_eq_constantCoeff]
-  exact coeff_int_cast ..
-  rw [coeff_X_pow, if_neg fun a ↦ x0 (id (Eq.symm a)), mul_zero]
-
   simp_rw [Integer.Delta_apply]
   use n + 1; intro k kle j jg
-  have : j > k := by omega
+  have : j > k := Nat.lt_of_le_of_lt kle jg
   trans (coeff α k) (∑ x ∈ range j, C α ((coeff ℤ x) (DeltaProduct x)) * X ^ x)
   set f : ℕ → α := fun n ↦ (coeff ℤ n) (DeltaProduct n) with feq
-  rw [coeff_sum_X_pow (a := f) this]
+  rw [coeff_sum_X_pow (a := f) this, feq]; symm
 
-  simp only [feq]; symm
+  norm_cast
 
-  convert DeltaProduct_coeff_cast (g := Int.castRingHom α) k k using 1
-
-  symm; apply DeltaProduct_coeff_le (le_refl k) <| le_of_lt this
-  congr! 2 with x xin; simp only [map_intCast]; rfl
+  exact DeltaProduct_coeff_le (le_refl k) <| le_of_lt this
+  congr! 2 with x xin; rw [map_intCast]; rfl
 
 
 
@@ -851,7 +686,7 @@ open Finset.Nat in
 theorem fl_Product_eventually_sum [CommRing α] (ℓ) [Fact (ℓ ≥ 5)] :
     (flProduct ℓ ·) ⟶ (∑ i ∈ range ·, ((Integer.fl ℓ i) : α ⟦X⟧) * (X : α⟦X⟧) ^ i) := by
 
-  unfold flProduct Integer.fl; dsimp; symm; calc
+  rw [flProduct_eq_DeltaProduct_pow, Integer.fl]; symm; calc
 
     _ ⟶ (fun x ↦ ∑ i ∈ range x, ↑(Integer.Delta i) * (X : α ⟦X⟧) ^ i) ^ (δ ℓ) := by
 
@@ -871,10 +706,9 @@ theorem fl_Product_eventually_sum [CommRing α] (ℓ) [Fact (ℓ ≥ 5)] :
       simp_rw [rw1, coeff_sum_X_pow nlM]
 
       trans ∑ l ∈ (range (δ ℓ)).finsuppAntidiag n, ∏ i ∈ range (δ ℓ), ↑(Integer.Delta (l i))
+
       set f := fun m ↦ ((Integer.Delta m) : α) with hf
-
       rw [finsuppAntidiag_to_antidiagonalTuple (δ ℓ) n f]
-
 
       apply sum_congr rfl; intro y yin
       apply prod_congr rfl; intro i ilt
@@ -887,11 +721,8 @@ theorem fl_Product_eventually_sum [CommRing α] (ℓ) [Fact (ℓ ≥ 5)] :
       simp only [rw2, coeff_sum_X_pow (ylen |> Trans.trans <| nlM)]
 
 
-    _ ⟶ (fun x ↦ DeltaProduct x) ^ δ ℓ := by
+    _ ⟶ (DeltaProduct ·) ^ δ ℓ := by
       gcongr; exact DeltaProduct_eventually_sum.symm
-
-    _ = fun x ↦ DeltaProduct x ^ δ ℓ := rfl
-
 
 
 
@@ -949,7 +780,7 @@ theorem flu_eq_zero [Fact (ℓ ≥ 5)] : ramanujan_congruence ℓ → fl ℓ |�
   _ = (coeff (ZMod ℓ) (ℓ * n))
       ( (X * ∏ i ∈ range M, (1 - X ^ (i + 1)) ^ 24) ^ (δ ℓ) ) := by
     simp only [map_intCast, ← floeq (ℓ * n) (le_refl _) M m'leM,
-        flProduct, Pi.pow_apply, DeltaProduct]
+        flProduct_eq_DeltaProduct_pow, Pi.pow_apply, DeltaProduct]
 
   _ = (coeff (ZMod ℓ) (ℓ * n) )
       (X ^ (δ ℓ) * ∏ i ∈ range M, (1 - X ^ (i + 1)) ^ (ℓ ^ 2 - 1)) := by

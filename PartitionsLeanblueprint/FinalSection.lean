@@ -384,7 +384,7 @@ lemma fl_delta_add_one : fl ℓ (δ ℓ + 1) = 1 := by
 lemma Theta_l_add_three_div_two_fl_delta_add_one :
     Θ^[(ℓ + 3)/2] (fl ℓ) (δ ℓ + 1) = (δ ℓ + 1) ^ ((ℓ + 3) / 2) := by
   rw[Theta_pow_apply, fl_delta_add_one, mul_one]; congr
-  exact Lean.Grind.Semiring.natCast_succ (δ ℓ)
+  norm_cast
 
 
 lemma Theta_l_add_three_div_two_eq_241 (flu : fl ℓ |𝓤 = 0) :
@@ -431,13 +431,14 @@ lemma pow_congr_reduce_of_dvd {a c n : ℤ} {b : ℕ} (an0 : a ≠ 0) (adiv : a 
 
 lemma flu_ne_zero (flu : fl ℓ |𝓤 = 0) : False := by
 
+
   have equel : (δ ℓ + 1) ^ ((ℓ + 3) / 2) ≡ 241 * (δ ℓ) ^ ((ℓ + 3) / 2) [ZMOD ℓ] := by
     suffices (δ ℓ + 1) ^ ((ℓ + 3) / 2) = (241 * (δ ℓ) ^ ((ℓ + 3) / 2) : ZMod ℓ) by
-      rw[← ZMod.intCast_eq_intCast_iff]; norm_cast at *
+      rw[← ZMod.intCast_eq_intCast_iff]; exact_mod_cast this
     rw[← Theta_l_add_three_div_two_fl_delta_add_one, ← Theta_l_add_three_div_two_eq_241 flu]
 
   have nequal : (δ ℓ + 1) ^ ((ℓ + 3) / 2) ≡ 241 * (δ ℓ) ^ ((ℓ + 3) / 2) [MOD ℓ] := by
-    rw[← Int.natCast_modEq_iff]; norm_cast at *
+    rw[← Int.natCast_modEq_iff]; exact_mod_cast equel
 
   have delcast : (δ ℓ : ℤ) = (ℓ ^ 2 - 1) / 24 := by
     unfold delta; trans ((ℓ ^ 2 - 1) : ℕ) / 24; rfl
