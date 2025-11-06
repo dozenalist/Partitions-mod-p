@@ -20,6 +20,7 @@ Formalized :
 
 - Some of the introductory results of the paper, and some of the main lemmas. Everything after lemma 3.3 is fully formalized, assuming everthing that comes before it.
 
+- The first section of the paper, that if there exists a ramanujan congruence mod ℓ then fl | U = 0. (The beginning of Theorem 3.1)
 
 
 TODO : 
@@ -29,8 +30,6 @@ TODO :
 - Prove that the Theta and U operators preserve modularity
 
 - Prove that Δ is a Modular Form, and formalize information about a basis for the set of Modular Forms of a given weight (this will be needed for Lemma 3.2 and the end of the paper).
-
-- Formalize the connection between the partition function, ramanujan congruences, and modular forms. (The beginning of Theorem 3.1)
 
 - Prove Lemmas 2.1 and 3.2, as well as the Filtration Log property
 
