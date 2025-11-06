@@ -98,6 +98,12 @@ lemma Mod_eq_of_Eq {a b : α} (h : a = b) : a == b :=
 lemma Eq_of_Mod_eq {a b : α} (h : a == b) : a = b :=
   DFunLike.ext _ _ h
 
+lemma Mcongr_of_Mod_eq [NeZero (ℓ - 1)] {a : ModularFormMod ℓ k} [NeZero a] {b : ModularFormMod ℓ j} (h : a == b) :
+    ∃ h, a = Mcongr h b := by
+  suffices j = k by
+    use this; ext n; rw [cast_eval, h n]
+  sorry
+
 
 
 @[simp] theorem Modulo.Mpow_zero (a : ModularFormMod ℓ k) :
@@ -225,6 +231,7 @@ instance instTheta_powNeZero {a : ModularFormMod ℓ k} [NeZero (ℓ - 1)] [NeZe
       exact ne
 
 
+namespace Modulo
 
 def add_congr_right (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (h : k = j) :
     ModularFormMod ℓ j :=
@@ -247,39 +254,90 @@ def sub_congr_left (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (h : k 
 -- example: (a : ModularFormMod ℓ k) +r (b : ModularFormMod ℓ j) (h : k = j) : ModularFormMod ℓ j
 
 /-- cast the sum to inherit the weight of the right argument -/
-infixl:65 " +r " => add_congr_right
+scoped infixl:65 (priority := high) " +r " => add_congr_right
 /-- cast the sum to inherit the weight of the left argument -/
-infixl:65 " +l " => add_congr_left
+scoped infixl:65 (priority := high) " +l " => add_congr_left
 /-- cast the difference to inherit the weight of the right argument -/
-infixl:65 " -r " => sub_congr_right
+scoped infixl:65 (priority := high) " -r " => sub_congr_right
 /-- cast the difference to inherit the weight of the left argument -/
-infixl:65 " -l " => sub_congr_left
+scoped infixl:65 (priority := high) " -l " => sub_congr_left
 
 
 @[simp]
-lemma add_congr_right_apply {k j : ZMod (ℓ - 1)} (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (h : k = j) (n : ℕ) :
+lemma add_congr_right_apply (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (h : k = j) (n : ℕ) :
     (add_congr_right a b h) n = a n + b n := by
   rw[add_congr_right, add_apply, triangle_eval]
 
 @[simp]
-lemma add_congr_left_apply {k j : ZMod (ℓ - 1)} (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (h : k = j) (n : ℕ) :
+lemma add_congr_left_apply (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (h : k = j) (n : ℕ) :
     (add_congr_left a b h) n = a n + b n := by
   rw[add_congr_left, add_apply, triangle_eval]
 
 @[simp]
-lemma sub_congr_right_apply {k j : ZMod (ℓ - 1)} (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (h : k = j) (n : ℕ) :
+lemma sub_congr_right_apply (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (h : k = j) (n : ℕ) :
     (sub_congr_right a b h) n = a n - b n := by
   rw[sub_congr_right, sub_apply, triangle_eval]
 
 @[simp]
-lemma sub_congr_left_apply {k j : ZMod (ℓ - 1)} (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (h : k = j) (n : ℕ) :
+lemma sub_congr_left_apply (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (h : k = j) (n : ℕ) :
     (sub_congr_left a b h) n = a n - b n := by
   rw[sub_congr_left, sub_apply, triangle_eval]
 
 
-macro_rules
-  | `($a (mod $l)) => `(Reduce $a $l)
+end Modulo
 
+namespace Integer
+variable {k j : ℕ}
+
+def add_congr_right (a : IntegerModularForm k) (b :  IntegerModularForm j) (h : k = j) :
+     IntegerModularForm j :=
+  (h ▸ a) + b
+
+def add_congr_left (a :  IntegerModularForm k) (b :  IntegerModularForm j) (h : k = j) :
+     IntegerModularForm k :=
+  a + (h ▸ b)
+
+def sub_congr_right (a : IntegerModularForm k) (b :  IntegerModularForm j) (h : k = j) :
+     IntegerModularForm j :=
+  (h ▸ a) - b
+
+def sub_congr_left (a :  IntegerModularForm k) (b :  IntegerModularForm j) (h : k = j) :
+     IntegerModularForm k :=
+  a - (h ▸ b)
+
+
+
+/-- cast the sum to inherit the weight of the right argument -/
+scoped infixl:65 " +r " => add_congr_right
+/-- cast the sum to inherit the weight of the left argument -/
+scoped infixl:65 " +l " => add_congr_left
+/-- cast the difference to inherit the weight of the right argument -/
+scoped infixl:65 " -r " => sub_congr_right
+/-- cast the difference to inherit the weight of the left argument -/
+scoped infixl:65 " -l " => sub_congr_left
+
+
+@[simp]
+lemma add_congr_right_apply (a : IntegerModularForm k) (b : IntegerModularForm j) (h : k = j) (n : ℕ) :
+    (add_congr_right a b h) n = a n + b n := by
+  rw[add_congr_right, add_apply, triangle_eval]
+
+@[simp]
+lemma add_congr_left_apply (a : IntegerModularForm k) (b : IntegerModularForm j) (h : k = j) (n : ℕ) :
+    (add_congr_left a b h) n = a n + b n := by
+  rw[add_congr_left, add_apply, triangle_eval]
+
+@[simp]
+lemma sub_congr_right_apply (a : IntegerModularForm k) (b : IntegerModularForm j) (h : k = j) (n : ℕ) :
+    (sub_congr_right a b h) n = a n - b n := by
+  rw[sub_congr_right, sub_apply, triangle_eval]
+
+@[simp]
+lemma sub_congr_left_apply (a : IntegerModularForm k) (b : IntegerModularForm j) (h : k = j) (n : ℕ) :
+    (sub_congr_left a b h) n = a n - b n := by
+  rw[sub_congr_left, sub_apply, triangle_eval]
+
+end Integer
 
 
 @[simp]
@@ -315,9 +373,9 @@ def hasWeight (a : ModularFormMod ℓ k) (j : ℕ) : Prop :=
 def Filtration (a : ModularFormMod ℓ k) : ℕ :=
   Nat.find (let ⟨k,b,h⟩ := a.modular; ⟨k, b, h.2⟩ : ∃ k, hasWeight a k)
 
-
 /-- The filtration of a is the least natural number k such that a has weight k -/
 notation "𝔀" => Filtration
+
 
 lemma Weight_eq_of_Mod_eq (h : a == d) {j} : hasWeight a j → hasWeight d j := by
   unfold hasWeight; rintro ⟨c,hc⟩

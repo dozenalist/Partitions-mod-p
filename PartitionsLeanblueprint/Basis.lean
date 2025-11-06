@@ -12,22 +12,22 @@ and it proves some basic facts about these functions. -/
 noncomputable section
 
 
-
-open PowerSeries Finset ModularForm
-
-
-variable {α : Type*} [CommRing α]
-
-
 def delta (ℓ : ℕ) : ℕ := (ℓ^2 - 1) / 24
 
 
+open PowerSeries Finset
+
+section ProductDefs
+
+variable {α : Type*} [CommRing α]
+
+/-- The power series generating function for `Δ`. Can be instantiated over any commutative ring -/
 def DeltaProduct (m : ℕ) : α ⟦X⟧ :=
-  (X : α⟦X⟧) * ∏ i ∈ range m, (1 - X ^ (i + 1)) ^ 24
+  X * ∏ i ∈ range m, (1 - X ^ (i + 1)) ^ 24
 
-
+/-- The power series generating function for `fl`. Can be instantiated over any commutative ring -/
 def flProduct (ℓ : ℕ) (m : ℕ) : α ⟦X⟧ :=
-  (X : α⟦X⟧) ^ (delta ℓ) * ∏ i ∈ range m, (1 - X ^ (i + 1)) ^ (24 * delta ℓ)
+  X ^ (delta ℓ) * ∏ i ∈ range m, (1 - X ^ (i + 1)) ^ (24 * delta ℓ)
 
 
 lemma DeltaProduct_apply (m : ℕ) :
@@ -39,7 +39,7 @@ lemma flProduct_apply (ℓ : ℕ) (m : ℕ) :
 
 
 lemma flProduct_eq_DeltaProduct_pow (ℓ : ℕ) : (flProduct ℓ : ℕ → α ⟦X⟧) = DeltaProduct ^ (delta ℓ) := by
-  ext n : 1; simp_rw [flProduct, Pi.pow_apply, DeltaProduct, pow_mul, mul_pow, prod_pow]
+  ext1 n; simp_rw [flProduct, Pi.pow_apply, DeltaProduct, pow_mul, mul_pow, prod_pow]
 
 
 @[simp] lemma map_DeltaProduct {R S : Type*} [CommRing R] [CommRing S] (g : R →+* S) (n : ℕ) :
@@ -68,8 +68,12 @@ lemma flProduct_eq_DeltaProduct_pow (ℓ : ℕ) : (flProduct ℓ : ℕ → α �
   trans (Int.castRingHom S) ((coeff ℤ k) (flProduct ℓ j)); rfl; rw [map_coeff_flProduct]
 
 
+end ProductDefs
+
+
 section Delta_coeff_le
-omit [CommRing α]
+
+variable {α : Type*}
 
 open Finset.Nat Finset Nat
 
@@ -187,6 +191,7 @@ lemma DeltaProduct_coeff_le [CommRing α] {n m j : ℕ} (nlm : n ≤ m) (mlj : m
             have : p.2 ≤ k := antidiagonal.snd_le pin
             omega
           rw [coeff_eq_ite plt]
+
         _ =  ∑ x ∈ {(k,0)}, (coeff α x.1) (∏ i ∈ range m, (1 - X ^ (i + 1)) ^ 24) := by
           simp only [mul_ite, mul_one, mul_zero, sum_ite, sum_const_zero, add_zero]
           congr with x; simp only [mem_filter, mem_antidiagonal, mem_singleton]
@@ -198,6 +203,8 @@ lemma DeltaProduct_coeff_le [CommRing α] {n m j : ℕ} (nlm : n ≤ m) (mlj : m
 
 end Delta_coeff_le
 
+
+section Delta_fl_Defs
 
 namespace Integer
 
@@ -211,10 +218,10 @@ def Delta : IntegerModularForm 12 where
   summable := sorry
   modular := sorry
 
-/-- The integer modular form. Equal to Δ ^ (δ ℓ) -/
+/-- The integer modular form. Equal to `Δ ^ (δ ℓ)` -/
 def fl (ℓ : ℕ) : IntegerModularForm (12 * δ ℓ) := Delta ** δ ℓ
 
-/-- The integer modular form of weight 12. Defined by the coefficients of the DeltaProduct -/
+/-- The integer modular form of weight 12. Defined by the coefficients of the `DeltaProduct` -/
 scoped notation "Δ" => Delta
 
 
@@ -512,8 +519,7 @@ lemma Reduce_pow (g : IntegerModularForm k) (j : ℕ) :
     Reduce (Integer.Ipow g j) ℓ = Mcongr (by norm_cast) ((Reduce g ℓ) ** j) := by
 
   induction' j with j ih
-  ext n
-  cases n <;> simp
+  ext n; cases n <;> simp
   ext n
   simp only [cast_eval, Integer.cast_eval, Integer.Ipow_succ, Mpow_succ, Reduce_cast_swap,
       cast_eval, Reduce_mul, ih, mul_apply, Integer.mul_apply, Reduce_apply, cast_eval]
@@ -530,14 +536,14 @@ def Delta : ModularFormMod ℓ 12 := Reduce Integer.Delta ℓ
 
 
 -- maybe change the weight to drop the Mcongr? but then we lose fl_eq_Delta
-/-- The modular form mod ℓ. Equal to Δ ^ (δ ℓ) -/
+/-- The modular form mod `ℓ` as the reduction of `Integer.fl`. Equal to `Δ ^ (δ ℓ)` -/
 def fl (ℓ : ℕ) [NeZero ℓ] : ModularFormMod ℓ (12 * δ ℓ) := Mcongr (by norm_cast) (Reduce (Integer.fl ℓ) ℓ)
 
 
 -- when both Modulo and Integer are opened, Δ refers to Modulo.Delta
 /- if you open Integer, then Modulo, you can use Delta to refer to Integer.Delta
 and Δ for Modulo.Delta, so that's cool I guess -/
-/-- The modular form mod ℓ of weight 12. The reduction of Integer.Delta -/
+/-- The modular form mod `ℓ` of weight 12. The reduction of `Integer.Delta` -/
 scoped notation (priority := high) "Δ" => Delta
 
 
@@ -560,13 +566,13 @@ theorem fl_eq_coeff_Product (n : ℕ) : fl ℓ n = coeff (ZMod ℓ) n (flProduct
 
 
 lemma Delta_zero : Δ 0 = (0 : ZMod ℓ) := by
-  rw[Delta, Reduce_apply, Integer.Delta_zero]; norm_cast
+  rw [Delta, Reduce_apply, Integer.Delta_zero]; norm_cast
 
 lemma Delta_one : Δ 1 = (1 : ZMod ℓ) := by
-  rw[Delta, Reduce_apply, Integer.Delta_one]; norm_cast
+  rw [Delta, Reduce_apply, Integer.Delta_one]; norm_cast
 
 lemma Delta_two : Δ 2 = (-24 : ZMod ℓ) := by
-  rw[Delta, Reduce_apply, Integer.Delta_two]; norm_cast
+  rw [Delta, Reduce_apply, Integer.Delta_two]; norm_cast
 
 
 lemma fl_lt_delta {n : ℕ} (nlt : n < δ ℓ) : fl ℓ n = 0 := by
@@ -578,5 +584,115 @@ lemma fl_lt_delta {n : ℕ} (nlt : n < δ ℓ) : fl ℓ n = 0 := by
 
 end Modulo
 
+end Delta_fl_Defs
+
+
+section Eisenstein
+
+namespace Nat
+
+/-- The sum of the kth powers of the divisors of n -/
+def sigma (k : ℕ) (n : ℕ) :=
+  n.divisors.sum (· ^ k)
+
+@[simp] lemma sigma_zero {n : ℕ} : sigma 0 n = n.divisors.card := by
+  simp only [sigma, pow_zero, sum_const, smul_eq_mul, mul_one]
+
+@[simp] lemma sigma_one {n : ℕ} : sigma 1 n = ∑ i ∈ divisors n, i := by
+  simp only [sigma, pow_one]
+
+end Nat
+
+
+def bernoulli : ℕ → ℚ := sorry
+
+def normalized_bernoulli (k : ℕ) : ℤ := (2 * k / bernoulli k).num
+
+lemma normalized_bernoulli_eq (k : ℕ) : (normalized_bernoulli k : ℚ) = (2 * k / bernoulli k) := by
+  unfold normalized_bernoulli; rw [← Rat.den_eq_one_iff]; refine ZMod.one_eq_zero_iff.mp ?_
+  sorry
+
+variable {α : Type*} [Ring α]
+
+def EisGF (k m : ℕ) : α ⟦X⟧ :=
+  1 - normalized_bernoulli k • ∑ i ∈ range m, Nat.sigma (k - 1) (i + 1) • (X : α ⟦X⟧) ^ (i + 1)
+
+
+
+namespace Integer
+
+scoped notation "σ" => Nat.sigma
+
+-- idk
+def Eis : (k : ℕ) → IntegerModularForm (2 * k)
+
+  | 0 => Iconst 1
+  | 1 => 0
+  | k => ⟨ fun n ↦ coeff ℤ n ( EisGF (2 * k) n ), sorry, sorry ⟩
+
+
+@[simp] lemma Eis_zero : Eis 0 = Iconst 1 := rfl
+
+@[simp] lemma Eis_one : Eis 1 = 0 := rfl
+
+lemma Eis_add_two_def (k : ℕ) (n : ℕ) : Eis (k + 2) n = coeff ℤ n ( EisGF (2*(k+2)) n ) := rfl
+
+
+@[simp] lemma Eis_add_two_succ (k : ℕ) (n : ℕ) : Eis (k + 2) (n + 1) =
+    - normalized_bernoulli (2 * (k + 2)) * σ (2 * k + 3) (n + 1) := by
+  simp [Eis_add_two_def, EisGF, coeff_X_pow, - nsmul_eq_mul, - zsmul_eq_mul]
+  left; rfl
+
+lemma Eis_ne_one_zero {k : ℕ} (kn1 : k ≠ 1) : Eis k 0 = 1 := by
+  match k with
+  | 0 => rw [Eis_zero, Iconst_zero]
+  | 1 => contradiction
+  | k + 2 => simp [Eis_add_two_def, EisGF, coeff_X_pow]
+
+lemma Eis_gt_one {k n : ℕ} (kgt1 : k > 1) : Eis k n =
+    if n = 0 then 1 else - normalized_bernoulli (2 * k) * σ (2 * k - 1) n := by
+  split_ifs with n0
+  · rw [n0, Eis_ne_one_zero <| Nat.ne_of_gt kgt1]
+  obtain ⟨m, rfl⟩ := Nat.exists_eq_succ_of_ne_zero n0
+  obtain ⟨j, rfl⟩ := Nat.exists_eq_add_of_le' kgt1
+  rw [Eis_add_two_succ]; rfl
+
+
+lemma Eis_gt_one_ne_zero {k n : ℕ} [h : NeZero n] (kgt1 : k > 1) : Eis k n =
+    - normalized_bernoulli (2 * k) * σ (2 * k - 1) n := by
+  rw [Eis_gt_one kgt1, if_neg h.out]
+
+
+
+theorem Delta_eq_Eis : 1728 • Δ = Eis 2 ** 3 - Eis 3 ** 2 := sorry
+
+
+
+end Integer
+
+
+namespace Modulo
+
+scoped notation (priority := high) "σ" => Nat.sigma
+
+variable {ℓ : ℕ} [NeZero ℓ]
+
+def Eis (k : ℕ) : ModularFormMod ℓ (2 * k : ℕ) := Reduce (Integer.Eis k) ℓ
+
+
+@[simp] lemma Eis_zero : @Eis ℓ _ 0 = Mcongr (by rw [mul_zero, Nat.cast_zero]) (const 1) := by
+  ext n; cases n <;> simp [Eis]
+
+@[simp] lemma Eis_one [NeZero (ℓ - 1)] : Eis 1 = (0 : ModularFormMod ℓ (2 * 1 : ℕ)) := by
+  simp [Eis]
+
+
+theorem Delta_eq_Eis : 1728 • (Δ : ModularFormMod ℓ 12) == (Eis 2 ** 3 -l Eis 3 ** 2) (by norm_num) := sorry
+
+
+
+end Modulo
+
+end Eisenstein
 
 end section

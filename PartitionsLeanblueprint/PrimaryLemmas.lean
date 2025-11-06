@@ -13,7 +13,8 @@ variable {k j : ZMod (ℓ-1)}
 variable {a b : ModularFormMod ℓ k}
 
 
-
+theorem bla {α : Type*} (Z : ℕ → Set α) (T : α → α) : T '' (⋃ k, Z k) = ⋃ k, (T '' Z k) := by exact
+  Set.image_iUnion
 
 lemma not_dvd_filt : ¬ ℓ ∣ (ℓ ^ 2 - 1) / 2 := by
     intro h
@@ -204,13 +205,8 @@ lemma Filt_Delta : 𝔀 (Δ : ModularFormMod ℓ 12) = 12 := sorry
 
 
 lemma Filt_fl [Fact (ℓ ≥ 5)]: 𝔀 (fl ℓ) = (ℓ^2 - 1)/2  := by
-  rw[fl_eq_Delta, Filtration_Log]
-  suffices h : 𝔀 Δ = 12 by
-    rw[h, delta]; refine Eq.symm (Nat.div_eq_of_eq_mul_left zero_lt_two ?_)
-    symm; calc
-      _ = (ℓ ^ 2 - 1) / 24 * 24 := by ring
-      _ = _ := Nat.div_mul_cancel delta_integer
-  exact Filt_Delta
+  rw[fl_eq_Delta, Filtration_Log, Filt_Delta, mul_comm, twelve_delta]
+
 
 
 
@@ -220,8 +216,7 @@ lemma Filt_fl [Fact (ℓ ≥ 5)]: 𝔀 (fl ℓ) = (ℓ^2 - 1)/2  := by
 theorem Filt_Theta_bound (a : ModularFormMod ℓ k) : 𝔀 (Θ a) ≤ 𝔀 a + ℓ + 1 := sorry
 
 -- (pt 2)
-theorem Filt_Theta_iff {a : ModularFormMod ℓ k} :
-  𝔀 (Θ a) = 𝔀 a + ℓ + 1 ↔ ¬ ℓ ∣ 𝔀 a := sorry
+theorem Filt_Theta_iff {a : ModularFormMod ℓ k} : 𝔀 (Θ a) = 𝔀 a + ℓ + 1 ↔ ¬ ℓ ∣ 𝔀 a := sorry
 
 
 lemma Filt_Theta_bound' (a : ModularFormMod ℓ k) {m j : ℕ} (h : m = j + 1) :
@@ -231,8 +226,8 @@ lemma Filt_Theta_bound' (a : ModularFormMod ℓ k) {m j : ℕ} (h : m = j + 1) :
 
 lemma Filt_Theta_iff' {a : ModularFormMod ℓ k} {m j : ℕ} (h : m = j + 1) :
     𝔀 (Θ^[m] a) = 𝔀 (Θ^[j] a) + ℓ + 1 ↔ ¬ ℓ ∣ 𝔀 (Θ^[j] a) := by
-  rw[Filt_eq_of_Mod_eq (Theta_pow_cast h), Theta_pow_succ', Filt_cast]
-  exact Filt_Theta_iff
+  rw[Filt_eq_of_Mod_eq (Theta_pow_cast h), Theta_pow_succ', Filt_cast, Filt_Theta_iff]
+
 
 lemma Filt_Theta_congruence {a : ModularFormMod ℓ k} [NeZero a] :
     𝔀 (Θ a) ≡ 𝔀 a + ℓ + 1 [MOD ℓ - 1] := by
@@ -248,7 +243,7 @@ lemma Filt_Theta_congruence {a : ModularFormMod ℓ k} [NeZero a] :
   exact Nat.ModEq.symm (Nat.modEq_sub NeZero.one_le)
 
 
-lemma Filt_Theta_congruence_of_div {a : ModularFormMod ℓ k} [NeZero a] (ldiv: ℓ ∣ 𝔀 a) :
+lemma Filt_Theta_congruence_of_dvd {a : ModularFormMod ℓ k} [NeZero a] (ldiv: ℓ ∣ 𝔀 a) :
     ∃ α, 𝔀 (Θ a) = 𝔀 a + ℓ + 1 - (α + 1) * (ℓ - 1) := by
 
   have bound : 𝔀 (Θ a) < 𝔀 a + ℓ + 1 := by
@@ -310,11 +305,11 @@ lemma Filt_Theta_congruence_of_div {a : ModularFormMod ℓ k} [NeZero a] (ldiv: 
       exact Int.ofNat_le.mp this
 
 
-lemma Filt_Theta_congruence_of_div' {a : ModularFormMod ℓ k} [NeZero a]
+lemma Filt_Theta_congruence_of_dvd' {a : ModularFormMod ℓ k} [NeZero a]
   {m j : ℕ} (ldiv: ℓ ∣ 𝔀 (Θ^[j] a)) (h : m = j + 1) :
     ∃ α, 𝔀 (Θ^[m] a) = 𝔀 (Θ^[j] a) + ℓ + 1 - (α + 1) * (ℓ - 1) := by
   rw[Filt_eq_of_Mod_eq (Theta_pow_cast h), Theta_pow_succ', Filt_cast]
-  exact Filt_Theta_congruence_of_div ldiv
+  exact Filt_Theta_congruence_of_dvd ldiv
 
 
 -- Lemma 3.2

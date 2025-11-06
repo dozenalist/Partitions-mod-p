@@ -196,7 +196,7 @@
   \leanok
   Let a be a of a modular form mod $\ell$. The filtration of $a, \omega (a), $ 
   is defined as the minimum natural number $j$ such that $a$ has weight $j$. 
-  The filtration of the zero function is $0$.
+  The filtration of the zero function is $0$.F
 \end{definition}
 
 \begin{definition} [multiplication and exponentiation]
@@ -294,7 +294,7 @@
   \lean{const_of_Filt_zero}
   \leanok
   Let a be a modular form mod $\ell$. If $\omega (a) = 0$ then $a$ is constant, 
-  i.e. for all $n > 0, a(n) = 0$.
+  i.e. for all $n \: > \: 0, a(n) = 0$.
 \end{lemma}
 
 \begin{theorem}
@@ -312,7 +312,7 @@
   \lean{Filtration_congruence}
   \leanok
   Let a be a modular form mod $\ell$ of weight $k$. Then 
-  $(\omega (a) \equiv k \mod (\ell - 1)$. 
+  $\omega (a) \equiv k \mod (\ell - 1)$. 
 \end{theorem}
 
 
@@ -324,7 +324,7 @@
   
   $\Delta$ is the sequence obtained from $q (\prod_{n = 1}^{\infty} (1 - q^n))^{24}$.
   It is an integer modular form of weight $12$. The modular form mod $\ell$, also called 
-  $\Delta$, is defined to the the reduction of $\Delta$.
+  $\Delta$, is defined to be the the reduction of $\Delta$.
 \end{definition}
 
 \begin{definition}
@@ -395,7 +395,7 @@
   \leanok
   This is part (2) of Lemma 3.3. \\
   If $\ell \mid \omega (\Theta^{\ell - 1} f_\ell)$ then 
-  $\omega (f_\ell | U) > 0$.
+  $\omega (f_\ell | U) \: > \: 0$.
 \end{theorem}
 \begin{proof}
   \leanok
@@ -403,9 +403,9 @@
 
 
 \begin{lemma}
-  \label{lem:Filt_Theta_congruence_of_div} 
+  \label{lem:Filt_Theta_congruence_of_dvd} 
   \uses{thm:Filtration_congruence, thm:Filt_Theta_bound, thm:Filt_Theta_iff}
-  \lean{Filt_Theta_congruence_of_div}
+  \lean{Filt_Theta_congruence_of_dvd}
   \leanok
   Let $a$ be a modular form mod $\ell$. If $\ell \mid \omega (a)$ then
   there exists an $\alpha \in \mathbb{N}$ such that 
@@ -456,7 +456,7 @@
 
 \begin{definition}
   \label{def:alpha}
-  \uses{lem:Filt_Theta_lel_add_one_div_two, lem:Filt_Theta_congruence_of_div, thm:Filt_Theta_l_add_one_div_two}
+  \uses{lem:Filt_Theta_lel_add_one_div_two, lem:Filt_Theta_congruence_of_dvd, thm:Filt_Theta_l_add_one_div_two}
   \lean{Final.Hidden.alpha}
   \leanok
   We define $\alpha$ to be the natural number such that 
@@ -565,7 +565,7 @@
   \leanok
   $(\Theta^{\frac{\ell + 3}{2}} f_\ell) \: (\delta_\ell + 1) = 241 (\delta_\ell + 1)^{\frac{\ell + 3}{2}}$.
 \end{theorem}
-
+ 
 \begin{theorem}
   \label{thm:flu_ne_zero}
   \uses{thm:Theta_l_add_three_div_two_eq_241, lem:fl_delta_add_one}
@@ -585,7 +585,7 @@
   \lean{ramanujan_congruence}
   \leanok
   Let $p$ be the partion function. We say that there is a Ramanujan congruence mod a prime $\ell$ if 
-  $\forall n \in \mathbb{N}, \ell \mid p (\ell n - \delta_\ell).$
+  $\forall n \in \mathbb{N}, \: \ell \mid p (\ell n - \delta_\ell).$
 \end{definition}
 
 
@@ -593,7 +593,7 @@
   \label{thm:partitionProduct_eq}
   \lean{partitionProduct_eq}
   \leanok
-  If $n > 0$ and $m \ge n$, then $p (n)$ is equal to the nth coefficient in the product exapansion of
+  If $n \: > \: 0$ and $m \ge n$, then $p (n)$ is equal to the nth coefficient in the product exapansion of
   \[ \prod_{i = 0}^{m} (1 - X^{i + 1})^{-1} \]
   Note : In lean, $p (0) = 0$.
 \end{theorem}
@@ -607,9 +607,9 @@
   \label{def:eventuallyEq}
   \lean{eventuallyEq}
   \leanok
-  Let $\alpha$ be a field, and let $f, g : \mathbb{N} \to \alpha [[X]]$ be two sequences of power series with coefficients in $\alpha$.
+  Let $\alpha$ be a commutative semiring, and let $f, g : \mathbb{N} \to \alpha [[X]]$ be two sequences of power series with coefficients in $\alpha$.
   We say that $f$ and $g$ are eventually equal, and write $f \longrightarrow g$, if
-  $\forall n \in \mathbb{N}, \exists m \in \mathbb{N}, \forall k \le n, \forall j \ge m$, 
+  $\forall n \in \mathbb{N}, \: \exists m \in \mathbb{N}, \: \forall \: k \le n, \forall \: j \ge m$, 
   the kth coefficient of $f(j)$ is equal to the kth coefficient of $g(j)$. This is an equivalence relation.
 \end{definition}
 
@@ -629,7 +629,7 @@
   \label{lem:coeff_sum_X_pow_mul}
   \lean{coeff_sum_X_pow_mul}
   \leanok
-  Let $n, N, \ell \in \mathbb{N}$ with $n < N$ and $\ell > 0$. Let $a : \mathbb{N} \to \alpha$ be a sequence with coefficients in a field $\alpha$.
+  Let $n, N, \ell \in \mathbb{N}$ with $n \: < \: N$ and $\ell \: > \: 0$. Let $a : \mathbb{N} \to \alpha$ be a sequence with coefficients in a semiring $\alpha$.
   Then the nth coefficient of 
   \[ \sum_{i = 0}^{N} a (n) X ^ {\ell i} = 
       \begin{cases}
@@ -648,7 +648,7 @@
   \uses{lem:coeff_sum_X_pow_mul}
   \lean{coeff_sum_squash}
   \leanok
-  Let $j, \ell, N, M \in \mathbb{N}$ with $\ell > 0$ and $N, M > \ell j$. 
+  Let $j, \ell, N, M \in \mathbb{N}$ with $\ell \: > \: 0$ and $N, M \: > \: \ell j$. 
   Let $a, b : \mathbb{N} \to \alpha$. Then the $\ell j$ th coefficient of
   \[ \sum_{i = 0}^{N} a (i) X ^ i \sum_{i = 0}^{M} b (i) X ^ {\ell i} = 
       \sum_{x + y = j} a (\ell x) b (y) \] 
@@ -687,7 +687,7 @@
   \uses{lem:coeff_zero_of_ndvd}
   \lean{prod_eq_sum}
   \leanok
-  Let $\ell, K \in \mathbb{N}$ with $\ell > 0$. Then there exists a  $c : \mathbb{N} \to \alpha$ 
+  Let $\ell, K \in \mathbb{N}$ with $\ell \: > \: 0$. Then there exists a  $c : \mathbb{N} \to \alpha$ 
   and $M \in \mathbb{N}$ such that 
   \[ \prod _{i = 0}^{K} (1 - X ^ {\ell (i + 1)}) ^ \ell = 
       \sum_{i = 0}^{M} c (i) X ^ {\ell i} \]
@@ -718,7 +718,7 @@
   If $\ell \ge 5$ is prime, then
   the coefficients of the $f_\ell$ product are eventually equal to the coefficients of the $f_\ell \:$ function.
   In other words,
-  \[ (X \prod_{i \, \le \: \cdot} (1 - X ^ {i + 1}) ^ {24}) ^ {\delta_\ell} \longrightarrow 
+  \[ (X ^ {\delta_\ell} \prod_{i \, \le \: \cdot} (1 - X ^ {i + 1}) ^ {24 \delta_\ell} \longrightarrow 
     \sum_{i \, \le \: \cdot} f_\ell (i) X ^ i \]
 \end{theorem}
 \begin{proof}
@@ -744,7 +744,7 @@
   \uses{thm:flu_eq_zero, thm:flu_ne_zero}
   \lean{MainResult}
   \leanok
-  If $\ell \ge 13$ is prime, then there does not exists a ramanujan congruence mod $\ell$.
+  If $\ell \ge 13$ is prime, then there does not exist a ramanujan congruence mod $\ell$.
 \end{theorem}
 \begin{proof}
   \leanok

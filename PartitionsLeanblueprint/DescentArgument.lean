@@ -33,72 +33,72 @@ theorem Filt_Theta_l_sub_two (flu : fl ℓ |𝓤 = 0) : ℓ ∣ 𝔀 (Θ^[ℓ - 
   linarith
 
 
-lemma ndvd_of_lel_add_one_div_two {m} (mmle : m ≤ (ℓ - 1)/2) :
+lemma ndvd_of_lel_sub_one_div_two {m} (mmle : m ≤ (ℓ - 1)/2) :
     ¬ℓ ∣ (ℓ ^ 2 - 1) / 2 + m * (ℓ + 1) := by
-    suffices ¬ (ℓ ^ 2 - 1) / 2 + m * (ℓ + 1) ≡ 0 [MOD ℓ] by
-      contrapose! this; exact (Dvd.dvd.zero_modEq_nat this).symm
+  suffices ¬ (ℓ ^ 2 - 1) / 2 + m * (ℓ + 1) ≡ 0 [MOD ℓ] by
+    contrapose! this; exact (Dvd.dvd.zero_modEq_nat this).symm
 
-    have rarw : (ℓ ^ 2 - 1) / 2 + m * (ℓ + 1) ≡ (ℓ ^ 2 - 1) / 2 + m [MOD ℓ] := by
-      rw[mul_add, mul_one]; apply Nat.ModEq.add_left
-      suffices m * ℓ ≡ 0 [MOD ℓ] by
-        trans 0 + m; gcongr; rw[zero_add]
-      exact Nat.modEq_zero_iff_dvd.mpr ⟨m, mul_comm ..⟩
+  have rarw : (ℓ ^ 2 - 1) / 2 + m * (ℓ + 1) ≡ (ℓ ^ 2 - 1) / 2 + m [MOD ℓ] := by
+    rw[mul_add, mul_one]; apply Nat.ModEq.add_left
+    suffices m * ℓ ≡ 0 [MOD ℓ] by
+      trans 0 + m; gcongr; rw[zero_add]
+    exact Nat.modEq_zero_iff_dvd.mpr ⟨m, mul_comm ..⟩
 
-    have mm : (ℓ ^ 2 - 1) / 2 + m = (ℓ ^ 2 + 2*m - 1) / 2 := by
-      trans (ℓ ^ 2 - 1) / 2 + 2 * m / 2
-      congr; exact Nat.eq_div_of_mul_eq_right two_ne_zero rfl
-      trans ((ℓ ^ 2 - 1) + 2 * m) / 2
-      exact Eq.symm (Nat.add_div_of_dvd_left ⟨m,rfl⟩)
-      congr; refine Eq.symm (Nat.sub_add_comm NeZero.one_le)
+  have mm : (ℓ ^ 2 - 1) / 2 + m = (ℓ ^ 2 + 2*m - 1) / 2 := by
+    trans (ℓ ^ 2 - 1) / 2 + 2 * m / 2
+    congr; exact Nat.eq_div_of_mul_eq_right two_ne_zero rfl
+    trans ((ℓ ^ 2 - 1) + 2 * m) / 2
+    exact Eq.symm (Nat.add_div_of_dvd_left ⟨m,rfl⟩)
+    congr; refine Eq.symm (Nat.sub_add_comm NeZero.one_le)
 
-    have ll : (ℓ ^ 2 - ℓ) / 2 + ℓ = (ℓ^2 + ℓ) / 2 := by
-      trans (ℓ ^ 2 - ℓ) / 2 + 2*ℓ / 2
-      congr; exact Nat.eq_div_of_mul_eq_right two_ne_zero rfl
-      trans ((ℓ ^ 2 - ℓ) + 2 * ℓ) / 2
-      exact Eq.symm (Nat.add_div_of_dvd_left ⟨ℓ,rfl⟩)
-      congr 1; rw[two_mul]; rw[← Nat.sub_add_comm]; omega
-      exact Nat.le_pow zero_lt_two
+  have ll : (ℓ ^ 2 - ℓ) / 2 + ℓ = (ℓ^2 + ℓ) / 2 := by
+    trans (ℓ ^ 2 - ℓ) / 2 + 2*ℓ / 2
+    congr; exact Nat.eq_div_of_mul_eq_right two_ne_zero rfl
+    trans ((ℓ ^ 2 - ℓ) + 2 * ℓ) / 2
+    exact Eq.symm (Nat.add_div_of_dvd_left ⟨ℓ,rfl⟩)
+    congr 1; rw[two_mul]; rw[← Nat.sub_add_comm]; omega
+    exact Nat.le_pow zero_lt_two
 
-    intro h
-    have : (ℓ ^ 2 - 1) / 2 + m ≡ 0 [MOD ℓ] := rarw.symm.trans h
-    apply Nat.modEq_zero_iff_dvd.mp at this
-    contrapose! this
-    refine (Nat.not_dvd_iff_lt_mul_succ ((ℓ ^ 2 - 1) / 2 + m) (Nat.pos_of_neZero ℓ)).mpr ?_
-    use (ℓ - 1) / 2; constructor; calc
-      _ = (ℓ ^ 2 - ℓ) / 2 := by
-        rw[pow_two]; trans (ℓ * (ℓ - 1)) / 2
-        refine Eq.symm (Nat.mul_div_assoc ℓ ?_)
-        obtain ⟨k,hk⟩ := Oddl
-        rw [hk, Nat.add_sub_cancel_right]; exact Nat.dvd_mul_right 2 k
-        congr; exact Nat.mul_sub_one ℓ ℓ
-      _ < _ := by
-        rw[mm]; refine Nat.div_lt_div_of_lt_of_dvd ?_ ?_
-        suffices 2 ∣ (ℓ^2 - 1) by omega
-        have : Odd (ℓ^2) := Odd.pow Oddl
-        obtain ⟨k,hk⟩ := this
-        rw[hk]; rw [Nat.add_sub_cancel_right]; exact Nat.dvd_mul_right 2 k
-        have lg5 : ℓ ≥ 5 := Fact.out
-        refine Nat.sub_lt_right_of_lt_add (Nat.le_pow zero_lt_two) ?_
-        omega
-
-    rw[mul_add, mul_one]
-
-    have rlw : ℓ * ((ℓ - 1) / 2) = (ℓ ^ 2 - ℓ) / 2 := by
+  intro h
+  have : (ℓ ^ 2 - 1) / 2 + m ≡ 0 [MOD ℓ] := rarw.symm.trans h
+  apply Nat.modEq_zero_iff_dvd.mp at this
+  contrapose! this
+  refine (Nat.not_dvd_iff_lt_mul_succ ((ℓ ^ 2 - 1) / 2 + m) (Nat.pos_of_neZero ℓ)).mpr ?_
+  use (ℓ - 1) / 2; constructor; calc
+    _ = (ℓ ^ 2 - ℓ) / 2 := by
       rw[pow_two]; trans (ℓ * (ℓ - 1)) / 2
       refine Eq.symm (Nat.mul_div_assoc ℓ ?_)
       obtain ⟨k,hk⟩ := Oddl
       rw [hk, Nat.add_sub_cancel_right]; exact Nat.dvd_mul_right 2 k
       congr; exact Nat.mul_sub_one ℓ ℓ
+    _ < _ := by
+      rw[mm]; refine Nat.div_lt_div_of_lt_of_dvd ?_ ?_
+      suffices 2 ∣ (ℓ^2 - 1) by omega
+      have : Odd (ℓ^2) := Odd.pow Oddl
+      obtain ⟨k,hk⟩ := this
+      rw[hk]; rw [Nat.add_sub_cancel_right]; exact Nat.dvd_mul_right 2 k
+      have lg5 : ℓ ≥ 5 := Fact.out
+      refine Nat.sub_lt_right_of_lt_add (Nat.le_pow zero_lt_two) ?_
+      omega
 
-    rw[rlw, mm, ll]; refine Nat.div_lt_div_of_lt_of_dvd ?_ ?_
-    obtain ⟨k, hk⟩ := Oddl; rw[hk]
-    use 2 * k * k + 3 * k + 1; ring
-    refine Nat.sub_one_lt_of_le ?_ ?_
-    apply add_pos_of_pos_of_nonneg
-    exact Nat.pos_of_neZero (ℓ ^ 2)
-    exact Nat.zero_le (2 * m)
-    apply add_le_add_left
-    omega
+  rw[mul_add, mul_one]
+
+  have rlw : ℓ * ((ℓ - 1) / 2) = (ℓ ^ 2 - ℓ) / 2 := by
+    rw[pow_two]; trans (ℓ * (ℓ - 1)) / 2
+    refine Eq.symm (Nat.mul_div_assoc ℓ ?_)
+    obtain ⟨k,hk⟩ := Oddl
+    rw [hk, Nat.add_sub_cancel_right]; exact Nat.dvd_mul_right 2 k
+    congr; exact Nat.mul_sub_one ℓ ℓ
+
+  rw[rlw, mm, ll]; refine Nat.div_lt_div_of_lt_of_dvd ?_ ?_
+  obtain ⟨k, hk⟩ := Oddl; rw[hk]
+  use 2 * k * k + 3 * k + 1; ring
+  refine Nat.sub_one_lt_of_le ?_ ?_
+  apply add_pos_of_pos_of_nonneg
+  exact Nat.pos_of_neZero (ℓ ^ 2)
+  exact Nat.zero_le (2 * m)
+  apply add_le_add_left
+  omega
 
 
 lemma Filt_Theta_lel_add_one_div_two {m} (mle : m ≤ (ℓ + 1)/2) :
@@ -115,7 +115,7 @@ lemma Filt_Theta_lel_add_one_div_two {m} (mle : m ≤ (ℓ + 1)/2) :
     rw [Theta_pow_succ', Filt_cast, Nat.succ_mul, ← add_assoc, ← ih, ← add_assoc]
     apply Filt_Theta_iff.2; rw[ih]
 
-    exact ndvd_of_lel_add_one_div_two mmle
+    exact ndvd_of_lel_sub_one_div_two mmle
 
 
 
@@ -154,7 +154,7 @@ lemma exists_Filt_Theta_l_add_three_div_two :
   rw[leq, add_mul, one_mul, ← add_assoc, ← add_assoc,
     ← Filt_Theta_lel_add_one_div_two (le_refl _)]
 
-  exact Filt_Theta_congruence_of_div' Filt_Theta_l_add_one_div_two rfl
+  exact Filt_Theta_congruence_of_dvd' Filt_Theta_l_add_one_div_two rfl
 
 
 
@@ -637,3 +637,6 @@ theorem Filt_Theta_l_add_three_div_two (flu : fl ℓ |𝓤 = 0) :
     _ = (0 + 8) / 2 := by
       rw[add_assoc]; congr
       exact Nat.sub_self _
+
+
+#check Nat.divisors

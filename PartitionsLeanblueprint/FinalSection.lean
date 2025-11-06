@@ -383,8 +383,7 @@ lemma fl_delta_add_one : fl ℓ (δ ℓ + 1) = 1 := by
 
 lemma Theta_l_add_three_div_two_fl_delta_add_one :
     Θ^[(ℓ + 3)/2] (fl ℓ) (δ ℓ + 1) = (δ ℓ + 1) ^ ((ℓ + 3) / 2) := by
-  rw[Theta_pow_apply, fl_delta_add_one, mul_one]; congr
-  norm_cast
+  rw[Theta_pow_apply, fl_delta_add_one, mul_one]; norm_cast
 
 
 lemma Theta_l_add_three_div_two_eq_241 (flu : fl ℓ |𝓤 = 0) :
@@ -404,14 +403,12 @@ lemma pow_congr_reduce_of_dvd {a c n : ℤ} {b : ℕ} (an0 : a ≠ 0) (adiv : a 
     trans 0 ^ 2 - 1; gcongr
     exact Final.Hidden.Int.modEq_self; rfl
 
-  have : a * (k + 1) ≡ a - 1 [ZMOD n] := by
-    calc
+  have h2 : a * (k + 1) ≡ a - 1 [ZMOD n] := calc
       a * (k + 1) = a * k + a := by ring
       _ ≡ -1 + a [ZMOD n] := by gcongr
       _ = a - 1 := by ring
 
-  have h3 : (a - 1) ^ b ≡ c * (a * k) ^ b [ZMOD n] := by
-    calc
+  have h3 : (a - 1) ^ b ≡ c * (a * k) ^ b [ZMOD n] := calc
       _ ≡ (a * (k + 1)) ^ b [ZMOD n] := by gcongr
       _ = a ^ b * (k + 1) ^ b := by rw [mul_pow]
       _ ≡ c * (a ^ b * k ^ b) [ZMOD n] := by
@@ -430,7 +427,6 @@ lemma pow_congr_reduce_of_dvd {a c n : ℤ} {b : ℕ} (an0 : a ≠ 0) (adiv : a 
 
 
 lemma flu_ne_zero (flu : fl ℓ |𝓤 = 0) : False := by
-
 
   have equel : (δ ℓ + 1) ^ ((ℓ + 3) / 2) ≡ 241 * (δ ℓ) ^ ((ℓ + 3) / 2) [ZMOD ℓ] := by
     suffices (δ ℓ + 1) ^ ((ℓ + 3) / 2) = (241 * (δ ℓ) ^ ((ℓ + 3) / 2) : ZMod ℓ) by
@@ -565,5 +561,4 @@ lemma flu_ne_zero (flu : fl ℓ |𝓤 = 0) : False := by
 
 
 
-theorem MainResult : ¬ ramanujan_congruence ℓ :=
-  λ h ↦ flu_ne_zero <| h |> flu_eq_zero
+theorem MainResult : ¬ ramanujan_congruence ℓ := (flu_ne_zero <| flu_eq_zero ·)

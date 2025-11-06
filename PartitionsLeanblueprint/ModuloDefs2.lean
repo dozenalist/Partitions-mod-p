@@ -128,6 +128,7 @@ theorem natify_apply (a : ModularFormMod ℓ k) (n : ℕ) : natify a n = (a n).v
 theorem Reduce_apply {k ℓ} [NeZero ℓ] (a : IntegerModularForm k ) (n : ℕ) :
   Reduce a ℓ n = a n := rfl
 
+
 @[simp]
 theorem toFun_eq_coe (f : ModularFormMod ℓ k) : ⇑f = (f : ℕ → ZMod ℓ) := rfl
 
@@ -186,6 +187,11 @@ theorem Mpow_apply (a : ModularFormMod ℓ k) (j n : ℕ) : (Mpow a j) n = ∑ x
 @[ext]
 theorem ModularFormMod.ext {a b : ModularFormMod ℓ k} (h : ∀ n, a n = b n) : a = b :=
   DFunLike.ext a b h
+
+@[simp]
+theorem Reduce_zero {k ℓ} [NeZero ℓ] [NeZero (ℓ - 1)] :
+    Reduce (0 : IntegerModularForm k) ℓ = (0 : ModularFormMod ℓ k) := by
+  ext n; rw [Reduce_apply, Integer.zero_apply, Int.cast_zero, zero_apply]
 
 -- the constant modular forms of weight 0
 def const (x : ZMod ℓ) : ModularFormMod ℓ 0 where

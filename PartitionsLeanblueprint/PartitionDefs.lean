@@ -27,7 +27,7 @@ noncomputable section
 
 open Nat PowerSeries Finset Modulo
 
-
+/-- The partition function, with `p 0 = 0` -/
 def partition : ℕ → ℕ
   | 0 => 0
   | n => Fintype.card (Partition n)
@@ -201,15 +201,11 @@ theorem partialGF_prop (α : Type*) [CommSemiring α] (n : ℕ) (s : Finset ℕ)
 
 
 
-/-- The generating function for the standard partition function, with p(0) = 1 -/
+/-- The generating function for the standard partition function, with `p 0 = 1` -/
 def partitionProduct (m : ℕ) [Field α] :=
   ∏ i ∈ range m, (1 - (X : α⟦X⟧) ^ (i + 1) )⁻¹
 
 
-
-/-- The generating function for fl, defined as DeltaProduct ^ (δ ℓ) -/
--- def flProduct (ℓ : ℕ) (m : ℕ) [CommRing α] :=
---   (@DeltaProduct α _ ^ (δ ℓ)) m
 
 def ppart [Field α] : ℕ → α ⟦X⟧
   | 0 => 0
@@ -226,10 +222,6 @@ def apart [Field α] : ℕ → α
 
 lemma apart_eq [Field α] (n : ℕ) : ↑(partition n) = (apart n : α) := by
   cases n; rw[partition_zero, cast_zero]; rfl; rfl
-
-
-theorem fl_eq_reduce {ℓ : ℕ} [Fact (Nat.Prime ℓ)] : fl ℓ == Reduce (Integer.fl ℓ) ℓ := by
-  intro n; rw[fl, cast_eval, Reduce_apply]
 
 
 
@@ -270,7 +262,7 @@ lemma Partition.part_le_sum {n j} {p : Partition n} (hj : j ∈ p.parts) : j ≤
   exact this |> Trans.trans <| Multiset.le_sum_of_mem hj
 
 
-/- having npos here is inconvenient, but we can get around it using natpart
+/- having npos here is inconvenient, but we can get around it using `natpart`
 and some shenanigans in the proof of flu_eq_zero -/
 theorem partitionProduct_eq [Field α] {n m : ℕ} (npos : n > 0) (h : n ≤ m) :
     partition n = coeff α n (partitionProduct m) := by
@@ -312,7 +304,7 @@ theorem partitionProduct_eq_natpart [Field α] {n m : ℕ} (h : n ≤ m) :
   by_cases n0 : n = 0
   simp [n0, natpart_zero, partitionProduct]
   rw [natpart_of_ne_zero n0]
-  rw[← ne_eq, ← pos_iff_ne_zero] at n0
+  rw [← ne_eq, ← pos_iff_ne_zero] at n0
   exact partitionProduct_eq n0 h
 
 
@@ -332,8 +324,13 @@ def eventuallyEq [Semiring α] (f h : ℕ → α ⟦X⟧) : Prop :=
 /-- Two sequences of power series are eventually equal if for any coefficient n,
 there is some number m, such that these sequences match on all coeffients
 less than n from the index m onward. As an example, the function
-fun n ↦ ∑ i ∈ range n, (natpart i) * (X : α⟦X⟧) ^ i
-is eventually equal to fun n ↦ ∏ i ∈ range n, 1 / (1 - X ^ (i + 1)) -/
+
+`fun n ↦ ∑ i ∈ range n, (natpart i) * (X : α⟦X⟧) ^ i`
+
+is eventually equal to
+
+`fun n ↦ ∏ i ∈ range n, 1 / (1 - X ^ (i + 1))` -/
+
 infixl : 25 (priority := high) " ⟶ " => eventuallyEq
 
 @[refl]
@@ -405,7 +402,7 @@ theorem eventuallyEq_zero_iff [Semiring α] {a : ℕ → α ⟦X⟧} :
 lemma coeff_sum_X_pow [Semiring α] {n N : ℕ} {a : ℕ → α} (h : n < N) :
     coeff α n (∑ i ∈ range N, (PowerSeries.C α (a i)) * (X : α⟦X⟧) ^ i ) = a n := by
   simp [map_sum, coeff_X_pow]
-  exact λ nle ↦ (not_lt_of_ge nle h).rec
+  exact λ nle ↦ (not_lt_of_ge nle h).elim
 
 
 lemma coeff_sum_X_pow_mul [Semiring α] {n N ℓ : ℕ} [NeZero ℓ] {a : ℕ → α} (h : n < N) :
@@ -433,12 +430,14 @@ lemma coeff_sum_X_pow_mul [Semiring α] {n N ℓ : ℕ} [NeZero ℓ] {a : ℕ �
 
 
 lemma sum_X_pow_eventually_zero_iff [Semiring α] (f : ℕ → α) :
-    ( (∑ i ∈ range ·, (C α) (f i) * (X : α ⟦X⟧) ^ i) ⟶ 0 ) ↔ ∀ n, f n = 0 := by
-  constructor <;> intro h n
+    ( (∑ i ∈ range ·, (C α) (f i) * (X : α ⟦X⟧) ^ i) ⟶ 0 ) ↔ f = 0 := by
+  constructor <;> intro h
+  ext n
   obtain ⟨m, fo⟩ := h n
   specialize fo n (le_refl n) (max (n + 1) m) (le_max_of_le_right <| le_refl m)
   have nlt : n < max (n + 1) m := lt_max_of_lt_left <| lt_add_one n
   simp_all only [Pi.zero_apply, map_zero, coeff_sum_X_pow]
+  intro n
   simp only [h, map_zero, zero_mul, sum_const_zero, Pi.zero_apply, implies_true, exists_const]
 
 
@@ -613,8 +612,7 @@ lemma prod_eq_sum (α) [CommRing α] (ℓ K : ℕ) [NeZero ℓ] : ∃ c : ℕ �
 
   obtain ⟨M, hM⟩ := coeff_prod_eventually_zero K f
 
-  use fun i ↦ coeff α (ℓ * i) (∏ i ∈ range K, (1 - (X : α ⟦X⟧) ^ (ℓ * (i + 1))) ^ ℓ)
-  use M
+  use fun i ↦ coeff α (ℓ * i) (∏ i ∈ range K, (1 - (X : α ⟦X⟧) ^ (ℓ * (i + 1))) ^ ℓ), M
   ext i; simp only [map_sum, coeff_C_mul, coeff_X_pow]
   simp only [mul_ite, mul_one, mul_zero]
   by_cases ldi : ℓ ∣ i
@@ -677,8 +675,7 @@ theorem DeltaProduct_eventually_sum [CommRing α] :
   norm_cast
 
   exact DeltaProduct_coeff_le (le_refl k) <| le_of_lt this
-  congr! 2 with x xin; rw [map_intCast]; rfl
-
+  congr! 2 with x -; rw [map_intCast]; rfl
 
 
 
@@ -693,7 +690,6 @@ theorem fl_Product_eventually_sum [CommRing α] (ℓ) [Fact (ℓ ≥ 5)] :
       intro k; use k + 1; intro n nlek M Mgk
       dsimp
       simp_rw [Integer.Ipow_apply, coeff_pow]
-
 
       have rw1 (i) : (((∑ x ∈ antidiagonalTuple (δ ℓ) i, ∏ y, Integer.Delta (x y)) : ℤ) : α ⟦X⟧) =
         (C α) (∑ x ∈ antidiagonalTuple (δ ℓ) i, ∏ y, Integer.Delta (x y)) := by
@@ -745,7 +741,7 @@ theorem flu_eq_zero [Fact (ℓ ≥ 5)] : ramanujan_congruence ℓ → fl ℓ |�
 
   ext n
 
-  rw [U_apply, Modulo.zero_apply, fl_eq_reduce, Reduce_apply]
+  rw [U_apply, Modulo.zero_apply, fl_apply]
 
   set g : ℕ → Polynomial (ZMod ℓ) :=
     fun n ↦ Polynomial.X ^ (δ ℓ) * (∏ i ∈ range n, (1 - Polynomial.X ^ (i + 1)) ^ (ℓ ^ 2)) with geq
@@ -754,7 +750,7 @@ theorem flu_eq_zero [Fact (ℓ ≥ 5)] : ramanujan_congruence ℓ → fl ℓ |�
   obtain ⟨ m', floeq ⟩ := @fl_Product_eventually_sum (ZMod ℓ) _ ℓ _ (ℓ * n)
   dsimp at floeq
 
-  set M := max' {m, m', ℓ * n + 1} (insert_nonempty ..) with Meq
+  let M := max' {m, m', ℓ * n + 1} (insert_nonempty ..)
   have mleM : m ≤ M := by
     apply le_max'; simp only [mem_insert, mem_singleton, true_or, or_true]
   have m'leM : m' ≤ M := by
@@ -768,7 +764,7 @@ theorem flu_eq_zero [Fact (ℓ ≥ 5)] : ramanujan_congruence ℓ → fl ℓ |�
     simp only [geq, Polynomial.coe_mul, Polynomial.coe_pow,
       Polynomial.coe_X, ← Polynomial.coe_prod, mul_eq_mul_left_iff,
         pow_eq_zero_iff', X_ne_zero, ne_eq, false_and, or_false]
-    congr; ext i : 1; simp only [Polynomial.coe_sub, Polynomial.coe_one,
+    congr; ext1 i; simp only [Polynomial.coe_sub, Polynomial.coe_one,
       Polynomial.coe_pow, Polynomial.coe_X]
 
   calc
@@ -786,7 +782,7 @@ theorem flu_eq_zero [Fact (ℓ ≥ 5)] : ramanujan_congruence ℓ → fl ℓ |�
       (X ^ (δ ℓ) * ∏ i ∈ range M, (1 - X ^ (i + 1)) ^ (ℓ ^ 2 - 1)) := by
     congr; simp only [mul_pow]; congr
     simp_rw[← prod_pow _ (δ ℓ)]
-    congr; ext i : 1; rw[← pow_mul]
+    congr; ext1 i; rw[← pow_mul]
     congr; unfold delta; exact Nat.mul_div_cancel' delta_integer
 
   _ = (coeff (ZMod ℓ) (ℓ * n))
@@ -795,7 +791,7 @@ theorem flu_eq_zero [Fact (ℓ ≥ 5)] : ramanujan_congruence ℓ → fl ℓ |�
     rw[mul_assoc]; congr
     trans ∏ i ∈ range M, ( (↑1 - X ^ (i + 1)) ^ (ℓ ^ 2) * (↑1 - X ^ (i + 1))⁻¹ )
     {
-      congr; ext i : 1;
+      congr; ext1 i;
 
       refine (PowerSeries.eq_mul_inv_iff_mul_eq ?_).mpr ?_
       simp only [map_sub, constantCoeff_one, map_pow, constantCoeff_X]
@@ -807,13 +803,13 @@ theorem flu_eq_zero [Fact (ℓ ≥ 5)] : ramanujan_congruence ℓ → fl ℓ |�
 
   _ = (coeff (ZMod ℓ) (ℓ * n))
       ( (∏ i ∈ range M, (1 - X ^ (i + 1)) ^ (ℓ ^ 2)) *
-        ( X ^ (δ ℓ) * ∑ i ∈ range M, (natpart i) * (X : (ZMod ℓ) ⟦X⟧) ^ i ) ) := by
+      ( X ^ (δ ℓ) * ∑ i ∈ range M, (natpart i) * (X : (ZMod ℓ) ⟦X⟧) ^ i ) ) := by
     rw [g_coe_rw, goeq M mleM, ← g_coe_rw]; ring_nf
 
   _ = (coeff (ZMod ℓ) (ℓ * n))
       ( (∏ i ∈ range M, ((↑1 - X ^ (ℓ * (i + 1))) ^ ℓ) ) *
       (X ^ (δ ℓ) * ∑ i ∈ range M, (natpart i) * (X : (ZMod ℓ) ⟦X⟧) ^ i) ) := by
-    congr; ext i : 1
+    congr; ext1 i
     trans ((1 - X ^ (i + 1)) ^ ℓ) ^ ℓ
     rw[pow_two, pow_mul]
     congr
@@ -868,7 +864,7 @@ theorem flu_eq_zero [Fact (ℓ ≥ 5)] : ramanujan_congruence ℓ → fl ℓ |�
       ((∏ i ∈ range M, (1 - X ^ (ℓ * (i + 1))) ^ ℓ) *
       ∑ i ∈ range (M + δ ℓ), C (ZMod ℓ) (partition (i - δ ℓ)) * X ^ i) := by
     simp_rw [ppart_eq, coeff_mul_shift_of_zero ppart ppart_zero]
-    congr; ext i : 1; rw[← ppart_eq]; rfl
+    congr; ext1 i; rw[← ppart_eq]; rfl
 
   _ = 0 := by
     obtain ⟨c, L, heq⟩ := prod_eq_sum (ZMod ℓ) ℓ M
