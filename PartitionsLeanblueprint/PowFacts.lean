@@ -900,10 +900,10 @@ lemma Modulo.Mpow_succ (a : ModularFormMod ℓ k) (j) : a ** (j + 1) =
 
 
 lemma leading_Spow_zeros {a : ℕ → α} {j n : ℕ} (h : a 0 = 0) (nltj : n < j) : (Sequencepow a j) n = 0 := by
-  rw[Sequencepow_apply]
+  rw [Sequencepow_apply]
   have smoke : ∀ x ∈ antidiagonalTuple j n, ∃ y, x y = 0 := by
     {
-      intro x hx; rw[mem_antidiagonalTuple] at hx
+      intro x hx; rw [mem_antidiagonalTuple] at hx
       apply le_of_eq at hx
       contrapose! hx
       simp only [← Nat.one_le_iff_ne_zero] at hx
@@ -927,7 +927,7 @@ lemma leading_Ipow_zeros {a : IntegerModularForm m} {j n : ℕ} (h : a 0 = 0) (n
 
 lemma leading_Mpow_zeros {a : ModularFormMod ℓ k} {j n : ℕ} (h : a 0 = 0) (nltj : n < j) :
     (a ** j) n = 0 := by
-rw [Mpow_eq_Sequencepow_apply]; exact leading_Spow_zeros h nltj
+  rw [Mpow_eq_Sequencepow_apply]; exact leading_Spow_zeros h nltj
 
 
 
@@ -959,23 +959,21 @@ private lemma g_support {k} [NeZero k] {x : Fin k → ℕ} :
 
 private def e (k) [NeZero k] : Fin k ≃ (range k) where
 
-  toFun := λ ⟨val, prop⟩ ↦ ⟨val, by rwa [mem_range]⟩
+  toFun := fun ⟨val, prop⟩ ↦ ⟨val, by rwa [mem_range]⟩
 
-  invFun := λ ⟨val, prop⟩ ↦ ⟨val, by rwa [← mem_range]⟩
+  invFun := fun ⟨val, prop⟩ ↦ ⟨val, by rwa [← mem_range]⟩
 
   left_inv := λ n ↦ rfl
 
   right_inv := λ n ↦ rfl
 
-open Finset.Nat in
+
 theorem finsuppAntidiag_to_antidiagonalTuple {α : Type*} [CommSemiring α] (k n : ℕ) (f : ℕ → α) :
   ∑ l ∈ finsuppAntidiag (range k) n, ∏ i ∈ (range k), f (l i) =
     ∑ x ∈ antidiagonalTuple k n, ∏ y, f (x y) := by
 
   by_cases kn0 : k = 0
-  {
-    rw[kn0]; simp; congr 1; cases n <;> simp
-  }
+  · rw[kn0]; simp; congr 1; cases n <;> simp
 
   have : NeZero k := ⟨kn0⟩
 
@@ -987,17 +985,17 @@ theorem finsuppAntidiag_to_antidiagonalTuple {α : Type*} [CommSemiring α] (k n
         apply sum_congr rfl; intro i ilt; simp only [g_apply, Fin.ofNat_eq_cast,
           ite_eq_left_iff, not_lt]
         intro ige; rw [mem_range] at ilt; omega
+
       _ = ∑ i, x i := by
         trans ∑ i : {i // i ∈ range k}, x (Fin.ofNat k (i.val))
         rw [Finset.sum_subtype]; intro n; rfl
         apply sum_bij (fun ⟨i, prop⟩ _ ↦ ⟨i, by rwa [← mem_range]⟩)
         intros; exact mem_univ _
         simp
-        intro ⟨b, prop⟩ _; use ⟨b, by rwa [mem_range]⟩;
+        rintro ⟨b, prop⟩ -; use ⟨b, by rwa [mem_range]⟩
         simp only [univ_eq_attach, mem_attach, exists_const]
         intro a ha ; simp only [Fin.ofNat_eq_cast]
-        have alt : a.val < k := by
-          rw [← mem_range]; exact a.2
+        have alt : a.val < k := by rw [← mem_range]; exact a.2
         congr
         apply Fin.eq_of_val_eq
         exact Fin.val_cast_of_lt alt
@@ -1010,11 +1008,10 @@ theorem finsuppAntidiag_to_antidiagonalTuple {α : Type*} [CommSemiring α] (k n
     intro a asum b bsum heq
     ext ⟨j, jlt⟩
     have : g k a j = g k b j := congrFun (congrArg DFunLike.coe heq) j
-    simp only [g_apply] at this
-    simp only [if_pos jlt] at this
-    trans a (Fin.ofNat k j); congr; exact Eq.symm ( mod_eq_of_lt jlt)
+    simp only [g_apply, if_pos jlt] at this
+    trans a (Fin.ofNat k j); congr; exact Eq.symm (mod_eq_of_lt jlt)
     trans b (Fin.ofNat k j); exact this
-    symm; congr; exact Eq.symm ( mod_eq_of_lt jlt)
+    symm; congr; exact Eq.symm (mod_eq_of_lt jlt)
   }
   {
     intro x xin; use fun i ↦ x (i.val)
@@ -1047,8 +1044,7 @@ theorem finsuppAntidiag_to_antidiagonalTuple {α : Type*} [CommSemiring α] (k n
   }
   {
     intro x xin; calc
-      _ = ∏ i : {i // i ∈ range k},
-          f (x (Fin.ofNat k ↑i)) := by
+      _ = ∏ i : {i // i ∈ range k}, f (x (Fin.ofNat k ↑i)) := by
         symm; apply prod_bij (fun ⟨i, prop⟩ _ ↦ ⟨i, by rwa [← mem_range]⟩)
         intros; exact mem_univ _
         simp

@@ -505,10 +505,23 @@ lemma Reduce_congr  {f g : IntegerModularForm k} (h : f = g) : Reduce f ℓ = Re
 @[simp] lemma Reduce_add (f g : IntegerModularForm k) : Reduce (f + g) ℓ = Reduce f ℓ + Reduce g ℓ := by
   ext n; simp only [Reduce_apply, Integer.add_apply, Int.cast_add, add_apply]
 
+@[simp] lemma Reduce_neg (f : IntegerModularForm k) : Reduce (-f) ℓ = - (Reduce f ℓ) := by
+  ext n; simp only [Reduce_apply, neg_apply, Integer.neg_apply]; norm_cast
+
+@[simp] lemma Reduce_sub (f g : IntegerModularForm k) : Reduce (f - g) ℓ = Reduce f ℓ - Reduce g ℓ := by
+  simp only [Reduce_add, Reduce_neg, sub_eq_add_neg]
+
 @[simp] lemma Reduce_mul (f : IntegerModularForm k) (g : IntegerModularForm j) :
     Reduce (f * g) ℓ = Mcongr (by norm_cast) (Reduce f ℓ * Reduce g ℓ) := by
   ext n; simp only [Reduce_apply, Integer.mul_apply, Int.cast_sum, Int.cast_mul, cast_eval, mul_apply]
 
+@[simp] lemma Reduce_nsmul (n : ℕ) (f : IntegerModularForm k) : Reduce (n • f) ℓ = n • Reduce f ℓ := by
+  ext k; simp only [Reduce_apply, Integer.smul_apply,
+      nsmul_eq_mul, Int.cast_mul, Int.cast_natCast, smul_apply]
+
+@[simp] lemma Reduce_zsmul (n : ℤ) (f : IntegerModularForm k) : Reduce (n • f) ℓ = n • Reduce f ℓ := by
+  ext k; simp only [Reduce_apply, Integer.coe_smulz, Pi.smul_apply,
+      smul_eq_mul, Int.cast_mul, coe_smulz, zsmul_eq_mul]
 
 
 lemma Reduce_cast_swap (a : IntegerModularForm k) (h : k = j) :
@@ -609,7 +622,7 @@ def bernoulli : ℕ → ℚ := sorry
 def normalized_bernoulli (k : ℕ) : ℤ := (2 * k / bernoulli k).num
 
 lemma normalized_bernoulli_eq (k : ℕ) : (normalized_bernoulli k : ℚ) = (2 * k / bernoulli k) := by
-  unfold normalized_bernoulli; rw [← Rat.den_eq_one_iff]; refine ZMod.one_eq_zero_iff.mp ?_
+  unfold normalized_bernoulli; rw [← Rat.den_eq_one_iff]
   sorry
 
 variable {α : Type*} [Ring α]
@@ -680,14 +693,18 @@ variable {ℓ : ℕ} [NeZero ℓ]
 def Eis (k : ℕ) : ModularFormMod ℓ (2 * k : ℕ) := Reduce (Integer.Eis k) ℓ
 
 
-@[simp] lemma Eis_zero : @Eis ℓ _ 0 = Mcongr (by rw [mul_zero, Nat.cast_zero]) (const 1) := by
+lemma Eis_apply (k n : ℕ) : Eis k n = (Integer.Eis k n : ZMod ℓ) := by
+  rw [Eis, Reduce_apply]
+
+@[simp] lemma Eis_zero : Eis (ℓ := ℓ) 0 = Mcongr (by rw [mul_zero, Nat.cast_zero]) (const 1) := by
   ext n; cases n <;> simp [Eis]
 
 @[simp] lemma Eis_one [NeZero (ℓ - 1)] : Eis 1 = (0 : ModularFormMod ℓ (2 * 1 : ℕ)) := by
   simp [Eis]
 
 
-theorem Delta_eq_Eis : 1728 • (Δ : ModularFormMod ℓ 12) == (Eis 2 ** 3 -l Eis 3 ** 2) (by norm_num) := sorry
+theorem Delta_eq_Eis : 1728 • (Δ : ModularFormMod ℓ 12) == (Eis 2 ** 3 -l Eis 3 ** 2) (by norm_num) := by
+  intro n; rw [Delta, ← Reduce_nsmul, Integer.Delta_eq_Eis]; simp [Reduce_pow, Eis]
 
 
 

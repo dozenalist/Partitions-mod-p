@@ -34,7 +34,7 @@ lemma triangle_eval {k j : ZMod (ℓ -1)} {h : k = j} {n : ℕ} {a : ModularForm
 
 
 universe u
-variable {α β χ  : Type u} [FunLike α ℕ (ZMod n)] [FunLike β ℕ (ZMod n)] [FunLike χ ℕ (ZMod n)]
+variable {α β χ R : Type u} [FunLike α ℕ R] [FunLike β ℕ R] [FunLike χ ℕ R]
 
 
 def Mod_eq (a : α) (b : β) :=
@@ -219,7 +219,7 @@ instance instTheta_powNeZero {a : ModularFormMod ℓ k} [NeZero (ℓ - 1)] [NeZe
       rw [hn, zero_apply]
     | succ j ih =>
       rw[Theta_pow_succ']
-      have ne : NeZero (Θ^[j] a) := {out := ih} -- cursed
+      have ne : NeZero (Θ^[j] a) := ⟨ih⟩
       contrapose! ih
       have : (Θ (Θ^[j] a)) = 0 := by
         ext n
@@ -227,8 +227,9 @@ instance instTheta_powNeZero {a : ModularFormMod ℓ k} [NeZero (ℓ - 1)] [NeZe
         rw [zero_apply] at *
         rw[← t, cast_eval]
       contrapose! this
-      apply (@instThetaNeZero ..).out  -- curseder
-      exact ne
+      apply (@instThetaNeZero ..).out  -- cursed
+      infer_instance
+      exact ⟨this⟩
 
 
 namespace Modulo

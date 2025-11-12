@@ -52,13 +52,10 @@ instance (priority := 100) : FunLike (ℕ → ZMod ℓ) ℕ (ZMod ℓ) where
   coe_injective' _ _ h := h
 
 
-instance [NeZero (ℓ - 1)] : Zero (ModularFormMod ℓ k) where
+instance : Zero (ModularFormMod ℓ k) where
   zero :=
   { sequence := fun n ↦ (0 : ZMod ℓ)
-    modular := by
-      use k.val, 0; constructor
-      simp only [ZMod.natCast_val, ZMod.cast_id', id_eq]
-      ext n; simp only [reduce, coe_zero, Pi.zero_apply, Int.cast_zero]
+    modular := sorry
   }
 
 
@@ -172,6 +169,9 @@ theorem zero_apply (z : ℕ) [NeZero (ℓ - 1)] : (0 : ModularFormMod ℓ k) z =
 theorem coe_neg (f : ModularFormMod ℓ k) : ⇑(-f) = -f := rfl
 
 @[simp]
+theorem neg_apply (f : ModularFormMod ℓ k) (n : ℕ) : (-f) n = - f n := rfl
+
+@[simp]
 theorem coe_sub (f g : ModularFormMod ℓ k) : ⇑(f - g) = f - g :=
   Eq.symm (Mathlib.Tactic.Abel.unfold_sub (⇑f) (⇑g) (⇑(f - g)) rfl)
 
@@ -238,6 +238,18 @@ instance {ℓ : ℕ} [Fact (Nat.Prime ℓ)] : NeZero (ℓ - 1) where
   out :=
     let lg2 := Prime.two_le Fact.out
     Nat.sub_ne_zero_iff_lt.mpr lg2
+
+instance : AddCommGroup (ModularFormMod ℓ k) :=
+  DFunLike.coe_injective.addCommGroup _ rfl coe_add coe_neg coe_sub coe_smuln coe_smulz
+
+instance : Module ℤ (ModularFormMod ℓ k) := sorry
+
+
+instance : DirectSum.GCommRing (ModularFormMod ℓ) := sorry
+
+instance : DirectSum.GAlgebra ℤ (ModularFormMod ℓ) := sorry
+
+
 
 end Modulo
 

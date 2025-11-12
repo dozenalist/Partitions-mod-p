@@ -251,6 +251,8 @@ def mPow (f : ModularForm k) (n : ℕ) : (ModularForm (k * n)) :=
 
 variable {f : ModularForm k}
 
+theorem sub_eq_add_neg (a b : ModularForm k) : a - b = a + -b := rfl
+
 theorem toFun_eq_coe (f : ModularForm k) : ⇑f = (f : ℂ → ℂ) := rfl
 
 @[simp]
@@ -352,6 +354,15 @@ end ModularForm
 -- can treat modular forms as components of a module now
 
 end ModularForm
+
+#check 3 ^ 2
+universe u v w
+
+class GPow (α : Type u) (β : Type v) (f : β → Type) where
+  gPow : α → (b : β) → f b
+
+macro_rules
+  | `($x:term ^^ $y:term) => `(GPow.gPow $x $y)
 
 
 variable {k j : ℕ}
@@ -477,7 +488,8 @@ def Ipow (a : IntegerModularForm k) (j : ℕ) : IntegerModularForm (k * j) where
   modular := sorry
 
 
-scoped infixl:80 " ** " => Ipow
+instance : GPow (IntegerModularForm k) ℕ (fun j ↦ IntegerModularForm (k * j)) where
+  gPow := Ipow
 
 
 instance instSMulZ : SMul ℤ (IntegerModularForm k) where
@@ -516,6 +528,8 @@ instance : IntCast (IntegerModularForm 0) where
 --     ⇑(z : ModularFormMod ℓ 0) = z := rfl
 
 open Finset.Nat Finset
+
+
 
 @[simp]
 theorem toFun_eq_coe (f : IntegerModularForm k) : ⇑f = (f : ℕ → ℤ) := rfl
@@ -558,6 +572,9 @@ theorem zero_apply (z : ℕ) : (0 : IntegerModularForm k) z = 0 := rfl
 
 @[simp]
 theorem coe_neg (f : IntegerModularForm k) : ⇑(-f) = -f := rfl
+
+@[simp]
+theorem neg_apply (f : IntegerModularForm k) (n : ℕ) : (-f) n = - f n := rfl
 
 @[simp]
 theorem coe_sub (f g : IntegerModularForm k) : ⇑(f - g) = f - g :=
@@ -610,7 +627,8 @@ lemma triangle_eval {k j : ℕ} {h : k = j} {n : ℕ} {a : IntegerModularForm k}
   ext n; simp [Ipow_apply]
 
 
-instance : AddCommGroup (IntegerModularForm k) := sorry
+instance : AddCommGroup (IntegerModularForm k) :=
+  DFunLike.coe_injective.addCommGroup _ rfl coe_add coe_neg coe_sub coe_smuln coe_smulz
 
 instance : Module ℤ (IntegerModularForm k) := sorry
 
