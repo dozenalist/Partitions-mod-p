@@ -968,7 +968,7 @@ private def e (k) [NeZero k] : Fin k ≃ (range k) where
   right_inv := λ n ↦ rfl
 
 
-theorem finsuppAntidiag_to_antidiagonalTuple {α : Type*} [CommSemiring α] (k n : ℕ) (f : ℕ → α) :
+theorem finsuppAntidiag_to_antidiagonalTuple {α} [AddCommMonoid α] [CommMonoid α] (k n : ℕ) (f : ℕ → α) :
   ∑ l ∈ finsuppAntidiag (range k) n, ∏ i ∈ (range k), f (l i) =
     ∑ x ∈ antidiagonalTuple k n, ∏ y, f (x y) := by
 
@@ -982,8 +982,8 @@ theorem finsuppAntidiag_to_antidiagonalTuple {α : Type*} [CommSemiring α] (k n
     simp only [mem_antidiagonalTuple, mem_finsuppAntidiag]
     intro x xsum; constructor; calc
       _ = ∑ i ∈ range k, x (Fin.ofNat k i) := by
-        apply sum_congr rfl; intro i ilt; simp only [g_apply, Fin.ofNat_eq_cast,
-          ite_eq_left_iff, not_lt]
+        apply sum_congr rfl; intro i ilt
+        simp only [g_apply, Fin.ofNat_eq_cast, ite_eq_left_iff, not_lt]
         intro ige; rw [mem_range] at ilt; omega
 
       _ = ∑ i, x i := by

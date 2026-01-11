@@ -80,7 +80,7 @@ open Finset.Nat Finset Nat
 
 lemma coeff_X_mul [Semiring α] (f : α ⟦X⟧) {n : ℕ} (npos : n > 0) :
     (coeff α n) (X * f) = coeff α (n - 1) f := by
-  rw [coeff_mul]; trans  ∑ p ∈ antidiagonal n, (coeff α p.1) (X ^ 1) * (coeff α p.2) f
+  rw [coeff_mul]; trans ∑ p ∈ antidiagonal n, (coeff α p.1) (X ^ 1) * (coeff α p.2) f
   rw [pow_one]
   simp_rw [coeff_X_pow]; simp only [ite_mul, one_mul, zero_mul, sum_ite]
   simp only [sum_const_zero, add_zero]
@@ -156,7 +156,6 @@ lemma DeltaProduct_coeff_le [CommRing α] {n m j : ℕ} (nlm : n ≤ m) (mlj : m
         rw [prod_eq_zero]
         use mem_univ b
         have ble : z b < y := by
-
           have : z b ≤ ∑ i, z i := le_sum_fintype
           have : m ≤ y := by rw [mem_Ico] at yin; exact yin.1
           omega
@@ -167,7 +166,6 @@ lemma DeltaProduct_coeff_le [CommRing α] {n m j : ℕ} (nlm : n ≤ m) (mlj : m
         set f : ℕ → α := fun n ↦ (coeff α n) (X) with hf
         trans ∑ l ∈ (range (y + 1)).finsuppAntidiag (z b), ∏ i ∈ range (y + 1), f (l i); rfl
         rw [finsuppAntidiag_to_antidiagonalTuple _ _ f, hf]
-
 
         apply sum_eq_zero; intro x xsum
         have exc : ∃ c : Fin (y + 1), x c < 1 := by
@@ -181,12 +179,10 @@ lemma DeltaProduct_coeff_le [CommRing α] {n m j : ℕ} (nlm : n ≤ m) (mlj : m
         dsimp; rw [prod_eq_zero]
         use mem_univ c; rw[c0, coeff_zero_X]
 
-
       calc
         _ = ∑ p ∈ antidiagonal k, (coeff α p.1) (∏ i ∈ range m, (1 - X ^ (i + 1)) ^ 24) *
             if p.2 = 0 then 1 else 0 := by
-          congr! with p pin;
-
+          congr! with p pin
           have plt : p.2 < m := by
             have : p.2 ≤ k := antidiagonal.snd_le pin
             omega
@@ -433,6 +429,7 @@ private lemma prod_q_image (q : Fin 24 → ℕ := fun x ↦ if x = 0 then 1 else
         _ = -24 := by norm_num
 
 
+
 lemma fl_lt_delta {ℓ n : ℕ} (nlt : n < δ ℓ) : fl ℓ n = 0 :=
   leading_Ipow_zeros Delta_zero nlt
 
@@ -487,6 +484,14 @@ lemma fl_lt_delta {ℓ n : ℕ} (nlt : n < δ ℓ) : fl ℓ n = 0 :=
       rw[Delta_one]; exact one_pow _
 
 
+instance instDeltaNeZero : NeZero Δ := by
+  refine Exists_ne_zero ⟨1, ?_⟩
+  rw [Delta_one]; exact Int.one_ne_zero
+
+instance instflNeZero (ℓ : ℕ) : NeZero (fl ℓ) := by
+  refine Exists_ne_zero ⟨δ ℓ, ?_⟩
+  rw[fl_delta]; exact Int.one_ne_zero
+
 
 end Integer
 
@@ -516,7 +521,7 @@ lemma Reduce_congr  {f g : IntegerModularForm k} (h : f = g) : Reduce f ℓ = Re
   ext n; simp only [Reduce_apply, Integer.mul_apply, Int.cast_sum, Int.cast_mul, cast_eval, mul_apply]
 
 @[simp] lemma Reduce_nsmul (n : ℕ) (f : IntegerModularForm k) : Reduce (n • f) ℓ = n • Reduce f ℓ := by
-  ext k; simp only [Reduce_apply, Integer.smul_apply,
+  ext k; simp only [Reduce_apply, Integer.nsmul_apply,
       nsmul_eq_mul, Int.cast_mul, Int.cast_natCast, smul_apply]
 
 @[simp] lemma Reduce_zsmul (n : ℤ) (f : IntegerModularForm k) : Reduce (n • f) ℓ = n • Reduce f ℓ := by
@@ -595,7 +600,39 @@ lemma fl_lt_delta {n : ℕ} (nlt : n < δ ℓ) : fl ℓ n = 0 := by
   rw [fl_apply, Integer.fl_delta, Int.cast_one]
 
 
+
+instance {ℓ : ℕ} [NeZero (ℓ - 1)] : Fact (1 < ℓ) where
+  out := have : ℓ - 1 > 0 := Nat.pos_of_neZero (ℓ - 1)
+    Nat.succ_lt_of_lt_pred this
+
+instance instDeltaNeZero [NeZero (ℓ - 1)] : NeZero (@Delta ℓ _) := by
+  refine Exists_ne_zero ⟨1, ?_⟩
+  rw [Delta_one]; exact Ne.symm (zero_ne_one' (ZMod ℓ))
+
+instance instflNeZero [NeZero (ℓ - 1)] : NeZero (fl ℓ) := by
+  refine Exists_ne_zero ⟨δ ℓ, ?_⟩
+  rw[fl_delta]; exact Ne.symm (zero_ne_one' (ZMod ℓ))
+
+
 end Modulo
+
+namespace ModularForm
+
+open misc
+
+
+-- probabaly change these definitions later
+def Delta : ModularForm 12 where
+  toFun := ∑' n, (coeff ℤ n (DeltaProduct n)) • q ^ n
+  holo := sorry
+  shift := sorry
+  squish := sorry
+  bounded := sorry
+
+
+def fl (ℓ : ℕ) : ModularForm (12 * delta ℓ) := mPow Delta (delta ℓ)
+
+end ModularForm
 
 end Delta_fl_Defs
 
@@ -631,7 +668,6 @@ def EisGF (k m : ℕ) : α ⟦X⟧ :=
   1 - normalized_bernoulli k • ∑ i ∈ range m, Nat.sigma (k - 1) (i + 1) • (X : α ⟦X⟧) ^ (i + 1)
 
 
-
 namespace Integer
 
 scoped notation "σ" => Nat.sigma
@@ -642,6 +678,7 @@ def Eis : (k : ℕ) → IntegerModularForm (2 * k)
   | 0 => Iconst 1
   | 1 => 0
   | k => ⟨ fun n ↦ coeff ℤ n ( EisGF (2 * k) n ), sorry, sorry ⟩
+
 
 
 @[simp] lemma Eis_zero : Eis 0 = Iconst 1 := rfl
@@ -676,6 +713,13 @@ lemma Eis_gt_one_ne_zero {k n : ℕ} [h : NeZero n] (kgt1 : k > 1) : Eis k n =
   rw [Eis_gt_one kgt1, if_neg h.out]
 
 
+instance instEisNeZero (k : ℕ) [h : NeZero (k - 1)] : NeZero (Eis k) :=
+  have := Eis_ne_one_zero (k := k) (by have := h.out; omega)
+  Exists_ne_zero ⟨0, this ▸ Int.one_ne_zero⟩
+
+
+
+
 
 theorem Delta_eq_Eis : 1728 • Δ = Eis 2 ** 3 - Eis 3 ** 2 := sorry
 
@@ -699,17 +743,37 @@ lemma Eis_apply (k n : ℕ) : Eis k n = (Integer.Eis k n : ZMod ℓ) := by
 @[simp] lemma Eis_zero : Eis (ℓ := ℓ) 0 = Mcongr (by rw [mul_zero, Nat.cast_zero]) (const 1) := by
   ext n; cases n <;> simp [Eis]
 
-@[simp] lemma Eis_one [NeZero (ℓ - 1)] : Eis 1 = (0 : ModularFormMod ℓ (2 * 1 : ℕ)) := by
-  simp [Eis]
+lemma Eis_ne_one_zero {k : ℕ} (kn1 : k ≠ 1) : Eis k 0 = (1 : ZMod ℓ) := by
+  rw [Eis, Reduce_apply, Integer.Eis_ne_one_zero kn1]; norm_cast
+
+
+@[simp] lemma Eis_one [NeZero (ℓ - 1)] : Eis (ℓ := ℓ) 1 = 0 := by simp [Eis]
 
 
 theorem Delta_eq_Eis : 1728 • (Δ : ModularFormMod ℓ 12) == (Eis 2 ** 3 -l Eis 3 ** 2) (by norm_num) := by
   intro n; rw [Delta, ← Reduce_nsmul, Integer.Delta_eq_Eis]; simp [Reduce_pow, Eis]
 
 
+instance instEisNeZero [NeZero (ℓ - 1)] (k : ℕ) [h : NeZero (k - 1)] :
+    NeZero (Eis k : ModularFormMod ℓ _) := by
+  have := Integer.Eis_ne_one_zero (k := k) (by have := h.out; omega)
+  apply Exists_ne_zero ⟨0, ?_⟩
+  rw [Eis, Reduce_apply, this]
+  norm_cast; exact one_ne_zero
 
 end Modulo
 
+namespace ModularForm
+
+open misc
+
+def Eis : (k : ℕ) → ModularForm (2 * k)
+
+  | 0 => Rconst 1
+  | 1 => 0
+  | k => ⟨ ∑' n, coeff ℤ n ( EisGF (2 * k) n ) • q ^ n, sorry, sorry, sorry, sorry ⟩
+
+end ModularForm
 end Eisenstein
 
 end section

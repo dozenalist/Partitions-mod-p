@@ -26,6 +26,8 @@ lemma cast_eval {k j : ZMod (ℓ -1)} {h : k = j} {n : ℕ} {a : ModularFormMod 
   Mcongr h a n = a n := by
   subst h; rfl
 
+alias Mcongr_apply := cast_eval
+
 
 @[simp]
 lemma triangle_eval {k j : ZMod (ℓ -1)} {h : k = j} {n : ℕ} {a : ModularFormMod ℓ k} :
@@ -104,6 +106,11 @@ lemma Mcongr_of_Mod_eq [NeZero (ℓ - 1)] {a : ModularFormMod ℓ k} [NeZero a] 
     use this; ext n; rw [cast_eval, h n]
   sorry
 
+lemma Icongr_of_Mod_eq {k j : ℕ} {a : IntegerModularForm k} [NeZero a] {b : IntegerModularForm j} (h : a == b) :
+    ∃ h, a = Integer.Icongr h b := by
+  suffices j = k by
+    use this; ext n; rw [Integer.cast_eval, h n]
+  sorry
 
 
 @[simp] theorem Modulo.Mpow_zero (a : ModularFormMod ℓ k) :
@@ -201,6 +208,8 @@ lemma val_of_NeZero (a : ModularFormMod ℓ k) [NeZero (ℓ - 1)] [NeZero a] : �
   have : a = 0 := by ext n; rw[this n, zero_apply]
   expose_names; exact inst_2.out this
 
+
+
 instance instThetaNeZero {a : ModularFormMod ℓ k} [NeZero (ℓ - 1)] [NeZero a] : NeZero (Θ a) where
   out := by
     obtain ⟨n, hn⟩ := val_of_NeZero a
@@ -210,7 +219,7 @@ instance instThetaNeZero {a : ModularFormMod ℓ k} [NeZero (ℓ - 1)] [NeZero a
     sorry
 
 instance instTheta_powNeZero {a : ModularFormMod ℓ k} [NeZero (ℓ - 1)] [NeZero a] {j : ℕ} :
-  NeZero (Θ^[j] a) where
+    NeZero (Θ^[j] a) where
   out := by induction j with
     | zero =>
       obtain ⟨n, hn⟩ := val_of_NeZero a
@@ -231,6 +240,12 @@ instance instTheta_powNeZero {a : ModularFormMod ℓ k} [NeZero (ℓ - 1)] [NeZe
       infer_instance
       exact ⟨this⟩
 
+
+instance Integer.Exists_ne_zero {k : ℕ} {a : IntegerModularForm k} (h : ∃ n, a n ≠ 0) : NeZero a where
+  out := by contrapose! h; simp only [h, zero_apply, implies_true]
+
+instance Modulo.Exists_ne_zero [NeZero (ℓ - 1)] {a : ModularFormMod ℓ k} (h : ∃ n, a n ≠ 0) : NeZero a where
+  out := by contrapose! h; simp only [h, zero_apply, implies_true]
 
 namespace Modulo
 

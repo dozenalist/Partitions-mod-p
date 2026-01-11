@@ -214,14 +214,14 @@ def ppart [Field α] : ℕ → α ⟦X⟧
 lemma ppart_zero [Field α] : ppart 0 = (0 : α ⟦X⟧) := rfl
 
 lemma ppart_eq [Field α] (n : ℕ) : ↑(partition n) = (ppart n : α ⟦X⟧) := by
-  cases n; rw[partition_zero, cast_zero]; rfl; rfl
+  cases n; rw [partition_zero, cast_zero]; rfl; rfl
 
 def apart [Field α] : ℕ → α
   | 0 => 0
   | n => Fintype.card (Partition n)
 
 lemma apart_eq [Field α] (n : ℕ) : ↑(partition n) = (apart n : α) := by
-  cases n; rw[partition_zero, cast_zero]; rfl; rfl
+  cases n; rw [partition_zero, cast_zero]; rfl; rfl
 
 
 
@@ -292,8 +292,7 @@ def natpart (n : ℕ) : ℕ :=
 lemma natpart_zero : natpart 0 = 1 := by
   unfold natpart; rw [Fintype.card_unique]
 
-lemma natpart_succ (n : ℕ) : natpart (n + 1) = partition (n + 1) := by
-  unfold natpart partition; rfl
+lemma natpart_succ (n : ℕ) : natpart (n + 1) = partition (n + 1) := rfl
 
 lemma natpart_of_ne_zero {n : ℕ} (n0 : n ≠ 0) : natpart n = partition n := by
   have : ∃ k, n = k + 1 := exists_eq_succ_of_ne_zero n0
@@ -316,11 +315,6 @@ section PowerSeriesFacts
 variable {α : Type*}
 
 
-def eventuallyEq [Semiring α] (f h : ℕ → α ⟦X⟧) : Prop :=
-  ∀ n, ∃ m, ∀ k ≤ n, ∀ j ≥ m, coeff α k (f j) = coeff α k (h j)
-
-
-
 /-- Two sequences of power series are eventually equal if for any coefficient n,
 there is some number m, such that these sequences match on all coeffients
 less than n from the index m onward. As an example, the function
@@ -331,6 +325,10 @@ is eventually equal to
 
 `fun n ↦ ∏ i ∈ range n, 1 / (1 - X ^ (i + 1))` -/
 
+def eventuallyEq [Semiring α] (f h : ℕ → α ⟦X⟧) : Prop :=
+  ∀ n, ∃ m, ∀ k ≤ n, ∀ j ≥ m, coeff α k (f j) = coeff α k (h j)
+
+@[inherit_doc]
 infixl : 25 (priority := high) " ⟶ " => eventuallyEq
 
 @[refl]
@@ -737,7 +735,7 @@ theorem flu_eq_zero [Fact (ℓ ≥ 5)] : ramanujan_congruence ℓ → fl ℓ |�
   intro h
   have lg5 : ℓ ≥ 5 := Fact.out
   have lsq : ℓ ^ 2 ≥ 25 := by
-    trans 5 * 5; rw[pow_two]; gcongr; exact le_refl _
+    trans 5 * 5; rw [pow_two]; gcongr; exact le_refl _
 
   ext n
 

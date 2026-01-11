@@ -637,6 +637,3 @@ theorem Filt_Theta_l_add_three_div_two (flu : fl ℓ |𝓤 = 0) :
     _ = (0 + 8) / 2 := by
       rw[add_assoc]; congr
       exact Nat.sub_self _
-
-
-#check Nat.divisors

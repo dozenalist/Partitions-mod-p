@@ -246,8 +246,7 @@ def mPow (f : ModularForm k) (n : ℕ) : (ModularForm (k * n)) :=
     | n + 1 => mPow f n * f
 
 
--- infixl:80 "⋆" => mPow
--- infixl:80 "^^" => mPow
+scoped infixl:80 "**" => mPow
 
 variable {f : ModularForm k}
 
@@ -330,7 +329,7 @@ def coeHom : ModularForm k →+ ℂ → ℂ where
   map_add' _ _ := rfl
 
 
-instance : Module ℂ (ModularForm k) :=
+instance instModule : Module ℂ (ModularForm k) :=
   Function.Injective.module ℂ coeHom DFunLike.coe_injective fun _ _ ↦ rfl
 
 instance instGCommRing : DirectSum.GCommRing (ModularForm) := sorry
@@ -354,15 +353,6 @@ end ModularForm
 -- can treat modular forms as components of a module now
 
 end ModularForm
-
-#check 3 ^ 2
-universe u v w
-
-class GPow (α : Type u) (β : Type v) (f : β → Type) where
-  gPow : α → (b : β) → f b
-
-macro_rules
-  | `($x:term ^^ $y:term) => `(GPow.gPow $x $y)
 
 
 variable {k j : ℕ}
@@ -488,8 +478,7 @@ def Ipow (a : IntegerModularForm k) (j : ℕ) : IntegerModularForm (k * j) where
   modular := sorry
 
 
-instance : GPow (IntegerModularForm k) ℕ (fun j ↦ IntegerModularForm (k * j)) where
-  gPow := Ipow
+scoped infixr:80 "**" => Ipow
 
 
 instance instSMulZ : SMul ℤ (IntegerModularForm k) where
@@ -562,7 +551,10 @@ theorem coe_smulz (f : IntegerModularForm k) (n : ℤ) : ⇑(n • f) = n • �
 theorem coe_smuln (f : IntegerModularForm k) (n : ℕ) : ⇑(n • f) = n • ⇑f := rfl
 
 @[simp]
-theorem smul_apply (f : IntegerModularForm k) (n z : ℕ) : (n • f) z = n • f z := rfl
+theorem zsmul_apply (f : IntegerModularForm k) (n : ℤ) (z : ℕ) : (n • f) z = n • f z := rfl
+
+@[simp]
+theorem nsmul_apply (f : IntegerModularForm k) (n z : ℕ) : (n • f) z = n • f z := rfl
 
 @[simp]
 theorem coe_zero : ⇑(0 : IntegerModularForm k) = (0 : ℕ → ℤ) := rfl
@@ -617,6 +609,8 @@ lemma cast_eval {k j : ℕ} {h : k = j} {n : ℕ} {a : IntegerModularForm k} :
   Icongr h a n = a n := by
   subst h; rfl
 
+alias Icongr_apply := cast_eval
+
 
 @[simp]
 lemma triangle_eval {k j : ℕ} {h : k = j} {n : ℕ} {a : IntegerModularForm k} :
@@ -626,11 +620,21 @@ lemma triangle_eval {k j : ℕ} {h : k = j} {n : ℕ} {a : IntegerModularForm k}
 @[simp] theorem Ipow_one (a : IntegerModularForm k) : a ** 1 = Icongr ((mul_one k).symm ▸ rfl) a := by
   ext n; simp [Ipow_apply]
 
+@[simp] theorem zero_Ipow (j : ℕ) [hj : NeZero j] : (0 : IntegerModularForm k) ** j = 0 := by
+  ext n; simp [Ipow_apply, hj.out]
 
 instance : AddCommGroup (IntegerModularForm k) :=
   DFunLike.coe_injective.addCommGroup _ rfl coe_add coe_neg coe_sub coe_smuln coe_smulz
 
-instance : Module ℤ (IntegerModularForm k) := sorry
+
+@[simps]
+def coeHom : IntegerModularForm k →+ ℕ → ℤ where
+  toFun f := f
+  map_zero' := coe_zero
+  map_add' _ _ := rfl
+
+instance : Module ℤ (IntegerModularForm k) :=
+  Function.Injective.module ℤ coeHom DFunLike.coe_injective fun _ _ ↦ rfl
 
 
 instance : DirectSum.GCommRing (IntegerModularForm) := sorry

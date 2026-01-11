@@ -26,3 +26,7 @@ import PartitionsLeanblueprint.PrimaryLemmas
 import PartitionsLeanblueprint.DescentArgument
 
 import PartitionsLeanblueprint.FinalSection
+
+import PartitionsLeanblueprint.Ord
+
+import PartitionsLeanblueprint.Dimension

@@ -1,5 +1,6 @@
 import PartitionsLeanblueprint.DescentArgument
 import PartitionsLeanblueprint.PartitionDefs
+import PartitionsLeanblueprint.Dimension
 
 
 
@@ -392,7 +393,7 @@ lemma Theta_l_add_three_div_two_eq_241 (flu : fl ℓ |𝓤 = 0) :
 
 
 omit [Fact (Nat.Prime ℓ)] [Fact (ℓ ≥ 13)] in
-lemma pow_congr_reduce_of_dvd {a c n : ℤ} {b : ℕ} (an0 : a ≠ 0) (adiv : a ∣ (n^2 - 1))
+private lemma pow_congr_reduce_of_dvd {a c n : ℤ} {b : ℕ} (an0 : a ≠ 0) (adiv : a ∣ (n^2 - 1))
     ( h : ((n^2 - 1)/a + 1) ^ b ≡ c * ((n^2 - 1)/a) ^ b [ZMOD n] ) :
       (-a + 1) ^ (b) ≡ c [ZMOD n] := by
 
