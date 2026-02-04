@@ -74,7 +74,7 @@
       <span class="definition_thmcaption">
       Definition
       </span>
-      <span class="definition_thmlabel">30</span></div>
+      <span class="definition_thmlabel">44</span></div>
     <div class="thm_thmcontent"><p>   We define \(\alpha \) to be the natural number such that \(\omega (\Theta ^{\frac{\ell + 3}{2}} f_\ell ) = \frac{\ell ^2 - 1}{2} + \frac{\ell + 3}{2} (\ell + 1) - (\alpha + 1) (\ell - 1)\). <br />Such an \(\alpha \) exists, because \(\ell \mid \omega (\Theta ^{\frac{\ell + 1}{2}} f_\ell ) = \frac{\ell ^2 - 1}{2} + \frac{\ell + 1}{2} (\ell + 1)\). </p>
 </div>
 
@@ -104,7 +104,7 @@
       <span class="definition_thmcaption">
       Definition
       </span>
-      <span class="definition_thmlabel">18</span><span class="definition_thmtitle">Delta</span></div>
+      <span class="definition_thmlabel">19</span><span class="definition_thmtitle">Delta</span></div>
     <div class="thm_thmcontent">
 <p>\(\Delta \) is the sequence obtained from \(q (\prod _{n = 1}^{\infty } (1 - q^n))^{24}\). It is an integer modular form of weight \(12\). The modular form mod \(\ell \), also called \(\Delta \), is defined to be the the reduction of \(\Delta \). </p>
 </div>
@@ -112,7 +112,71 @@
     <a class="latex_link" href="index.html#def:Delta">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Basis.lean#L215">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Basis.lean#L211">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:dim_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:dim" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">30</span></div>
+    <div class="thm_thmcontent"><p>  For \(k \in \mathbb {N}\), define dim\((k) = \lfloor k / 6 \rfloor + \begin{cases}  0 &  \text{ if } k\equiv 1\pmod{6}, \\ 1 &  \text{ else }. \end{cases} \). <br />dim\((k)\) is the dimension of the space of modular forms of weight \(2k\). </p>
+</div>
+
+    <a class="latex_link" href="index.html#def:dim">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Dimension.lean#L532">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:Eis_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:Eis" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">18</span><span class="definition_thmtitle">Eisenstein Series</span></div>
+    <div class="thm_thmcontent"><p>    For \(k \ge 2 \in \mathbb {N}\), the Eisenstein series \(E_k\) is an integer modular form of weight \(2k\) defined by </p>
+<div class="displaymath" id="a0000000014">
+  \[  E_k = 1 - \frac{4k}{B_{2k}} \sum _{n = 1}^{\infty } \sigma _{2k - 1} (n) q ^n  \]
+</div>
+<p> where \(B_k\) is the kth Bernoulli number and \(\sigma _{k} (n)\) is the sum of the kth powers of the divisors of \(n\). </p>
+</div>
+
+    <a class="latex_link" href="index.html#def:Eis">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Basis.lean#L676">Lean</a>
     
     
   
@@ -135,14 +199,14 @@
       <span class="definition_thmcaption">
       Definition
       </span>
-      <span class="definition_thmlabel">43</span></div>
+      <span class="definition_thmlabel">55</span></div>
     <div class="thm_thmcontent"><p>  Let \(\alpha \) be a commutative semiring, and let \(f, g : \mathbb {N} \to \alpha [[X]]\) be two sequences of power series with coefficients in \(\alpha \). We say that \(f\) and \(g\) are eventually equal, and write \(f \longrightarrow g\), if \(\forall n \in \mathbb {N}, \:  \exists m \in \mathbb {N}, \:  \forall \:  k \le n, \forall \:  j \ge m\), the kth coefficient of \(f(j)\) is equal to the kth coefficient of \(g(j)\). This is an equivalence relation. </p>
 </div>
 
     <a class="latex_link" href="index.html#def:eventuallyEq">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L319">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L328">Lean</a>
     
     
   
@@ -172,7 +236,7 @@
     <a class="latex_link" href="index.html#def:Filtration">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/BasicOperators.lean#L373">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/BasicOperators.lean#L387">Lean</a>
     
     
   
@@ -195,14 +259,49 @@
       <span class="definition_thmcaption">
       Definition
       </span>
-      <span class="definition_thmlabel">19</span></div>
+      <span class="definition_thmlabel">20</span></div>
     <div class="thm_thmcontent"><p>   For a prime \(\ell \ge 5\), we define \(\delta _\ell = \frac{\ell ^2 - 1}{24} \in \mathbb {N}\). We define \(f_\ell = \Delta ^{\delta _\ell }\), which is an integer modular form of weight \(12 \delta _\ell \). We also define the reduction of fl as an modular form mod \(\ell \) </p>
 </div>
 
     <a class="latex_link" href="index.html#def:fl">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Basis.lean#L222">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Basis.lean#L218">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:G_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:G" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">31</span></div>
+    <div class="thm_thmcontent">
+<p>For \( k \ne 1\) and \(c {\lt} \)dim\((k)\), \(G_{k,\:  c}\)is a modular form of weight \(2k\) defined as </p>
+<div class="displaymath" id="a0000000020">
+  \[ G_{k,\:  c} = E_2 ^a E_3 ^b E_4 ^{k / 2 - 3c} \Delta ^c  \]
+</div>
+<p> where \(a, b\) are the minimal natural numbers such that \(2a + 3b \equiv k \pmod6\). <br />We have that the set of all such \(G_{k,\:  c}\) for fixed \(k\) form a basis for the modular forms of weight \(2k\). </p>
+</div>
+
+    <a class="latex_link" href="index.html#def:G">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Dimension.lean#L826">Lean</a>
     
     
   
@@ -232,7 +331,7 @@
     <a class="latex_link" href="index.html#def:hasWeight">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/BasicOperators.lean#L368">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/BasicOperators.lean#L382">Lean</a>
     
     
   
@@ -262,7 +361,7 @@
     <a class="latex_link" href="index.html#def:IntegerModularForm">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/ModularFormDefs.lean#L418">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/ModularFormDefs.lean#L421">Lean</a>
     
     
   
@@ -285,7 +384,7 @@
       <span class="definition_thmcaption">
       Definition
       </span>
-      <span class="definition_thmlabel">31</span></div>
+      <span class="definition_thmlabel">45</span></div>
     <div class="thm_thmcontent"><p>   We define \(j\) to be the least natural number such that \(\ell \mid \omega (\Theta ^{\frac{\ell + 3}{2} + j} f_\ell ).\) Such a \(j\) exists, because \(\ell \mid \omega (\Theta ^{\ell - 2} f_\ell ).\) <br /><br />Note : This definition requires that \((f_\ell | U) = 0.\) We will assume this fact from now on. </p>
 </div>
 
@@ -393,12 +492,42 @@
       <span class="lean_link">Lean</span>
       <ul class="tooltip_list">
         
-           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/ModuloDefs2.lean#L74" class="lean_decl">Modulo.mul</a></li>
+           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/ModuloDefs2.lean#L73" class="lean_decl">Modulo.mul</a></li>
         
-           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/ModuloDefs2.lean#L89" class="lean_decl">Modulo.Mpow</a></li>
+           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/ModuloDefs2.lean#L88" class="lean_decl">Modulo.Mpow</a></li>
         
       </ul>
   </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="def:ord_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:ord" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Definition
+      </span>
+      <span class="definition_thmlabel">24</span><span class="definition_thmtitle">ord</span></div>
+    <div class="thm_thmcontent"><p>    Let \(b\) be an integer modular form. The order of \(b\), ord\((b)\), is defined as the minimum \(n \in \mathbb {N}\) such that \(b(n) \neq 0\). This is the order of vanishing of \(b\) at infinity. </p>
+</div>
+
+    <a class="latex_link" href="index.html#def:ord">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Ord.lean#L88">Lean</a>
     
     
   
@@ -451,7 +580,7 @@
       <span class="definition_thmcaption">
       Definition
       </span>
-      <span class="definition_thmlabel">41</span></div>
+      <span class="definition_thmlabel">53</span></div>
     <div class="thm_thmcontent"><p>  Let \(p\) be the partion function. We say that there is a Ramanujan congruence mod a prime \(\ell \) if \(\forall n \in \mathbb {N}, \:  \ell \mid p (\ell n - \delta _\ell ).\) </p>
 </div>
 
@@ -488,7 +617,7 @@
     <a class="latex_link" href="index.html#def:Theta">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/BasicOperators.lean#L121">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/BasicOperators.lean#L128">Lean</a>
     
     
   
@@ -518,7 +647,7 @@
     <a class="latex_link" href="index.html#def:U_Operator">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/BasicOperators.lean#L125">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/BasicOperators.lean#L132">Lean</a>
     
     
   
@@ -541,7 +670,7 @@
       <span class="lemma_thmcaption">
       Lemma
       </span>
-      <span class="lemma_thmlabel">32</span></div>
+      <span class="lemma_thmlabel">46</span></div>
     <div class="thm_thmcontent"><p>   \(\alpha \le \frac{\ell + 3}{2}\). </p>
 </div>
 
@@ -571,7 +700,7 @@
       <span class="lemma_thmcaption">
       Lemma
       </span>
-      <span class="lemma_thmlabel">36</span></div>
+      <span class="lemma_thmlabel">50</span></div>
     <div class="thm_thmcontent"><p>   \(\alpha + 1 = \frac{\ell + 5}{2}\). </p>
 </div>
 
@@ -601,9 +730,9 @@
       <span class="lemma_thmcaption">
       Lemma
       </span>
-      <span class="lemma_thmlabel">47</span></div>
+      <span class="lemma_thmlabel">59</span></div>
     <div class="thm_thmcontent"><p>  Let \(m, N \in \mathbb {N}\). Let \(f : \mathbb {N} \to \alpha [[X]]\) be a sequence with \(f(0) = 0\), the zero power series. Then </p>
-<div class="displaymath" id="a0000000036">
+<div class="displaymath" id="a0000000048">
   \[  X ^m \sum _{i = 0}^{N} f (i) X ^i = \sum _{i = 0}^{N + m} f (i - m) X ^i  \]
 </div>
 </div>
@@ -611,7 +740,7 @@
     <a class="latex_link" href="index.html#lem:coeff_mul_shift_of_zero">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L513">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L511">Lean</a>
     
     
   
@@ -634,9 +763,9 @@
       <span class="lemma_thmcaption">
       Lemma
       </span>
-      <span class="lemma_thmlabel">46</span></div>
+      <span class="lemma_thmlabel">58</span></div>
     <div class="thm_thmcontent"><p>   Let \(j, \ell , N, M \in \mathbb {N}\) with \(\ell \:  {\gt} \:  0\) and \(N, M \:  {\gt} \:  \ell j\). Let \(a, b : \mathbb {N} \to \alpha \). Then the \(\ell j\) th coefficient of </p>
-<div class="displaymath" id="a0000000034">
+<div class="displaymath" id="a0000000046">
   \[  \sum _{i = 0}^{N} a (i) X ^i \sum _{i = 0}^{M} b (i) X ^{\ell i} = \sum _{x + y = j} a (\ell x) b (y)  \]
 </div>
 </div>
@@ -644,7 +773,7 @@
     <a class="latex_link" href="index.html#lem:coeff_sum_squash">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L444">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L442">Lean</a>
     
     
   
@@ -667,9 +796,9 @@
       <span class="lemma_thmcaption">
       Lemma
       </span>
-      <span class="lemma_thmlabel">45</span></div>
+      <span class="lemma_thmlabel">57</span></div>
     <div class="thm_thmcontent"><p>  Let \(n, N, \ell \in \mathbb {N}\) with \(n \:  {\lt} \:  N\) and \(\ell \:  {\gt} \:  0\). Let \(a : \mathbb {N} \to \alpha \) be a sequence with coefficients in a semiring \(\alpha \). Then the nth coefficient of </p>
-<div class="displaymath" id="a0000000032">
+<div class="displaymath" id="a0000000044">
   \[  \sum _{i = 0}^{N} a (n) X ^{\ell i} = \begin{cases}  a (n / \ell ) &  \text{ if } \ell \mid n, \\ 0 &  \text{ otherwise.} \end{cases}  \]
 </div>
 </div>
@@ -677,7 +806,7 @@
     <a class="latex_link" href="index.html#lem:coeff_sum_X_pow_mul">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L408">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L406">Lean</a>
     
     
   
@@ -700,9 +829,9 @@
       <span class="lemma_thmcaption">
       Lemma
       </span>
-      <span class="lemma_thmlabel">48</span></div>
+      <span class="lemma_thmlabel">60</span></div>
     <div class="thm_thmcontent"><p>  Let \(M, \ell , k \in \mathbb {N}\) with \(\ell \nmid k\). Then the kth coefficient of </p>
-<div class="displaymath" id="a0000000038">
+<div class="displaymath" id="a0000000050">
   \[  \prod _{i = 0}^{M} (1 - X ^{\ell (i + 1)}) ^\ell = 0  \]
 </div>
 </div>
@@ -710,7 +839,7 @@
     <a class="latex_link" href="index.html#lem:coeff_zero_of_ndvd">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L536">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L534">Lean</a>
     
     
   
@@ -740,7 +869,7 @@
     <a class="latex_link" href="index.html#lem:const_of_Filt_zero">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PreliminaryResults.lean#L34">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PreliminaryResults.lean#L35">Lean</a>
     
     
   
@@ -763,7 +892,7 @@
       <span class="lemma_thmcaption">
       Lemma
       </span>
-      <span class="lemma_thmlabel">20</span></div>
+      <span class="lemma_thmlabel">21</span></div>
     <div class="thm_thmcontent"><p>   \( \omega (f_\ell ) = 12 \delta _\ell = \frac{\ell ^2 - 1}{2}.\) </p>
 </div>
 
@@ -793,14 +922,14 @@
       <span class="lemma_thmcaption">
       Lemma
       </span>
-      <span class="lemma_thmlabel">26</span></div>
+      <span class="lemma_thmlabel">40</span></div>
     <div class="thm_thmcontent"><p>   Let \(a\) be a modular form mod \(\ell \). If \(\ell \mid \omega (a)\) then there exists an \(\alpha \in \mathbb {N}\) such that \(\omega (\Theta a) = \omega (a) + \ell + 1 - (\alpha + 1) (\ell - 1)\). </p>
 </div>
 
     <a class="latex_link" href="index.html#lem:Filt_Theta_congruence_of_dvd">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L246">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L248">Lean</a>
     
     
   
@@ -823,7 +952,7 @@
       <span class="lemma_thmcaption">
       Lemma
       </span>
-      <span class="lemma_thmlabel">34</span></div>
+      <span class="lemma_thmlabel">48</span></div>
     <div class="thm_thmcontent"><p>   For all \(m \le j\), \(\omega (\Theta ^{\frac{\ell + 3}{2} + m} f_\ell ) = \frac{\ell ^2 - 1}{2} + (\frac{\ell + 3}{2} + m) (\ell + 1) - (\alpha + 1) (\ell - 1).\) </p>
 </div>
 
@@ -853,7 +982,7 @@
       <span class="lemma_thmcaption">
       Lemma
       </span>
-      <span class="lemma_thmlabel">28</span></div>
+      <span class="lemma_thmlabel">42</span></div>
     <div class="thm_thmcontent"><p>   For all \(m \in \mathbb {N}\) with \(m \le \frac{\ell + 1}{2}\), \(\omega (\Theta ^m f_\ell ) = \frac{\ell ^2 - 1}{2} + m (\ell + 1)\). </p>
 </div>
 
@@ -883,14 +1012,14 @@
       <span class="lemma_thmcaption">
       Lemma
       </span>
-      <span class="lemma_thmlabel">38</span></div>
+      <span class="lemma_thmlabel">52</span></div>
     <div class="thm_thmcontent"><p>   \(f_\ell (\delta _\ell + 1) = 1\). </p>
 </div>
 
     <a class="latex_link" href="index.html#lem:fl_delta_add_one">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/FinalSection.lean#L27">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/FinalSection.lean#L28">Lean</a>
     
     
   
@@ -913,7 +1042,7 @@
       <span class="lemma_thmcaption">
       Lemma
       </span>
-      <span class="lemma_thmlabel">33</span></div>
+      <span class="lemma_thmlabel">47</span></div>
     <div class="thm_thmcontent"><p>   \(j \le \frac{\ell - 7}{2}\). </p>
 </div>
 
@@ -943,7 +1072,7 @@
       <span class="lemma_thmcaption">
       Lemma
       </span>
-      <span class="lemma_thmlabel">35</span></div>
+      <span class="lemma_thmlabel">49</span></div>
     <div class="thm_thmcontent"><p>   \(\ell \mid (j + 1) + (\alpha + 1)\). </p>
 </div>
 
@@ -984,9 +1113,9 @@
       <span class="lean_link">Lean</span>
       <ul class="tooltip_list">
         
-           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L341" class="lean_decl">non_const_of_tuple_non_diag</a></li>
+           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L342" class="lean_decl">non_const_of_tuple_non_diag</a></li>
         
-           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L364" class="lean_decl">non_const_of_tuple_diag</a></li>
+           <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L365" class="lean_decl">non_const_of_tuple_diag</a></li>
         
       </ul>
   </div>
@@ -1022,7 +1151,7 @@
     <a class="latex_link" href="index.html#lem:non_diag_vanish">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L224">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L225">Lean</a>
     
     
   
@@ -1052,7 +1181,7 @@
     <a class="latex_link" href="index.html#lem:prod_eq_of_perm_equiv">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L326">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L327">Lean</a>
     
     
   
@@ -1075,9 +1204,9 @@
       <span class="lemma_thmcaption">
       Lemma
       </span>
-      <span class="lemma_thmlabel">49</span></div>
+      <span class="lemma_thmlabel">61</span></div>
     <div class="thm_thmcontent"><p>   Let \(\ell , K \in \mathbb {N}\) with \(\ell \:  {\gt} \:  0\). Then there exists a \(c : \mathbb {N} \to \alpha \) and \(M \in \mathbb {N}\) such that </p>
-<div class="displaymath" id="a0000000040">
+<div class="displaymath" id="a0000000052">
   \[  \prod _{i = 0}^{K} (1 - X ^{\ell (i + 1)}) ^\ell = \sum _{i = 0}^{M} c (i) X ^{\ell i}  \]
 </div>
 </div>
@@ -1085,7 +1214,7 @@
     <a class="latex_link" href="index.html#lem:prod_eq_sum">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L606">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L604">Lean</a>
     
     
   
@@ -1108,9 +1237,9 @@
       <span class="theorem_thmcaption">
       Theorem
       </span>
-      <span class="theorem_thmlabel">50</span></div>
+      <span class="theorem_thmlabel">62</span></div>
     <div class="thm_thmcontent"><p>   The coefficients of the Delta product are eventually equal to the coefficients of the Delta function. In other words, </p>
-<div class="displaymath" id="a0000000042">
+<div class="displaymath" id="a0000000054">
   \[  X \prod _{i \,  \le \:  \cdot } (1 - X ^{i + 1}) ^{24} \longrightarrow \sum _{i \,  \le \:  \cdot } \Delta (i) X ^i  \]
 </div>
 </div>
@@ -1118,7 +1247,67 @@
     <a class="latex_link" href="index.html#thm:DeltaProduct_eventually_sum">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L664">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L662">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:Eis_two_one_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:Eis_two_one" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">66</span></div>
+    <div class="thm_thmcontent"><p>   \(E_2 (1) = 240\). </p>
+</div>
+
+    <a class="latex_link" href="index.html#thm:Eis_two_one">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Basis.lean#L716">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:eq_G_of_ord_max_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:eq_G_of_ord_max" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">35</span></div>
+    <div class="thm_thmcontent"><p>   Let \(a\) be a modular form of weight \(2k\). If ord\((a) = \)dim\((k) - 1\) then \(a = a (\)dim\((k) - 1) G_{k, \:  \text{dim} (k) - 1}.\) </p>
+</div>
+
+    <a class="latex_link" href="index.html#thm:eq_G_of_ord_max">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Dimension.lean#L1111">Lean</a>
     
     
   
@@ -1141,14 +1330,44 @@
       <span class="theorem_thmcaption">
       Theorem
       </span>
-      <span class="theorem_thmlabel">44</span></div>
+      <span class="theorem_thmlabel">56</span></div>
     <div class="thm_thmcontent"><p>   If \(f \longrightarrow f'\) and \(g \longrightarrow g'\), then \(f g \longrightarrow f' g'\). </p>
 </div>
 
     <a class="latex_link" href="index.html#thm:eventuallyEq_mul">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L369">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L367">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:exists_maximal_Reduce_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:exists_maximal_Reduce" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">36</span></div>
+    <div class="thm_thmcontent"><p>   Let \(a\) be a modular form mod \(\ell \) of weight \(k\). If ord\((a) \ge m\), then there exists an integer modular form \(b\) of weight \(k\) such that <br />(1) ord\((b) \ge m\), and <br />(2) the reduction of \(b\) is equal to \(a\). </p>
+</div>
+
+    <a class="latex_link" href="index.html#thm:exists_maximal_Reduce">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Dimension.lean#L1135">Lean</a>
     
     
   
@@ -1171,7 +1390,7 @@
       <span class="theorem_thmcaption">
       Theorem
       </span>
-      <span class="theorem_thmlabel">21</span></div>
+      <span class="theorem_thmlabel">22</span></div>
     <div class="thm_thmcontent"><p>   This is part (1) of Lemma 2.1. <br />Let \(a\) be a modular form mod \(\ell \). Then \(\omega (\Theta a) \le \omega (a) + \ell + 1\). </p>
 </div>
 
@@ -1201,7 +1420,7 @@
       <span class="theorem_thmcaption">
       Theorem
       </span>
-      <span class="theorem_thmlabel">22</span></div>
+      <span class="theorem_thmlabel">23</span></div>
     <div class="thm_thmcontent"><p>   This is part (2) of Lemma 2.1. <br />Let \(a\) be a modular form mod \(\ell \). Then \(\omega (\Theta a) = \omega (a) + \ell + 1\) if and only if \(\ell \nmid \omega (a).\) </p>
 </div>
 
@@ -1231,7 +1450,7 @@
       <span class="theorem_thmcaption">
       Theorem
       </span>
-      <span class="theorem_thmlabel">29</span></div>
+      <span class="theorem_thmlabel">43</span></div>
     <div class="thm_thmcontent"><p>   \(\ell \mid \omega (\Theta ^{\frac{\ell + 1}{2}} f_\ell )\). </p>
 </div>
 
@@ -1261,7 +1480,7 @@
       <span class="theorem_thmcaption">
       Theorem
       </span>
-      <span class="theorem_thmlabel">37</span></div>
+      <span class="theorem_thmlabel">51</span></div>
     <div class="thm_thmcontent"><p>   \( \omega (\Theta ^{\frac{\ell + 3}{2}} f_\ell )= \frac{\ell ^2 - 1}{2} + 4 \). </p>
 </div>
 
@@ -1291,7 +1510,7 @@
       <span class="theorem_thmcaption">
       Theorem
       </span>
-      <span class="theorem_thmlabel">27</span></div>
+      <span class="theorem_thmlabel">41</span></div>
     <div class="thm_thmcontent"><p>   If \((f_\ell | U) = 0\) then \(\ell \mid \omega (\Theta ^{\ell - 2} f_\ell )\). </p>
 </div>
 
@@ -1321,14 +1540,14 @@
       <span class="theorem_thmcaption">
       Theorem
       </span>
-      <span class="theorem_thmlabel">24</span></div>
+      <span class="theorem_thmlabel">38</span></div>
     <div class="thm_thmcontent"><p>   This is part (1) of Lemma 3.3. <br />If \(\ell \nmid \omega (\Theta ^{\ell - 1} f_\ell )\) then \(\omega (\Theta ^{\ell - 1} f_\ell ) = \frac{\ell ^2 - 1}{2}.\) </p>
 </div>
 
     <a class="latex_link" href="index.html#thm:Filt_Theta_pow_l_sub_one">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L323">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L367">Lean</a>
     
     
   
@@ -1351,14 +1570,14 @@
       <span class="theorem_thmcaption">
       Theorem
       </span>
-      <span class="theorem_thmlabel">25</span></div>
+      <span class="theorem_thmlabel">39</span></div>
     <div class="thm_thmcontent"><p>   This is part (2) of Lemma 3.3. <br />If \(\ell \mid \omega (\Theta ^{\ell - 1} f_\ell )\) then \(\omega (f_\ell | U) \:  {\gt} \:  0\). </p>
 </div>
 
     <a class="latex_link" href="index.html#thm:Filt_U_pos">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L339">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L383">Lean</a>
     
     
   
@@ -1388,7 +1607,7 @@
     <a class="latex_link" href="index.html#thm:Filtration_congruence">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PreliminaryResults.lean#L43">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PreliminaryResults.lean#L45">Lean</a>
     
     
   
@@ -1418,7 +1637,7 @@
     <a class="latex_link" href="index.html#thm:Filtration_Log">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PreliminaryResults.lean#L39">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PreliminaryResults.lean#L41">Lean</a>
     
     
   
@@ -1441,9 +1660,9 @@
       <span class="theorem_thmcaption">
       Theorem
       </span>
-      <span class="theorem_thmlabel">51</span></div>
+      <span class="theorem_thmlabel">63</span></div>
     <div class="thm_thmcontent"><p>   If \(\ell \ge 5\) is prime, then the coefficients of the \(f_\ell \) product are eventually equal to the coefficients of the \(f_\ell \: \) function. In other words, </p>
-<div class="displaymath" id="a0000000044">
+<div class="displaymath" id="a0000000056">
   \[  (X ^{\delta _\ell } \prod _{i \,  \le \:  \cdot } (1 - X ^{i + 1}) ^{24 \delta _\ell } \longrightarrow \sum _{i \,  \le \:  \cdot } f_\ell (i) X ^i  \]
 </div>
 </div>
@@ -1451,7 +1670,7 @@
     <a class="latex_link" href="index.html#thm:fl_Product_eventually_sum">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L683">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L681">Lean</a>
     
     
   
@@ -1474,14 +1693,14 @@
       <span class="theorem_thmcaption">
       Theorem
       </span>
-      <span class="theorem_thmlabel">52</span></div>
+      <span class="theorem_thmlabel">64</span></div>
     <div class="thm_thmcontent"><p>   Let \(\ell \ge 5\) be prime. If there is a ramanujan congruence mod \(\ell \), then \((f_\ell | U) = 0.\) </p>
 </div>
 
     <a class="latex_link" href="index.html#thm:flu_eq_zero">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L735">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L733">Lean</a>
     
     
   
@@ -1504,14 +1723,74 @@
       <span class="theorem_thmcaption">
       Theorem
       </span>
-      <span class="theorem_thmlabel">40</span></div>
+      <span class="theorem_thmlabel">70</span></div>
     <div class="thm_thmcontent"><p>   If \(\ell \ge 13\) is prime, then \((f_\ell | U) \neq 0.\) </p>
 </div>
 
     <a class="latex_link" href="index.html#thm:flu_ne_zero">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/FinalSection.lean#L429">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/FinalSection.lean#L595">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:G_delta_add_one_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:G_delta_add_one" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">67</span></div>
+    <div class="thm_thmcontent"><p>   \(G_{6\delta _\ell + 2, \delta _\ell } (\delta _\ell + 1) \equiv 241 \pmod\ell \). </p>
+</div>
+
+    <a class="latex_link" href="index.html#thm:G_delta_add_one">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/FinalSection.lean#L451">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:G_ord_G_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:G_ord_G" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">33</span></div>
+    <div class="thm_thmcontent"><p>   \(G_{k,\:  c} (c) = 1\). </p>
+</div>
+
+    <a class="latex_link" href="index.html#thm:G_ord_G">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Dimension.lean#L912">Lean</a>
     
     
   
@@ -1534,14 +1813,14 @@
       <span class="theorem_thmcaption">
       Theorem
       </span>
-      <span class="theorem_thmlabel">23</span></div>
+      <span class="theorem_thmlabel">37</span></div>
     <div class="thm_thmcontent"><p>   This is Lemma 3.2. <br />For all \(m \in \mathbb {N}\), \(\omega (\Theta ^m f_\ell ) \ge \omega (f_\ell ) = \frac{\ell ^2 - 1}{2}.\) </p>
 </div>
 
     <a class="latex_link" href="index.html#thm:le_Filt_Theta_fl">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L316">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L318">Lean</a>
     
     
   
@@ -1564,14 +1843,194 @@
       <span class="theorem_thmcaption">
       Theorem
       </span>
-      <span class="theorem_thmlabel">53</span></div>
+      <span class="theorem_thmlabel">65</span></div>
     <div class="thm_thmcontent"><p>   If \(\ell \ge 13\) is prime, then there does not exist a ramanujan congruence mod \(\ell \). </p>
 </div>
 
     <a class="latex_link" href="index.html#thm:MainResult">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/FinalSection.lean#L564">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/FinalSection.lean#L728">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:ord_Delta_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:ord_Delta" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">28</span></div>
+    <div class="thm_thmcontent"><p>   ord\((\Delta ) = 1\). </p>
+</div>
+
+    <a class="latex_link" href="index.html#thm:ord_Delta">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/find/#doc/Integer.ord_Delta">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:ord_Eis_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:ord_Eis" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">29</span></div>
+    <div class="thm_thmcontent"><p>   For any k, ord\((E_k) = 0\). </p>
+</div>
+
+    <a class="latex_link" href="index.html#thm:ord_Eis">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/find/#doc/Integer.ord_Eis">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:ord_G_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:ord_G" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">32</span></div>
+    <div class="thm_thmcontent"><p>   ord\((G_{k, c}) = c\). </p>
+</div>
+
+    <a class="latex_link" href="index.html#thm:ord_G">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Dimension.lean#L907">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:ord_mul_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:ord_mul" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">25</span></div>
+    <div class="thm_thmcontent"><p>   ord\((a \cdot b) = \) ord\((a) + \) ord\((b)\). </p>
+</div>
+
+    <a class="latex_link" href="index.html#thm:ord_mul">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Ord.lean#L212">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:ord_mul_ord_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:ord_mul_ord" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">26</span></div>
+    <div class="thm_thmcontent"><p>   (a ·b) (ord\((a) + \) ord\((b)) = a(\) ord\((a)) \cdot b(\) ord\((b))\). </p>
+</div>
+
+    <a class="latex_link" href="index.html#thm:ord_mul_ord">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Ord.lean#L233">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:ord_pow_ord_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:ord_pow_ord" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">27</span></div>
+    <div class="thm_thmcontent"><p>   \(a ^m (m \cdot \) ord\((a)) = a(\) ord\((a)) ^m\). </p>
+</div>
+
+    <a class="latex_link" href="index.html#thm:ord_pow_ord">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Ord.lean#L256">Lean</a>
     
     
   
@@ -1594,9 +2053,9 @@
       <span class="theorem_thmcaption">
       Theorem
       </span>
-      <span class="theorem_thmlabel">42</span></div>
+      <span class="theorem_thmlabel">54</span></div>
     <div class="thm_thmcontent"><p>  If \(n \:  {\gt} \:  0\) and \(m \ge n\), then \(p (n)\) is equal to the nth coefficient in the product exapansion of </p>
-<div class="displaymath" id="a0000000029">
+<div class="displaymath" id="a0000000041">
   \[  \prod _{i = 0}^{m} (1 - X^{i + 1})^{-1}  \]
 </div>
 <p> Note : In lean, \(p (0) = 0\). </p>
@@ -1638,7 +2097,38 @@
     <a class="latex_link" href="index.html#thm:Pow_Prime">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L387">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L388">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:Theta_l_add_three_div_two_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:Theta_l_add_three_div_two" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">68</span></div>
+    <div class="thm_thmcontent">
+<p>\(\Theta ^{\frac{\ell + 3}{2}} f_\ell \equiv \delta _\ell ^{\frac{\ell + 3}{2}} G_{6\delta _\ell + 2, \delta _\ell } \pmod\ell \). </p>
+</div>
+
+    <a class="latex_link" href="index.html#thm:Theta_l_add_three_div_two">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/FinalSection.lean#L497">Lean</a>
     
     
   
@@ -1661,14 +2151,14 @@
       <span class="theorem_thmcaption">
       Theorem
       </span>
-      <span class="theorem_thmlabel">39</span></div>
+      <span class="theorem_thmlabel">69</span></div>
     <div class="thm_thmcontent"><p>   \((\Theta ^{\frac{\ell + 3}{2}} f_\ell ) \:  (\delta _\ell + 1) = 241 (\delta _\ell + 1)^{\frac{\ell + 3}{2}}\). </p>
 </div>
 
     <a class="latex_link" href="index.html#thm:Theta_l_add_three_div_two_eq_241">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/FinalSection.lean#L389">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/FinalSection.lean#L551">Lean</a>
     
     
   
@@ -1698,7 +2188,37 @@
     <a class="latex_link" href="index.html#thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one">LaTeX</a>
     
     
-  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PreliminaryResults.lean#L19">Lean</a>
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PreliminaryResults.lean#L20">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:zero_of_leading_zeros_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:zero_of_leading_zeros" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Theorem
+      </span>
+      <span class="theorem_thmlabel">34</span></div>
+    <div class="thm_thmcontent"><p>   Let \(a\) be a modular form of weight \(2k\). If ord\((a) \:  \ge \:  dim(k)\) then \(a\) is the zero function. </p>
+</div>
+
+    <a class="latex_link" href="index.html#thm:zero_of_leading_zeros">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Dimension.lean#L1016">Lean</a>
     
     
   
@@ -1726,7 +2246,7 @@ graphContainer.graphviz({useWorker: true})
     .width(width)
     .height(height)
     .fit(true)
-    .renderDot(`strict digraph "" {	graph [bgcolor=transparent];	node [label="\N",		penwidth=1.8	];	edge [arrowhead=vee];	"thm:fl_Product_eventually_sum"	[color=green,		fillcolor="#1CAC78",		label=fl_Product_eventually_sum,		shape=ellipse,		style=filled];	"thm:flu_eq_zero"	[color=green,		fillcolor="#1CAC78",		label=flu_eq_zero,		shape=ellipse,		style=filled];	"thm:fl_Product_eventually_sum" -> "thm:flu_eq_zero"	[style=dashed];	"thm:MainResult"	[color=green,		fillcolor="#9CEC8B",		label=MainResult,		shape=ellipse,		style=filled];	"thm:flu_eq_zero" -> "thm:MainResult"	[style=dashed];	"thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one"	[color=green,		fillcolor="#1CAC78",		label=U_pow_l_eq_self_sub_Theta_pow_l_sub_one,		shape=ellipse,		style=filled];	"thm:Filt_U_pos"	[color=green,		fillcolor="#9CEC8B",		label=Filt_U_pos,		shape=ellipse,		style=filled];	"thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one" -> "thm:Filt_U_pos"	[style=dashed];	"thm:Filt_Theta_l_sub_two"	[color=green,		fillcolor="#9CEC8B",		label=Filt_Theta_l_sub_two,		shape=ellipse,		style=filled];	"thm:Filt_U_pos" -> "thm:Filt_Theta_l_sub_two"	[style=dashed];	"def:j"	[color=green,		fillcolor="#B0ECA3",		label=j,		shape=box,		style=filled];	"thm:Filt_Theta_l_sub_two" -> "def:j"	[style=dashed];	"thm:Filtration_congruence"	[color=green,		label=Filtration_congruence,		shape=ellipse];	"lem:Filt_Theta_congruence_of_dvd"	[color=green,		fillcolor="#9CEC8B",		label=Filt_Theta_congruence_of_dvd,		shape=ellipse,		style=filled];	"thm:Filtration_congruence" -> "lem:Filt_Theta_congruence_of_dvd"	[style=dashed];	"def:alpha"	[color=green,		fillcolor="#B0ECA3",		label=alpha,		shape=box,		style=filled];	"lem:Filt_Theta_congruence_of_dvd" -> "def:alpha"	[style=dashed];	"lem:alpha_bound"	[color=green,		fillcolor="#9CEC8B",		label=alpha_bound,		shape=ellipse,		style=filled];	"def:alpha" -> "lem:alpha_bound"	[style=dashed];	"def:eventuallyEq"	[color=green,		fillcolor="#B0ECA3",		label=eventuallyEq,		shape=box,		style=filled];	"thm:DeltaProduct_eventually_sum"	[color=green,		fillcolor="#1CAC78",		label=DeltaProduct_eventually_sum,		shape=ellipse,		style=filled];	"def:eventuallyEq" -> "thm:DeltaProduct_eventually_sum"	[style=dashed];	"thm:eventuallyEq_mul"	[color=green,		fillcolor="#1CAC78",		label=eventuallyEq_mul,		shape=ellipse,		style=filled];	"def:eventuallyEq" -> "thm:eventuallyEq_mul"	[style=dashed];	"thm:DeltaProduct_eventually_sum" -> "thm:fl_Product_eventually_sum"	[style=dashed];	"thm:eventuallyEq_mul" -> "thm:fl_Product_eventually_sum"	[style=dashed];	"def:IntegerModularForm"	[color=green,		fillcolor="#B0ECA3",		label=IntegerModularForm,		shape=box,		style=filled];	"def:ModularFormMod"	[color=green,		fillcolor="#B0ECA3",		label=ModularFormMod,		shape=box,		style=filled];	"def:IntegerModularForm" -> "def:ModularFormMod"	[style=dashed];	"def:Delta"	[color=green,		fillcolor="#B0ECA3",		label=Delta,		shape=box,		style=filled];	"def:IntegerModularForm" -> "def:Delta"	[style=dashed];	"def:U_Operator"	[color=green,		fillcolor="#B0ECA3",		label=U_Operator,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:U_Operator"	[style=dashed];	"def:Theta"	[color=green,		fillcolor="#B0ECA3",		label=Theta,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:Theta"	[style=dashed];	"def:hasWeight"	[color=green,		fillcolor="#B0ECA3",		label=hasWeight,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:hasWeight"	[style=dashed];	"def:mulpow"	[color=green,		fillcolor="#B0ECA3",		label=mulpow,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:mulpow"	[style=dashed];	"def:Delta" -> "thm:DeltaProduct_eventually_sum"	[style=dashed];	"def:fl"	[color=green,		fillcolor="#B0ECA3",		label=fl,		shape=box,		style=filled];	"def:Delta" -> "def:fl"	[style=dashed];	"def:U_Operator" -> "thm:flu_eq_zero"	[style=dashed];	"def:U_Operator" -> "thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one"	[style=dashed];	"def:Theta" -> "thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one"	[style=dashed];	"thm:Filt_Theta_bound"	[color=green,		label=Filt_Theta_bound,		shape=ellipse];	"def:Theta" -> "thm:Filt_Theta_bound"	[style=dashed];	"def:Filtration"	[color=green,		fillcolor="#B0ECA3",		label=Filtration,		shape=box,		style=filled];	"def:hasWeight" -> "def:Filtration"	[style=dashed];	"thm:Pow_Prime"	[color=green,		fillcolor="#1CAC78",		label=Pow_Prime,		shape=ellipse,		style=filled];	"def:mulpow" -> "thm:Pow_Prime"	[style=dashed];	"lem:fl_delta_add_one"	[color=green,		fillcolor="#1CAC78",		label=fl_delta_add_one,		shape=ellipse,		style=filled];	"def:mulpow" -> "lem:fl_delta_add_one"	[style=dashed];	"thm:Filtration_Log"	[color=green,		label=Filtration_Log,		shape=ellipse];	"def:mulpow" -> "thm:Filtration_Log"	[style=dashed];	"def:fl" -> "thm:fl_Product_eventually_sum"	[style=dashed];	"def:fl" -> "lem:fl_delta_add_one"	[style=dashed];	"lem:Filt_fl"	[color=green,		label=Filt_fl,		shape=ellipse];	"def:fl" -> "lem:Filt_fl"	[style=dashed];	"thm:le_Filt_Theta_fl"	[color=green,		label=le_Filt_Theta_fl,		shape=ellipse];	"def:fl" -> "thm:le_Filt_Theta_fl"	[style=dashed];	"def:perm_equiv"	[color=green,		fillcolor="#B0ECA3",		label=perm_equiv,		shape=box,		style=filled];	"lem:non_diag_vanish"	[color=green,		fillcolor="#1CAC78",		label=non_diag_vanish,		shape=ellipse,		style=filled];	"def:perm_equiv" -> "lem:non_diag_vanish"	[style=dashed];	"lem:prod_eq_of_perm_equiv"	[color=green,		fillcolor="#1CAC78",		label=prod_eq_of_perm_equiv,		shape=ellipse,		style=filled];	"def:perm_equiv" -> "lem:prod_eq_of_perm_equiv"	[style=dashed];	"lem:non_diag_vanish" -> "thm:Pow_Prime"	[style=dashed];	"lem:non_diag_vanish" -> "lem:fl_delta_add_one"	[style=dashed];	"lem:prod_eq_of_perm_equiv" -> "thm:Pow_Prime"	[style=dashed];	"thm:Pow_Prime" -> "thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one"	[style=dashed];	"thm:flu_ne_zero"	[color=green,		fillcolor="#9CEC8B",		label=flu_ne_zero,		shape=ellipse,		style=filled];	"lem:fl_delta_add_one" -> "thm:flu_ne_zero"	[style=dashed];	"lem:j_bound"	[color=green,		fillcolor="#9CEC8B",		label=j_bound,		shape=ellipse,		style=filled];	"def:j" -> "lem:j_bound"	[style=dashed];	"lem:Filt_Theta_lej"	[color=green,		fillcolor="#9CEC8B",		label=Filt_Theta_lej,		shape=ellipse,		style=filled];	"def:j" -> "lem:Filt_Theta_lej"	[style=dashed];	"lem:alpha_equal"	[color=green,		fillcolor="#9CEC8B",		label=alpha_equal,		shape=ellipse,		style=filled];	"lem:j_bound" -> "lem:alpha_equal"	[style=dashed];	"lem:ldiv_j_add_a"	[color=green,		fillcolor="#9CEC8B",		label=ldiv_j_add_a,		shape=ellipse,		style=filled];	"lem:Filt_Theta_lej" -> "lem:ldiv_j_add_a"	[style=dashed];	"thm:Filt_Theta_l_add_three_div_two"	[color=green,		fillcolor="#9CEC8B",		label=Filt_Theta_l_add_three_div_two,		shape=ellipse,		style=filled];	"lem:alpha_equal" -> "thm:Filt_Theta_l_add_three_div_two"	[style=dashed];	"lem:ldiv_j_add_a" -> "lem:alpha_equal"	[style=dashed];	"lem:non_const_of_tuple"	[color=green,		fillcolor="#1CAC78",		label=non_const_of_tuple,		shape=ellipse,		style=filled];	"lem:non_const_of_tuple" -> "thm:Pow_Prime"	[style=dashed];	"lem:const_of_Filt_zero"	[color=green,		label=const_of_Filt_zero,		shape=ellipse];	"lem:const_of_Filt_zero" -> "thm:Filtration_Log"	[style=dashed];	"thm:Filtration_Log" -> "lem:Filt_fl"	[style=dashed];	"lem:Filt_fl" -> "thm:Filt_U_pos"	[style=dashed];	"lem:Filt_Theta_lel_add_one_div_two"	[color=green,		fillcolor="#9CEC8B",		label=Filt_Theta_lel_add_one_div_two,		shape=ellipse,		style=filled];	"lem:Filt_fl" -> "lem:Filt_Theta_lel_add_one_div_two"	[style=dashed];	"thm:Filt_Theta_pow_l_sub_one"	[color=green,		fillcolor="#9CEC8B",		label=Filt_Theta_pow_l_sub_one,		shape=ellipse,		style=filled];	"lem:Filt_fl" -> "thm:Filt_Theta_pow_l_sub_one"	[style=dashed];	"thm:Filt_Theta_l_add_one_div_two"	[color=green,		fillcolor="#9CEC8B",		label=Filt_Theta_l_add_one_div_two,		shape=ellipse,		style=filled];	"lem:Filt_Theta_lel_add_one_div_two" -> "thm:Filt_Theta_l_add_one_div_two"	[style=dashed];	"thm:Filt_Theta_pow_l_sub_one" -> "thm:Filt_Theta_l_sub_two"	[style=dashed];	"thm:Filt_Theta_l_add_one_div_two" -> "def:alpha"	[style=dashed];	"lem:alpha_bound" -> "lem:Filt_Theta_lej"	[style=dashed];	"thm:Theta_l_add_three_div_two_eq_241"	[color=green,		label=Theta_l_add_three_div_two_eq_241,		shape=ellipse];	"thm:Filt_Theta_l_add_three_div_two" -> "thm:Theta_l_add_three_div_two_eq_241"	[style=dashed];	"thm:le_Filt_Theta_fl" -> "thm:Filt_Theta_l_sub_two"	[style=dashed];	"thm:le_Filt_Theta_fl" -> "lem:alpha_bound"	[style=dashed];	"thm:flu_ne_zero" -> "thm:MainResult"	[style=dashed];	"lem:coeff_zero_of_ndvd"	[color=green,		fillcolor="#1CAC78",		label=coeff_zero_of_ndvd,		shape=ellipse,		style=filled];	"lem:prod_eq_sum"	[color=green,		fillcolor="#1CAC78",		label=prod_eq_sum,		shape=ellipse,		style=filled];	"lem:coeff_zero_of_ndvd" -> "lem:prod_eq_sum"	[style=dashed];	"lem:prod_eq_sum" -> "thm:flu_eq_zero"	[style=dashed];	"thm:partitionProduct_eq"	[color=green,		fillcolor="#1CAC78",		label=partitionProduct_eq,		shape=ellipse,		style=filled];	"thm:partitionProduct_eq" -> "thm:flu_eq_zero"	[style=dashed];	"thm:Filt_Theta_iff"	[color=green,		label=Filt_Theta_iff,		shape=ellipse];	"thm:Filt_Theta_iff" -> "lem:Filt_Theta_congruence_of_dvd"	[style=dashed];	"thm:Filt_Theta_iff" -> "lem:Filt_Theta_lel_add_one_div_two"	[style=dashed];	"thm:Filt_Theta_iff" -> "thm:Filt_Theta_pow_l_sub_one"	[style=dashed];	"lem:coeff_sum_X_pow_mul"	[color=green,		fillcolor="#1CAC78",		label=coeff_sum_X_pow_mul,		shape=ellipse,		style=filled];	"lem:coeff_sum_squash"	[color=green,		fillcolor="#1CAC78",		label=coeff_sum_squash,		shape=ellipse,		style=filled];	"lem:coeff_sum_X_pow_mul" -> "lem:coeff_sum_squash"	[style=dashed];	"lem:coeff_sum_squash" -> "thm:flu_eq_zero"	[style=dashed];	"thm:Filt_Theta_bound" -> "thm:Filt_Theta_iff"	[style=dashed];	"thm:Theta_l_add_three_div_two_eq_241" -> "thm:flu_ne_zero"	[style=dashed];	"def:ramanujan_congruence"	[color=green,		fillcolor="#B0ECA3",		label=ramanujan_congruence,		shape=box,		style=filled];	"def:ramanujan_congruence" -> "thm:flu_eq_zero"	[style=dashed];	"def:ModularForm"	[color=green,		fillcolor="#B0ECA3",		label=ModularForm,		shape=box,		style=filled];	"def:ModularForm" -> "def:IntegerModularForm"	[style=dashed];	"def:Filtration" -> "thm:Filtration_congruence"	[style=dashed];	"def:Filtration" -> "lem:const_of_Filt_zero"	[style=dashed];	"def:Filtration" -> "thm:le_Filt_Theta_fl"	[style=dashed];	"lem:coeff_mul_shift_of_zero"	[color=green,		fillcolor="#1CAC78",		label=coeff_mul_shift_of_zero,		shape=ellipse,		style=filled];	"lem:coeff_mul_shift_of_zero" -> "thm:flu_eq_zero"	[style=dashed];}`)
+    .renderDot(`strict digraph "" {	graph [bgcolor=transparent];	node [label="\N",		penwidth=1.8	];	edge [arrowhead=vee];	"thm:ord_mul"	[color=green,		fillcolor="#1CAC78",		label=ord_mul,		shape=ellipse,		style=filled];	"thm:ord_G"	[color=green,		fillcolor="#1CAC78",		label=ord_G,		shape=ellipse,		style=filled];	"thm:ord_mul" -> "thm:ord_G"	[style=dashed];	"thm:ord_mul_ord"	[color=green,		fillcolor="#1CAC78",		label=ord_mul_ord,		shape=ellipse,		style=filled];	"thm:ord_mul" -> "thm:ord_mul_ord"	[style=dashed];	"thm:ord_pow_ord"	[color=green,		fillcolor="#1CAC78",		label=ord_pow_ord,		shape=ellipse,		style=filled];	"thm:ord_mul" -> "thm:ord_pow_ord"	[style=dashed];	"thm:zero_of_leading_zeros"	[color=green,		fillcolor="#1CAC78",		label=zero_of_leading_zeros,		shape=ellipse,		style=filled];	"thm:ord_G" -> "thm:zero_of_leading_zeros"	[style=dashed];	"thm:G_ord_G"	[color=green,		fillcolor="#1CAC78",		label=G_ord_G,		shape=ellipse,		style=filled];	"thm:ord_G" -> "thm:G_ord_G"	[style=dashed];	"thm:ord_mul_ord" -> "thm:G_ord_G"	[style=dashed];	"thm:ord_pow_ord" -> "thm:G_ord_G"	[style=dashed];	"thm:G_delta_add_one"	[color=green,		fillcolor="#9CEC8B",		label=G_delta_add_one,		shape=ellipse,		style=filled];	"thm:ord_pow_ord" -> "thm:G_delta_add_one"	[style=dashed];	"thm:le_Filt_Theta_fl"	[color=green,		fillcolor="#9CEC8B",		label=le_Filt_Theta_fl,		shape=ellipse,		style=filled];	"thm:zero_of_leading_zeros" -> "thm:le_Filt_Theta_fl"	[style=dashed];	"thm:eq_G_of_ord_max"	[color=green,		fillcolor="#1CAC78",		label=eq_G_of_ord_max,		shape=ellipse,		style=filled];	"thm:zero_of_leading_zeros" -> "thm:eq_G_of_ord_max"	[style=dashed];	"thm:exists_maximal_Reduce"	[color=green,		fillcolor="#9CEC8B",		label=exists_maximal_Reduce,		shape=ellipse,		style=filled];	"thm:G_ord_G" -> "thm:exists_maximal_Reduce"	[style=dashed];	"thm:G_ord_G" -> "thm:eq_G_of_ord_max"	[style=dashed];	"thm:Theta_l_add_three_div_two_eq_241"	[color=green,		fillcolor="#9CEC8B",		label=Theta_l_add_three_div_two_eq_241,		shape=ellipse,		style=filled];	"thm:G_delta_add_one" -> "thm:Theta_l_add_three_div_two_eq_241"	[style=dashed];	"thm:Filt_Theta_l_add_one_div_two"	[color=green,		fillcolor="#9CEC8B",		label=Filt_Theta_l_add_one_div_two,		shape=ellipse,		style=filled];	"def:alpha"	[color=green,		fillcolor="#B0ECA3",		label=alpha,		shape=box,		style=filled];	"thm:Filt_Theta_l_add_one_div_two" -> "def:alpha"	[style=dashed];	"lem:alpha_bound"	[color=green,		fillcolor="#9CEC8B",		label=alpha_bound,		shape=ellipse,		style=filled];	"def:alpha" -> "lem:alpha_bound"	[style=dashed];	"lem:Filt_Theta_lej"	[color=green,		fillcolor="#9CEC8B",		label=Filt_Theta_lej,		shape=ellipse,		style=filled];	"lem:alpha_bound" -> "lem:Filt_Theta_lej"	[style=dashed];	"thm:flu_ne_zero"	[color=green,		fillcolor="#9CEC8B",		label=flu_ne_zero,		shape=ellipse,		style=filled];	"thm:Theta_l_add_three_div_two_eq_241" -> "thm:flu_ne_zero"	[style=dashed];	"thm:MainResult"	[color=green,		fillcolor="#9CEC8B",		label=MainResult,		shape=ellipse,		style=filled];	"thm:flu_ne_zero" -> "thm:MainResult"	[style=dashed];	"lem:j_bound"	[color=green,		fillcolor="#9CEC8B",		label=j_bound,		shape=ellipse,		style=filled];	"lem:alpha_equal"	[color=green,		fillcolor="#9CEC8B",		label=alpha_equal,		shape=ellipse,		style=filled];	"lem:j_bound" -> "lem:alpha_equal"	[style=dashed];	"thm:Filt_Theta_l_add_three_div_two"	[color=green,		fillcolor="#9CEC8B",		label=Filt_Theta_l_add_three_div_two,		shape=ellipse,		style=filled];	"lem:alpha_equal" -> "thm:Filt_Theta_l_add_three_div_two"	[style=dashed];	"thm:Theta_l_add_three_div_two"	[color=green,		fillcolor="#9CEC8B",		label=Theta_l_add_three_div_two,		shape=ellipse,		style=filled];	"thm:Filt_Theta_l_add_three_div_two" -> "thm:Theta_l_add_three_div_two"	[style=dashed];	"thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one"	[color=green,		fillcolor="#1CAC78",		label=U_pow_l_eq_self_sub_Theta_pow_l_sub_one,		shape=ellipse,		style=filled];	"thm:Filt_U_pos"	[color=green,		fillcolor="#9CEC8B",		label=Filt_U_pos,		shape=ellipse,		style=filled];	"thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one" -> "thm:Filt_U_pos"	[style=dashed];	"thm:Filt_Theta_l_sub_two"	[color=green,		fillcolor="#9CEC8B",		label=Filt_Theta_l_sub_two,		shape=ellipse,		style=filled];	"thm:Filt_U_pos" -> "thm:Filt_Theta_l_sub_two"	[style=dashed];	"def:j"	[color=green,		fillcolor="#B0ECA3",		label=j,		shape=box,		style=filled];	"thm:Filt_Theta_l_sub_two" -> "def:j"	[style=dashed];	"thm:Filtration_congruence"	[color=green,		label=Filtration_congruence,		shape=ellipse];	"thm:Filtration_congruence" -> "thm:exists_maximal_Reduce"	[style=dashed];	"lem:Filt_Theta_congruence_of_dvd"	[color=green,		fillcolor="#9CEC8B",		label=Filt_Theta_congruence_of_dvd,		shape=ellipse,		style=filled];	"thm:Filtration_congruence" -> "lem:Filt_Theta_congruence_of_dvd"	[style=dashed];	"thm:exists_maximal_Reduce" -> "thm:le_Filt_Theta_fl"	[style=dashed];	"lem:Filt_Theta_congruence_of_dvd" -> "def:alpha"	[style=dashed];	"thm:le_Filt_Theta_fl" -> "lem:alpha_bound"	[style=dashed];	"thm:le_Filt_Theta_fl" -> "thm:Filt_Theta_l_sub_two"	[style=dashed];	"def:ramanujan_congruence"	[color=green,		fillcolor="#B0ECA3",		label=ramanujan_congruence,		shape=box,		style=filled];	"thm:flu_eq_zero"	[color=green,		fillcolor="#1CAC78",		label=flu_eq_zero,		shape=ellipse,		style=filled];	"def:ramanujan_congruence" -> "thm:flu_eq_zero"	[style=dashed];	"thm:flu_eq_zero" -> "thm:MainResult"	[style=dashed];	"def:dim"	[color=green,		fillcolor="#B0ECA3",		label=dim,		shape=box,		style=filled];	"def:IntegerModularForm"	[color=green,		fillcolor="#B0ECA3",		label=IntegerModularForm,		shape=box,		style=filled];	"def:Delta"	[color=green,		fillcolor="#B0ECA3",		label=Delta,		shape=box,		style=filled];	"def:IntegerModularForm" -> "def:Delta"	[style=dashed];	"def:ord"	[color=green,		fillcolor="#B0ECA3",		label=ord,		shape=box,		style=filled];	"def:IntegerModularForm" -> "def:ord"	[style=dashed];	"def:ModularFormMod"	[color=green,		fillcolor="#B0ECA3",		label=ModularFormMod,		shape=box,		style=filled];	"def:IntegerModularForm" -> "def:ModularFormMod"	[style=dashed];	"def:Eis"	[color=green,		fillcolor="#B0ECA3",		label=Eis,		shape=box,		style=filled];	"def:IntegerModularForm" -> "def:Eis"	[style=dashed];	"def:fl"	[color=green,		fillcolor="#B0ECA3",		label=fl,		shape=box,		style=filled];	"def:Delta" -> "def:fl"	[style=dashed];	"thm:DeltaProduct_eventually_sum"	[color=green,		fillcolor="#1CAC78",		label=DeltaProduct_eventually_sum,		shape=ellipse,		style=filled];	"def:Delta" -> "thm:DeltaProduct_eventually_sum"	[style=dashed];	"thm:ord_Delta"	[color=green,		fillcolor="#1CAC78",		label=ord_Delta,		shape=ellipse,		style=filled];	"def:Delta" -> "thm:ord_Delta"	[style=dashed];	"def:G"	[color=blue,		fillcolor="#A3D6FF",		label=G,		shape=box,		style=filled];	"def:Delta" -> "def:G"	[style=dashed];	"def:ord" -> "thm:ord_mul"	[style=dashed];	"def:ord" -> "thm:ord_Delta"	[style=dashed];	"thm:ord_Eis"	[color=green,		fillcolor="#1CAC78",		label=ord_Eis,		shape=ellipse,		style=filled];	"def:ord" -> "thm:ord_Eis"	[style=dashed];	"def:U_Operator"	[color=green,		fillcolor="#B0ECA3",		label=U_Operator,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:U_Operator"	[style=dashed];	"def:Theta"	[color=green,		fillcolor="#B0ECA3",		label=Theta,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:Theta"	[style=dashed];	"def:hasWeight"	[color=green,		fillcolor="#B0ECA3",		label=hasWeight,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:hasWeight"	[style=dashed];	"def:mulpow"	[color=green,		fillcolor="#B0ECA3",		label=mulpow,		shape=box,		style=filled];	"def:ModularFormMod" -> "def:mulpow"	[style=dashed];	"def:Eis" -> "def:G"	[style=dashed];	"def:Eis" -> "thm:ord_Eis"	[style=dashed];	"thm:Eis_two_one"	[color=green,		label=Eis_two_one,		shape=ellipse];	"def:Eis" -> "thm:Eis_two_one"	[style=dashed];	"def:fl" -> "thm:le_Filt_Theta_fl"	[style=dashed];	"lem:fl_delta_add_one"	[color=green,		fillcolor="#1CAC78",		label=fl_delta_add_one,		shape=ellipse,		style=filled];	"def:fl" -> "lem:fl_delta_add_one"	[style=dashed];	"lem:Filt_fl"	[color=green,		label=Filt_fl,		shape=ellipse];	"def:fl" -> "lem:Filt_fl"	[style=dashed];	"thm:fl_Product_eventually_sum"	[color=green,		fillcolor="#1CAC78",		label=fl_Product_eventually_sum,		shape=ellipse,		style=filled];	"def:fl" -> "thm:fl_Product_eventually_sum"	[style=dashed];	"thm:DeltaProduct_eventually_sum" -> "thm:fl_Product_eventually_sum"	[style=dashed];	"thm:ord_Delta" -> "thm:ord_G"	[style=dashed];	"thm:ord_Delta" -> "thm:G_delta_add_one"	[style=dashed];	"def:G" -> "thm:ord_G"	[style=dashed];	"def:G" -> "thm:G_delta_add_one"	[style=dashed];	"thm:ord_Eis" -> "thm:ord_G"	[style=dashed];	"def:U_Operator" -> "thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one"	[style=dashed];	"def:U_Operator" -> "thm:flu_eq_zero"	[style=dashed];	"def:Theta" -> "thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one"	[style=dashed];	"thm:Filt_Theta_bound"	[color=green,		label=Filt_Theta_bound,		shape=ellipse];	"def:Theta" -> "thm:Filt_Theta_bound"	[style=dashed];	"def:Filtration"	[color=green,		fillcolor="#B0ECA3",		label=Filtration,		shape=box,		style=filled];	"def:hasWeight" -> "def:Filtration"	[style=dashed];	"def:mulpow" -> "thm:ord_mul"	[style=dashed];	"def:mulpow" -> "lem:fl_delta_add_one"	[style=dashed];	"thm:Pow_Prime"	[color=green,		fillcolor="#1CAC78",		label=Pow_Prime,		shape=ellipse,		style=filled];	"def:mulpow" -> "thm:Pow_Prime"	[style=dashed];	"thm:Filtration_Log"	[color=green,		label=Filtration_Log,		shape=ellipse];	"def:mulpow" -> "thm:Filtration_Log"	[style=dashed];	"thm:Eis_two_one" -> "thm:G_delta_add_one"	[style=dashed];	"def:perm_equiv"	[color=green,		fillcolor="#B0ECA3",		label=perm_equiv,		shape=box,		style=filled];	"lem:non_diag_vanish"	[color=green,		fillcolor="#1CAC78",		label=non_diag_vanish,		shape=ellipse,		style=filled];	"def:perm_equiv" -> "lem:non_diag_vanish"	[style=dashed];	"lem:prod_eq_of_perm_equiv"	[color=green,		fillcolor="#1CAC78",		label=prod_eq_of_perm_equiv,		shape=ellipse,		style=filled];	"def:perm_equiv" -> "lem:prod_eq_of_perm_equiv"	[style=dashed];	"lem:non_diag_vanish" -> "lem:fl_delta_add_one"	[style=dashed];	"lem:non_diag_vanish" -> "thm:Pow_Prime"	[style=dashed];	"lem:prod_eq_of_perm_equiv" -> "thm:Pow_Prime"	[style=dashed];	"lem:fl_delta_add_one" -> "thm:G_delta_add_one"	[style=dashed];	"thm:Pow_Prime" -> "thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one"	[style=dashed];	"lem:Filt_fl" -> "thm:Filt_U_pos"	[style=dashed];	"thm:Filt_Theta_pow_l_sub_one"	[color=green,		fillcolor="#9CEC8B",		label=Filt_Theta_pow_l_sub_one,		shape=ellipse,		style=filled];	"lem:Filt_fl" -> "thm:Filt_Theta_pow_l_sub_one"	[style=dashed];	"lem:Filt_Theta_lel_add_one_div_two"	[color=green,		fillcolor="#9CEC8B",		label=Filt_Theta_lel_add_one_div_two,		shape=ellipse,		style=filled];	"lem:Filt_fl" -> "lem:Filt_Theta_lel_add_one_div_two"	[style=dashed];	"thm:fl_Product_eventually_sum" -> "thm:flu_eq_zero"	[style=dashed];	"thm:Filt_Theta_pow_l_sub_one" -> "thm:Filt_Theta_l_sub_two"	[style=dashed];	"lem:Filt_Theta_lel_add_one_div_two" -> "thm:Filt_Theta_l_add_one_div_two"	[style=dashed];	"thm:Theta_l_add_three_div_two" -> "thm:Theta_l_add_three_div_two_eq_241"	[style=dashed];	"lem:non_const_of_tuple"	[color=green,		fillcolor="#1CAC78",		label=non_const_of_tuple,		shape=ellipse,		style=filled];	"lem:non_const_of_tuple" -> "thm:Pow_Prime"	[style=dashed];	"lem:const_of_Filt_zero"	[color=green,		label=const_of_Filt_zero,		shape=ellipse];	"lem:const_of_Filt_zero" -> "thm:Filtration_Log"	[style=dashed];	"thm:Filtration_Log" -> "lem:Filt_fl"	[style=dashed];	"def:j" -> "lem:j_bound"	[style=dashed];	"def:j" -> "lem:Filt_Theta_lej"	[style=dashed];	"lem:ldiv_j_add_a"	[color=green,		fillcolor="#9CEC8B",		label=ldiv_j_add_a,		shape=ellipse,		style=filled];	"lem:Filt_Theta_lej" -> "lem:ldiv_j_add_a"	[style=dashed];	"lem:ldiv_j_add_a" -> "lem:alpha_equal"	[style=dashed];	"thm:eq_G_of_ord_max" -> "thm:Theta_l_add_three_div_two"	[style=dashed];	"lem:coeff_mul_shift_of_zero"	[color=green,		fillcolor="#1CAC78",		label=coeff_mul_shift_of_zero,		shape=ellipse,		style=filled];	"lem:coeff_mul_shift_of_zero" -> "thm:flu_eq_zero"	[style=dashed];	"thm:eventuallyEq_mul"	[color=green,		fillcolor="#1CAC78",		label=eventuallyEq_mul,		shape=ellipse,		style=filled];	"thm:eventuallyEq_mul" -> "thm:fl_Product_eventually_sum"	[style=dashed];	"lem:coeff_sum_X_pow_mul"	[color=green,		fillcolor="#1CAC78",		label=coeff_sum_X_pow_mul,		shape=ellipse,		style=filled];	"lem:coeff_sum_squash"	[color=green,		fillcolor="#1CAC78",		label=coeff_sum_squash,		shape=ellipse,		style=filled];	"lem:coeff_sum_X_pow_mul" -> "lem:coeff_sum_squash"	[style=dashed];	"lem:coeff_sum_squash" -> "thm:flu_eq_zero"	[style=dashed];	"thm:Filt_Theta_iff"	[color=green,		label=Filt_Theta_iff,		shape=ellipse];	"thm:Filt_Theta_iff" -> "lem:Filt_Theta_congruence_of_dvd"	[style=dashed];	"thm:Filt_Theta_iff" -> "thm:Filt_Theta_pow_l_sub_one"	[style=dashed];	"thm:Filt_Theta_iff" -> "lem:Filt_Theta_lel_add_one_div_two"	[style=dashed];	"def:eventuallyEq"	[color=green,		fillcolor="#B0ECA3",		label=eventuallyEq,		shape=box,		style=filled];	"def:eventuallyEq" -> "thm:DeltaProduct_eventually_sum"	[style=dashed];	"def:eventuallyEq" -> "thm:eventuallyEq_mul"	[style=dashed];	"def:ModularForm"	[color=green,		fillcolor="#B0ECA3",		label=ModularForm,		shape=box,		style=filled];	"def:ModularForm" -> "def:IntegerModularForm"	[style=dashed];	"thm:Filt_Theta_bound" -> "thm:Filt_Theta_iff"	[style=dashed];	"def:Filtration" -> "thm:Filtration_congruence"	[style=dashed];	"def:Filtration" -> "lem:const_of_Filt_zero"	[style=dashed];	"lem:coeff_zero_of_ndvd"	[color=green,		fillcolor="#1CAC78",		label=coeff_zero_of_ndvd,		shape=ellipse,		style=filled];	"lem:prod_eq_sum"	[color=green,		fillcolor="#1CAC78",		label=prod_eq_sum,		shape=ellipse,		style=filled];	"lem:coeff_zero_of_ndvd" -> "lem:prod_eq_sum"	[style=dashed];	"lem:prod_eq_sum" -> "thm:flu_eq_zero"	[style=dashed];	"thm:partitionProduct_eq"	[color=green,		fillcolor="#1CAC78",		label=partitionProduct_eq,		shape=ellipse,		style=filled];	"thm:partitionProduct_eq" -> "thm:flu_eq_zero"	[style=dashed];}`)
     .on("end", interactive);
 
 latexLabelEscaper = function(label) {

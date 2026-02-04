@@ -854,10 +854,6 @@ instance [h : NeZero (k - 1)] : NeZero (2 * k - 1) where
   out := by have := h.out; omega
 
 
-theorem too : IntegerModularForm 2 = {a : IntegerModularForm 2 // a = 0} := by
-  apply @type_eq_of_heq _ _ (0 : IntegerModularForm 2) ⟨0, rfl⟩
-  sorry
-
 
 instance two_unique : Unique (IntegerModularForm 2) where
   default := 0

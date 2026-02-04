@@ -713,7 +713,10 @@ lemma Eis_gt_one_ne_zero {k n : ℕ} [h : NeZero n] (kgt1 : k > 1) : Eis k n =
   rw [Eis_gt_one kgt1, if_neg h.out]
 
 
-lemma Eis_two_one : Eis 2 1 = 240 := by sorry
+lemma Eis_two_one : Eis 2 1 = 240 := by
+  simp [Eis_gt_one_ne_zero one_lt_two, Nat.sigma]
+  sorry
+
 
 
 instance instEisNeZero (k : ℕ) [h : NeZero (k - 1)] : NeZero (Eis k) :=

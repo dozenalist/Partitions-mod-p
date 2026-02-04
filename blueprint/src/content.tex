@@ -316,6 +316,17 @@
 \end{theorem}
 
 
+\begin{definition} [Eisenstein Series]
+  \label{def:Eis}
+  \uses{def:IntegerModularForm}
+  \lean{Integer.Eis}
+  \leanok
+  For $k \ge 2 \in \mathbb{N}$, the Eisenstein series $E_k$ is an integer modular form of weight $2k$ defined by 
+  \[ E_k = 1 - \frac{4k}{B_{2k}} \sum_{n = 1}^{\infty} \sigma_{2k - 1} (n) q ^ n \]
+  where $B_k$ is the kth Bernoulli number and $\sigma_{k} (n)$ is the sum of the kth powers of the divisors of $n$.
+\end{definition}
+
+
 \begin{definition}[Delta]
   \label{def:Delta}
   \uses{def:IntegerModularForm}
@@ -364,14 +375,175 @@
   if and only if $\ell \nmid \omega (a).$
 \end{theorem}
 
+
+\begin{definition} [ord]
+  \label{def:ord}
+  \uses{def:IntegerModularForm}
+  \lean{Integer.ord}
+  \leanok
+  Let $b$ be an integer modular form. The order of $b$, ord$(b)$, is defined as the minimum $n \in \mathbb{N}$ such that $b(n) \neq 0$.
+  This is the order of vanishing of $b$ at infinity.
+\end{definition}
+
+\begin{theorem}
+  \label{thm:ord_mul}
+  \uses{def:ord, def:mulpow}
+  \lean{Integer.ord_mul}
+  \leanok
+  ord$(a \cdot b) = $ ord$(a) + $ ord$(b)$.
+\end{theorem}
+\begin{proof}
+  \leanok
+\end{proof}
+
+\begin{theorem}
+  \label{thm:ord_mul_ord}
+  \uses{thm:ord_mul}
+  \lean{Integer.ord_mul_ord}
+  \leanok
+  (a \cdot b) (ord$(a) + $ ord$(b)) = a($ ord$(a)) \cdot b($ ord$(b))$.
+\end{theorem}
+\begin{proof}
+  \leanok
+\end{proof}
+
+\begin{theorem}
+  \label{thm:ord_pow_ord}
+  \uses{def:ord, thm:ord_mul}
+  \lean{Integer.ord_Ipow_ord}
+  \leanok
+  $a ^ m (m \cdot $ ord$(a)) = a($ ord$(a)) ^ m$.
+\end{theorem}
+\begin{proof}
+  \leanok
+\end{proof}
+
+\begin{theorem}
+  \label{thm:ord_Delta}
+  \uses{def:Delta, def:ord}
+  \lean{Integer.ord_Delta}
+  \leanok
+  ord$(\Delta) = 1$.
+\end{theorem}
+\begin{proof}
+  \leanok
+\end{proof}
+
+\begin{theorem}
+  \label{thm:ord_Eis}
+  \uses{def:Eis, def:ord}
+  \lean{Integer.ord_Eis}
+  \leanok
+  For any k, ord$(E_k) = 0$.
+\end{theorem}
+\begin{proof}
+  \leanok
+\end{proof}
+
+\begin{definition}
+  \label{def:dim}
+  \lean{ModularForm.dim}
+  \leanok
+  For $k \in \mathbb{N}$, define dim$(k) = \lfloor k / 6 \rfloor +         
+        \begin{cases}
+            0 & \text{ if } k\equiv 1\pmod{6}, \\
+            1 & \text{ else }.
+        \end{cases} $. \\
+  dim$(k)$ is the dimension of the space of modular forms of weight $2k$.
+\end{definition}
+
+
+\begin{definition}
+  \label{def:G}
+  \uses{def:Eis, def:Delta}
+  \lean{Integer.G}
+
+  For $ k \ne 1$ and $c < $dim$(k)$,
+  $G_{k,\: c}$is a modular form of weight $2k$ defined as 
+
+  \[G_{k,\: c} = E_2 ^ a E_3 ^ b E_4 ^ {k / 2 - 3c} \Delta ^ c \]
+  where $a, b$ are the minimal natural numbers such that $2a + 3b \equiv k \pmod 6$. \\
+  We have that the set of all such $G_{k,\: c}$ for fixed $k$ form a basis for the modular forms of weight $2k$.
+
+\end{definition}
+
+
+\begin{theorem}
+  \label{thm:ord_G}
+  \uses{def:G, thm:ord_Delta, thm:ord_Eis, thm:ord_mul}
+  \lean{Integer.ord_G}
+  \leanok
+  ord$(G_{k, c}) = c$.
+\end{theorem}
+\begin{proof}
+  \leanok
+\end{proof}
+
+
+\begin{theorem}
+  \label{thm:G_ord_G}
+  \uses{thm:ord_G, thm:ord_pow_ord, thm:ord_mul_ord}
+  \lean{Integer.G_ord_G}
+  \leanok
+  $G_{k,\: c} (c) = 1$.
+\end{theorem}
+\begin{proof}
+  \leanok
+\end{proof}
+
+\begin{theorem}
+  \label{thm:zero_of_leading_zeros}
+  \uses{def:G, thm:ord_G}
+  \lean{Integer.zero_of_leading_zeros}
+  \leanok
+  Let $a$ be a modular form of weight $2k$. If ord$(a) \: \ge \: dim(k)$ then $a$ is the zero function.
+\end{theorem}
+\begin{proof}
+  \leanok
+\end{proof}
+
+
+\begin{theorem}
+  \label{thm:eq_G_of_ord_max}
+  \uses{thm:zero_of_leading_zeros, thm:G_ord_G}
+  \lean{Integer.eq_G_of_ord_max}
+  \leanok
+  Let $a$ be a modular form of weight $2k$. If ord$(a) = $dim$(k) - 1$ then
+  $a = a ($dim$(k) - 1) G_{k, \: \text{dim} (k) - 1}.$ 
+\end{theorem}
+\begin{proof}
+  \leanok
+\end{proof}
+
+
+\begin{theorem}
+  \label{thm:exists_maximal_Reduce}
+  \uses{thm:G_ord_G, thm:Filtration_congruence}
+  \lean{Modulo.exists_maximal_Reduce}
+  \leanok
+  Let $a$ be a modular form mod $\ell$ of weight $k$. If ord$(a) \ge m$, then there exists an
+  integer modular form $b$ of weight $k$ such that \\
+  (1) ord$(b) \ge m$, and \\
+  (2) the reduction of $b$ is equal to $a$.
+
+\end{theorem}
+\begin{proof}
+  \leanok
+\end{proof}
+
+
+
 \begin{theorem}
   \label{thm:le_Filt_Theta_fl}
-  \uses{def:fl, def:Filtration}
+  \uses{def:fl, thm:Filtration_congruence, thm:exists_maximal_Reduce, thm:zero_of_leading_zeros}
   \lean{le_Filt_Theta_fl}
   \leanok
   This is Lemma 3.2. \\
   For all $m \in \mathbb{N}$, $\omega (\Theta^m f_\ell) \ge \omega (f_\ell) = \frac{\ell^2 - 1}{2}.$
 \end{theorem} 
+\begin{proof}
+  \leanok
+\end{proof}
 
 
 \begin{theorem}
@@ -558,26 +730,6 @@
   \leanok
 \end{proof}
 
-\begin{theorem}
-  \label{thm:Theta_l_add_three_div_two_eq_241}
-  \uses{thm:Filt_Theta_l_add_three_div_two} 
-  \lean{Theta_l_add_three_div_two_eq_241}
-  \leanok
-  $(\Theta^{\frac{\ell + 3}{2}} f_\ell) \: (\delta_\ell + 1) = 241 (\delta_\ell + 1)^{\frac{\ell + 3}{2}}$.
-\end{theorem}
- 
-\begin{theorem}
-  \label{thm:flu_ne_zero}
-  \uses{thm:Theta_l_add_three_div_two_eq_241, lem:fl_delta_add_one}
-  \lean{flu_ne_zero}
-  \leanok
-  If $\ell \ge 13$ is prime, then $(f_\ell | U) \neq 0.$
-
-\end{theorem}
-\begin{proof}
-  \leanok
-\end{proof}
-
 
 
 \begin{definition}
@@ -751,24 +903,65 @@
 \end{proof}
 
 
-\begin{definition} [ord]
-  \label{def:ord}
-  \uses{def:IntegerModularForm}
-  \lean{ord}
+\begin{theorem}
+  \label{thm:Eis_two_one}
+  \uses{def:Eis}
+  \lean{Integer.Eis_two_one}
   \leanok
-  Let $b$ be an integer modular form. The order of $b$, ord$(b)$, is defined as the minimum $n \in \mathbb{N}$ such that $b(n) \neq 0$.
-  This is the order of vanishing of $b$ at infinity.
-\end{definition}
+  $E_2 (1) = 240$.
+\end{theorem}
 
 \begin{theorem}
-  \label{ord_mul}
-  \uses{def:ord}
+  \label{thm:G_delta_add_one}
+  \uses{def:G, thm:ord_pow_ord, thm:ord_Delta, lem:fl_delta_add_one, thm:Eis_two_one}
+  \lean{G_delta_add_one}
   \leanok
-  ord$(a \cdot b) = $ ord$(a) + $ ord$(b)$.
+  $G_{6\delta_\ell + 2, \delta_\ell} (\delta_\ell + 1) \equiv 241 \pmod \ell$.
 \end{theorem}
 \begin{proof}
   \leanok
 \end{proof}
+
+\begin{theorem}
+  \label{thm:Theta_l_add_three_div_two}
+  \uses{def:fl, thm:exists_maximal_Reduce, thm:eq_G_of_ord_max, 
+    thm:zero_of_leading_zeros, thm:Filt_Theta_l_add_three_div_two}
+  \lean{Theta_l_add_three_div_two}
+  \leanok
+
+  $\Theta^{\frac{\ell + 3}{2}} f_\ell \equiv \delta_\ell ^ {\frac{\ell + 3}{2}} G_{6\delta_\ell + 2, \delta_\ell} \pmod \ell$.
+
+\end{theorem}
+\begin{proof}
+  \leanok
+\end{proof}
+
+
+\begin{theorem}
+  \label{thm:Theta_l_add_three_div_two_eq_241}
+  \uses{thm:Theta_l_add_three_div_two, thm:G_delta_add_one} 
+  \lean{Theta_l_add_three_div_two_eq_241}
+  \leanok
+  $(\Theta^{\frac{\ell + 3}{2}} f_\ell) \: (\delta_\ell + 1) = 241 (\delta_\ell + 1)^{\frac{\ell + 3}{2}}$.
+\end{theorem}
+\begin{proof}
+  \leanok
+\end{proof}
+ 
+
+\begin{theorem}
+  \label{thm:flu_ne_zero}
+  \uses{thm:Theta_l_add_three_div_two_eq_241, lem:fl_delta_add_one}
+  \lean{flu_ne_zero}
+  \leanok
+  If $\ell \ge 13$ is prime, then $(f_\ell | U) \neq 0.$
+
+\end{theorem}
+\begin{proof}
+  \leanok
+\end{proof}
+
+
 
 
 
