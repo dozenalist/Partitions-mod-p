@@ -113,40 +113,41 @@ def subtype_univ_equiv {α : Type*} [Fintype α] : ({a : α // a ∈ (Finset.uni
 
 
 lemma orbit_decomp {k} (x : Fin k → ℕ) : #(Finset.univ : Finset (Equiv.Perm (Fin k))) = #(orbit_finset x) * #(Stab x) := by
-  {
-    let f : Equiv.Perm (Fin k) → (Fin k → ℕ) := fun g ↦ x ∘ g
-    calc
-      _  = ∑ y ∈ Finset.univ.image f, ((Finset.univ.filter (fun g ↦ f g = y)).card) := by
-        exact card_eq_sum_card_image f Finset.univ
-      _ = ∑ y ∈ orbit_finset x, #(Stab x) := by
-        refine Finset.sum_congr rfl ?_
-        intro y hy
-        simp only [f, Stab]
-        have hyy := orbit_equiv.1 hy
-        obtain ⟨d, rfl⟩ := hyy
-        have {c : Equiv.Perm (Fin k)} : (y ∘ ⇑d) ∘ ⇑c = y ∘ ⇑d ↔ ((y ∘ ⇑d) ∘ ⇑c) ∘ ⇑d⁻¹ = y := by
-          constructor <;> intro h; rw[h]; ext
-          simp only [Function.comp_apply, Equiv.Perm.apply_inv_self]
-          nth_rw 2[← h]; ext; simp only [Function.comp_apply, Equiv.Perm.inv_apply_self]
 
-        simp only [this]
+  let f : Equiv.Perm (Fin k) → (Fin k → ℕ) := fun g ↦ x ∘ g
+  calc
+    _  = ∑ y ∈ Finset.univ.image f, ((Finset.univ.filter (fun g ↦ f g = y)).card) :=
+      card_eq_sum_card_image f Finset.univ
 
-        have im_eq :  Finset.image (fun g => g * d) { g : Equiv.Perm (Fin k) | (y ∘ d) ∘ g = y } =
-            ({ c : Equiv.Perm (Fin k) | ((y ∘ d) ∘ c) ∘ ⇑d⁻¹ = y } : Finset (Equiv.Perm (Fin k))) := by
-          ext c
-          constructor
-          intro h
-          simp_all; nth_rw 2[← h]; ext; simp
-          intro h
-          simp_all; nth_rw 2[← h]; ext; simp
+    _ = ∑ y ∈ orbit_finset x, #(Stab x) := by
+      refine Finset.sum_congr rfl ?_
+      intro y hy
+      simp only [f, Stab]
+      have hyy := orbit_equiv.1 hy
+      obtain ⟨d, rfl⟩ := hyy
+      have {c : Equiv.Perm (Fin k)} : (y ∘ ⇑d) ∘ ⇑c = y ∘ ⇑d ↔ ((y ∘ ⇑d) ∘ ⇑c) ∘ ⇑d⁻¹ = y := by
+        constructor <;> intro h; rw[h]; ext
+        simp only [Function.comp_apply, Equiv.Perm.apply_inv_self]
+        nth_rw 2[← h]; ext; simp only [Function.comp_apply, Equiv.Perm.inv_apply_self]
 
-        rw[← im_eq]
-        refine Eq.symm (Finset.card_image_of_injOn ?_)
-        intro x hx z hz
-        simp_all
+      simp only [this]
 
-      _ = #(orbit_finset x) * #(Stab x) := sum_const_nat λ _ ↦ congrFun rfl
-  }
+      have im_eq :  Finset.image (fun g => g * d) { g : Equiv.Perm (Fin k) | (y ∘ d) ∘ g = y } =
+          ({ c : Equiv.Perm (Fin k) | ((y ∘ d) ∘ c) ∘ ⇑d⁻¹ = y } : Finset (Equiv.Perm (Fin k))) := by
+        ext c
+        constructor
+        intro h
+        simp_all; nth_rw 2[← h]; ext; simp
+        intro h
+        simp_all; nth_rw 2[← h]; ext; simp
+
+      rw[← im_eq]
+      refine Eq.symm (Finset.card_image_of_injOn ?_)
+      intro x hx z hz
+      simp_all
+
+    _ = #(orbit_finset x) * #(Stab x) := sum_const_nat λ _ ↦ congrFun rfl
+
 
 
 lemma decomp_div {k} (x : Fin k → ℕ): #(orbit_finset x) = #(univ : Finset (Equiv.Perm (Fin k))) / #(Stab x) := by

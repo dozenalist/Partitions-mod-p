@@ -150,8 +150,6 @@ lemma U_apply : (a|𝓤) n = a (ℓ * n) := rfl
 
 
 
-
-
 def Theta_pow : (n : ℕ) → ModularFormMod ℓ k → ModularFormMod ℓ (k + n * 2)
   | 0, f     => Mcongr (by simp) f
   | n + 1, f => Mcongr (by simp; group) (Theta (Theta_pow n f))
@@ -203,14 +201,14 @@ lemma Theta_pow_l_eq_Theta {a : ModularFormMod ℓ k} [Fact (Nat.Prime ℓ)] : �
   intro n; rw[Theta_pow_apply, ZMod.pow_card, Theta_apply]
 
 
-lemma val_of_NeZero (a : ModularFormMod ℓ k) [NeZero (ℓ - 1)] [NeZero a] : ∃ k, a k ≠ 0 := by
+lemma val_of_NeZero (a : ModularFormMod ℓ k) [NeZero a] : ∃ k, a k ≠ 0 := by
   by_contra!
   have : a = 0 := by ext n; rw[this n, zero_apply]
-  expose_names; exact inst_2.out this
+  expose_names; exact inst_1.out this
 
 
 
-instance instThetaNeZero {a : ModularFormMod ℓ k} [NeZero (ℓ - 1)] [NeZero a] : NeZero (Θ a) where
+instance instThetaNeZero {a : ModularFormMod ℓ k} [NeZero a] : NeZero (Θ a) where
   out := by
     obtain ⟨n, hn⟩ := val_of_NeZero a
     contrapose! hn
@@ -218,7 +216,7 @@ instance instThetaNeZero {a : ModularFormMod ℓ k} [NeZero (ℓ - 1)] [NeZero a
     simp_rw[Theta_apply] at this
     sorry
 
-instance instTheta_powNeZero {a : ModularFormMod ℓ k} [NeZero (ℓ - 1)] [NeZero a] {j : ℕ} :
+instance instTheta_powNeZero {a : ModularFormMod ℓ k} [NeZero a] {j : ℕ} :
     NeZero (Θ^[j] a) where
   out := by induction j with
     | zero =>
@@ -238,13 +236,13 @@ instance instTheta_powNeZero {a : ModularFormMod ℓ k} [NeZero (ℓ - 1)] [NeZe
       contrapose! this
       apply (@instThetaNeZero ..).out  -- cursed
       infer_instance
-      exact ⟨this⟩
+      --exact ⟨this⟩
 
 
 instance Integer.Exists_ne_zero {k : ℕ} {a : IntegerModularForm k} (h : ∃ n, a n ≠ 0) : NeZero a where
   out := by contrapose! h; simp only [h, zero_apply, implies_true]
 
-instance Modulo.Exists_ne_zero [NeZero (ℓ - 1)] {a : ModularFormMod ℓ k} (h : ∃ n, a n ≠ 0) : NeZero a where
+instance Modulo.Exists_ne_zero {a : ModularFormMod ℓ k} (h : ∃ n, a n ≠ 0) : NeZero a where
   out := by contrapose! h; simp only [h, zero_apply, implies_true]
 
 namespace Modulo
@@ -397,6 +395,9 @@ lemma Weight_eq_of_Mod_eq (h : a == d) {j} : hasWeight a j → hasWeight d j := 
   unfold hasWeight; rintro ⟨c,hc⟩
   use c; ext n; rw[← h n]; exact congrFun hc n
 
+@[simp] lemma Weight_Mcongr (h : k = j) {m} : hasWeight (Mcongr h a) m ↔ hasWeight a m := by
+  constructor <;> apply Weight_eq_of_Mod_eq; exact cast_equal; symm; exact cast_equal
+
 lemma Filt_eq_of_Mod_eq (h : a == d) : 𝔀 a = 𝔀 d := by
   unfold Filtration; congr; ext j
   exact ⟨Weight_eq_of_Mod_eq h, Weight_eq_of_Mod_eq h.symm⟩
@@ -410,6 +411,17 @@ lemma Weight_of_Filt (h : 𝔀 a = n) : hasWeight a n := by
   unfold Filtration at h; rw[Nat.find_eq_iff] at h
   exact h.1
 
+lemma Filt_le_iff : 𝔀 a ≤ n ↔ ∃ k ≤ n, hasWeight a k := by
+  constructor <;> intro h
+  use 𝔀 a, h
+  exact Weight_of_Filt rfl
+  rwa [Filtration, Nat.find_le_iff]
+
+lemma Filt_lt_iff : 𝔀 a < n ↔ ∃ k < n, hasWeight a k := by
+  constructor <;> intro h
+  use 𝔀 a, h
+  exact Weight_of_Filt rfl
+  rwa [Filtration, Nat.find_lt_iff]
 
 lemma Filt_decomp {j : ℕ} {a : ModularFormMod ℓ k} (wj : hasWeight a j)
     (jmin : ∀ k, k < j → ¬ hasWeight a k) : 𝔀 a = j := by

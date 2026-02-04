@@ -34,7 +34,7 @@ namespace Modulo
 
 variable {k : ℕ}
 
-def Reduce (a : IntegerModularForm k) ℓ [NeZero ℓ] : ModularFormMod ℓ k where
+def Reduce (ℓ : ℕ) [h : NeZero ℓ] (a : IntegerModularForm k) : ModularFormMod ℓ k where
   sequence n := (a n : ZMod ℓ)
   modular := ⟨k, a, rfl, rfl⟩
 
@@ -57,6 +57,8 @@ instance : Zero (ModularFormMod ℓ k) where
   { sequence := fun n ↦ (0 : ZMod ℓ)
     modular := sorry
   }
+
+instance : Inhabited (ModularFormMod ℓ k) := ⟨0⟩
 
 
 instance add : Add (ModularFormMod ℓ k) where
@@ -122,8 +124,8 @@ variable {k j : ZMod (ℓ-1)}
 theorem natify_apply (a : ModularFormMod ℓ k) (n : ℕ) : natify a n = (a n).val := rfl
 
 @[simp]
-theorem Reduce_apply {k ℓ} [NeZero ℓ] (a : IntegerModularForm k ) (n : ℕ) :
-  Reduce a ℓ n = a n := rfl
+theorem Reduce_apply {k ℓ} [NeZero ℓ] (a : IntegerModularForm k) (n : ℕ) :
+  Reduce ℓ a n = a n := rfl
 
 
 @[simp]
@@ -160,10 +162,10 @@ theorem coe_smuln (f : ModularFormMod ℓ k) (n : ℕ) : ⇑(n • f) = n • �
 theorem smul_apply (f : ModularFormMod ℓ k) (n z : ℕ) : (n • f) z = n • f z := rfl
 
 @[simp]
-theorem coe_zero [NeZero (ℓ - 1)] : ⇑(0 : ModularFormMod ℓ k) = (0 : ℕ → ZMod ℓ) := rfl
+theorem coe_zero : ⇑(0 : ModularFormMod ℓ k) = (0 : ℕ → ZMod ℓ) := rfl
 
 @[simp]
-theorem zero_apply (z : ℕ) [NeZero (ℓ - 1)] : (0 : ModularFormMod ℓ k) z = 0 := rfl
+theorem zero_apply (z : ℕ) : (0 : ModularFormMod ℓ k) z = 0 := rfl
 
 @[simp]
 theorem coe_neg (f : ModularFormMod ℓ k) : ⇑(-f) = -f := rfl
@@ -189,9 +191,13 @@ theorem ModularFormMod.ext {a b : ModularFormMod ℓ k} (h : ∀ n, a n = b n) :
   DFunLike.ext a b h
 
 @[simp]
-theorem Reduce_zero {k ℓ} [NeZero ℓ] [NeZero (ℓ - 1)] :
-    Reduce (0 : IntegerModularForm k) ℓ = (0 : ModularFormMod ℓ k) := by
+theorem Reduce_zero {k ℓ} [NeZero ℓ] :
+    Reduce ℓ (0 : IntegerModularForm k) = (0 : ModularFormMod ℓ k) := by
   ext n; rw [Reduce_apply, Integer.zero_apply, Int.cast_zero, zero_apply]
+
+@[simp] theorem zero_Mpow (j : ℕ) [hj : NeZero j] : (0 : ModularFormMod ℓ k) ** j = 0 := by
+  ext n; simp [Mpow_apply, hj.out]
+
 
 -- the constant modular forms of weight 0
 def const (x : ZMod ℓ) : ModularFormMod ℓ 0 where

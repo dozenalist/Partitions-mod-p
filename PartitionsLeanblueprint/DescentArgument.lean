@@ -635,5 +635,4 @@ theorem Filt_Theta_l_add_three_div_two (flu : fl ℓ |𝓤 = 0) :
       congr; exact Nat.sub_add_comm (le_refl _)
 
     _ = (0 + 8) / 2 := by
-      rw[add_assoc]; congr
-      exact Nat.sub_self _
+      rw[add_assoc, Nat.sub_self]

@@ -751,3 +751,24 @@
 \end{proof}
 
 
+\begin{definition} [ord]
+  \label{def:ord}
+  \uses{def:IntegerModularForm}
+  \lean{ord}
+  \leanok
+  Let $b$ be an integer modular form. The order of $b$, ord$(b)$, is defined as the minimum $n \in \mathbb{N}$ such that $b(n) \neq 0$.
+  This is the order of vanishing of $b$ at infinity.
+\end{definition}
+
+\begin{theorem}
+  \label{ord_mul}
+  \uses{def:ord}
+  \leanok
+  ord$(a \cdot b) = $ ord$(a) + $ ord$(b)$.
+\end{theorem}
+\begin{proof}
+  \leanok
+\end{proof}
+
+
+

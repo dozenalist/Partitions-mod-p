@@ -1,5 +1,7 @@
 import PartitionsLeanblueprint.PreliminaryResults
 import PartitionsLeanblueprint.Basis
+import PartitionsLeanblueprint.Dimension
+
 
 /- This file states lemmas 2.1 and 3.2, and proves lemma 3.3 assuming them.
 It also proves some other basic facts. -/
@@ -12,9 +14,6 @@ variable {ℓ n : ℕ} [NeZero ℓ] [Fact (Nat.Prime ℓ)]
 variable {k j : ZMod (ℓ-1)}
 variable {a b : ModularFormMod ℓ k}
 
-
-theorem bla {α : Type*} (Z : ℕ → Set α) (T : α → α) : T '' (⋃ k, Z k) = ⋃ k, (T '' Z k) := by exact
-  Set.image_iUnion
 
 lemma not_dvd_filt : ¬ ℓ ∣ (ℓ ^ 2 - 1) / 2 := by
     intro h
@@ -132,7 +131,7 @@ lemma delta_integer [Fact (ℓ ≥ 5)]: 24 ∣ ℓ ^ 2 - 1 := by
   }
   {
     suffices ℓ ^ 2 ≡ 1 [MOD 8] from
-      (Nat.modEq_iff_dvd' (Nat.one_le_of_lt lsq)).mp (id (Nat.ModEq.symm this))
+      (Nat.modEq_iff_dvd' (Nat.one_le_of_lt lsq)).mp (Nat.ModEq.symm this)
     trans 3 * 3
     rw[pow_two]; refine Nat.ModEq.symm (Nat.ModEq.mul ?_ ?_) <;>
     rwa[Nat.modEq_iff_dvd']
@@ -201,6 +200,7 @@ lemma not_dvd_delta [Fact (ℓ ≥ 5)] : ¬ ℓ ∣ δ ℓ := by
     _ = (ℓ ^ 2 - 1)/2 := twelve_delta
 
 
+
 lemma Filt_Delta : 𝔀 (Δ : ModularFormMod ℓ 12) = 12 := sorry
 
 
@@ -219,9 +219,11 @@ theorem Filt_Theta_bound (a : ModularFormMod ℓ k) : 𝔀 (Θ a) ≤ 𝔀 a + �
 theorem Filt_Theta_iff {a : ModularFormMod ℓ k} : 𝔀 (Θ a) = 𝔀 a + ℓ + 1 ↔ ¬ ℓ ∣ 𝔀 a := sorry
 
 
+
+
 lemma Filt_Theta_bound' (a : ModularFormMod ℓ k) {m j : ℕ} (h : m = j + 1) :
     𝔀 (Θ^[m] a) ≤ 𝔀 (Θ^[j] a) + ℓ + 1 := by
-  rw[Filt_eq_of_Mod_eq (Theta_pow_cast h), Theta_pow_succ', Filt_cast]
+  rw [Filt_eq_of_Mod_eq (Theta_pow_cast h), Theta_pow_succ', Filt_cast]
   exact Filt_Theta_bound (Θ^[j] a)
 
 lemma Filt_Theta_iff' {a : ModularFormMod ℓ k} {m j : ℕ} (h : m = j + 1) :
@@ -313,7 +315,49 @@ lemma Filt_Theta_congruence_of_dvd' {a : ModularFormMod ℓ k} [NeZero a]
 
 
 -- Lemma 3.2
-theorem le_Filt_Theta_fl : ∀ m, 𝔀 (fl ℓ) ≤ 𝔀 (Θ^[m] (fl ℓ)) := sorry
+theorem le_Filt_Theta_fl [Fact (ℓ ≥ 5)] : ∀ m, 𝔀 (fl ℓ) ≤ 𝔀 (Θ^[m] (fl ℓ)) := by
+  intro m
+  have eq2 : 12 * δ ℓ = 2 * (6 * δ ℓ) := by rw [← mul_assoc]; rfl
+  rw [Filt_fl, ← twelve_delta]
+  by_contra! filt_lt
+  rw [Filt_lt_iff] at filt_lt
+  obtain ⟨k, klt, haw⟩ := filt_lt
+
+  have fn0 : NeZero (Θ^[m] (fl ℓ)) := inferInstance
+
+  obtain ⟨d, hd⟩ := haw
+  have dn0 : NeZero d := by
+    obtain ⟨a,b⟩ := @val_of_NeZero _ _ _ _ fn0
+    refine Integer.Exists_ne_zero ⟨a, ?_⟩
+    contrapose! b
+    rw [hd]; trans ↑(d a); rfl
+    rw [b, Int.cast_zero]
+
+  obtain ⟨h, dr⟩ := Reduce_of_reduce hd
+
+  obtain ⟨j, jcon⟩ := Integer.exists_two_mul_weight d
+  subst jcon
+
+  set f := (Mcongr (by rw [← h]; norm_cast) (Θ^[m] (fl ℓ)) : ModularFormMod ℓ (2 * j)) with feq
+
+  have : NeZero f := by rw [Mcongr_NeZero]; infer_instance
+
+  have hf : ∀ n < δ ℓ, f n = 0 := fun n nlt => by
+    simp only [feq, Mcongr_apply, Theta_pow_apply, fl_lt_delta nlt, mul_zero]
+
+  obtain ⟨b', hb, hj, aeq, ordb⟩ := exists_maximal_Reduce f hf ⟨d, by ext n; rw [← hd, feq, cast_eval]⟩
+
+  suffices b' = 0 from absurd this hb.out
+
+  apply Integer.zero_of_leading_zeros
+
+  suffices ModularForm.dim j ≤ δ ℓ from fun n nlt => by
+    rw [Integer.lt_ord_apply]
+    omega
+
+  apply (Integer.dim_le j).trans
+  omega
+
 
 
 
@@ -330,7 +374,7 @@ theorem Filt_Theta_pow_l_sub_one [Fact (ℓ ≥ 5)] :
   rw [Filt_eq_of_Mod_eq Theta_pow_l_eq_Theta.symm, Filt_eq_of_Mod_eq Theta_pow_pred] at Filt_eq
 
   have : 𝔀 (Θ (Theta_pow (ℓ - 1) (fl ℓ))) - (ℓ + 1) = 𝔀 (Theta_pow (ℓ - 1) (fl ℓ)) :=
-    Eq.symm (Nat.eq_sub_of_add_eq (add_assoc _ _ 1 ▸ (Filt_Theta_iff.2 h).symm))
+    (Nat.eq_sub_of_add_eq (add_assoc _ _ 1 ▸ (Filt_Theta_iff.2 h).symm)).symm
 
   exact this ▸ Nat.sub_eq_of_eq_add Filt_eq
 
@@ -350,7 +394,7 @@ theorem Filt_U_pos [Fact (ℓ ≥ 5)] : ℓ ∣ 𝔀 (Θ^[ℓ - 1] (fl ℓ)) →
 
   have Thecon : ((fl ℓ) -l Θ^[ℓ - 1] (fl ℓ)) (by simp only [CharP.cast_eq_zero, zero_mul,
     add_zero]) == const d := calc
-      _ == (fl ℓ |𝓤)**ℓ := U_pow_l_eq_self_sub_Theta_pow_l_sub_one.symm
+      _ == (fl ℓ |𝓤)**ℓ := (U_pow_l_eq_self_sub_Theta_pow_l_sub_one (fl ℓ)).symm
       _ == const c**ℓ := fconn
       _ == const d := hd
 
@@ -377,3 +421,11 @@ theorem Lemma_stitch [Fact (ℓ ≥ 5)] : 𝔀 (fl ℓ |𝓤) = 0 → 𝔀 (Θ^[
   have h' : ¬ 𝔀 (fl ℓ |𝓤) > 0 := Eq.not_gt h
   have : ¬ ℓ ∣ 𝔀 (Θ^[ℓ - 1] (fl ℓ)) := by contrapose! h'; exact Filt_U_pos h'
   exact Filt_Theta_pow_l_sub_one this
+
+
+theorem Lemma_stitch_but_easier [Fact (ℓ ≥ 5)] (flu : fl ℓ |𝓤 = 0) : 𝔀 (Θ^[ℓ - 1] (fl ℓ)) = (ℓ^2 - 1)/2 := by
+  rw [← Filt_fl]; apply Filt_eq_of_Mod_eq
+  intro n; symm; rw [← sub_eq_zero]
+  have this := U_pow_l_eq_self_sub_Theta_pow_l_sub_one (fl ℓ)
+  specialize this n; simp only [sub_congr_left_apply] at this
+  rw [← this, flu, zero_Mpow, zero_apply]

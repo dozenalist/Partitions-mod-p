@@ -20,6 +20,18 @@ instance NeZero.coe {k} {f : IntegerModularForm k} [h: NeZero f] : NeZero ⇑f :
     contrapose! this
     ext n; rw [this]; rfl⟩
 
+instance NeZero.Mcoe {ℓ k} [NeZero ℓ] (f : ModularFormMod ℓ k) [h : NeZero f] : NeZero ⇑f :=
+  ⟨by
+    have := h.out
+    contrapose! this
+    ext n; rw [this]; rfl⟩
+
+@[simp] lemma Mcongr_NeZero {ℓ} [NeZero ℓ] {k j : ZMod (ℓ - 1)} (f : ModularFormMod ℓ k) (h : k = j) :
+    NeZero (Mcongr h f) ↔ NeZero f := by
+  constructor <;> intro hf <;> obtain ⟨n,hn⟩ := (NeZero.Mcoe (h := hf)).exists
+  <;> apply Modulo.Exists_ne_zero ⟨n, by contrapose! hn; simp_all only [Mcongr_apply]⟩
+
+
 namespace Integer
 
 instance {k} : NoZeroSMulDivisors ℤ (IntegerModularForm k) := by
@@ -135,6 +147,7 @@ open Finset in
 theorem mul_ord_sum_ne_zero {k j} (a : IntegerModularForm k) (b : IntegerModularForm j) [ha: NeZero a] [hb: NeZero b] :
     (a * b) (ord a + ord b) ≠ 0 := by
   rw [mul_apply]; calc
+
     _ = ∑ x ∈ (antidiagonal (ord a + ord b)) \ {(ord a, ord b)},
         a x.1 * b x.2 + a (ord a) * b (ord b) := by
       simp only [singleton_subset_iff, mem_antidiagonal, Nat.add_left_cancel_iff,
@@ -216,6 +229,82 @@ theorem ord_Ipow' {k j} (a : IntegerModularForm k) [ha : NeZero (a ** j)] [hj : 
     ord (a ** j) = j * ord a (h := NeZero_of_Ipow a j) :=
   ord_Ipow a (ha := NeZero_of_Ipow a j)
 
+open Finset in
+theorem ord_mul_ord (a : IntegerModularForm k) (b : IntegerModularForm j) [ha: NeZero a] [hb: NeZero b] :
+    (a * b) (ord a + ord b) = a (ord a) * b (ord b) := by
+  calc
+
+  _ = ∑ x ∈ antidiagonal (ord a + ord b) \ {(ord a, ord b)},
+    a (x.1) * b (x.2) + a (ord a) * b (ord b) := by simp [mul_apply]
+
+  _ = 0 + a (ord a) * b (ord b) := by
+    congr; apply Finset.sum_eq_zero fun x hx => ?_
+    simp only [mem_sdiff, mem_antidiagonal, mem_singleton] at hx
+    obtain ⟨xsum, xne⟩ := hx
+    have : x.1 ≠ ord a ∨ x.2 ≠ ord b := by contrapose! xne; exact Prod.ext_iff.mpr xne
+    have : x.1 < ord a ∨ x.2 < ord b := by omega
+    rcases this with h | h
+    <;> simp only [lt_ord_apply _ h, mul_zero, zero_mul]
+
+  _ = _ := zero_add _
+
+
+theorem ord_mul_ord' (a : IntegerModularForm k) (b : IntegerModularForm j) (c : ℕ) [ha: NeZero a] [hb: NeZero b]
+  (hc : c = ord a + ord b) : (a * b) c = a (ord a) * b (ord b) := hc ▸ ord_mul_ord a b
+
+open Finset Finset.Nat in
+theorem ord_Ipow_ord (a : IntegerModularForm k) (j : ℕ) [ha : NeZero a] : (a ** j) (j * ord a) = a (ord a) ^ j := by
+  calc
+
+  (a ** j) (j * ord a) = ∑ x ∈ antidiagonalTuple j (j * ord a) \ {fun _ => ord a}, ∏ y, a (x y) + ∏ y, a (ord a) := by
+    rw [Ipow_apply, sum_sdiff_eq_sub, sum_singleton]; ring
+    rw [singleton_subset_iff, mem_antidiagonalTuple, sum_const, smul_eq_mul, card_fin]
+
+  _ = 0 + a (ord a) ^ j := by
+    congr
+    {
+      by_cases j0 : j = 0
+      subst j0; simp
+
+      apply sum_eq_zero fun x xin => ?_
+      rw [prod_eq_zero_iff]
+      rw [mem_sdiff, mem_singleton, mem_antidiagonalTuple] at xin
+      obtain ⟨xsum, xne⟩ := xin
+
+
+      suffices ∃ b, x b < ord a by
+        obtain ⟨b, blt⟩ := this
+        use b, mem_univ b, lt_ord_apply (f := a) blt
+      contrapose! xsum; apply ne_of_gt
+      have : ∃ b, x b ≠ ord a := by contrapose! xne; exact funext xne
+      obtain ⟨b, bne⟩ := this
+
+      calc
+        j * ord a = (j - 1) * ord a + ord a := by
+          apply Nat.eq_add_of_sub_eq
+          exact Nat.le_mul_of_pos_left (ord a) (Nat.pos_of_ne_zero j0)
+          rw [Nat.sub_mul, one_mul]
+
+        _ < (j - 1) * ord a + x b := by
+          have : x b > ord a := lt_of_le_of_ne (xsum b) bne.symm
+          gcongr
+
+        _ ≤ ∑ i ∈ (univ (α := Fin j)).erase b, x i + x b := by
+          gcongr; simp_rw [← smul_eq_mul, ← card_fin j, ← card_erase_of_mem (mem_univ b), ← sum_const]
+          exact sum_le_sum fun b _ => xsum b
+
+        _ = ∑ i, x i := sum_erase_add univ x (mem_univ b)
+
+
+    }
+    rw [prod_const, card_fin]
+
+  _ = a (ord a) ^ j := zero_add _
+
+
+theorem ord_Ipow_ord' (a : IntegerModularForm k) (j : ℕ) [ha : NeZero a] (k : ℕ) (h : k = j * ord a) :
+    (a ** j) k = a (ord a) ^ j := h ▸ ord_Ipow_ord a j
+
 
 @[simp] theorem ord_Delta : ord Δ = 1 := by simp [ord_eq_iff]
 
@@ -224,8 +313,7 @@ theorem ord_Ipow' {k j} (a : IntegerModularForm k) [ha : NeZero (a ** j)] [hj : 
   simp [ord_eq_iff, Eis_ne_one_zero j1]
 
 @[simp] theorem ord_fl {ℓ : ℕ} : ord (fl ℓ) = δ ℓ := by
-  rw [ord_eq_iff, fl_delta]
-  exact ⟨one_ne_zero, @fl_lt_delta _⟩
+  simp only [fl, ord_Ipow, ord_Delta, mul_one]
 
 -- why does simp not work
 @[simp]
@@ -239,20 +327,8 @@ variable {f g : IntegerModularForm k} [fn0 : NeZero f] [gn0 : NeZero g]
 
 
 
--- lemma Finsupp.sum_fin_two {α β} [Zero α] [AddCommMonoid β] (l : Fin 2 →₀ α)
---     (f : Fin 2 → α → β) (f0 : ∀ x, f x 0 = 0) : l.sum f =  f 0 (l 0) + f 1 (l 1) := by
---   rw [Finsupp.sum]
---   by_cases h : l 0 = 0 ∨ l 1 = 0
---   obtain h | h := h <;> rw [h, f0]
---   rw [zero_add]
---   sorry
---   sorry
---   sorry
-
-
 theorem Fin.cases : ∀ i : Fin 2, i = 0 ∨ i = 1 := by
   intro i; cases i; expose_names
-  simp only [Fin.isValue, Fin.mk_eq_zero, Fin.mk_eq_one]
   match val with
   | 0 => left; rfl
   | 1 => right; rfl
@@ -290,7 +366,7 @@ theorem not_LI_fin2 {α β} (f g : α) [AddCommGroup α] [CommRing β]
         contrapose! hi
         have seq : s = {1} := by
           ext x; simp only [Fin.isValue, Finset.mem_singleton]
-          obtain (rfl | rfl) := Fin.cases x <;> simpa
+          obtain rfl | rfl := Fin.cases x <;> simpa
         subst seq; simp_all
         rcases sumeq with l0 | g0
         · exact l0
@@ -307,8 +383,7 @@ theorem not_LI_fin2 {α β} (f g : α) [AddCommGroup α] [CommRing β]
     obtain ⟨c, d, hsmul, h⟩ := h
     use {1,2}, ![-c,d]; simp
     constructor
-    convert hsmul using 0
-    rw [← sub_eq_add_neg, sub_eq_zero, Eq.comm]
+    rwa [← sub_eq_add_neg, sub_eq_zero, Eq.comm]
     exact h.symm
   }
 
@@ -326,7 +401,7 @@ theorem twice_ne_zero {c d : ℤ} (hsmul : c • f = d • g) (h0 : c ≠ 0 ∨ 
   refine ⟨?_, d0⟩
   contrapose! d0; subst d0
   rw [zero_smul] at hsmul
-  obtain d0 | f0 := (eq_zero_or_eq_zero_of_smul_eq_zero hsmul.symm)
+  obtain d0 | f0 := eq_zero_or_eq_zero_of_smul_eq_zero hsmul.symm
   exact d0
   have := gn0.out; contradiction
 
@@ -344,17 +419,4 @@ theorem LI_of_ne_ord (hfg : ord f ≠ ord g) : LinearIndependent ℤ ![f, g] := 
     _ = ord g := ord_smul d
 
 
-
--- theorem not_LI_iff_ne_ord' : ord f = ord g ↔ ¬ LinearIndependent ℤ ![f,g] := by
---   refine ⟨fun h => ?_, by contrapose!; exact LI_of_ne_ord⟩
---   sorry
-
-
--- theorem eq_of_eq_coeff_ord' (ho : ord f = ord g) (heq : f (ord f) = g (ord f)) : f = g := by
-
---   obtain ⟨c, d, hsmul, h0⟩ := (not_LI_fin2 f g).mp <| not_LI_iff_ne_ord'.mp ho
---   obtain ⟨c0, d0⟩ := twice_ne_zero hsmul h0
---   have : c • f (ord f) = d • g (ord f) := by simp only [← zsmul_apply, hsmul]
---   simp only [heq, smul_eq_mul] at this
---   have : c = d := by convert this using 0; exact (Int.mul_eq_mul_right_iff (ho ▸ ord_spec g)).symm
---   rwa [this, smul_right_inj d0] at hsmul
+end Integer

@@ -429,7 +429,6 @@ private lemma prod_q_image (q : Fin 24 → ℕ := fun x ↦ if x = 0 then 1 else
         _ = -24 := by norm_num
 
 
-
 lemma fl_lt_delta {ℓ n : ℕ} (nlt : n < δ ℓ) : fl ℓ n = 0 :=
   leading_Ipow_zeros Delta_zero nlt
 
@@ -503,60 +502,61 @@ scoped notation (priority := high) "δ" => delta
 
 variable {ℓ k j : ℕ} [NeZero ℓ]
 
-lemma Reduce_congr  {f g : IntegerModularForm k} (h : f = g) : Reduce f ℓ = Reduce g ℓ :=
+lemma Reduce_congr {f g : IntegerModularForm k} (h : f = g) : Reduce ℓ f = Reduce ℓ g :=
   h ▸ rfl
 
-
-@[simp] lemma Reduce_add (f g : IntegerModularForm k) : Reduce (f + g) ℓ = Reduce f ℓ + Reduce g ℓ := by
+@[simp] lemma Reduce_add (f g : IntegerModularForm k) : Reduce ℓ (f + g) = Reduce ℓ f + Reduce ℓ g := by
   ext n; simp only [Reduce_apply, Integer.add_apply, Int.cast_add, add_apply]
 
-@[simp] lemma Reduce_neg (f : IntegerModularForm k) : Reduce (-f) ℓ = - (Reduce f ℓ) := by
+@[simp] lemma Reduce_neg (f : IntegerModularForm k) : Reduce ℓ (-f) = - (Reduce ℓ f) := by
   ext n; simp only [Reduce_apply, neg_apply, Integer.neg_apply]; norm_cast
 
-@[simp] lemma Reduce_sub (f g : IntegerModularForm k) : Reduce (f - g) ℓ = Reduce f ℓ - Reduce g ℓ := by
+@[simp] lemma Reduce_sub (f g : IntegerModularForm k) : Reduce ℓ (f - g) = Reduce ℓ f - Reduce ℓ g := by
   simp only [Reduce_add, Reduce_neg, sub_eq_add_neg]
 
 @[simp] lemma Reduce_mul (f : IntegerModularForm k) (g : IntegerModularForm j) :
-    Reduce (f * g) ℓ = Mcongr (by norm_cast) (Reduce f ℓ * Reduce g ℓ) := by
+    Reduce ℓ (f * g) = Mcongr (by norm_cast) (Reduce ℓ f * Reduce ℓ g) := by
   ext n; simp only [Reduce_apply, Integer.mul_apply, Int.cast_sum, Int.cast_mul, cast_eval, mul_apply]
 
-@[simp] lemma Reduce_nsmul (n : ℕ) (f : IntegerModularForm k) : Reduce (n • f) ℓ = n • Reduce f ℓ := by
+@[simp] lemma Reduce_nsmul (n : ℕ) (f : IntegerModularForm k) : Reduce ℓ (n • f) = n • Reduce ℓ f := by
   ext k; simp only [Reduce_apply, Integer.nsmul_apply,
       nsmul_eq_mul, Int.cast_mul, Int.cast_natCast, smul_apply]
 
-@[simp] lemma Reduce_zsmul (n : ℤ) (f : IntegerModularForm k) : Reduce (n • f) ℓ = n • Reduce f ℓ := by
+@[simp] lemma Reduce_zsmul (n : ℤ) (f : IntegerModularForm k) : Reduce ℓ (n • f) = n • Reduce ℓ f := by
   ext k; simp only [Reduce_apply, Integer.coe_smulz, Pi.smul_apply,
       smul_eq_mul, Int.cast_mul, coe_smulz, zsmul_eq_mul]
 
 
 lemma Reduce_cast_swap (a : IntegerModularForm k) (h : k = j) :
-    Reduce (Integer.Icongr h a) ℓ = Mcongr (by rw [h]) (Reduce a ℓ) := by
+    Reduce ℓ (Integer.Icongr h a) = Mcongr (h ▸ rfl) (Reduce ℓ a) := by
   ext n; simp only [Reduce_apply, Integer.cast_eval, cast_eval]
 
+alias Reduce_Icongr := Reduce_cast_swap
+
+
 lemma Reduce_pow (g : IntegerModularForm k) (j : ℕ) :
-    Reduce (Integer.Ipow g j) ℓ = Mcongr (by norm_cast) ((Reduce g ℓ) ** j) := by
+    Reduce ℓ (Integer.Ipow g j) = Mcongr (by norm_cast) ((Reduce ℓ g) ** j) := by
 
   induction' j with j ih
   ext n; cases n <;> simp
   ext n
   simp only [cast_eval, Integer.cast_eval, Integer.Ipow_succ, Mpow_succ, Reduce_cast_swap,
-      cast_eval, Reduce_mul, ih, mul_apply, Integer.mul_apply, Reduce_apply, cast_eval]
+      Reduce_mul, ih, mul_apply, Integer.mul_apply, Reduce_apply]
 
 
 @[simp] lemma Reduce_pow_apply (g : IntegerModularForm k) (j n : ℕ) :
-    Reduce (Integer.Ipow g j) ℓ n = ((Reduce g ℓ) ** j) n := by
+    Reduce ℓ (Integer.Ipow g j) n = ((Reduce ℓ g) ** j) n := by
   rw [Reduce_pow, cast_eval]
 
 
 
 
-def Delta : ModularFormMod ℓ 12 := Reduce Integer.Delta ℓ
-
+def Delta : ModularFormMod ℓ 12 := Reduce ℓ Integer.Delta
 
 -- maybe change the weight to drop the Mcongr? but then we lose fl_eq_Delta
 /-- The modular form mod `ℓ` as the reduction of `Integer.fl`. Equal to `Δ ^ (δ ℓ)` -/
-def fl (ℓ : ℕ) [NeZero ℓ] : ModularFormMod ℓ (12 * δ ℓ) := Mcongr (by norm_cast) (Reduce (Integer.fl ℓ) ℓ)
 
+def fl (ℓ : ℕ) [NeZero ℓ] : ModularFormMod ℓ (12 * δ ℓ) := Mcongr (by norm_cast) (Reduce ℓ (Integer.fl ℓ))
 
 -- when both Modulo and Integer are opened, Δ refers to Modulo.Delta
 /- if you open Integer, then Modulo, you can use Delta to refer to Integer.Delta
@@ -576,20 +576,20 @@ theorem Delta_eq_coeff_Product (n : ℕ) : Δ n = coeff (ZMod ℓ) n (DeltaProdu
   rw [Delta_apply, Integer.Delta_apply]; norm_cast
 
 
-theorem fl_apply (n : ℕ) : fl ℓ n = (Integer.fl ℓ n : ZMod ℓ) := by
+theorem fl_apply (n : ℕ) : fl ℓ n = Integer.fl ℓ n := by
   rw [fl, cast_eval, Reduce_apply]
 
 theorem fl_eq_coeff_Product (n : ℕ) : fl ℓ n = coeff (ZMod ℓ) n (flProduct ℓ n) := by
   rw [fl_apply, Integer.fl_apply]; norm_cast
 
 
-lemma Delta_zero : Δ 0 = (0 : ZMod ℓ) := by
+@[simp] lemma Delta_zero : Δ 0 = (0 : ZMod ℓ) := by
   rw [Delta, Reduce_apply, Integer.Delta_zero]; norm_cast
 
-lemma Delta_one : Δ 1 = (1 : ZMod ℓ) := by
+@[simp] lemma Delta_one : Δ 1 = (1 : ZMod ℓ) := by
   rw [Delta, Reduce_apply, Integer.Delta_one]; norm_cast
 
-lemma Delta_two : Δ 2 = (-24 : ZMod ℓ) := by
+@[simp] lemma Delta_two : Δ 2 = (-24 : ZMod ℓ) := by
   rw [Delta, Reduce_apply, Integer.Delta_two]; norm_cast
 
 
@@ -713,6 +713,9 @@ lemma Eis_gt_one_ne_zero {k n : ℕ} [h : NeZero n] (kgt1 : k > 1) : Eis k n =
   rw [Eis_gt_one kgt1, if_neg h.out]
 
 
+lemma Eis_two_one : Eis 2 1 = 240 := by sorry
+
+
 instance instEisNeZero (k : ℕ) [h : NeZero (k - 1)] : NeZero (Eis k) :=
   have := Eis_ne_one_zero (k := k) (by have := h.out; omega)
   Exists_ne_zero ⟨0, this ▸ Int.one_ne_zero⟩
@@ -734,7 +737,7 @@ scoped notation (priority := high) "σ" => Nat.sigma
 
 variable {ℓ : ℕ} [NeZero ℓ]
 
-def Eis (k : ℕ) : ModularFormMod ℓ (2 * k : ℕ) := Reduce (Integer.Eis k) ℓ
+def Eis (k : ℕ) : ModularFormMod ℓ (2 * k : ℕ) := Reduce ℓ (Integer.Eis k)
 
 
 lemma Eis_apply (k n : ℕ) : Eis k n = (Integer.Eis k n : ZMod ℓ) := by

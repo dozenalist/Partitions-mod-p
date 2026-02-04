@@ -1,6 +1,7 @@
 import PartitionsLeanblueprint.Ord
 import Mathlib.LinearAlgebra.Basis.Basic
 import Mathlib.Data.Set.Card
+import PartitionsLeanblueprint.PreliminaryResults
 
 
 
@@ -429,7 +430,7 @@ def Gmk_dim_one : (k : ℕ) → ℕ × ℕ × ℕ
 
 
 lemma Gmk_dim_one_thrd (k : ℕ) : (Gmk_dim_one k).2.2 = 0 := by
-  unfold Gmk_dim_one; sorry
+  unfold Gmk_dim_one; split <;> dsimp
 
 
 
@@ -530,16 +531,37 @@ def Gmk_set_mk (k c) := Gmk_dim_one (k %% 6) + Gmk_twelve_mk (k - k %% 6) c
 
 def dim (k : ℕ) := k / 6 + if k ≡ 1 [MOD 6] then 0 else 1
 
+@[simp] lemma dim_zero : dim 0 = 1 := by
+  simp only [dim, Nat.zero_div, ModEq, zero_mod, one_mod, zero_ne_one, ↓reduceIte, zero_add]
+
+@[simp] lemma dim_one : dim 1 = 0 := by simp only [dim, reduceDiv, zero_add,
+  ite_eq_left_iff, one_ne_zero, imp_false, Decidable.not_not]; rfl
+
+@[simp] lemma dim_two : dim 2 = 1 := by
+  simp only [dim, reduceDiv, ModEq, reduceMod, one_mod, OfNat.ofNat_ne_one, ↓reduceIte, zero_add]
+
+@[simp] lemma dim_three : dim 3 = 1 := by
+  simp only [dim, reduceDiv, ModEq, reduceMod, one_mod, OfNat.ofNat_ne_one, ↓reduceIte, zero_add]
+
+@[simp] lemma dim_four : dim 4 = 1 := by
+  simp only [dim, reduceDiv, ModEq, reduceMod, one_mod, OfNat.ofNat_ne_one, ↓reduceIte, zero_add]
+
+@[simp] lemma dim_five : dim 5 = 1 := by
+  simp only [dim, reduceDiv, ModEq, reduceMod, one_mod, OfNat.ofNat_ne_one, ↓reduceIte, zero_add]
+
+
+@[simp] lemma dim_add_six : dim (k + 6) = dim k + 1 := by
+  simp only [dim, ofNat_pos, add_div_right, ModEq, add_mod_right, one_mod]
+  ac_rfl
+
 
 lemma mem_Gmk_set {k} (hk : k ≠ 1) (p) :
     p ∈ Gmk_set k ↔ ∃ b ∈ Gmk_twelve (k - k %% 6), p = Gmk_dim_one (k %% 6) + b := by
   simp [Gmk_set, hk, Eq.comm (b := p)]
 
 
-lemma Gmk_set_mk_mem (k c) [NeZero (k - 1)] (hc : c ≤ dim k - 1) : Gmk_set_mk k c ∈ Gmk_set k := by
-  have k1 : k ≠ 1 := by
-    have : k - 1 ≠ 0 := by exact Ne.symm (NeZero.ne' (k - 1))
-    omega
+lemma Gmk_set_mk_mem (k c) [Fact (k ≠ 1)] (hc : c ≤ dim k - 1) : Gmk_set_mk k c ∈ Gmk_set k := by
+  have k1 : k ≠ 1 := Fact.out
   rw [mem_Gmk_set k1, Gmk_set_mk]
   use Gmk_twelve_mk (k - k %% 6) c, Gmk_twelve_mk_mem (mod_without_two_sub_even k) ?_
   simp_all only [dim, mod_without_two]; split_ifs with h
@@ -553,10 +575,9 @@ lemma Gmk_set_mk_mem (k c) [NeZero (k - 1)] (hc : c ≤ dim k - 1) : Gmk_set_mk 
 
 theorem Gmk_set_card (k : ℕ) : (Gmk_set k).ncard = dim k := by
   by_cases k1 : k = 1
-  subst k1; simp [Gmk_set]; rfl
+  subst k1; simp only [Gmk_set, ↓reduceIte, Set.ncard_empty, dim_one]
   trans (Gmk_twelve (k - k %% 6)).ncard
-  rw [Gmk_set, if_neg k1]
-  simp
+  simp only [Gmk_set, if_neg k1, Prod.exists]
   {
     set f := fun (a,b,c) ↦ Gmk_dim_one (k %% 6) + (a, b, c) with hf
     calc
@@ -607,11 +628,11 @@ def Gmk (k : ℕ) := {powers : ℕ × ℕ × ℕ // powers ∈ Gmk_set k}
 lemma Gmk_def (k : ℕ) : Gmk k = {powers : ℕ × ℕ × ℕ // powers ∈ Gmk_set k} := rfl
 
 
-def Gmk_mk (k c) [NeZero (k - 1)] (hc : c ≤ dim k - 1) : Gmk k :=
+def Gmk_mk (k c) [Fact (k ≠ 1)] (hc : c ≤ dim k - 1) : Gmk k :=
   ⟨Gmk_set_mk k c, Gmk_set_mk_mem k c hc⟩
 
 
-lemma Gmk_mk_thrd {k} [NeZero (k - 1)] (c) (hc : c ≤ dim k - 1) : (Gmk_mk k c hc).1.2.2 = c := by
+lemma Gmk_mk_thrd {k} [Fact (k ≠ 1)] (c) (hc : c ≤ dim k - 1) : (Gmk_mk k c hc).1.2.2 = c := by
   simp only [Gmk_mk, Gmk_set_mk, Gmk_twelve_mk, Prod.snd_add, Gmk_dim_one_thrd, zero_add]
 
 
@@ -687,10 +708,18 @@ instance : Fintype (Gmk k) := by
 
 
 theorem Gmk_card (k : ℕ) : Fintype.card (Gmk k) = dim k := by
-  simp_rw [← Gmk_set_card, Gmk]
+  simp_rw [← Gmk_set_card]
 
-  sorry
-
+  rw [Set.ncard_eq_toFinset_card (hs := by
+    refine Set.finite_iff_bddAbove.mpr ?_
+    use (k,k,k)
+    intro x xin; apply Gmk_sum at xin
+    simp only [Prod.le_def]; omega )]
+  rw [← Fintype.card_coe]
+  apply Fintype.card_congr ⟨ fun ⟨p, pmem⟩ => ⟨p, by rwa [Set.Finite.mem_toFinset]⟩,
+    fun ⟨p, pmem⟩ => ⟨p, by rwa [← Set.Finite.mem_toFinset]⟩, ?_, ?_⟩
+  rintro ⟨p, pmem⟩; rfl
+  rintro ⟨p, pmem⟩; rfl
 
 
 
@@ -726,22 +755,25 @@ def GBasis (k : ℕ) : Basis (Gmk k) ℂ (ModularForm (2*k)) :=
 
 
 
--- def G (k c) [NeZero (k - 1)] (hc : c ≤ dim k - 1) : ModularForm (2*k) :=
---   GBasis k (Gmk_mk k c hc)
-
-def GFin (k) [NeZero (k - 1)] (c : Fin (dim k)) : ModularForm (2*k) :=
-  GBasis k (Gmk_mk k c (by omega))
 
 theorem finrank_eq (k : ℕ) : Module.finrank ℂ (ModularForm (2 * k)) = dim k := by
   rw [← Gmk_card, Module.finrank_eq_card_basis <| GBasis k]
 
+-- def G (k c) [NeZero (k - 1)] (hc : c ≤ dim k - 1) : ModularForm (2*k) :=
+--   GBasis k (Gmk_mk k c hc)
 
-theorem G_LI [NeZero (k - 1)] : LinearIndependent ℂ (GFin k) := by
+def GFin (k) [Fact (k ≠ 1)] (c : Fin (dim k)) : ModularForm (2*k) :=
+  GBasis k (Gmk_mk k c (by omega))
+
+
+theorem G_LI [Fact (k ≠ 1)] : LinearIndependent ℂ (GFin k) := by
   sorry
 
-theorem G_span [NeZero (k - 1)] : ⊤ ≤ Submodule.span ℂ (Set.range (GFin k)) := sorry
+theorem G_span [Fact (k ≠ 1)] : ⊤ ≤ Submodule.span ℂ (Set.range (GFin k)) := sorry
 
-def G (k : ℕ) [NeZero (k - 1)] : Basis (Fin <| dim k) ℂ (ModularForm (2*k)) :=
+
+/-- `G k` is the upper triangular basis for the space of Modular Forms of weight `2 * k`. -/
+def G (k : ℕ) [Fact (k ≠ 1)] : Basis (Fin <| dim k) ℂ (ModularForm (2*k)) :=
   Basis.mk G_LI G_span
 
 
@@ -782,19 +814,33 @@ theorem finrank_eq (k : ℕ) : Module.finrank ℤ (IntegerModularForm (2 * k)) =
 
 
 
-def GFin (k) [h : NeZero (k - 1)] (c : Fin (dim k)) : IntegerModularForm (2*k) :=
+def GFin (k) [Fact (k ≠ 1)] (c : Fin (dim k)) : IntegerModularForm (2*k) :=
   ZBasis k (Gmk_mk k c (by omega))
 
-theorem G_LI [h : NeZero (k - 1)] : LinearIndependent ℤ (GFin k) := by
+theorem G_LI [Fact (k ≠ 1)] : LinearIndependent ℤ (GFin k) := by
   sorry
 
-theorem G_span [h : NeZero (k - 1)] : ⊤ ≤ Submodule.span ℤ (Set.range (GFin k)) := sorry
+theorem G_span [h : Fact (k ≠ 1)] : ⊤ ≤ Submodule.span ℤ (Set.range (GFin k)) := sorry
 
-def G (k : ℕ) [h : NeZero (k - 1)] : Basis (Fin (dim k)) ℤ (IntegerModularForm (2*k)) :=
+/-- `G k` is the upper triangular basis for the space of Integer Modular Forms of weight `2 * k`. -/
+def G (k : ℕ) [h : Fact (k ≠ 1)] : Basis (Fin (dim k)) ℤ (IntegerModularForm (2*k)) :=
   Basis.mk G_LI G_span
 
 
-instance instGNeZero (k c) [NeZero (k - 1)] : NeZero (G k c) := by
+private lemma G_Icongr (c : Fin (dim k)) [Fact (k ≠ 1)] : 2 * 2 * (Gmk_set_mk k c).1 + 2 * 3 * (Gmk_set_mk k c).2.1 + 12 * c = 2 * k := by
+  nth_rw 3 [← Gmk_mk_thrd (k := k) c (by omega)]
+  simpa [Gmk_mk] using Gmk_sum <| Gmk_set_mk_mem k c (by omega)
+
+
+
+theorem G_def (k : ℕ) [h : Fact (k ≠ 1)] (c) : G k c = Icongr (G_Icongr c)
+    (Eis 2**(Gmk_set_mk k ↑c).1 * Eis 3**(Gmk_set_mk k ↑c).2.1 * Δ**c) := by
+  simp only [G, Basis.coe_mk, GFin, ZBasis, Zfun_apply, Nat.reduceMul]
+  congr! <;> exact Gmk_mk_thrd c (by have := c.2; omega)
+
+
+
+instance instGNeZero (k c) [Fact (k ≠ 1)] : NeZero (G k c) := by
   simp [G, GFin, ZBasis, Gmk_mk]
   apply instIcongrNeZero (ha := instMulNeZero
       (ha := instMulNeZero
@@ -803,29 +849,384 @@ instance instGNeZero (k c) [NeZero (k - 1)] : NeZero (G k c) := by
       (hb := instPowNeZero Δ))
 
 
-variable {c : Fin (dim k)} [NeZero (k-1)]
-
 
 instance [h : NeZero (k - 1)] : NeZero (2 * k - 1) where
   out := by have := h.out; omega
 
 
-theorem ord_G (c) : ord (G k c) = c := by
+theorem too : IntegerModularForm 2 = {a : IntegerModularForm 2 // a = 0} := by
+  apply @type_eq_of_heq _ _ (0 : IntegerModularForm 2) ⟨0, rfl⟩
+  sorry
+
+
+instance two_unique : Unique (IntegerModularForm 2) where
+  default := 0
+  uniq := by
+    intro a
+    -- have := dim_one ▸ finrank_eq 1
+    -- rw [Module.finrank_zero_iff] at this
+    -- exact Subsingleton.eq_zero a
+    -- refine Module.finite_of_rank_eq_zero ?_
+    sorry
+
+instance odd_unique (k : ℕ) (hk : Odd k) : Unique (IntegerModularForm k) where
+  default := 0
+  uniq := by
+    intro a
+    sorry
+
+@[simp]
+theorem default_eq (k : ℕ) : (default : IntegerModularForm k) = 0 := rfl
+
+theorem False_of_two (a : IntegerModularForm 2) [ha : NeZero a] : False :=
+  two_unique.uniq a ▸ ha.out <| rfl
+
+theorem False_of_odd (a : IntegerModularForm k) (hk : Odd k) [ha : NeZero a] : False :=
+  (odd_unique k hk).uniq a ▸ ha.out <| rfl
+
+theorem Even_weight (a : IntegerModularForm k) [ha : NeZero a] : Even k := by
+  rw [← Nat.not_odd_iff_even]
+  exact (False_of_odd a ·)
+
+theorem exists_two_mul_weight (a : IntegerModularForm k) [ha : NeZero a] : ∃ j, k = 2 * j :=
+  Even.exists_two_nsmul k <| Even_weight a
+
+
+
+
+
+
+instance instNeZero_k_div (k : ℕ) [hk : NeZero k] (a : IntegerModularForm k) (h : NeZero a) : NeZero (k/2 - 1) where
+  out := by
+    by_cases keq : k = 1 ∨ k = 2 ∨ k = 3
+    rcases keq with rfl | rfl | rfl
+    exact .rec _ <| False_of_odd a odd_one
+    exact .rec _ <| False_of_two a
+    exact .rec _ <| False_of_odd a <| Nat.odd_iff.mpr rfl
+
+    have := hk.out; omega
+
+
+
+theorem ord_G [Fact (k ≠ 1)] (c) : ord (G k c) = c := by
   simp [G, GFin, ZBasis, ord_Icongr', ord_mul', ord_Ipow,
     ord_Ipow (ha := instEisNeZero 2), ord_Ipow (ha := instEisNeZero 3), Gmk_mk_thrd]
 
-theorem GFin_two_LI {c d} (h : c ≠ d) : LinearIndependent ℤ ![G k c, G k d] := by
+
+theorem G_ord_G [Fact (k ≠ 1)] (c) : G k c c = 1 := by
+  rw [G_def, Icongr_apply, ord_mul_ord']
+  simp [ord_mul', ord_Ipow, ord_Ipow (Eis 2), ord_Ipow (Eis 3)]
+  trans 1 * 1 * 1; congr
+  rw [ord_mul_ord' (ha := instPowNeZero (Eis 2)) (hb := instPowNeZero (Eis 3))]
+  simp only [ord_Ipow (Eis 2), ord_Eis, mul_zero, ord_Ipow (Eis 3), ord_Ipow_ord']
+  rw [Eis_ne_one_zero (by norm_num), Eis_ne_one_zero (by norm_num), one_pow, one_pow]
+  simp only [ord_Ipow, ord_Eis, mul_zero, add_zero]
+  rw [ord_Ipow_ord', ord_Delta, Delta_one, one_pow]
+  rw [ord_Delta, mul_one]
+  rfl
+  simp only [ord_mul, ord_Ipow, ord_Eis, ord_Delta]; ring
+
+
+
+theorem GFin_two_LI [Fact (k ≠ 1)] {c d} (h : c ≠ d) : LinearIndependent ℤ ![G k c, G k d] := by
   apply LI_of_ne_ord; simp only [ord_G]
   contrapose! h; exact Fin.eq_of_val_eq h
+
+
+theorem dim_ge (k : ℕ) : dim k ≥ k / 6 := by rw [dim]; omega
+
+theorem dim_le (k : ℕ) : dim k ≤ k / 6 + 1 := by
+  simp only [dim, Nat.ModEq, Nat.one_mod, add_le_add_iff_left]
+  split_ifs <;> omega
+
+
+instance instdimNeZero (k : ℕ) [hk : Fact (k ≠ 1)] : NeZero (dim k) where
+  out := by
+    by_cases h : k < 6
+    rw [dim]
+    split_ifs with kcon
+    rw [Nat.ModEq] at kcon
+    have := hk.out
+    omega
+    omega
+    have := dim_ge k
+    omega
+
+
+private lemma two_mul_div (a : IntegerModularForm k) [ha : NeZero a] : 2 * (k / 2) = k := by
+  have : k % 2 = 0 := by simpa only [Nat.even_iff] using Even_weight a
+  omega
+
+
+theorem GFin_eq (k c) [Fact (k ≠ 1)] : GFin k c = G k c :=
+  Eq.symm (Basis.mk_apply G_LI G_span c)
+
+
+theorem exists_G_combo [Fact (k ≠ 1)] (a : IntegerModularForm (2 * k)) :
+    ∃ l : Fin (dim k) → ℤ, ∑ c, l c • (G k) c = a := by
+  have : ⊤ ≤ Submodule.span ℤ (Set.range (GFin k)) := G_span
+  simp only [Submodule.top_le_span_range_iff_forall_exists_fun, GFin_eq] at this
+  exact this a
+
+
+
+private theorem sum_smul_rw [Fact (k ≠ 1)] (l : Fin (dim k) → ℤ) (n : ℕ) :
+    (∑ c, l c • (G k) c) n = ∑ c, (l c • (G k) c n) := by
+  convert Fintype.sum_apply n (fun c => l c • G k c)
+  sorry
+
+private theorem sum_with_smul_rw [Fact (k ≠ 1)] (l : Fin (dim k) → ℤ) (n : ℕ) (p : Fin (dim k) → Prop) :
+    (∑ c with p c , l c • (G k) c) n = ∑ c with p c, (l c • (G k) c n) := by sorry
+
+
+theorem exists_G_combo_apply [Fact (k ≠ 1)] (a : IntegerModularForm (2 * k)) (n : ℕ) :
+    ∃ l : Fin (dim k) → ℤ, ∑ c ∈ {c : Fin (dim k) | c ≤ n}, l c • (G k) c n = a n := by
+  obtain ⟨l, rfl⟩ := exists_G_combo a
+  use l; rw [sum_smul_rw]
+  exact Finset.sum_filter_of_ne fun m _ => by
+    contrapose!; intro nlt
+    rw [lt_ord_apply, smul_zero]
+    rwa [ord_G]
+
+
+theorem exists_GBasis_combo (a : IntegerModularForm (2 * k)) :
+    ∃ l : Gmk k → ℤ, ∑ c, l c • (Zfun k) c = a := by
+  have : ⊤ ≤ Submodule.span ℤ (Set.range (Zfun k)) := Zfun_span
+  simp only [Submodule.top_le_span_range_iff_forall_exists_fun] at this
+  exact this a
+
+theorem Zfun_zero (c : Gmk 0) : c = ⟨(0, 0, 0), by
+    simp [Gmk_set, Gmk_twelve, mod_without_two, Nat.ModEq, Gmk_dim_one]⟩ := by
+
+  obtain ⟨c, hc⟩ := c
+  simp [Gmk_set, Gmk_twelve, Gmk_dim_one, mod_without_two, Nat.ModEq] at hc
+  simp_rw [hc]
+
+
+
+
+theorem zero_weight (a : IntegerModularForm 0) : ∃ c, a = Iconst c := by
+  obtain ⟨l, lsum⟩ := exists_GBasis_combo (mul_zero 2 ▸ a)
+  sorry
+
+
+
+theorem bla (f : IntegerModularForm k) (n) : f n = ⇑f n := rfl
+
+
+
+-- add for divisibility by ℓ
+open Finset in
+theorem zero_of_leading_zeros (a : IntegerModularForm (2*k))
+    (h : ∀ n < dim k, a n = 0) : a = 0 := by
+
+  by_cases kgt : k = 1 ∨ k = 0
+  {
+    rcases kgt with hk | hk <;> subst hk
+    exact two_unique.uniq a
+    simp [dim, Nat.ModEq] at h
+    obtain ⟨c, rfl⟩ := zero_weight a
+    ext n; match n with
+    | 0 => rwa [zero_apply]
+    | n + 1 => rw [Iconst_succ, zero_apply]
+  }
+
+  have : Fact (k ≠ 1) := ⟨by omega⟩
+
+  obtain ⟨l, aeq⟩ := exists_G_combo a
+  suffices ∀ n, l n = 0 by
+    simp [this] at aeq
+    exact aeq.symm
+
+  rintro ⟨n, prop⟩
+
+  induction n using Nat.strong_induction_on with
+
+  | h n ih =>
+    rw [DFunLike.ext_iff] at aeq
+    specialize aeq n
+
+    rw [sum_smul_rw, h n prop] at aeq
+    trans l ⟨n,prop⟩ • G k ⟨n,prop⟩ n
+    rw [G_ord_G, smul_eq_mul, mul_one]
+    symm; rw [← aeq, ← sub_eq_zero, ← sum_erase_eq_sub <| mem_univ _]
+    apply sum_eq_zero
+    rintro ⟨m, mlt⟩ mne
+    simp only [mem_erase, ne_eq, Fin.mk.injEq, mem_univ, and_true] at mne
+    rcases lt_trichotomy m n with mln | meq | mgn
+    · rw [ih m mln, zero_smul]
+    · exact False.elim <| mne meq
+    · rw [lt_ord_apply, smul_zero]
+      simpa only [ord_G]
+
+
+theorem dvd_of_leading_dvds (ℓ : ℕ) (a : IntegerModularForm (2*k))
+    (h : ∀ n < dim k, ↑ℓ ∣ a n) : ∀ n, ↑ℓ ∣ a n := by
+
+  intro n
+  by_cases kgt : k = 1 ∨ k = 0
+  {
+    rcases kgt with hk | hk <;> subst hk
+    rw [two_unique.uniq a, default_eq, zero_apply]; exact Int.dvd_zero ↑ℓ
+    simp [dim_zero] at h
+    obtain ⟨c, rfl⟩ := zero_weight a
+    match n with
+    | 0 => exact h
+    | n + 1 => rw [Iconst_succ]; exact Int.dvd_zero _
+  }
+
+  have kn0 : Fact (k ≠ 1) := ⟨by omega⟩
+
+
+  obtain ⟨l, aeq⟩ := exists_G_combo a
+
+
+
+  suffices ∀ n, ↑ℓ ∣ l n by
+    rw [← aeq, sum_smul_rw]
+    have : ∀ c, ↑ℓ ∣ l c • G k c n := by
+      intro c; rw [smul_eq_mul]; apply Dvd.dvd.mul_right <| this c
+    exact Finset.dvd_sum fun i _ => this i
+
+  rintro ⟨n, nlt⟩
+
+  induction n using Nat.strong_induction_on with
+
+  | h n ih => sorry
+
+
+
+
+theorem eq_of_eq_ord_max (a b : IntegerModularForm (2*k)) [ha : NeZero a] [hb : NeZero b]
+    (hao : ord a = dim k - 1) (hbo : ord b = dim k - 1) (heq : a (dim k - 1) = b (dim k - 1)) : a = b := by
+
+  rw [← sub_eq_zero]
+  apply zero_of_leading_zeros
+  intro n nle
+  by_cases h : n < dim k - 1
+  rw [sub_apply, lt_ord_apply a (hao ▸ h), lt_ord_apply b (hbo ▸ h), sub_zero]
+
+  have : n = dim k - 1 := by omega
+  subst this
+  rw [sub_apply, heq, sub_self]
+
+
+
+theorem eq_G_of_ord_max [hk : Fact (k ≠ 1)] (a : IntegerModularForm (2 * k)) [ha : NeZero a] (hord : ord a = dim k - 1) :
+    a = a (dim k - 1) • (G k ⟨dim k - 1, by have := (instdimNeZero k).out; omega⟩ ) := by
+  nth_rw 1 [← hord]
+  apply eq_of_eq_ord_max a (hb := instSmulNeZero _ (a (ord a)) (hc := ⟨ord_spec a⟩))
+  exact hord
+  rw [ord_smul (hc := ⟨ord_spec a⟩), ord_G]
+  rw [zsmul_apply, G_ord_G, smul_eq_mul, mul_one, hord]
 
 
 
 end Integer
 
-end section
+namespace Modulo
+open ModularForm Integer
 
-section ord
+variable {ℓ k : ℕ} [NeZero ℓ]
+open Int
 
-namespace Integer
 
-variable {k : ℕ} {f g : IntegerModularForm k} [NeZero f] [NeZero g]
+
+theorem reduce_apply (a : ℕ → ℤ) (n : ℕ) : a n = reduce ℓ a n := rfl
+
+
+-- we can assume that the fucntion that reduces to a Modular Form Mod ℓ has the maximum ord possible
+theorem exists_maximal_Reduce {j p} [Fact (Nat.Prime ℓ)] (a : ModularFormMod ℓ (2 * k)) [ha : NeZero a] (hk : ∀ n < p, a n = 0) (haw : hasWeight a (2 * j)) :
+    ∃ b : IntegerModularForm (2 * j), ∃ h : NeZero b, ∃ hj : (2 * j : ℕ) = (2 * k : ZMod (ℓ - 1)), a = Mcongr hj (Reduce ℓ b) ∧ ord b ≥ p := by
+
+  obtain ⟨c, ceq⟩ := haw
+  obtain ⟨hj, aeqcr⟩ := Reduce_of_reduce ceq
+  have : NeZero c := ⟨by
+    have := ha.out; contrapose! this; ext n; apply DFunLike.ext_iff.mp at ceq
+    specialize ceq n; trans a.sequence n; rfl
+    trans reduce ℓ 0 n; rwa [this] at ceq; rw [← reduce_apply]
+    rw [Pi.zero_apply, cast_zero, zero_apply] ⟩
+
+
+  have : Fact (j ≠ 1) := ⟨by
+    rintro rfl
+    exact False_of_two c ⟩
+
+  obtain ⟨l, leq⟩ := exists_G_combo c
+
+  have aeqc : ∀ n, a n = ↑(c n) := by
+    intro n
+    trans a.1 n; rfl
+    simp only [coe_apply]
+    rw [ceq]; rfl
+
+
+  set b := ∑ c, (if ↑ℓ ∣ l c then 0 else l c) • Integer.G j c with beq
+
+  have habve : a = Mcongr hj (Reduce ℓ b) := by
+    ext n; rw [Mcongr_apply, Reduce_apply, aeqc n]
+    simp [beq, ← leq, Integer.add_apply, sum_smul_rw, zsmul_apply, smul_eq_mul, ite_mul, Finset.sum_ite]
+    trans ↑(∑ c with ¬↑ℓ ∣ l c, (l c • (Integer.G j) c) n)
+    simp only [zsmul_apply, smul_eq_mul, cast_sum, cast_mul]
+    refine Eq.symm (Finset.sum_filter_of_ne ?_)
+
+    rintro x - h ; contrapose! h
+    obtain ⟨d, le⟩ := h
+    simp only [le, cast_mul, cast_natCast, CharP.cast_eq_zero, zero_mul]
+
+    congr; symm; convert @sum_with_smul_rw j this l n (¬ ↑ℓ ∣ l ·)
+
+
+  have bn0 : NeZero b := by
+    obtain ⟨n, hn0⟩ := (NeZero.Mcoe a).exists
+    refine Integer.Exists_ne_zero ⟨n, ?_⟩
+    contrapose! hn0; simp only [habve, _root_.cast_eval, Reduce_apply, hn0, cast_zero]
+
+  use b, bn0, hj, habve
+
+  rw [ge_iff_le, le_ord_iff, beq]; intro n nlt
+
+  rw [sum_smul_rw]
+  apply Fintype.sum_eq_zero
+  rintro ⟨x,xlt⟩
+  simp only [smul_eq_mul, ite_mul, zero_mul, ite_eq_left_iff, mul_eq_zero]
+  intro nldiv
+  by_cases xlek : x < p
+
+  {
+    left
+
+    induction x using Nat.strong_induction_on with
+
+    | h x ih =>
+      suffices l ⟨x,xlt⟩ = a x by
+        rw [hk x xlek, ZMod.intCast_zmod_eq_zero_iff_dvd] at this
+        exact (nldiv this).rec
+
+      rw [aeqc, ← leq, sum_smul_rw]; push_cast
+      trans (l ⟨x, xlt⟩ : ZMod ℓ) • ↑((Integer.G j) ⟨x,xlt⟩ ↑(⟨x,xlt⟩ : Fin (dim j)))
+      rw [G_ord_G]; simp
+      simp; symm; apply Fintype.sum_eq_single
+      rintro ⟨m, mlt⟩ mnx
+      simp only [ne_eq, Fin.mk.injEq] at mnx
+      rw [mul_eq_zero]
+      rcases Nat.lt_or_lt_of_ne mnx with mlx | mgx
+      left
+      rw [ZMod.intCast_zmod_eq_zero_iff_dvd]
+      by_contra dvdm
+      specialize ih m mlx mlt dvdm (by omega)
+      rw [ih] at dvdm; contrapose! dvdm
+      exact Int.dvd_zero ↑ℓ
+
+      right; rw [lt_ord_apply]
+      exact Lean.Grind.Ring.intCast_zero
+      rwa [ord_G]
+  }
+  {
+    right
+    apply lt_ord_apply
+    simp only [ord_G]; omega
+  }
+
+
+end Modulo

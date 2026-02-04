@@ -15,8 +15,9 @@ variable {a b : ModularFormMod ℓ k}
 
 open ZMod Nat Modulo
 
+
 -- This is the cleaner way of stating it, using == and -l
-theorem U_pow_l_eq_self_sub_Theta_pow_l_sub_one {a : ModularFormMod ℓ k} :
+theorem U_pow_l_eq_self_sub_Theta_pow_l_sub_one (a : ModularFormMod ℓ k) :
     a|𝓤 ** ℓ == (a -l Θ^[ℓ - 1] a) (by simp) := by
   intro n; simp[Pow_Prime]; symm; calc
     _ = if (n : ZMod ℓ) = 0 then a n else 0 := by
@@ -36,8 +37,22 @@ theorem const_of_Filt_zero {a : ModularFormMod ℓ k} (h : 𝔀 a = 0) : ∃ c :
   obtain ⟨b,hb⟩ := wa0
   sorry
 
+
 theorem Filtration_Log {i : ℕ} {a : ModularFormMod ℓ k} : 𝔀 (a ** i) = i * 𝔀 a := sorry
--- it may be useful to use the Filt_decomp lemmas to prove this.
+
 
 
 theorem Filtration_congruence (a : ModularFormMod ℓ k) [NeZero a] : (𝔀 a : ZMod (ℓ - 1)) = k := sorry
+
+
+
+theorem Reduce_of_reduce {a : ModularFormMod ℓ k} {b : IntegerModularForm n} (hab : a = reduce ℓ b) :
+    ∃ h, a = Mcongr h (Reduce ℓ b) := sorry
+
+
+
+theorem exists_of_filt_eq (a : ModularFormMod ℓ k) (ha : 𝔀 a = n) :
+    ∃ b : IntegerModularForm n, ∃ h, a = Mcongr h (Reduce ℓ b) := by
+  obtain ⟨b, aeq⟩ := Weight_of_Filt ha
+  obtain ⟨h, aeq⟩ := Reduce_of_reduce aeq
+  exact ⟨b, h, aeq⟩

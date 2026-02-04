@@ -220,6 +220,8 @@ instance : Zero (ModularForm k) where
     squish := λ _ ↦ by simp
     bounded := ⟨0, λ _ _ ↦ by simp⟩ }
 
+instance : Inhabited (ModularForm k) := ⟨0⟩
+
 def Rconst (x : ℂ) : ModularForm 0 where
   toFun := fun z ↦ x
   holo := analyticOn_const
@@ -437,6 +439,8 @@ instance : Zero (IntegerModularForm k) where
     summable := by simp; unfold Summable HasSum; use 0; simp
     modular := by simp; sorry  }
 
+instance : Inhabited (IntegerModularForm k) := ⟨0⟩
+
 namespace Integer
 
 /-- Coercsion to the constant integer modular forms of weight 0 -/
@@ -590,6 +594,8 @@ theorem Iconst_zero (x : ℤ) : (Iconst x) 0 = x := rfl
 @[simp]
 theorem Iconst_succ (x : ℤ) (n : ℕ) : (Iconst x) n.succ = 0 := rfl
 
+
+
 @[ext]
 theorem IntegerModularForm.ext {a b : IntegerModularForm k} (h : ∀ n, a n = b n) : a = b :=
   DFunLike.ext a b h
@@ -612,6 +618,7 @@ lemma cast_eval {k j : ℕ} {h : k = j} {n : ℕ} {a : IntegerModularForm k} :
 alias Icongr_apply := cast_eval
 
 
+
 @[simp]
 lemma triangle_eval {k j : ℕ} {h : k = j} {n : ℕ} {a : IntegerModularForm k} :
   (h ▸ a) n = a n := by
@@ -622,6 +629,28 @@ lemma triangle_eval {k j : ℕ} {h : k = j} {n : ℕ} {a : IntegerModularForm k}
 
 @[simp] theorem zero_Ipow (j : ℕ) [hj : NeZero j] : (0 : IntegerModularForm k) ** j = 0 := by
   ext n; simp [Ipow_apply, hj.out]
+
+
+@[simp]
+lemma Iconst_mul (c : ℤ) (a : IntegerModularForm k) : Iconst c * a = Icongr (zero_add _).symm (c • a) := by
+  ext n; rw[mul_apply, Icongr_apply, zsmul_apply]; calc
+
+  _ = ∑ x ∈ (antidiagonal n).erase (0,n), (Iconst c) x.1 * a x.2 + (Iconst c) 0 * a n := by
+    simp
+
+  _ = 0 + c • a n := by
+    rw [Iconst_zero, smul_eq_mul]; congr
+    apply sum_eq_zero fun x xin => ?_
+    simp only [mem_erase, mem_antidiagonal] at xin
+    have : x.1 ≠ 0 := by
+      obtain ⟨h1, h2⟩ := xin
+      have : x.1 ≠ 0 ∨ x.2 ≠ n := by contrapose! h1; ext; exacts [h1.1, h1.2]
+      omega
+    obtain ⟨n, hn⟩ := Nat.exists_eq_succ_of_ne_zero this
+    rw [hn, Iconst_succ, zero_mul]
+
+  _ = c • a n := zero_add _
+
 
 instance : AddCommGroup (IntegerModularForm k) :=
   DFunLike.coe_injective.addCommGroup _ rfl coe_add coe_neg coe_sub coe_smuln coe_smulz
@@ -637,11 +666,39 @@ instance : Module ℤ (IntegerModularForm k) :=
   Function.Injective.module ℤ coeHom DFunLike.coe_injective fun _ _ ↦ rfl
 
 
-instance : DirectSum.GCommRing (IntegerModularForm) := sorry
+instance : DirectSum.GCommRing (IntegerModularForm) :=
+{ mul a b := a * b, mul_zero:= sorry, zero_mul := sorry, mul_add := sorry, add_mul := sorry, one := Iconst 1, one_mul:= sorry, mul_one:= sorry, mul_assoc:= sorry, natCast:= sorry, natCast_zero:= sorry, natCast_succ:= sorry, intCast:= sorry, intCast_ofNat:= sorry, intCast_negSucc_ofNat:= sorry, mul_comm:= sorry, gnpow_zero' := sorry, gnpow_succ':= sorry}
+
+lemma Imul_comm (a : IntegerModularForm k) (b : IntegerModularForm j) : a * b = Icongr (add_comm j k) (b * a) := by
+  ext n; simp_rw [Icongr_apply, mul_apply, mul_comm]; apply Finset.sum_bij fun (x,y) _ => (y,x)
+  simp only [mem_antidiagonal, Prod.forall]
+  simp only [add_comm, imp_self, implies_true]
+  rintro g f x y h
+  simp only [Prod.mk.injEq] at h
+  ext; exact h.2; exact h.1
+  rintro ⟨b1, b2⟩ bin
+  use (b2, b1), by simp_all only [mem_antidiagonal, add_comm]
+  simp only [implies_true]
+
+
+
 
 instance : DirectSum.GAlgebra ℤ (IntegerModularForm) := sorry
 
-end Integer
+@[simp] lemma mul_Iconst (c : ℤ) (a : IntegerModularForm k) : a * Iconst c = Icongr (add_zero _).symm (c • a) := by
+  ext; rw [Imul_comm, Iconst_mul]; simp only [Icongr_apply]
 
+
+lemma Icongr_symm {a : IntegerModularForm k} {b : IntegerModularForm j} (h : k = j) (hb : b = Icongr h a) :
+    a = Icongr h.symm b := by
+  ext; simp only [hb, Icongr_apply]
+
+@[simp] lemma Icongr_Icongr {j k i} {a : IntegerModularForm k} (h1 : k = j) (h2 : j = i) :
+    Icongr h2 (Icongr h1 a) = Icongr (h1.trans h2) a := by
+  ext; simp only [Icongr_apply]
+
+@[simp] lemma Icongr_id (a : IntegerModularForm k) (h : k = k) : Icongr h a = a := rfl
+
+end Integer
 
 end IntegerModularForm

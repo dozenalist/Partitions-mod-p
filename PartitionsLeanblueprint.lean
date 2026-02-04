@@ -3,6 +3,8 @@
 
 
 /- The files here are arranged approximately in order of import heirarchy -/
+
+/- Would be nice to reorganize and rename the files at some point -/
 import PartitionsLeanblueprint.Basic
 
 import PartitionsLeanblueprint.IVT -- not used
@@ -15,18 +17,18 @@ import PartitionsLeanblueprint.BasicOperators
 
 import PartitionsLeanblueprint.PowFacts
 
-import PartitionsLeanblueprint.PreliminaryResults
-
 import PartitionsLeanblueprint.Basis
 
 import PartitionsLeanblueprint.PartitionDefs
+
+import PartitionsLeanblueprint.Ord
+
+import PartitionsLeanblueprint.Dimension
+
+import PartitionsLeanblueprint.PreliminaryResults
 
 import PartitionsLeanblueprint.PrimaryLemmas
 
 import PartitionsLeanblueprint.DescentArgument
 
 import PartitionsLeanblueprint.FinalSection
-
-import PartitionsLeanblueprint.Ord
-
-import PartitionsLeanblueprint.Dimension
