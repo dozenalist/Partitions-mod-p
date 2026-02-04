@@ -16,22 +16,29 @@ Formalized :
 
 - The definition of the Filtration of a Modular Form Mod ℓ (call it b) as the least natural number such that b has that weight. Unlike in the paper, the Filtration of the zero function is zero.
 
-- The definitions of δℓ as a natural number and of Δ and fℓ as Modular Forms of their respective weights
+- The definitions of δℓ as a natural number and of Δ and fℓ as Modular Forms of their respective weights, as well as the Eisenstein series.
 
-- Some of the introductory results of the paper, and some of the main lemmas. Everything after lemma 3.3 is fully formalized, assuming everthing that comes before it.
+- Information about a basis for the space of Modular Forms. Specifically, the normalized, upper triangular basis consisting of powers of E4, E6, and Delta.
 
-- The first section of the paper, that if there exists a ramanujan congruence mod ℓ then fl | U = 0. (The beginning of Theorem 3.1)
+- All of the main results of the paper. Everything from the beginning to the end of the proof of Theorem 1 is fully formalized, assuming some preliminaries.
+
 
 
 TODO : 
 
 - Prove that Integer Modular Forms and Modular Forms Mod ℓ form a graded ring. (i.e. fill in the sorries on the definitions of add, mul, and pow of these structures).
 
-- Prove that the Theta and U operators preserve modularity
+- Prove that the Theta and U operators preserve modularity.
 
-- Prove that Δ is a Modular Form, and formalize information about a basis for the set of Modular Forms of a given weight (this will be needed for Lemma 3.2 and the end of the paper).
+- Prove lemma 2.1
 
-- Prove Lemmas 2.1 and 3.2, as well as the Filtration Log property
+- Prove that if two Modular Forms Mod ℓ are equal, then their weights are congruent (mod ℓ - 1)
+
+- Prove that Δ and the Eisenstein series are Modular Forms.
+
+- Prove that the basis used actually forms a basis for the space of Modular Forms
+
+- Prove the Filtration Log property.
 
 
 Note : 
