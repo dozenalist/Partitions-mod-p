@@ -401,7 +401,7 @@
   \uses{thm:ord_mul}
   \lean{Integer.ord_mul_ord}
   \leanok
-  (a \cdot b) (ord$(a) + $ ord$(b)) = a($ ord$(a)) \cdot b($ ord$(b))$.
+  $(a \cdot b) ($ord$(a) + $ ord$(b)) = a($ ord$(a)) \cdot b($ ord$(b))$.
 \end{theorem}
 \begin{proof}
   \leanok
@@ -455,13 +455,13 @@
 
 \begin{definition}
   \label{def:G}
-  \uses{def:Eis, def:Delta}
+  \uses{def:Eis, def:Delta, def:dim}
   \lean{Integer.G}
 
-  For $ k \ne 1$ and $c < $dim$(k)$,
+  For $ k \ne 1$ and $c < $ dim$(k)$,
   $G_{k,\: c}$is a modular form of weight $2k$ defined as 
 
-  \[G_{k,\: c} = E_2 ^ a E_3 ^ b E_4 ^ {k / 2 - 3c} \Delta ^ c \]
+  \[G_{k,\: c} = E_2 ^ a E_3 ^ b E_2 ^ {k / 2 - 3c} \Delta ^ c \]
   where $a, b$ are the minimal natural numbers such that $2a + 3b \equiv k \pmod 6$. \\
   We have that the set of all such $G_{k,\: c}$ for fixed $k$ form a basis for the modular forms of weight $2k$.
 
@@ -493,7 +493,7 @@
 
 \begin{theorem}
   \label{thm:zero_of_leading_zeros}
-  \uses{def:G, thm:ord_G}
+  \uses{def:G, thm:ord_G, def:dim}
   \lean{Integer.zero_of_leading_zeros}
   \leanok
   Let $a$ be a modular form of weight $2k$. If ord$(a) \: \ge \: dim(k)$ then $a$ is the zero function.
@@ -508,7 +508,7 @@
   \uses{thm:zero_of_leading_zeros, thm:G_ord_G}
   \lean{Integer.eq_G_of_ord_max}
   \leanok
-  Let $a$ be a modular form of weight $2k$. If ord$(a) = $dim$(k) - 1$ then
+  Let $a$ be a modular form of weight $2k$. If ord$(a) = $ dim$(k) - 1$ then
   $a = a ($dim$(k) - 1) G_{k, \: \text{dim} (k) - 1}.$ 
 \end{theorem}
 \begin{proof}
