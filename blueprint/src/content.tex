@@ -196,7 +196,7 @@
   \leanok
   Let a be a of a modular form mod $\ell$. The filtration of $a, \omega (a), $ 
   is defined as the minimum natural number $j$ such that $a$ has weight $j$. 
-  The filtration of the zero function is $0$.F
+  The filtration of the zero function is $0$.
 \end{definition}
 
 \begin{definition} [multiplication and exponentiation]
@@ -446,8 +446,8 @@
   \leanok
   For $k \in \mathbb{N}$, define dim$(k) = \lfloor k / 6 \rfloor +         
         \begin{cases}
-            0 & \text{ if } k\equiv 1\pmod{6}, \\
-            1 & \text{ else }.
+            0 & \text{ if } k\equiv 1\pmod{6} \\
+            1 & \text{ else }
         \end{cases} $. \\
   dim$(k)$ is the dimension of the space of modular forms of weight $2k$.
 \end{definition}
@@ -458,12 +458,12 @@
   \uses{def:Eis, def:Delta, def:dim}
   \lean{Integer.G}
 
-  For $ k \ne 1$ and $c < $ dim$(k)$,
-  $G_{k,\: c}$is a modular form of weight $2k$ defined as 
+  For $ k \ne 1$ and $c < $ dim$(k)$, 
+  $G_{k,\, c}$ is a modular form of weight $2k$ defined as 
 
-  \[G_{k,\: c} = E_2 ^ a E_3 ^ b E_2 ^ {k / 2 - 3c} \Delta ^ c \]
+  \[G_{k,\, c} = E_2 ^ a E_3 ^ b E_2 ^ {k / 2 - 3c} \Delta ^ c \]
   where $a, b$ are the minimal natural numbers such that $2a + 3b \equiv k \pmod 6$. \\
-  We have that the set of all such $G_{k,\: c}$ for fixed $k$ form a basis for the modular forms of weight $2k$.
+  We have that the set of all such $G_{k,\, c}$ for fixed $k$ form a basis for the modular forms of weight $2k$.
 
 \end{definition}
 
@@ -473,7 +473,7 @@
   \uses{def:G, thm:ord_Delta, thm:ord_Eis, thm:ord_mul}
   \lean{Integer.ord_G}
   \leanok
-  ord$(G_{k, c}) = c$.
+  ord$(G_{k, \, c}) = c$.
 \end{theorem}
 \begin{proof}
   \leanok
@@ -485,7 +485,7 @@
   \uses{thm:ord_G, thm:ord_pow_ord, thm:ord_mul_ord}
   \lean{Integer.G_ord_G}
   \leanok
-  $G_{k,\: c} (c) = 1$.
+  $G_{k,\, c} (c) = 1$.
 \end{theorem}
 \begin{proof}
   \leanok
@@ -509,7 +509,7 @@
   \lean{Integer.eq_G_of_ord_max}
   \leanok
   Let $a$ be a modular form of weight $2k$. If ord$(a) = $ dim$(k) - 1$ then
-  $a = a ($dim$(k) - 1) G_{k, \: \text{dim} (k) - 1}.$ 
+  $a = a ($dim$(k) - 1) G_{k, \, \text{dim} (k) - 1}.$ 
 \end{theorem}
 \begin{proof}
   \leanok
@@ -916,7 +916,7 @@
   \uses{def:G, thm:ord_pow_ord, thm:ord_Delta, lem:fl_delta_add_one, thm:Eis_two_one}
   \lean{G_delta_add_one}
   \leanok
-  $G_{6\delta_\ell + 2, \delta_\ell} (\delta_\ell + 1) \equiv 241 \pmod \ell$.
+  $G_{6\delta_\ell + 2, \, \delta_\ell} (\delta_\ell + 1) \equiv 241 \pmod \ell$.
 \end{theorem}
 \begin{proof}
   \leanok
@@ -929,7 +929,7 @@
   \lean{Theta_l_add_three_div_two}
   \leanok
 
-  $\Theta^{\frac{\ell + 3}{2}} f_\ell \equiv \delta_\ell ^ {\frac{\ell + 3}{2}} G_{6\delta_\ell + 2, \delta_\ell} \pmod \ell$.
+  $\Theta^{\frac{\ell + 3}{2}} f_\ell \equiv \delta_\ell ^ {\frac{\ell + 3}{2}} G_{6\delta_\ell + 2, \, \delta_\ell} \pmod \ell$.
 
 \end{theorem}
 \begin{proof}
