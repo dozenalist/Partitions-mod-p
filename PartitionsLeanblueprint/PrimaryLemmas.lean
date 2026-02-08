@@ -416,11 +416,10 @@ theorem Filt_U_pos [Fact (ℓ ≥ 5)] : ℓ ∣ 𝔀 (Θ^[ℓ - 1] (fl ℓ)) →
 
 
 -- (3.5)
-theorem Lemma_stitch [Fact (ℓ ≥ 5)] : 𝔀 (fl ℓ |𝓤) = 0 → 𝔀 (Θ^[ℓ - 1] (fl ℓ)) = (ℓ^2 - 1)/2 := by
-  intro h
+theorem Lemma_stitch [Fact (ℓ ≥ 5)] : 𝔀 (fl ℓ |𝓤) = 0 → 𝔀 (Θ^[ℓ - 1] (fl ℓ)) = (ℓ^2 - 1)/2 := fun h =>
   have h' : ¬ 𝔀 (fl ℓ |𝓤) > 0 := Eq.not_gt h
   have : ¬ ℓ ∣ 𝔀 (Θ^[ℓ - 1] (fl ℓ)) := by contrapose! h'; exact Filt_U_pos h'
-  exact Filt_Theta_pow_l_sub_one this
+  Filt_Theta_pow_l_sub_one this
 
 
 theorem Lemma_stitch_but_easier [Fact (ℓ ≥ 5)] (flu : fl ℓ |𝓤 = 0) : 𝔀 (Θ^[ℓ - 1] (fl ℓ)) = (ℓ^2 - 1)/2 := by

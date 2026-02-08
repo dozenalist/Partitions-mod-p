@@ -307,7 +307,7 @@ theorem Modulo.Mpow_eq_Sequencepow (a : ModularFormMod ℓ k) (j : ℕ) :
   Mpow a j = Sequencepow a j := rfl
 
 theorem Modulo.mul_eq_Sequencemul_apply (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (n : ℕ) :
-  ⇑(a * b) n = Sequencemul a b n := rfl
+  (a * b) n = Sequencemul a b n := rfl
 
 theorem Modulo.Mpow_eq_Sequencepow_apply (a : ModularFormMod ℓ k) (j : ℕ) (n : ℕ) :
   Mpow a j n = Sequencepow a j n := rfl

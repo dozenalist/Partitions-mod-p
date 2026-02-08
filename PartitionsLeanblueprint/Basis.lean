@@ -713,9 +713,15 @@ lemma Eis_gt_one_ne_zero {k n : ℕ} [h : NeZero n] (kgt1 : k > 1) : Eis k n =
   rw [Eis_gt_one kgt1, if_neg h.out]
 
 
+@[simp] lemma Eis_two_zero : Eis 2 0 = 1 := Eis_ne_one_zero <| by decide
+
+@[simp] lemma Eis_three_zero : Eis 3 0 = 1 := Eis_ne_one_zero <| by decide
+
 lemma Eis_two_one : Eis 2 1 = 240 := by
   simp [Eis_gt_one_ne_zero one_lt_two, Nat.sigma]
   sorry
+
+lemma Eis_three_one : Eis 3 1 = -504 := sorry
 
 
 
@@ -724,10 +730,6 @@ instance instEisNeZero (k : ℕ) [h : NeZero (k - 1)] : NeZero (Eis k) :=
   Exists_ne_zero ⟨0, this ▸ Int.one_ne_zero⟩
 
 
-
-
-
-theorem Delta_eq_Eis : 1728 • Δ = Eis 2 ** 3 - Eis 3 ** 2 := sorry
 
 
 
@@ -755,9 +757,6 @@ lemma Eis_ne_one_zero {k : ℕ} (kn1 : k ≠ 1) : Eis k 0 = (1 : ZMod ℓ) := by
 
 @[simp] lemma Eis_one [NeZero (ℓ - 1)] : Eis (ℓ := ℓ) 1 = 0 := by simp [Eis]
 
-
-theorem Delta_eq_Eis : 1728 • (Δ : ModularFormMod ℓ 12) == (Eis 2 ** 3 -l Eis 3 ** 2) (by norm_num) := by
-  intro n; rw [Delta, ← Reduce_nsmul, Integer.Delta_eq_Eis]; simp [Reduce_pow, Eis]
 
 
 instance instEisNeZero [NeZero (ℓ - 1)] (k : ℕ) [h : NeZero (k - 1)] :

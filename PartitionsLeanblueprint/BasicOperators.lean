@@ -392,7 +392,7 @@ notation "𝔀" => Filtration
 
 
 lemma Weight_eq_of_Mod_eq (h : a == d) {j} : hasWeight a j → hasWeight d j := by
-  unfold hasWeight; rintro ⟨c,hc⟩
+  rintro ⟨c,hc⟩
   use c; ext n; rw[← h n]; exact congrFun hc n
 
 @[simp] lemma Weight_Mcongr (h : k = j) {m} : hasWeight (Mcongr h a) m ↔ hasWeight a m := by

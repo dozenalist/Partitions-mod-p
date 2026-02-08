@@ -12,7 +12,7 @@
 <meta name="generator" content="plasTeX" />
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>partitions-leanblueprint</title>
+<title>Partitions mod \(p\)</title>
 <link rel="stylesheet" href="styles/theme-white.css" />
 <link rel="stylesheet" href="styles/amsthm.css" />
 <link rel="stylesheet" href="styles/showmore.css" />
@@ -30,9 +30,9 @@
 
 <div class="main-text">
 <div class="titlepage">
-<h1>partitions-leanblueprint</h1>
+<h1>Partitions mod \(p\)</h1>
 <p class="authors">
-<span class="author">Carter Hastings and Quinn Oveson</span>
+<span class="author">Carter Hastings</span>
 </p>
 </div>
 <div class="centered"> <a href ="https://dozenalist.github.io/Partitions-mod-p/dep_graph_document.html">Dependency Graph</a> </div>
@@ -2124,11 +2124,11 @@
   </div>
   <div class="definition_thmcontent">
   
-<p>For \( k \ne 1\) and \(c {\lt} \) dim\((k)\), \(G_{k,\,  c}\) is a modular form of weight \(2k\) defined as </p>
+<p>For \( k \ne 1\) and \(c {\lt} \) dim\((k)\), write \(k\) uniquely as \(k = 6\ell + k'\), where \(k' \in \{ 0, 2, 3, 4, 5, 7\} \). \(G_{k,\,  c}\) is a modular form of weight \(2k\) defined as </p>
 <div class="displaymath" id="a0000000020">
-  \[ G_{k,\,  c} = E_2 ^a E_3 ^b E_2 ^{k / 2 - 3c} \Delta ^c  \]
+  \[ G_{k,\,  c} = E_2 ^a E_3 ^b E_2 ^{\ell - 3c} \Delta ^c  \]
 </div>
-<p> where \(a, b\) are the minimal natural numbers such that \(2a + 3b \equiv k \pmod6\). <br />We have that the set of all such \(G_{k,\,  c}\) for fixed \(k\) form a basis for the modular forms of weight \(2k\). </p>
+<p> where \(a, b\) are the unique natural numbers with \(2a + 3b = k'.\) <br />We have that the set of all such \(G_{k,\,  c}\) for fixed \(k\) form a basis for the modular forms of weight \(2k\). </p>
 
   </div>
 </div>
@@ -2353,7 +2353,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Dimension.lean#L1016" class="lean_decl">Integer.zero_of_leading_zeros</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Dimension.lean#L1008" class="lean_decl">Integer.zero_of_leading_zeros</a></li>
           
         </ul>
     
@@ -2364,7 +2364,7 @@
         </div>
   </div>
   <div class="theorem_thmcontent">
-  <p>   Let \(a\) be a modular form of weight \(2k\). If ord\((a) \:  \ge \:  dim(k)\) then \(a\) is the zero function. </p>
+  <p>   Let \(a\) be a modular form of weight \(2k\). If ord\((a) \:  \ge \:  \)dim\((k)\) then \(a\) is the zero function. </p>
 
   </div>
 </div>
@@ -2433,7 +2433,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Dimension.lean#L1111" class="lean_decl">Integer.eq_G_of_ord_max</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Dimension.lean#L1102" class="lean_decl">Integer.eq_G_of_ord_max</a></li>
           
         </ul>
     
@@ -2513,7 +2513,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Dimension.lean#L1135" class="lean_decl">Modulo.exists_maximal_Reduce</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Dimension.lean#L1159" class="lean_decl">Modulo.exists_maximal_Reduce</a></li>
           
         </ul>
     
@@ -4205,7 +4205,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L511" class="lean_decl">coeff_mul_shift_of_zero</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L510" class="lean_decl">coeff_mul_shift_of_zero</a></li>
           
         </ul>
     
@@ -4266,7 +4266,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L534" class="lean_decl">coeff_zero_of_ndvd</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L533" class="lean_decl">coeff_zero_of_ndvd</a></li>
           
         </ul>
     
@@ -4347,7 +4347,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L604" class="lean_decl">prod_eq_sum</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L603" class="lean_decl">prod_eq_sum</a></li>
           
         </ul>
     
@@ -4430,7 +4430,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L662" class="lean_decl">DeltaProduct_eventually_sum</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L661" class="lean_decl">DeltaProduct_eventually_sum</a></li>
           
         </ul>
     
@@ -4515,7 +4515,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L681" class="lean_decl">fl_Product_eventually_sum</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L680" class="lean_decl">fl_Product_eventually_sum</a></li>
           
         </ul>
     
@@ -4608,7 +4608,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L733" class="lean_decl">flu_eq_zero</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L732" class="lean_decl">flu_eq_zero</a></li>
           
         </ul>
     
@@ -4688,7 +4688,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/FinalSection.lean#L728" class="lean_decl">MainResult</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/FinalSection.lean#L727" class="lean_decl">MainResult</a></li>
           
         </ul>
     
@@ -4763,7 +4763,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Basis.lean#L716" class="lean_decl">Integer.Eis_two_one</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Basis.lean#L720" class="lean_decl">Integer.Eis_two_one</a></li>
           
         </ul>
     
@@ -5004,7 +5004,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/FinalSection.lean#L551" class="lean_decl">Theta_l_add_three_div_two_eq_241</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/FinalSection.lean#L550" class="lean_decl">Theta_l_add_three_div_two_eq_241</a></li>
           
         </ul>
     
@@ -5084,7 +5084,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/FinalSection.lean#L595" class="lean_decl">flu_ne_zero</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/FinalSection.lean#L594" class="lean_decl">flu_ne_zero</a></li>
           
         </ul>
     

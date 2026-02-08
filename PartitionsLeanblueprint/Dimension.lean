@@ -968,8 +968,12 @@ theorem exists_G_combo [Fact (k ≠ 1)] (a : IntegerModularForm (2 * k)) :
 
 private theorem sum_smul_rw [Fact (k ≠ 1)] (l : Fin (dim k) → ℤ) (n : ℕ) :
     (∑ c, l c • (G k) c) n = ∑ c, (l c • (G k) c n) := by
+
   convert Fintype.sum_apply n (fun c => l c • G k c)
+
   sorry
+
+
 
 private theorem sum_with_smul_rw [Fact (k ≠ 1)] (l : Fin (dim k) → ℤ) (n : ℕ) (p : Fin (dim k) → Prop) :
     (∑ c with p c , l c • (G k) c) n = ∑ c with p c, (l c • (G k) c n) := by sorry
@@ -1000,31 +1004,14 @@ theorem Zfun_zero (c : Gmk 0) : c = ⟨(0, 0, 0), by
 
 
 
-
-theorem zero_weight (a : IntegerModularForm 0) : ∃ c, a = Iconst c := by
-  obtain ⟨l, lsum⟩ := exists_GBasis_combo (mul_zero 2 ▸ a)
-  sorry
-
-
-
-theorem bla (f : IntegerModularForm k) (n) : f n = ⇑f n := rfl
-
-
-
--- add for divisibility by ℓ
 open Finset in
 theorem zero_of_leading_zeros (a : IntegerModularForm (2*k))
     (h : ∀ n < dim k, a n = 0) : a = 0 := by
 
-  by_cases kgt : k = 1 ∨ k = 0
+  by_cases k1 : k = 1
   {
-    rcases kgt with hk | hk <;> subst hk
+    subst k1
     exact two_unique.uniq a
-    simp [dim, Nat.ModEq] at h
-    obtain ⟨c, rfl⟩ := zero_weight a
-    ext n; match n with
-    | 0 => rwa [zero_apply]
-    | n + 1 => rw [Iconst_succ, zero_apply]
   }
 
   have : Fact (k ≠ 1) := ⟨by omega⟩
@@ -1056,6 +1043,10 @@ theorem zero_of_leading_zeros (a : IntegerModularForm (2*k))
       simpa only [ord_G]
 
 
+theorem zero_weight (a : IntegerModularForm 0) : a = Iconst (a 0) := by
+  simp [← sub_eq_zero, zero_of_leading_zeros (k := 0)]
+
+
 theorem dvd_of_leading_dvds (ℓ : ℕ) (a : IntegerModularForm (2*k))
     (h : ∀ n < dim k, ↑ℓ ∣ a n) : ∀ n, ↑ℓ ∣ a n := by
 
@@ -1065,7 +1056,7 @@ theorem dvd_of_leading_dvds (ℓ : ℕ) (a : IntegerModularForm (2*k))
     rcases kgt with hk | hk <;> subst hk
     rw [two_unique.uniq a, default_eq, zero_apply]; exact Int.dvd_zero ↑ℓ
     simp [dim_zero] at h
-    obtain ⟨c, rfl⟩ := zero_weight a
+    rw [zero_weight a]
     match n with
     | 0 => exact h
     | n + 1 => rw [Iconst_succ]; exact Int.dvd_zero _
@@ -1118,6 +1109,35 @@ theorem eq_G_of_ord_max [hk : Fact (k ≠ 1)] (a : IntegerModularForm (2 * k)) [
 
 
 
+
+
+open Finset.Nat in
+theorem antidiagonalTuple_three_one : antidiagonalTuple 3 1 = {![0,0,1], ![0,1,0], ![1,0,0]} := rfl
+
+open Finset.Nat in
+theorem antidiagonalTuple_two_one : antidiagonalTuple 2 1 = {![0,1], ![1,0]} := rfl
+
+
+open Finset.Nat in
+theorem Delta_eq_Eis : 1728 • Δ = Eis 2 ** 3 - Eis 3 ** 2 := by
+
+  rw [← sub_eq_zero]
+  apply zero_of_leading_zeros (k := 6)
+  simp only [dim_add_six, dim_zero, sub_apply, sub_eq_zero, nsmul_apply, Ipow_apply]
+  intro n nlt
+  have neq : n = 0 ∨ n = 1 := by omega
+  rcases neq with rfl | rfl
+  simp [antidiagonalTuple_zero_right, Eis_ne_one_zero Nat.add_one_add_one_ne_one]
+
+  simp [antidiagonalTuple_three_one, antidiagonalTuple_two_one]
+  rw [Finset.sum_pair <| by decide, Finset.sum_insert <| by decide, Finset.sum_pair <| by decide]
+  simp [Fin.prod_univ_three]
+  rw [Eis_two_zero, Eis_three_zero, Eis_two_one, Eis_three_one]
+  rfl
+
+
+
+
 end Integer
 
 namespace Modulo
@@ -1127,13 +1147,19 @@ variable {ℓ k : ℕ} [NeZero ℓ]
 open Int
 
 
+theorem Delta_eq_Eis : 1728 • (Δ : ModularFormMod ℓ 12) == (Eis 2 ** 3 -l Eis 3 ** 2) (by norm_num) := by
+  intro n; rw [Delta, ← Reduce_nsmul, Integer.Delta_eq_Eis]; simp [Reduce_pow, Eis]
+
+
 
 theorem reduce_apply (a : ℕ → ℤ) (n : ℕ) : a n = reduce ℓ a n := rfl
 
 
--- we can assume that the fucntion that reduces to a Modular Form Mod ℓ has the maximum ord possible
-theorem exists_maximal_Reduce {j p} [Fact (Nat.Prime ℓ)] (a : ModularFormMod ℓ (2 * k)) [ha : NeZero a] (hk : ∀ n < p, a n = 0) (haw : hasWeight a (2 * j)) :
-    ∃ b : IntegerModularForm (2 * j), ∃ h : NeZero b, ∃ hj : (2 * j : ℕ) = (2 * k : ZMod (ℓ - 1)), a = Mcongr hj (Reduce ℓ b) ∧ ord b ≥ p := by
+-- we can assume that the function that reduces to a Modular Form Mod ℓ has the maximum ord possible
+theorem exists_maximal_Reduce {j p} [Fact (Nat.Prime ℓ)] (a : ModularFormMod ℓ (2 * k))
+  [ha : NeZero a] (hk : ∀ n < p, a n = 0) (haw : hasWeight a (2 * j)) :
+    ∃ b : IntegerModularForm (2 * j), ∃ h : NeZero b, ∃ hj : (2 * j : ℕ) = (2 * k : ZMod (ℓ - 1)),
+      a = Mcongr hj (Reduce ℓ b) ∧ ord b ≥ p := by
 
   obtain ⟨c, ceq⟩ := haw
   obtain ⟨hj, aeqcr⟩ := Reduce_of_reduce ceq
@@ -1144,9 +1170,7 @@ theorem exists_maximal_Reduce {j p} [Fact (Nat.Prime ℓ)] (a : ModularFormMod �
     rw [Pi.zero_apply, cast_zero, zero_apply] ⟩
 
 
-  have : Fact (j ≠ 1) := ⟨by
-    rintro rfl
-    exact False_of_two c ⟩
+  have : Fact (j ≠ 1) := ⟨by rintro rfl; exact False_of_two c⟩
 
   obtain ⟨l, leq⟩ := exists_G_combo c
 
@@ -1201,7 +1225,7 @@ theorem exists_maximal_Reduce {j p} [Fact (Nat.Prime ℓ)] (a : ModularFormMod �
 
       rw [aeqc, ← leq, sum_smul_rw]; push_cast
       trans (l ⟨x, xlt⟩ : ZMod ℓ) • ↑((Integer.G j) ⟨x,xlt⟩ ↑(⟨x,xlt⟩ : Fin (dim j)))
-      rw [G_ord_G]; simp
+      rw [G_ord_G, cast_one, smul_eq_mul, mul_one]
       simp; symm; apply Fintype.sum_eq_single
       rintro ⟨m, mlt⟩ mnx
       simp only [ne_eq, Fin.mk.injEq] at mnx
@@ -1211,8 +1235,7 @@ theorem exists_maximal_Reduce {j p} [Fact (Nat.Prime ℓ)] (a : ModularFormMod �
       rw [ZMod.intCast_zmod_eq_zero_iff_dvd]
       by_contra dvdm
       specialize ih m mlx mlt dvdm (by omega)
-      rw [ih] at dvdm; contrapose! dvdm
-      exact Int.dvd_zero ↑ℓ
+      exact ih ▸ dvdm <| Int.dvd_zero ↑ℓ
 
       right; rw [lt_ord_apply]
       exact Lean.Grind.Ring.intCast_zero

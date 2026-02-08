@@ -478,9 +478,8 @@ lemma coeff_sum_squash [Semiring α] {j ℓ N M : ℕ} [NeZero ℓ] {a b : ℕ �
       intro p hp
       simp only [mem_filter, mem_antidiagonal, dvd_mul_right, and_true] at hp
       obtain ⟨psum, ldiv⟩ := hp
-      have : ℓ ∣ p.1 := by
-        suffices ℓ ∣ p.1 + p.2 from (Nat.dvd_add_iff_left ldiv).mpr this
-        use j
+      have : ℓ ∣ p.1 := by rw [Nat.dvd_add_iff_left ldiv]; use j
+
       obtain ⟨ ⟨k, hk⟩, ⟨c, hc⟩ ⟩ := (⟨ldiv, this⟩ : And ..) -- lol
       use (c, k), by
         simp only [mem_antidiagonal]
@@ -524,7 +523,7 @@ lemma coeff_mul_shift_of_zero [CommRing α] {m N : ℕ} (f : ℕ → α ⟦X⟧)
     rw[zero_mul]
 
 
-lemma Polynomial.coe_prod [CommSemiring α] (m : ℕ) (f : ℕ → Polynomial α) :
+@[norm_cast] lemma Polynomial.coe_prod [CommSemiring α] (m : ℕ) (f : ℕ → Polynomial α) :
     ∏ i ∈ range m, (f i : α ⟦X⟧) = ((∏ i ∈ range m, f i : Polynomial α) : α ⟦X⟧) := by
   induction m with
   | zero => simp only [range_zero, prod_empty, Polynomial.coe_one]
@@ -735,7 +734,7 @@ theorem flu_eq_zero [Fact (ℓ ≥ 5)] : ramanujan_congruence ℓ → fl ℓ |�
   intro h
   have lg5 : ℓ ≥ 5 := Fact.out
   have lsq : ℓ ^ 2 ≥ 25 := by
-    trans 5 * 5; rw [pow_two]; gcongr; exact le_refl _
+    trans 5 * 5; rw [sq]; gcongr; rfl
 
   ext n
 
@@ -745,7 +744,7 @@ theorem flu_eq_zero [Fact (ℓ ≥ 5)] : ramanujan_congruence ℓ → fl ℓ |�
     fun n ↦ Polynomial.X ^ (δ ℓ) * (∏ i ∈ range n, (1 - Polynomial.X ^ (i + 1)) ^ (ℓ ^ 2)) with geq
 
   obtain ⟨ m, goeq ⟩ := partitionProduct_mul_eq_natpart_sum (ℓ * n) g
-  obtain ⟨ m', floeq ⟩ := @fl_Product_eventually_sum (ZMod ℓ) _ ℓ _ (ℓ * n)
+  obtain ⟨ m', floeq ⟩ := fl_Product_eventually_sum (α := ZMod ℓ) ℓ (ℓ * n)
   dsimp at floeq
 
   let M := max' {m, m', ℓ * n + 1} (insert_nonempty ..)
@@ -848,11 +847,10 @@ theorem flu_eq_zero [Fact (ℓ ≥ 5)] : ramanujan_congruence ℓ → fl ℓ |�
         have dn0 : ¬ d = 0 := by
           contrapose! nldivd; rw[nldivd]; exact dvd_zero ℓ
 
-        simp only [rw1, rw2, coeff_sum_X_pow dlM]
-        rw [natpart_of_ne_zero dn0]
+        simp only [rw1, rw2, coeff_sum_X_pow dlM, natpart_of_ne_zero dn0]
       }
 
-      right; rw[coeff_X_pow]; exact if_neg ceq
+      right; rw[coeff_X_pow, if_neg ceq]
     }
 
     right; exact coeff_zero_of_ndvd ldiva
@@ -887,7 +885,7 @@ theorem flu_eq_zero [Fact (ℓ ≥ 5)] : ramanujan_congruence ℓ → fl ℓ |�
       rw[ZMod.natCast_zmod_eq_zero_iff_dvd]; exact h x.1
     rw[this, zero_mul]
     exact Nat.lt_add_right (δ ℓ) elnltM
-    omega
+    exact Nat.lt_add_left L <| Nat.le_refl _
 
 
 

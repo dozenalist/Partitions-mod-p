@@ -682,7 +682,6 @@ lemma Imul_comm (a : IntegerModularForm k) (b : IntegerModularForm j) : a * b = 
 
 
 
-
 instance : DirectSum.GAlgebra ℤ (IntegerModularForm) := sorry
 
 @[simp] lemma mul_Iconst (c : ℤ) (a : IntegerModularForm k) : a * Iconst c = Icongr (add_zero _).symm (c • a) := by
@@ -698,6 +697,12 @@ lemma Icongr_symm {a : IntegerModularForm k} {b : IntegerModularForm j} (h : k =
   ext; simp only [Icongr_apply]
 
 @[simp] lemma Icongr_id (a : IntegerModularForm k) (h : k = k) : Icongr h a = a := rfl
+
+@[simp]
+theorem coe_sum {α : Type} [Fintype α] (l : α → IntegerModularForm k) (n : ℕ) : (∑ c, l c) n = ∑ c, (l c) n := by
+  sorry
+
+
 
 end Integer
 

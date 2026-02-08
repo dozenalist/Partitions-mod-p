@@ -459,10 +459,11 @@
   \lean{Integer.G}
 
   For $ k \ne 1$ and $c < $ dim$(k)$, 
+  write $k$ uniquely as $k = 6\ell + k'$, where $k' \in \{0, 2, 3, 4, 5, 7\}$.
   $G_{k,\, c}$ is a modular form of weight $2k$ defined as 
 
-  \[G_{k,\, c} = E_2 ^ a E_3 ^ b E_2 ^ {k / 2 - 3c} \Delta ^ c \]
-  where $a, b$ are the minimal natural numbers such that $2a + 3b \equiv k \pmod 6$. \\
+  \[G_{k,\, c} = E_2 ^ a E_3 ^ b E_2 ^ {\ell - 3c} \Delta ^ c \]
+  where $a, b$ are the unique natural numbers with $2a + 3b = k'.$ \\
   We have that the set of all such $G_{k,\, c}$ for fixed $k$ form a basis for the modular forms of weight $2k$.
 
 \end{definition}
@@ -496,7 +497,7 @@
   \uses{def:G, thm:ord_G, def:dim}
   \lean{Integer.zero_of_leading_zeros}
   \leanok
-  Let $a$ be a modular form of weight $2k$. If ord$(a) \: \ge \: dim(k)$ then $a$ is the zero function.
+  Let $a$ be a modular form of weight $2k$. If ord$(a) \: \ge \: $dim$(k)$ then $a$ is the zero function.
 \end{theorem}
 \begin{proof}
   \leanok

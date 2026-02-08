@@ -519,7 +519,6 @@ theorem Theta_l_add_three_div_two (flu : fl ℓ |𝓤 = 0) :
   ext n; simp only [fellply, aeq, Mcongr_apply, Reduce_apply]
 
   {
-
     trans ((b' (δ ℓ) • G (h := ⟨by decide⟩) (6 * δ ℓ + 2) ⟨δ ℓ, delta_lt_dim⟩ n : ℤ) : ZMod ℓ)
 
     nth_rw 1 [eq_G_of_ord_max b' (hk := ⟨by omega⟩)]
