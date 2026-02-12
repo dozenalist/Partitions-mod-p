@@ -1,6 +1,6 @@
 # Partitions mod p
 
-The primary goal of this project was to formalize [this paper](https://people.math.sc.edu/boylan/reprints/nomoreramafinal.pdf) by Ahlgren and Boylan on the congurences of the partition function modulo a prime. This goal has been completed, and we are now trying to formalize some of the theorems prior to this paper, as well as information about Modular Forms Mod ℓ more generally.
+The primary goal of this project was to formalize the first section of [this paper](https://people.math.sc.edu/boylan/reprints/nomoreramafinal.pdf) by Ahlgren and Boylan on the congurences of the partition function modulo a prime. This goal has been completed, and we are now trying to formalize some of the theorems prior to this paper, as well as information about Modular Forms Mod ℓ more generally.
 
 You can find an overview of the definitions and theorems [here](https://dozenalist.github.io/Partitions-mod-p/)
 
