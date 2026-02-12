@@ -370,11 +370,11 @@ variable {k : ℕ}
 
 namespace ModularForm
 
-
+@[reducible]
 def without_two : Finset ℕ := {0, 2, 3, 4, 5, 7}
 
 lemma mem_without_two : k ∈ without_two ↔ k = 0 ∨ k = 2 ∨ k = 3 ∨ k = 4 ∨ k = 5 ∨ k = 7 := by
-  simp_all only [without_two, Finset.mem_insert, Finset.mem_singleton]
+  simp only [Finset.mem_insert, Finset.mem_singleton]
 
 def mod_without_two (k : ℕ) (ℓ : ℕ) :=
 
@@ -388,9 +388,9 @@ lemma mod_without_two_ge {k : ℕ} (hk : ¬ k ≡ 1 [MOD 6]) : (k ≥ k %% 6) :=
 
 lemma mod_without_two_mem (k : ℕ) : k %% 6 ∈ without_two := by
   rw [mod_without_two]; split_ifs with h
-  suffices k % 6 + 6 = 7 by rw[this, without_two]; exact Finset.insert_eq_self.mp rfl
+  suffices k % 6 + 6 = 7 by rw [this, without_two]; exact Finset.insert_eq_self.mp rfl
   simpa only [Nat.reduceEqDiff]
-  rw [add_zero, mem_without_two];
+  rw [add_zero, mem_without_two]
   mod_cases k % 6 <;> aesop
 
 
@@ -430,7 +430,7 @@ def Gmk_dim_one : (k : ℕ) → ℕ × ℕ × ℕ
 
 
 lemma Gmk_dim_one_thrd (k : ℕ) : (Gmk_dim_one k).2.2 = 0 := by
-  unfold Gmk_dim_one; split <;> dsimp
+  unfold Gmk_dim_one; split <;> rfl
 
 
 
@@ -548,7 +548,6 @@ def dim (k : ℕ) := k / 6 + if k ≡ 1 [MOD 6] then 0 else 1
 
 @[simp] lemma dim_five : dim 5 = 1 := by
   simp only [dim, reduceDiv, ModEq, reduceMod, one_mod, OfNat.ofNat_ne_one, ↓reduceIte, zero_add]
-
 
 @[simp] lemma dim_add_six : dim (k + 6) = dim k + 1 := by
   simp only [dim, ofNat_pos, add_div_right, ModEq, add_mod_right, one_mod]
@@ -1159,7 +1158,7 @@ theorem reduce_apply (a : ℕ → ℤ) (n : ℕ) : a n = reduce ℓ a n := rfl
 theorem exists_maximal_Reduce {j p} [Fact (Nat.Prime ℓ)] (a : ModularFormMod ℓ (2 * k))
   [ha : NeZero a] (hk : ∀ n < p, a n = 0) (haw : hasWeight a (2 * j)) :
     ∃ b : IntegerModularForm (2 * j), ∃ h : NeZero b, ∃ hj : (2 * j : ℕ) = (2 * k : ZMod (ℓ - 1)),
-      a = Mcongr hj (Reduce ℓ b) ∧ ord b ≥ p := by
+      a = Mcongr hj (Reduce ℓ b) ∧ ord (h := h) b  ≥ p := by
 
   obtain ⟨c, ceq⟩ := haw
   obtain ⟨hj, aeqcr⟩ := Reduce_of_reduce ceq

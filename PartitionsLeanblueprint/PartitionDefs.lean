@@ -15,7 +15,6 @@ import PartitionsLeanblueprint.PrimaryLemmas
 -- can't figure out how to import Archive\Wiedijk100Theorems\Partition
 
 
-
 /- This file defines the partition function, ramanujan congruences,
 and the power series product expansions for some functions.
 It defines what it means for two sequences of power series to be "eventually equal",
@@ -202,6 +201,7 @@ theorem partialGF_prop (α : Type*) [CommSemiring α] (n : ℕ) (s : Finset ℕ)
 
 
 /-- The generating function for the standard partition function, with `p 0 = 1` -/
+
 def partitionProduct (m : ℕ) [Field α] :=
   ∏ i ∈ range m, (1 - (X : α⟦X⟧) ^ (i + 1) )⁻¹
 
@@ -264,6 +264,7 @@ lemma Partition.part_le_sum {n j} {p : Partition n} (hj : j ∈ p.parts) : j ≤
 
 /- having npos here is inconvenient, but we can get around it using `natpart`
 and some shenanigans in the proof of flu_eq_zero -/
+
 theorem partitionProduct_eq [Field α] {n m : ℕ} (npos : n > 0) (h : n ≤ m) :
     partition n = coeff α n (partitionProduct m) := by
 
@@ -677,7 +678,7 @@ theorem DeltaProduct_eventually_sum [CommRing α] :
 
 
 open Finset.Nat in
-theorem fl_Product_eventually_sum [CommRing α] (ℓ) [Fact (ℓ ≥ 5)] :
+theorem fl_Product_eventually_sum [CommRing α] (ℓ) :
     (flProduct ℓ ·) ⟶ (∑ i ∈ range ·, ((Integer.fl ℓ i) : α ⟦X⟧) * (X : α⟦X⟧) ^ i) := by
 
   rw [flProduct_eq_DeltaProduct_pow, Integer.fl]; symm; calc
@@ -729,7 +730,8 @@ instance : CharP ((ZMod ℓ) ⟦X⟧) ℓ := by
   simp only [CharP.cast_eq_zero, map_zero]
 
 
-theorem flu_eq_zero [Fact (ℓ ≥ 5)] : ramanujan_congruence ℓ → fl ℓ |𝓤 = 0 := by
+theorem flu_eq_zero {ℓ} [Fact (Nat.Prime ℓ)] [Fact (ℓ ≥ 5)] : 
+    ramanujan_congruence ℓ → fl ℓ |𝓤 = 0 := by
 
   intro h
   have lg5 : ℓ ≥ 5 := Fact.out

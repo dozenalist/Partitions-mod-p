@@ -1,4 +1,3 @@
-import PartitionsLeanblueprint.ModuloDefs2
 import PartitionsLeanblueprint.BasicOperators
 import PartitionsLeanblueprint.PowFacts
 import Mathlib.FieldTheory.Finite.Basic

@@ -22,6 +22,7 @@ section ProductDefs
 variable {α : Type*} [CommRing α]
 
 /-- The power series generating function for `Δ`. Can be instantiated over any commutative ring -/
+
 def DeltaProduct (m : ℕ) : α ⟦X⟧ :=
   X * ∏ i ∈ range m, (1 - X ^ (i + 1)) ^ 24
 

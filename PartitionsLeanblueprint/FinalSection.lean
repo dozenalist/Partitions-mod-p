@@ -589,9 +589,10 @@ private lemma pow_congr_reduce_of_dvd {a c n : ℤ} {b : ℕ} (an0 : a ≠ 0) (a
     _ = c * 1 := by congr; exact pow_mul_pow_eq_one b rfl
     _ = c := mul_one c
 
+set_option linter.unusedSectionVars false
 
-
-lemma flu_ne_zero (flu : fl ℓ |𝓤 = 0) : False := by
+lemma flu_ne_zero [Fact (Nat.Prime ℓ)] [Fact (ℓ ≥ 13)] 
+    (flu : fl ℓ |𝓤 = 0) : False := by
 
   have equel : (δ ℓ + 1) ^ ((ℓ + 3) / 2) ≡ 241 * (δ ℓ) ^ ((ℓ + 3) / 2) [ZMOD ℓ] := by
     suffices (δ ℓ + 1) ^ ((ℓ + 3) / 2) = (241 * (δ ℓ) ^ ((ℓ + 3) / 2) : ZMod ℓ) by
