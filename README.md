@@ -4,6 +4,8 @@ The primary goal of this project was to formalize the first section of [this pap
 
 You can find an overview of the definitions and theorems [here](https://dozenalist.github.io/Partitions-mod-p/)
 
+[Graph of Delarations](https://dozenalist.github.io/Partitions-mod-p/dep_graph_document.html)
+
 Formalized : 
 
 - The Definitions of Modular Forms, Integer Modular Forms, and Modular Forms Mod ℓ
