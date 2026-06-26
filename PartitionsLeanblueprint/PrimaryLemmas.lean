@@ -8,7 +8,7 @@ It also proves some other basic facts. -/
 
 noncomputable section
 
-open Modulo Finset.Nat Finset
+open ModularFormMod Finset.Nat Finset
 
 variable {ℓ n : ℕ} [NeZero ℓ] [Fact (Nat.Prime ℓ)]
 variable {k j : ZMod (ℓ-1)}
@@ -328,34 +328,34 @@ theorem le_Filt_Theta_fl [Fact (ℓ ≥ 5)] : ∀ m, 𝔀 (fl ℓ) ≤ 𝔀 (Θ^
   obtain ⟨d, hd⟩ := haw
   have dn0 : NeZero d := by
     obtain ⟨a,b⟩ := @val_of_NeZero _ _ _ _ fn0
-    refine Integer.Exists_ne_zero ⟨a, ?_⟩
+    refine IntegerModularForm.Exists_ne_zero ⟨a, ?_⟩
     contrapose! b
     rw [hd]; trans ↑(d a); rfl
     rw [b, Int.cast_zero]
 
   obtain ⟨h, dr⟩ := Reduce_of_reduce hd
 
-  obtain ⟨j, jcon⟩ := Integer.exists_two_mul_weight d
+  obtain ⟨j, jcon⟩ := IntegerModularForm.exists_two_mul_weight d
   subst jcon
 
-  set f := (Mcongr (by rw [← h]; norm_cast) (Θ^[m] (fl ℓ)) : ModularFormMod ℓ (2 * j)) with feq
+  set f := (Mcast (by rw [← h]; norm_cast) (Θ^[m] (fl ℓ)) : ModularFormMod ℓ (2 * j)) with feq
 
-  have : NeZero f := by rw [Mcongr_NeZero]; infer_instance
+  have : NeZero f := by rw [Mcast_NeZero]; infer_instance
 
   have hf : ∀ n < δ ℓ, f n = 0 := fun n nlt => by
-    simp only [feq, Mcongr_apply, Theta_pow_apply, fl_lt_delta nlt, mul_zero]
+    simp only [feq, Mcast_apply, Theta_pow_apply, fl_lt_delta nlt, mul_zero]
 
-  obtain ⟨b', hb, hj, aeq, ordb⟩ := exists_maximal_Reduce f hf ⟨d, by ext n; rw [← hd, feq, cast_eval]⟩
+  obtain ⟨b', hb, hj, aeq, ordb⟩ := exists_maximal_Reduce f hf ⟨d, fun n => by rw [← hd, feq, Mcast_apply]⟩
 
   suffices b' = 0 from absurd this hb.out
 
-  apply Integer.zero_of_leading_zeros
+  apply IntegerModularForm.zero_of_leading_zeros
 
   suffices ModularForm.dim j ≤ δ ℓ from fun n nlt => by
-    rw [Integer.lt_ord_apply]
+    rw [IntegerModularForm.lt_ord_apply]
     omega
 
-  apply (Integer.dim_le j).trans
+  apply (IntegerModularForm.dim_le j).trans
   omega
 
 

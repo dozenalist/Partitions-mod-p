@@ -426,6 +426,7 @@ structure IntegerModularForm (k : ℕ) where
 
 -- maybe works idk
 
+namespace IntegerModularForm
 
 instance (priority := 100) : FunLike (IntegerModularForm k) ℕ ℤ where
   coe a := a.1
@@ -441,7 +442,7 @@ instance : Zero (IntegerModularForm k) where
 
 instance : Inhabited (IntegerModularForm k) := ⟨0⟩
 
-namespace Integer
+
 
 /-- Coercsion to the constant integer modular forms of weight 0 -/
 def Iconst (x : ℤ) : IntegerModularForm 0 where
@@ -597,7 +598,7 @@ theorem Iconst_succ (x : ℤ) (n : ℕ) : (Iconst x) n.succ = 0 := rfl
 
 
 @[ext]
-theorem IntegerModularForm.ext {a b : IntegerModularForm k} (h : ∀ n, a n = b n) : a = b :=
+theorem ext {a b : IntegerModularForm k} (h : ∀ n, a n = b n) : a = b :=
   DFunLike.ext a b h
 
 @[simp] theorem Ipow_zero (a : IntegerModularForm k) : a ** 0 = Iconst 1 := by
@@ -607,15 +608,14 @@ theorem IntegerModularForm.ext {a b : IntegerModularForm k} (h : ∀ n, a n = b 
   | n + 1 => simp
 
 /-- Casts an integer modular form to a different but provably equal weight -/
-def Icongr {m n : ℕ} (h : m = n) (a : IntegerModularForm m) : IntegerModularForm n :=
+def Icast {m n : ℕ} (h : m = n) (a : IntegerModularForm m) : IntegerModularForm n :=
   h ▸ a
 
 @[simp]
-lemma cast_eval {k j : ℕ} {h : k = j} {n : ℕ} {a : IntegerModularForm k} :
-  Icongr h a n = a n := by
+lemma Icast_apply {k j : ℕ} {h : k = j} {n : ℕ} {a : IntegerModularForm k} :
+  Icast h a n = a n := by
   subst h; rfl
 
-alias Icongr_apply := cast_eval
 
 
 
@@ -624,7 +624,7 @@ lemma triangle_eval {k j : ℕ} {h : k = j} {n : ℕ} {a : IntegerModularForm k}
   (h ▸ a) n = a n := by
   subst h; rfl
 
-@[simp] theorem Ipow_one (a : IntegerModularForm k) : a ** 1 = Icongr ((mul_one k).symm ▸ rfl) a := by
+@[simp] theorem Ipow_one (a : IntegerModularForm k) : a ** 1 = Icast ((mul_one k).symm ▸ rfl) a := by
   ext n; simp [Ipow_apply]
 
 @[simp] theorem zero_Ipow (j : ℕ) [hj : NeZero j] : (0 : IntegerModularForm k) ** j = 0 := by
@@ -632,8 +632,8 @@ lemma triangle_eval {k j : ℕ} {h : k = j} {n : ℕ} {a : IntegerModularForm k}
 
 
 @[simp]
-lemma Iconst_mul (c : ℤ) (a : IntegerModularForm k) : Iconst c * a = Icongr (zero_add _).symm (c • a) := by
-  ext n; rw[mul_apply, Icongr_apply, zsmul_apply]; calc
+lemma Iconst_mul (c : ℤ) (a : IntegerModularForm k) : Iconst c * a = Icast (zero_add _).symm (c • a) := by
+  ext n; rw[mul_apply, Icast_apply, zsmul_apply]; calc
 
   _ = ∑ x ∈ (antidiagonal n).erase (0,n), (Iconst c) x.1 * a x.2 + (Iconst c) 0 * a n := by
     simp
@@ -669,8 +669,8 @@ instance : Module ℤ (IntegerModularForm k) :=
 instance : DirectSum.GCommRing (IntegerModularForm) :=
 { mul a b := a * b, mul_zero:= sorry, zero_mul := sorry, mul_add := sorry, add_mul := sorry, one := Iconst 1, one_mul:= sorry, mul_one:= sorry, mul_assoc:= sorry, natCast:= sorry, natCast_zero:= sorry, natCast_succ:= sorry, intCast:= sorry, intCast_ofNat:= sorry, intCast_negSucc_ofNat:= sorry, mul_comm:= sorry, gnpow_zero' := sorry, gnpow_succ':= sorry}
 
-lemma Imul_comm (a : IntegerModularForm k) (b : IntegerModularForm j) : a * b = Icongr (add_comm j k) (b * a) := by
-  ext n; simp_rw [Icongr_apply, mul_apply, mul_comm]; apply Finset.sum_bij fun (x,y) _ => (y,x)
+lemma Imul_comm (a : IntegerModularForm k) (b : IntegerModularForm j) : a * b = Icast (add_comm j k) (b * a) := by
+  ext n; simp_rw [Icast_apply, mul_apply, mul_comm]; apply Finset.sum_bij fun (x,y) _ => (y,x)
   simp only [mem_antidiagonal, Prod.forall]
   simp only [add_comm, imp_self, implies_true]
   rintro g f x y h
@@ -684,19 +684,19 @@ lemma Imul_comm (a : IntegerModularForm k) (b : IntegerModularForm j) : a * b = 
 
 instance : DirectSum.GAlgebra ℤ (IntegerModularForm) := sorry
 
-@[simp] lemma mul_Iconst (c : ℤ) (a : IntegerModularForm k) : a * Iconst c = Icongr (add_zero _).symm (c • a) := by
-  ext; rw [Imul_comm, Iconst_mul]; simp only [Icongr_apply]
+@[simp] lemma mul_Iconst (c : ℤ) (a : IntegerModularForm k) : a * Iconst c = Icast (add_zero _).symm (c • a) := by
+  ext; rw [Imul_comm, Iconst_mul]; simp only [Icast_apply]
 
 
-lemma Icongr_symm {a : IntegerModularForm k} {b : IntegerModularForm j} (h : k = j) (hb : b = Icongr h a) :
-    a = Icongr h.symm b := by
-  ext; simp only [hb, Icongr_apply]
+lemma Icast_symm {a : IntegerModularForm k} {b : IntegerModularForm j} (h : k = j) (hb : b = Icast h a) :
+    a = Icast h.symm b := by
+  ext; simp only [hb, Icast_apply]
 
-@[simp] lemma Icongr_Icongr {j k i} {a : IntegerModularForm k} (h1 : k = j) (h2 : j = i) :
-    Icongr h2 (Icongr h1 a) = Icongr (h1.trans h2) a := by
-  ext; simp only [Icongr_apply]
+@[simp] lemma Icast_Icast {j k i} {a : IntegerModularForm k} (h1 : k = j) (h2 : j = i) :
+    Icast h2 (Icast h1 a) = Icast (h1.trans h2) a := by
+  ext; simp only [Icast_apply]
 
-@[simp] lemma Icongr_id (a : IntegerModularForm k) (h : k = k) : Icongr h a = a := rfl
+@[simp] lemma Icast_id (a : IntegerModularForm k) (h : k = k) : Icast h a = a := rfl
 
 @[simp]
 theorem coe_sum {α : Type} [Fintype α] (l : α → IntegerModularForm k) (n : ℕ) : (∑ c, l c) n = ∑ c, (l c) n := by
@@ -704,6 +704,6 @@ theorem coe_sum {α : Type} [Fintype α] (l : α → IntegerModularForm k) (n : 
 
 
 
-end Integer
+end IntegerModularForm
 
 end IntegerModularForm

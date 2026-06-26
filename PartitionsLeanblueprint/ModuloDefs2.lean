@@ -9,14 +9,10 @@ a sequence b is modular if there exists an Integer Modular Form a of any weight 
 b is the reduction of a mod ℓ -/
 
 
-open Integer
+open IntegerModularForm
 
 noncomputable section
 
-
-
-def Modulo.reduce (ℓ : ℕ) (a : ℕ → ℤ) [NeZero ℓ] : (ℕ → ZMod ℓ) :=
-  fun n ↦ a n
 
 
 /-- A modular form mod ℓ is a sequence in ZMod ℓ such that there exists some
@@ -26,17 +22,17 @@ structure ModularFormMod (ℓ : ℕ) [NeZero ℓ] (k : ZMod (ℓ - 1)) where
 
   sequence : (ℕ → ZMod ℓ)
 
-  modular : ∃ k' : ℕ, ∃ a : IntegerModularForm k', k' = k ∧ sequence = Modulo.reduce ℓ a
+  modular : ∃ k' : ℕ, ∃ a : IntegerModularForm k', k' = k ∧ ∀ n, sequence n = a n
 -- or (k : Fin ℓ), ℓ ∣ k' - k.1
 
 
-namespace Modulo
+namespace ModularFormMod
 
 variable {k : ℕ}
 
 def Reduce (ℓ : ℕ) [h : NeZero ℓ] (a : IntegerModularForm k) : ModularFormMod ℓ k where
   sequence n := (a n : ZMod ℓ)
-  modular := ⟨k, a, rfl, rfl⟩
+  modular := ⟨k, a, rfl, fun _ => rfl⟩
 
 
 variable {ℓ n : ℕ} [NeZero ℓ]
@@ -193,7 +189,7 @@ theorem ModularFormMod.ext {a b : ModularFormMod ℓ k} (h : ∀ n, a n = b n) :
 @[simp]
 theorem Reduce_zero {k ℓ} [NeZero ℓ] :
     Reduce ℓ (0 : IntegerModularForm k) = (0 : ModularFormMod ℓ k) := by
-  ext n; rw [Reduce_apply, Integer.zero_apply, Int.cast_zero, zero_apply]
+  ext n; rw [Reduce_apply, IntegerModularForm.zero_apply, Int.cast_zero, zero_apply]
 
 @[simp] theorem zero_Mpow (j : ℕ) [hj : NeZero j] : (0 : ModularFormMod ℓ k) ** j = 0 := by
   ext n; simp [Mpow_apply, hj.out]
@@ -256,8 +252,23 @@ instance : DirectSum.GCommRing (ModularFormMod ℓ) := sorry
 instance : DirectSum.GAlgebra ℤ (ModularFormMod ℓ) := sorry
 
 
+/-- Casts a modular form mod ℓ to a different but provably equal weight -/
+def Mcast {m n : ZMod (ℓ - 1)} (h : m = n) (a : ModularFormMod ℓ m) : ModularFormMod ℓ n :=
+  h ▸ a
 
-end Modulo
+@[simp]
+lemma Mcast_apply {k j : ZMod (ℓ -1)} {h : k = j} {n : ℕ} {a : ModularFormMod ℓ k} :
+  Mcast h a n = a n := by
+  subst h; rfl
+
+
+@[simp]
+lemma triangle_eval {k j : ZMod (ℓ -1)} {h : k = j} {n : ℕ} {a : ModularFormMod ℓ k} :
+  (h ▸ a) n = a n := by
+  subst h; rfl
+
+
+end ModularFormMod
 
 
 variable {α : Type*} {k j : ℕ} [CommSemiring α]
@@ -284,33 +295,37 @@ theorem coe_Sequencepow (a : ℕ → α) (j : ℕ) :
 theorem Sequencepow_apply (a : ℕ → α) (j n : ℕ) :
   (Sequencepow a j) n = ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
 
+namespace IntegerModularForm
 
-theorem Integer.mul_eq_Sequencemul (a : IntegerModularForm k) (b : IntegerModularForm j) :
+theorem mul_eq_Sequencemul (a : IntegerModularForm k) (b : IntegerModularForm j) :
   ⇑(a * b) = Sequencemul a b := rfl
 
-theorem Integer.Ipow_eq_Sequencepow (a : IntegerModularForm k) (j : ℕ) :
+theorem Ipow_eq_Sequencepow (a : IntegerModularForm k) (j : ℕ) :
   Ipow a j = Sequencepow a j := rfl
 
-theorem Integer.mul_eq_Sequencemul_apply (a : IntegerModularForm k) (b : IntegerModularForm j) (n : ℕ) :
+theorem mul_eq_Sequencemul_apply (a : IntegerModularForm k) (b : IntegerModularForm j) (n : ℕ) :
   (a * b) n = Sequencemul a b n := rfl
 
-theorem Integer.Ipow_eq_Sequencepow_apply (a : IntegerModularForm k) (j : ℕ) (n : ℕ) :
+theorem Ipow_eq_Sequencepow_apply (a : IntegerModularForm k) (j : ℕ) (n : ℕ) :
   Ipow a j n = Sequencepow a j n := rfl
 
+end IntegerModularForm
 
+namespace ModularFormMod
 variable {ℓ : ℕ} [NeZero ℓ] {k j : ZMod (ℓ - 1)}
 
-theorem Modulo.mul_eq_Sequencemul (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) :
+theorem mul_eq_Sequencemul (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) :
   ⇑(a * b) = Sequencemul a b := rfl
 
-theorem Modulo.Mpow_eq_Sequencepow (a : ModularFormMod ℓ k) (j : ℕ) :
+theorem Mpow_eq_Sequencepow (a : ModularFormMod ℓ k) (j : ℕ) :
   Mpow a j = Sequencepow a j := rfl
 
-theorem Modulo.mul_eq_Sequencemul_apply (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (n : ℕ) :
+theorem mul_eq_Sequencemul_apply (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (n : ℕ) :
   (a * b) n = Sequencemul a b n := rfl
 
-theorem Modulo.Mpow_eq_Sequencepow_apply (a : ModularFormMod ℓ k) (j : ℕ) (n : ℕ) :
+theorem Mpow_eq_Sequencepow_apply (a : ModularFormMod ℓ k) (j : ℕ) (n : ℕ) :
   Mpow a j n = Sequencepow a j n := rfl
 
+end ModularFormMod
 
 end section

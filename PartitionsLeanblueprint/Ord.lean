@@ -8,6 +8,8 @@ and proves some basic facts about it. -/
 
 section ord
 
+open IntegerModularForm
+
 
 lemma NeZero.exists {α β} [Zero β] {f : α → β} [h : NeZero f] : ∃ n, f n ≠ 0 := by
   have := h.out
@@ -26,13 +28,13 @@ instance NeZero.Mcoe {ℓ k} [NeZero ℓ] (f : ModularFormMod ℓ k) [h : NeZero
     contrapose! this
     ext n; rw [this]; rfl⟩
 
-@[simp] lemma Mcongr_NeZero {ℓ} [NeZero ℓ] {k j : ZMod (ℓ - 1)} (f : ModularFormMod ℓ k) (h : k = j) :
-    NeZero (Mcongr h f) ↔ NeZero f := by
+@[simp] lemma Mcast_NeZero {ℓ} [NeZero ℓ] {k j : ZMod (ℓ - 1)} (f : ModularFormMod ℓ k) (h : k = j) :
+    NeZero (f.Mcast h) ↔ NeZero f := by
   constructor <;> intro hf <;> obtain ⟨n,hn⟩ := (NeZero.Mcoe (h := hf)).exists
-  <;> apply Modulo.Exists_ne_zero ⟨n, by contrapose! hn; simp_all only [Mcongr_apply]⟩
+  <;> apply ModularFormMod.Exists_ne_zero ⟨n, by contrapose! hn; simp_all only [ModularFormMod.Mcast_apply]⟩
 
 
-namespace Integer
+namespace IntegerModularForm
 
 instance {k} : NoZeroSMulDivisors ℤ (IntegerModularForm k) := by
   rw [noZeroSMulDivisors_int_iff_isAddTorsionFree]
@@ -66,15 +68,15 @@ lemma NeZero_mul_right {k j} (a : IntegerModularForm k) (b : IntegerModularForm 
     rw [mul_apply]; apply Finset.sum_eq_zero; simp
 
 
-instance instIcongrNeZero {k j} (a : IntegerModularForm k) (h : k = j) [ha : NeZero a] : NeZero (Icongr h a) := by
+instance instIcastNeZero {k j} (a : IntegerModularForm k) (h : k = j) [ha : NeZero a] : NeZero (Icast h a) := by
   obtain ⟨n, hn⟩ := ha.coe.exists
-  apply Exists_ne_zero ⟨n, by rwa [Icongr_apply]⟩
+  apply Exists_ne_zero ⟨n, by rwa [Icast_apply]⟩
 
 
 -- why can't I make this an instance?
-lemma NeZero_of_Icongr {k j} (a : IntegerModularForm k) (h : k = j) [ha : NeZero (Icongr h a)] : NeZero a := by
+lemma NeZero_of_Icast {k j} (a : IntegerModularForm k) (h : k = j) [ha : NeZero (Icast h a)] : NeZero a := by
   obtain ⟨n, hn⟩ := ha.coe.exists
-  apply Exists_ne_zero ⟨n, by rwa [Icongr_apply] at hn⟩
+  apply Exists_ne_zero ⟨n, by rwa [Icast_apply] at hn⟩
 
 lemma NeZero_of_Ipow {k} (a : IntegerModularForm k) (j : ℕ) [ha : NeZero (a ** j)] [hj : NeZero j] : NeZero a where
   out := have := ha.out; by
@@ -197,12 +199,12 @@ instance instPowNeZero {k j} (a : IntegerModularForm k) [ha : NeZero a] : NeZero
     | succ j ih => rw [Ipow_succ]; infer_instance
 
 @[simp]
-theorem ord_Icongr {k j} (a : IntegerModularForm k) (h : k = j) [ha : NeZero a] : ord (Icongr h a) = ord a := by
-  apply ord_eq_ord'; simp only [cast_eval, implies_true]
+theorem ord_Icast {k j} (a : IntegerModularForm k) (h : k = j) [ha : NeZero a] : ord (Icast h a) = ord a := by
+  apply ord_eq_ord'; simp only [Icast_apply, implies_true]
 
-theorem ord_Icongr' {k j} (a : IntegerModularForm k) (h : k = j) [ha : NeZero (Icongr h a)] :
-    ord (Icongr h a) = ord a (h := NeZero_of_Icongr a h) :=
-  ord_Icongr a h (ha := NeZero_of_Icongr a h)
+theorem ord_Icast' {k j} (a : IntegerModularForm k) (h : k = j) [ha : NeZero (Icast h a)] :
+    ord (Icast h a) = ord a (h := NeZero_of_Icast a h) :=
+  ord_Icast a h (ha := NeZero_of_Icast a h)
 
 @[simp]
 theorem ord_Iconst (c : ℤ) [hc : NeZero c] : ord (Iconst c) = 0 := by
@@ -222,7 +224,7 @@ theorem ord_mul' {k j} (a : IntegerModularForm k) (b : IntegerModularForm j) [h 
 theorem ord_Ipow {k j} (a : IntegerModularForm k) [ha : NeZero a] : ord (a ** j) = j * ord a := by
   induction j with
   | zero => simp only [Nat.mul_zero, Ipow_zero, ord_Iconst, zero_mul]
-  | succ j ih => simp only [Ipow_succ, ord_Icongr, ord_mul, ih]; ring
+  | succ j ih => simp only [Ipow_succ, ord_Icast, ord_mul, ih]; ring
 
 
 theorem ord_Ipow' {k j} (a : IntegerModularForm k) [ha : NeZero (a ** j)] [hj : NeZero j] :
@@ -419,4 +421,4 @@ theorem LI_of_ne_ord (hfg : ord f ≠ ord g) : LinearIndependent ℤ ![f, g] := 
     _ = ord g := ord_smul d
 
 
-end Integer
+end IntegerModularForm

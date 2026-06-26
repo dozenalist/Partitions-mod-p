@@ -12,7 +12,7 @@ variable {ℓ n : ℕ} [NeZero ℓ] [Fact (Nat.Prime ℓ)]
 variable {k j : ZMod (ℓ-1)}
 variable {a b : ModularFormMod ℓ k}
 
-open ZMod Nat Modulo
+open ZMod Nat ModularFormMod
 
 
 -- This is the cleaner way of stating it, using == and -l
@@ -45,13 +45,13 @@ theorem Filtration_congruence (a : ModularFormMod ℓ k) [NeZero a] : (𝔀 a : 
 
 
 
-theorem Reduce_of_reduce {a : ModularFormMod ℓ k} {b : IntegerModularForm n} (hab : a = reduce ℓ b) :
-    ∃ h, a = Mcongr h (Reduce ℓ b) := sorry
+theorem Reduce_of_reduce {a : ModularFormMod ℓ k} {b : IntegerModularForm n} (hab : ∀ n, a n = b n) :
+    ∃ h, a = Mcast h (Reduce ℓ b) := sorry
 
 
 
 theorem exists_of_filt_eq (a : ModularFormMod ℓ k) (ha : 𝔀 a = n) :
-    ∃ b : IntegerModularForm n, ∃ h, a = Mcongr h (Reduce ℓ b) := by
+    ∃ b : IntegerModularForm n, ∃ h, a = Mcast h (Reduce ℓ b) := by
   obtain ⟨b, aeq⟩ := Weight_of_Filt ha
   obtain ⟨h, aeq⟩ := Reduce_of_reduce aeq
   exact ⟨b, h, aeq⟩

@@ -8,31 +8,17 @@ import Mathlib.Data.Nat.Prime.Defs
 Theta and U operators, the Filtration function, and some simple functions
 for dealing with cast equality. It also defines notation that aligns with the paper -/
 
-open Modulo
 
 noncomputable section
+
+namespace ModularFormMod
+
 
 variable {ℓ n : ℕ} {k j : ZMod (ℓ-1)} [NeZero ℓ]
 variable {a b c : ModularFormMod ℓ k}
 variable {d : ModularFormMod ℓ j}
 
 
-/-- Casts a modular form mod ℓ to a different but provably equal weight -/
-def Mcongr {m n : ZMod (ℓ - 1)} (h : m = n) (a : ModularFormMod ℓ m) : ModularFormMod ℓ n :=
-  h ▸ a
-
-@[simp]
-lemma cast_eval {k j : ZMod (ℓ -1)} {h : k = j} {n : ℕ} {a : ModularFormMod ℓ k} :
-  Mcongr h a n = a n := by
-  subst h; rfl
-
-alias Mcongr_apply := cast_eval
-
-
-@[simp]
-lemma triangle_eval {k j : ZMod (ℓ -1)} {h : k = j} {n : ℕ} {a : ModularFormMod ℓ k} :
-  (h ▸ a) n = a n := by
-  subst h; rfl
 
 
 universe u
@@ -51,7 +37,7 @@ infixl:50 (priority := high) "==" => Mod_eq
 
 @[simp]
 lemma cast_equal {k j : ZMod (ℓ - 1) } {h : k = j} {a : ModularFormMod ℓ k} :
-  Mcongr h a == a := λ _ ↦ cast_eval
+  Mcast h a == a := λ _ ↦ Mcast_apply
 
 
 instance : IsRefl α Mod_eq where
@@ -100,28 +86,28 @@ lemma Mod_eq_of_Eq {a b : α} (h : a = b) : a == b :=
 lemma Eq_of_Mod_eq {a b : α} (h : a == b) : a = b :=
   DFunLike.ext _ _ h
 
-lemma Mcongr_of_Mod_eq [NeZero (ℓ - 1)] {a : ModularFormMod ℓ k} [NeZero a] {b : ModularFormMod ℓ j} (h : a == b) :
-    ∃ h, a = Mcongr h b := by
+lemma Mcast_of_Mod_eq [NeZero (ℓ - 1)] {a : ModularFormMod ℓ k} [NeZero a] {b : ModularFormMod ℓ j} (h : a == b) :
+    ∃ h, a = Mcast h b := by
   suffices j = k by
-    use this; ext n; rw [cast_eval, h n]
+    use this; ext n; rw [Mcast_apply, h n]
   sorry
 
-lemma Icongr_of_Mod_eq {k j : ℕ} {a : IntegerModularForm k} [NeZero a] {b : IntegerModularForm j} (h : a == b) :
-    ∃ h, a = Integer.Icongr h b := by
+lemma Icast_of_Mod_eq {k j : ℕ} {a : IntegerModularForm k} [NeZero a] {b : IntegerModularForm j} (h : a == b) :
+    ∃ h, a = b.Icast h := by
   suffices j = k by
-    use this; ext n; rw [Integer.cast_eval, h n]
+    use this; ext n; rw [IntegerModularForm.Icast_apply, h n]
   sorry
 
 
-@[simp] theorem Modulo.Mpow_zero (a : ModularFormMod ℓ k) :
-    a ** 0 = Mcongr (by rw[Nat.cast_zero, mul_zero]) (const 1) := by
+@[simp] theorem Mpow_zero (a : ModularFormMod ℓ k) :
+    a ** 0 = Mcast (by rw[Nat.cast_zero, mul_zero]) (const 1) := by
   ext n; rw [Mpow_apply]
   match n with
   | 0 => simp
   | n + 1 => simp
 
-@[simp] theorem Modulo.Mpow_one (a : ModularFormMod ℓ k) :
-    a ** 1 = Mcongr (by rw [Nat.cast_one, mul_one] ) a := by
+@[simp] theorem Mpow_one (a : ModularFormMod ℓ k) :
+    a ** 1 = Mcast (by rw [Nat.cast_one, mul_one] ) a := by
   ext n; simp [Mpow_apply]
 
 
@@ -151,8 +137,8 @@ lemma U_apply : (a|𝓤) n = a (ℓ * n) := rfl
 
 
 def Theta_pow : (n : ℕ) → ModularFormMod ℓ k → ModularFormMod ℓ (k + n * 2)
-  | 0, f     => Mcongr (by simp) f
-  | n + 1, f => Mcongr (by simp; group) (Theta (Theta_pow n f))
+  | 0, f     => Mcast (by simp) f
+  | n + 1, f => Mcast (by simp; group) (Theta (Theta_pow n f))
 
 
 macro_rules
@@ -163,14 +149,14 @@ notation "Θ^["n"]" => Theta_pow n
 
 
 @[simp]
-lemma Theta_pow_zero' {a : ModularFormMod ℓ k} : Θ^[0] a = Mcongr (by simp) a := rfl
+lemma Theta_pow_zero' {a : ModularFormMod ℓ k} : Θ^[0] a = Mcast (by simp) a := rfl
 
 lemma Theta_pow_zero {a : ModularFormMod ℓ k} : Θ^[0] a == a := by
   rw[Theta_pow_zero']; exact cast_equal
 
 @[simp]
 lemma Theta_pow_succ' {n : ℕ} {a : ModularFormMod ℓ k} :
-  Θ^[n + 1] a = Mcongr (by simp; group) (Θ (Θ^[n] a)) := rfl
+  Θ^[n + 1] a = Mcast (by simp; group) (Θ (Θ^[n] a)) := rfl
 
 lemma Theta_pow_succ {n : ℕ} {a : ModularFormMod ℓ k} :
     Θ^[n + 1] a == Θ (Θ^[n] a) := by
@@ -187,7 +173,7 @@ lemma Theta_pow_cast {n j : ℕ} {a : ModularFormMod ℓ k} (h : n = j) :
 
 @[simp]
 lemma Theta_pow_one {a : ModularFormMod ℓ k} :
-  Θ^[1] a = Mcongr (by simp) (Θ a) := by ext n; simp
+  Θ^[1] a = Mcast (by simp) (Θ a) := by ext n; simp
 
 
 
@@ -222,7 +208,7 @@ instance instTheta_powNeZero {a : ModularFormMod ℓ k} [NeZero a] {j : ℕ} :
     | zero =>
       obtain ⟨n, hn⟩ := val_of_NeZero a
       contrapose! hn; trans Θ^[0] a n
-      rw [Theta_pow_zero', cast_eval]
+      rw [Theta_pow_zero', Mcast_apply]
       rw [hn, zero_apply]
     | succ j ih =>
       rw[Theta_pow_succ']
@@ -232,20 +218,18 @@ instance instTheta_powNeZero {a : ModularFormMod ℓ k} [NeZero a] {j : ℕ} :
         ext n
         have t := DFunLike.ext_iff.1 ih n
         rw [zero_apply] at *
-        rw[← t, cast_eval]
+        rw[← t, Mcast_apply]
       contrapose! this
       apply (@instThetaNeZero ..).out  -- cursed
       infer_instance
       --exact ⟨this⟩
 
 
-instance Integer.Exists_ne_zero {k : ℕ} {a : IntegerModularForm k} (h : ∃ n, a n ≠ 0) : NeZero a where
+
+
+instance Exists_ne_zero {ℓ k} [NeZero ℓ] {a : ModularFormMod ℓ k} (h : ∃ n, a n ≠ 0) : NeZero a where
   out := by contrapose! h; simp only [h, zero_apply, implies_true]
 
-instance Modulo.Exists_ne_zero {a : ModularFormMod ℓ k} (h : ∃ n, a n ≠ 0) : NeZero a where
-  out := by contrapose! h; simp only [h, zero_apply, implies_true]
-
-namespace Modulo
 
 def add_congr_right (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (h : k = j) :
     ModularFormMod ℓ j :=
@@ -298,10 +282,13 @@ lemma sub_congr_left_apply (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j)
   rw[sub_congr_left, sub_apply, triangle_eval]
 
 
-end Modulo
+end ModularFormMod
 
-namespace Integer
+namespace IntegerModularForm
 variable {k j : ℕ}
+
+instance Exists_ne_zero {k : ℕ} {a : IntegerModularForm k} (h : ∃ n, a n ≠ 0) : NeZero a where
+  out := by contrapose! h; simp only [h, zero_apply, implies_true]
 
 def add_congr_right (a : IntegerModularForm k) (b :  IntegerModularForm j) (h : k = j) :
      IntegerModularForm j :=
@@ -351,7 +338,12 @@ lemma sub_congr_left_apply (a : IntegerModularForm k) (b : IntegerModularForm j)
     (sub_congr_left a b h) n = a n - b n := by
   rw[sub_congr_left, sub_apply, triangle_eval]
 
-end Integer
+end IntegerModularForm
+
+
+namespace ModularFormMod
+
+variable {ℓ n : ℕ} [NeZero ℓ] {k j : ZMod (ℓ - 1)} {a : ModularFormMod ℓ k} {d : ModularFormMod ℓ j}
 
 
 @[simp]
@@ -379,9 +371,11 @@ theorem const_pow (c : ZMod ℓ) [Fact (Nat.Prime ℓ)] (j : ℕ) : (const c) **
 /-- A modular form mod ℓ, denoted a, has weight k if there exists a modular form b
 of weight k such that a is the reduction of b (mod ℓ).
 A modular form mod ℓ has many weights. -/
-def hasWeight (a : ModularFormMod ℓ k) (j : ℕ) : Prop :=
-  ∃ b : IntegerModularForm j, a = reduce ℓ b
+def Reduce_set (a : ModularFormMod ℓ k) (j : ℕ) : Set (IntegerModularForm j) :=
+  {b : IntegerModularForm j | ∀ n, a n = b n}
 
+def hasWeight (a : ModularFormMod ℓ k) (j : ℕ) : Prop :=
+  (Reduce_set a j).Nonempty
 
 
 def Filtration (a : ModularFormMod ℓ k) : ℕ :=
@@ -393,9 +387,9 @@ notation "𝔀" => Filtration
 
 lemma Weight_eq_of_Mod_eq (h : a == d) {j} : hasWeight a j → hasWeight d j := by
   rintro ⟨c,hc⟩
-  use c; ext n; rw[← h n]; exact congrFun hc n
+  use c, fun n => h n ▸ hc n
 
-@[simp] lemma Weight_Mcongr (h : k = j) {m} : hasWeight (Mcongr h a) m ↔ hasWeight a m := by
+@[simp] lemma Weight_Mcast (h : k = j) {m} : hasWeight (Mcast h a) m ↔ hasWeight a m := by
   constructor <;> apply Weight_eq_of_Mod_eq; exact cast_equal; symm; exact cast_equal
 
 lemma Filt_eq_of_Mod_eq (h : a == d) : 𝔀 a = 𝔀 d := by
@@ -403,7 +397,7 @@ lemma Filt_eq_of_Mod_eq (h : a == d) : 𝔀 a = 𝔀 d := by
   exact ⟨Weight_eq_of_Mod_eq h, Weight_eq_of_Mod_eq h.symm⟩
 
 @[simp]
-lemma Filt_cast {h : k = j} {a : ModularFormMod ℓ k} : 𝔀 (Mcongr h a) = 𝔀 a :=
+lemma Filt_cast {h : k = j} {a : ModularFormMod ℓ k} : 𝔀 (Mcast h a) = 𝔀 a :=
   Filt_eq_of_Mod_eq cast_equal
 
 
@@ -453,13 +447,13 @@ lemma Filt_decomp_iff' {j : ℕ} {a : ModularFormMod ℓ k} (wj : hasWeight a j)
   contrapose! h
   exact (Filt_decomp_iff wj).1 filta k h
 
-open Integer in
+open IntegerModularForm in
 @[simp] lemma Filt_const {c : ZMod ℓ} : 𝔀 (const c) = 0 := by
   unfold Filtration
   suffices h: hasWeight (const c) 0 from
     (Nat.find_eq_zero (Filtration._proof_1 (const c))).mpr h
   obtain ⟨n,b,n0,hb⟩ := (const c).modular
-  use Iconst ↑c.val; ext n; rw [ZMod.natCast_val, reduce]
+  use Iconst ↑c.val; intro n; rw [ZMod.natCast_val]
   match n with
   | 0 => rw [const_zero, Iconst_zero, ZMod.intCast_cast, ZMod.cast_id', id_eq]
   | n + 1 => rw [const_succ, Iconst_succ, Int.cast_zero]
@@ -578,4 +572,4 @@ instance : HPow (Option ℕ) ℕ (Option ℕ) where
 end Filtration
 
 
-end section
+end ModularFormMod

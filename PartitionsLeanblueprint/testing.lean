@@ -1,5 +1,6 @@
 import Mathlib.Data.Real.Basic
 import Mathlib.NumberTheory.ModularForms.Basic
+import Mathlib.Tactic
 
 
 -- variable {k : ℕ}
@@ -69,4 +70,5 @@ lemma transin {a b c d e f : ℕ} (h1 : a ≤ b) (h2 : b < c)
     (h3 : c ≤ d) (h4 : d ≤ e) (h5 : e < f) : a < f :=
   h1 › h2 › h3 › h4 › h5
 
-#check ModularForm
+lemma bla (n) : n ≡ 3 [MOD 3] := by
+  mod_cases 3

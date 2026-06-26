@@ -6,7 +6,7 @@ import PartitionsLeanblueprint.PrimaryLemmas
 It proves that 𝔀 (Θ^[(ℓ + 3)/2] (f ℓ)) = (ℓ^2 - 1)/2 + 4.
 From here on, information about a basis will be needed -/
 
-open Modulo
+open ModularFormMod
 
 opaque ℓ : ℕ  -- this may be a bad idea, but it made everything slightly easier
 variable [Fact (Nat.Prime ℓ)] [Fact (ℓ ≥ 5)]

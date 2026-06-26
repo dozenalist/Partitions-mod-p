@@ -24,7 +24,7 @@ and proves that if there exists a ramanujan congruence mod ℓ then fℓ|𝓤 = 
 noncomputable section
 
 
-open Nat PowerSeries Finset Modulo
+open Nat PowerSeries Finset ModularFormMod
 
 /-- The partition function, with `p 0 = 0` -/
 def partition : ℕ → ℕ
@@ -660,10 +660,10 @@ lemma coeff_int_cast [Ring α] (f : α ⟦X⟧) (n : ℕ) (k : ℤ) : (coeff α 
 
 
 theorem DeltaProduct_eventually_sum [CommRing α] :
-    (DeltaProduct ·) ⟶ (∑ i ∈ range ·, Integer.Delta i * (X : α⟦X⟧) ^ i) := by
+    (DeltaProduct ·) ⟶ (∑ i ∈ range ·, IntegerModularForm.Delta i * (X : α⟦X⟧) ^ i) := by
 
   intro n
-  simp_rw [Integer.Delta_apply]
+  simp_rw [IntegerModularForm.Delta_apply]
   use n + 1; intro k kle j jg
   have : j > k := Nat.lt_of_le_of_lt kle jg
   trans (coeff α k) (∑ x ∈ range j, C α ((coeff ℤ x) (DeltaProduct x)) * X ^ x)
@@ -679,29 +679,29 @@ theorem DeltaProduct_eventually_sum [CommRing α] :
 
 open Finset.Nat in
 theorem fl_Product_eventually_sum [CommRing α] (ℓ) :
-    (flProduct ℓ ·) ⟶ (∑ i ∈ range ·, ((Integer.fl ℓ i) : α ⟦X⟧) * (X : α⟦X⟧) ^ i) := by
+    (flProduct ℓ ·) ⟶ (∑ i ∈ range ·, ((IntegerModularForm.fl ℓ i) : α ⟦X⟧) * (X : α⟦X⟧) ^ i) := by
 
-  rw [flProduct_eq_DeltaProduct_pow, Integer.fl]; symm; calc
+  rw [flProduct_eq_DeltaProduct_pow, IntegerModularForm.fl]; symm; calc
 
-    _ ⟶ (fun x ↦ ∑ i ∈ range x, ↑(Integer.Delta i) * (X : α ⟦X⟧) ^ i) ^ (δ ℓ) := by
+    _ ⟶ (fun x ↦ ∑ i ∈ range x, ↑(IntegerModularForm.Delta i) * (X : α ⟦X⟧) ^ i) ^ (δ ℓ) := by
 
       intro k; use k + 1; intro n nlek M Mgk
       dsimp
-      simp_rw [Integer.Ipow_apply, coeff_pow]
+      simp_rw [IntegerModularForm.Ipow_apply, coeff_pow]
 
-      have rw1 (i) : (((∑ x ∈ antidiagonalTuple (δ ℓ) i, ∏ y, Integer.Delta (x y)) : ℤ) : α ⟦X⟧) =
-        (C α) (∑ x ∈ antidiagonalTuple (δ ℓ) i, ∏ y, Integer.Delta (x y)) := by
+      have rw1 (i) : (((∑ x ∈ antidiagonalTuple (δ ℓ) i, ∏ y, IntegerModularForm.Delta (x y)) : ℤ) : α ⟦X⟧) =
+        (C α) (∑ x ∈ antidiagonalTuple (δ ℓ) i, ∏ y, IntegerModularForm.Delta (x y)) := by
           simp only [map_sum, map_prod, map_intCast, Int.cast_sum, Int.cast_prod]
 
-      have rw2 (i) : (Integer.Delta i : α ⟦X⟧) = (C α) (Integer.Delta i) := by
+      have rw2 (i) : (IntegerModularForm.Delta i : α ⟦X⟧) = (C α) (IntegerModularForm.Delta i) := by
         simp only [map_intCast]
 
       have nlM : n < M := by omega
       simp_rw [rw1, coeff_sum_X_pow nlM]
 
-      trans ∑ l ∈ (range (δ ℓ)).finsuppAntidiag n, ∏ i ∈ range (δ ℓ), ↑(Integer.Delta (l i))
+      trans ∑ l ∈ (range (δ ℓ)).finsuppAntidiag n, ∏ i ∈ range (δ ℓ), ↑(IntegerModularForm.Delta (l i))
 
-      set f := fun m ↦ ((Integer.Delta m) : α) with hf
+      set f := fun m ↦ ((IntegerModularForm.Delta m) : α) with hf
       rw [finsuppAntidiag_to_antidiagonalTuple (δ ℓ) n f]
 
       apply sum_congr rfl; intro y yin
@@ -730,7 +730,7 @@ instance : CharP ((ZMod ℓ) ⟦X⟧) ℓ := by
   simp only [CharP.cast_eq_zero, map_zero]
 
 
-theorem flu_eq_zero {ℓ} [Fact (Nat.Prime ℓ)] [Fact (ℓ ≥ 5)] : 
+theorem flu_eq_zero {ℓ} [Fact (Nat.Prime ℓ)] [Fact (ℓ ≥ 5)] :
     ramanujan_congruence ℓ → fl ℓ |𝓤 = 0 := by
 
   intro h
@@ -740,7 +740,7 @@ theorem flu_eq_zero {ℓ} [Fact (Nat.Prime ℓ)] [Fact (ℓ ≥ 5)] :
 
   ext n
 
-  rw [U_apply, Modulo.zero_apply, fl_apply]
+  rw [U_apply, ModularFormMod.zero_apply, fl_apply]
 
   set g : ℕ → Polynomial (ZMod ℓ) :=
     fun n ↦ Polynomial.X ^ (δ ℓ) * (∏ i ∈ range n, (1 - Polynomial.X ^ (i + 1)) ^ (ℓ ^ 2)) with geq
@@ -769,7 +769,7 @@ theorem flu_eq_zero {ℓ} [Fact (Nat.Prime ℓ)] [Fact (ℓ ≥ 5)] :
   calc
 
   _ = (coeff (ZMod ℓ) (ℓ * n))
-      (∑ i ∈ range M, C (ZMod ℓ) ↑( (Integer.fl ℓ) i ) * X ^ i) := by
+      (∑ i ∈ range M, C (ZMod ℓ) ↑( (IntegerModularForm.fl ℓ) i ) * X ^ i) := by
     rwa [coeff_sum_X_pow]
 
   _ = (coeff (ZMod ℓ) (ℓ * n))

@@ -12,7 +12,7 @@ but stated in the language of sequences. -/
 
 noncomputable section
 
-open Modulo
+open ModularFormMod
 
 
 variable {ℓ n : ℕ} [NeZero ℓ]
@@ -579,10 +579,10 @@ lemma Sequencepow_two (a : ℕ → α) : (Sequencepow a 2) = (Sequencemul a a) :
   ext n; rw[Sequencepow_apply, Sequencemul_apply]; simp[antidiagonalTuple_two]
 
 
-lemma Modulo.Mpow_two (a : ModularFormMod ℓ k) : (Mpow a 2) n = (a * a) n := by
+lemma ModularFormMod.Mpow_two (a : ModularFormMod ℓ k) : (Mpow a 2) n = (a * a) n := by
   rw [mul_eq_Sequencemul_apply, Mpow_eq_Sequencepow_apply, Sequencepow_two]
 
-lemma Integer.Ipow_two (a : IntegerModularForm m) : (Ipow a 2) n = (a * a) n := by
+lemma IntegerModularForm.Ipow_two (a : IntegerModularForm m) : (Ipow a 2) n = (a * a) n := by
   rw [mul_eq_Sequencemul_apply, Ipow_eq_Sequencepow_apply, Sequencepow_two]
 
 
@@ -759,7 +759,7 @@ lemma Sequencepow_eq_Sself_mul (a : ℕ → α) (j) : Sequencepow a j = Sself_mu
     cases n <;> simp[Sequencepow_apply]
   | succ j ih =>
     unfold Sself_mul; ext n
-    simp only [← ih, cast_eval, Sequencemul_apply, Sequencepow_apply]
+    simp only [← ih, Mcast_apply, Sequencemul_apply, Sequencepow_apply]
     symm
 
     calc
@@ -833,73 +833,6 @@ lemma Sequencepow_eq_Sself_mul (a : ℕ → α) (j) : Sequencepow a j = Sself_mu
 
 
 
-def Integer.Iself_mul (a : IntegerModularForm m) : (j : ℕ) → IntegerModularForm (m * j)
-  | 0 => Iconst 1
-  | j + 1 => Icongr (by group) (a * Iself_mul a j)
-
-lemma Integer.Iself_mul_succ (a : IntegerModularForm m) (j : ℕ) :
-  Iself_mul a (j + 1) = Icongr (by group) (a * Iself_mul a j) := rfl
-
-
-lemma Integer.Iself_mul_eq_Sself_mul (a : IntegerModularForm m) (j : ℕ) :
-    Iself_mul a j = Sself_mul a j := by
-  induction j with
-  | zero =>
-    ext n
-    cases n; trans 1; rfl; rfl
-    trans 0; rfl; rfl
-  | succ j ih =>
-    ext n
-    trans (a * Iself_mul a j) n; rw [Iself_mul_succ, cast_eval]
-    rw [Sself_mul_succ, mul_eq_Sequencemul_apply, ih]
-
-
-theorem Integer.Ipow_eq_Iself_mul (a : IntegerModularForm m) (j) : Ipow a j = Iself_mul a j := by
-  ext n; rw [Ipow_eq_Sequencepow_apply, Iself_mul_eq_Sself_mul, Sequencepow_eq_Sself_mul]
-
-
-
-def Modulo.Mself_mul (a : ModularFormMod ℓ k) : (j : ℕ) → ModularFormMod ℓ (k * j)
-  | 0 => Mcongr (by rw [Nat.cast_zero, mul_zero]) (const 1)
-  | j + 1 => Mcongr (by rw [Nat.cast_add, Nat.cast_one]; group) (a * Mself_mul a j)
-
-
-lemma Modulo.Mself_mul_zero (a : ModularFormMod ℓ k) :
-    Mself_mul a 0 = Mcongr (by rw [Nat.cast_zero, mul_zero]) (const 1) := rfl
-
-
-lemma Modulo.Mself_mul_succ (a : ModularFormMod ℓ k) (j : ℕ) :
-  Mself_mul a (j + 1) = Mcongr (by rw [Nat.cast_add, Nat.cast_one]; group) (a * Mself_mul a j) := rfl
-
-
-lemma Modulo.Mself_mul_eq_Sself_mul (a : ModularFormMod ℓ k) (j : ℕ) :
-    Mself_mul a j = Sself_mul a j := by
-  induction j with
-  | zero =>
-    ext n
-    cases n; trans 1; rw[Mself_mul_zero, cast_eval]; rfl; rfl
-    trans 0; rw[Mself_mul_zero, cast_eval]; rfl; rfl
-  | succ j ih =>
-    ext n
-    trans (a * Mself_mul a j) n; rw [Mself_mul_succ, cast_eval]
-    rw [Sself_mul_succ, mul_eq_Sequencemul_apply, ih]
-
-
-theorem Modulo.Mpow_eq_Mself_mul (a : ModularFormMod ℓ k) (j : ℕ) : Mpow a j = Mself_mul a j := by
-  ext n; rw [Mpow_eq_Sequencepow_apply, Mself_mul_eq_Sself_mul, Sequencepow_eq_Sself_mul]
-
-
-
-lemma Integer.Ipow_succ (a : IntegerModularForm m) (j) :
-    Ipow a (j + 1) = Icongr (by group) (a * Ipow a j) := by
-  simp only [Ipow_eq_Iself_mul, Iself_mul_succ]
-
-lemma Modulo.Mpow_succ (a : ModularFormMod ℓ k) (j) : a ** (j + 1) =
-    Mcongr (by rw [Nat.cast_add, Nat.cast_one]; group) (a * a ** j) := by
-  simp only [Mpow_eq_Mself_mul, Mself_mul_succ]
-
-
-
 lemma leading_Spow_zeros {a : ℕ → α} {j n : ℕ} (h : a 0 = 0) (nltj : n < j) : (Sequencepow a j) n = 0 := by
   rw [Sequencepow_apply]
   have smoke : ∀ x ∈ antidiagonalTuple j n, ∃ y, x y = 0 := by
@@ -921,9 +854,78 @@ lemma leading_Spow_zeros {a : ℕ → α} {j n : ℕ} (h : a 0 = 0) (nltj : n < 
   exact hy ▸ h
 
 
+namespace IntegerModularForm
+def Iself_mul (a : IntegerModularForm m) : (j : ℕ) → IntegerModularForm (m * j)
+  | 0 => Iconst 1
+  | j + 1 => Icast (by group) (a * Iself_mul a j)
+
+lemma Iself_mul_succ (a : IntegerModularForm m) (j : ℕ) :
+  Iself_mul a (j + 1) = Icast (by group) (a * Iself_mul a j) := rfl
+
+
+lemma Iself_mul_eq_Sself_mul (a : IntegerModularForm m) (j : ℕ) :
+    Iself_mul a j = Sself_mul a j := by
+  induction j with
+  | zero =>
+    ext n
+    cases n; trans 1; rfl; rfl
+    trans 0; rfl; rfl
+  | succ j ih =>
+    ext n
+    trans (a * Iself_mul a j) n; rw [Iself_mul_succ, Icast_apply]
+    rw [Sself_mul_succ, mul_eq_Sequencemul_apply, ih]
+
+
+theorem Ipow_eq_Iself_mul (a : IntegerModularForm m) (j) : Ipow a j = Iself_mul a j := by
+  ext n; rw [Ipow_eq_Sequencepow_apply, Iself_mul_eq_Sself_mul, Sequencepow_eq_Sself_mul]
+
+
+lemma Ipow_succ (a : IntegerModularForm m) (j) :
+    Ipow a (j + 1) = Icast (by group) (a * Ipow a j) := by
+  simp only [Ipow_eq_Iself_mul, Iself_mul_succ]
+
 lemma leading_Ipow_zeros {a : IntegerModularForm m} {j n : ℕ} (h : a 0 = 0) (nltj : n < j) :
-    (Integer.Ipow a j) n = 0 := by
-  rw [Integer.Ipow_eq_Sequencepow_apply]; exact leading_Spow_zeros h nltj
+    (Ipow a j) n = 0 := by
+  rw [Ipow_eq_Sequencepow_apply]; exact leading_Spow_zeros h nltj
+
+end IntegerModularForm
+
+namespace ModularFormMod
+
+
+def Mself_mul (a : ModularFormMod ℓ k) : (j : ℕ) → ModularFormMod ℓ (k * j)
+  | 0 => Mcast (by rw [Nat.cast_zero, mul_zero]) (const 1)
+  | j + 1 => Mcast (by rw [Nat.cast_add, Nat.cast_one]; group) (a * Mself_mul a j)
+
+
+lemma Mself_mul_zero (a : ModularFormMod ℓ k) :
+    Mself_mul a 0 = Mcast (by rw [Nat.cast_zero, mul_zero]) (const 1) := rfl
+
+
+lemma Mself_mul_succ (a : ModularFormMod ℓ k) (j : ℕ) :
+  Mself_mul a (j + 1) = Mcast (by rw [Nat.cast_add, Nat.cast_one]; group) (a * Mself_mul a j) := rfl
+
+
+lemma Mself_mul_eq_Sself_mul (a : ModularFormMod ℓ k) (j : ℕ) :
+    Mself_mul a j = Sself_mul a j := by
+  induction j with
+  | zero =>
+    ext n
+    cases n; trans 1; rw[Mself_mul_zero, Mcast_apply]; rfl; rfl
+    trans 0; rw[Mself_mul_zero, Mcast_apply]; rfl; rfl
+  | succ j ih =>
+    ext n
+    trans (a * Mself_mul a j) n; rw [Mself_mul_succ, Mcast_apply]
+    rw [Sself_mul_succ, mul_eq_Sequencemul_apply, ih]
+
+
+theorem Mpow_eq_Mself_mul (a : ModularFormMod ℓ k) (j : ℕ) : Mpow a j = Mself_mul a j := by
+  ext n; rw [Mpow_eq_Sequencepow_apply, Mself_mul_eq_Sself_mul, Sequencepow_eq_Sself_mul]
+
+
+lemma Mpow_succ (a : ModularFormMod ℓ k) (j) : a ** (j + 1) =
+    Mcast (by rw [Nat.cast_add, Nat.cast_one]; group) (a * a ** j) := by
+  simp only [Mpow_eq_Mself_mul, Mself_mul_succ]
 
 
 lemma leading_Mpow_zeros {a : ModularFormMod ℓ k} {j n : ℕ} (h : a 0 = 0) (nltj : n < j) :
@@ -932,7 +934,7 @@ lemma leading_Mpow_zeros {a : ModularFormMod ℓ k} {j n : ℕ} (h : a 0 = 0) (n
 
 
 
-end section
+end ModularFormMod
 
 
 noncomputable section
@@ -960,9 +962,9 @@ private lemma g_support {k} [NeZero k] {x : Fin k → ℕ} :
 
 private def e (k) [NeZero k] : Fin k ≃ (range k) where
 
-  toFun := fun ⟨val, prop⟩ ↦ ⟨val, by rwa [mem_range]⟩
+  toFun := fun ⟨vel, prop⟩ ↦ ⟨vel, by rwa [mem_range]⟩
 
-  invFun := fun ⟨val, prop⟩ ↦ ⟨val, by rwa [← mem_range]⟩
+  invFun := fun ⟨vel, prop⟩ ↦ ⟨vel, by rwa [← mem_range]⟩
 
   left_inv := λ n ↦ rfl
 

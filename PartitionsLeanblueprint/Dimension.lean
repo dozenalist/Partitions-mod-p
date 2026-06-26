@@ -79,6 +79,8 @@ open MvPolynomial
 
 variable {R : Type} [CommRing R] {k j : ℕ}
 
+def forget : (R[X,Y]k) → R[X,Y]
+  | ⟨p, _⟩ => p
 
 instance zero : Zero R[X,Y]k := ⟨0, by simp⟩
 
@@ -328,7 +330,7 @@ instance instGAlgebra [NoZeroDivisors R] : DirectSum.GAlgebra ℤ (IsobaricPoly 
 
 open GradedMonoid
 
-
+def Polycast {k j} (h : k = j) (a : R[X,Y]k) : R[X,Y]j := h ▸ a
 
 def X : R[X,Y]4 where
   val := MvPolynomial.X .X
@@ -778,15 +780,15 @@ def G (k : ℕ) [Fact (k ≠ 1)] : Basis (Fin <| dim k) ℂ (ModularForm (2*k)) 
 
 end ModularForm
 
-namespace Integer
+namespace IntegerModularForm
 open ModularForm
 
 def Zfun (k) : Gmk k → IntegerModularForm (2*k)
-  | ⟨ (a,b,c), mem ⟩ => Icongr (Gmk_sum mem) (Eis 2 ** a * Eis 3 ** b * Delta ** c)
+  | ⟨ (a,b,c), mem ⟩ => Icast (Gmk_sum mem) (Eis 2 ** a * Eis 3 ** b * Delta ** c)
 
 
 @[simp] lemma Zfun_apply (n : Gmk k) :
-  Zfun k n = Icongr (Gmk_sum n.2) (Eis 2 ** n.1.1 * Eis 3 ** n.1.2.1 * Delta ** n.1.2.2) := rfl
+  Zfun k n = Icast (Gmk_sum n.2) (Eis 2 ** n.1.1 * Eis 3 ** n.1.2.1 * Delta ** n.1.2.2) := rfl
 
 
 open Finsupp in
@@ -826,26 +828,35 @@ def G (k : ℕ) [h : Fact (k ≠ 1)] : Basis (Fin (dim k)) ℤ (IntegerModularFo
   Basis.mk G_LI G_span
 
 
-private lemma G_Icongr (c : Fin (dim k)) [Fact (k ≠ 1)] : 2 * 2 * (Gmk_set_mk k c).1 + 2 * 3 * (Gmk_set_mk k c).2.1 + 12 * c = 2 * k := by
+private lemma G_Icast (c : Fin (dim k)) [Fact (k ≠ 1)] : 2 * 2 * (Gmk_set_mk k c).1 + 2 * 3 * (Gmk_set_mk k c).2.1 + 12 * c = 2 * k := by
   nth_rw 3 [← Gmk_mk_thrd (k := k) c (by omega)]
   simpa [Gmk_mk] using Gmk_sum <| Gmk_set_mk_mem k c (by omega)
 
 
 
-theorem G_def (k : ℕ) [h : Fact (k ≠ 1)] (c) : G k c = Icongr (G_Icongr c)
+theorem G_def (k : ℕ) [h : Fact (k ≠ 1)] (c) : G k c = Icast (G_Icast c)
     (Eis 2**(Gmk_set_mk k ↑c).1 * Eis 3**(Gmk_set_mk k ↑c).2.1 * Δ**c) := by
   simp only [G, Basis.coe_mk, GFin, ZBasis, Zfun_apply, Nat.reduceMul]
-  congr! <;> exact Gmk_mk_thrd c (by have := c.2; omega)
+  congr! <;> exact Gmk_mk_thrd c (by omega)
 
 
 
 instance instGNeZero (k c) [Fact (k ≠ 1)] : NeZero (G k c) := by
   simp [G, GFin, ZBasis, Gmk_mk]
-  apply instIcongrNeZero (ha := instMulNeZero
+  apply instIcastNeZero (ha := instMulNeZero
       (ha := instMulNeZero
           (ha := instPowNeZero (Eis 2))
           (hb := instPowNeZero (Eis 3)))
       (hb := instPowNeZero Δ))
+
+theorem GFin_eq (k c) [Fact (k ≠ 1)] : GFin k c = G k c :=
+  Eq.symm (Basis.mk_apply G_LI G_span c)
+
+theorem exists_G_combo [Fact (k ≠ 1)] (a : IntegerModularForm (2 * k)) :
+    ∃ l : Fin (dim k) → ℤ, ∑ c, l c • (G k) c = a := by
+  have : ⊤ ≤ Submodule.span ℤ (Set.range (GFin k)) := G_span
+  simp only [Submodule.top_le_span_range_iff_forall_exists_fun, GFin_eq] at this
+  exact this a
 
 
 
@@ -858,10 +869,9 @@ instance two_unique : Unique (IntegerModularForm 2) where
   default := 0
   uniq := by
     intro a
-    -- have := dim_one ▸ finrank_eq 1
-    -- rw [Module.finrank_zero_iff] at this
-    -- exact Subsingleton.eq_zero a
-    -- refine Module.finite_of_rank_eq_zero ?_
+    have := dim_one ▸ finrank_eq 1
+
+
     sorry
 
 instance odd_unique (k : ℕ) (hk : Odd k) : Unique (IntegerModularForm k) where
@@ -887,6 +897,11 @@ theorem exists_two_mul_weight (a : IntegerModularForm k) [ha : NeZero a] : ∃ j
   Even.exists_two_nsmul k <| Even_weight a
 
 
+theorem inductionOn_two_mul (a : IntegerModularForm k) [ha : NeZero a]
+  (motive : (k : ℕ) → (a : IntegerModularForm k) → Prop) (h : ∀ j b, motive (2 * j) b) :
+    motive k a := by
+  obtain ⟨j,rfl⟩ := exists_two_mul_weight a
+  exact h j a
 
 
 
@@ -904,12 +919,12 @@ instance instNeZero_k_div (k : ℕ) [hk : NeZero k] (a : IntegerModularForm k) (
 
 
 theorem ord_G [Fact (k ≠ 1)] (c) : ord (G k c) = c := by
-  simp [G, GFin, ZBasis, ord_Icongr', ord_mul', ord_Ipow,
+  simp [G, GFin, ZBasis, ord_Icast', ord_mul', ord_Ipow,
     ord_Ipow (ha := instEisNeZero 2), ord_Ipow (ha := instEisNeZero 3), Gmk_mk_thrd]
 
 
 theorem G_ord_G [Fact (k ≠ 1)] (c) : G k c c = 1 := by
-  rw [G_def, Icongr_apply, ord_mul_ord']
+  rw [G_def, Icast_apply, ord_mul_ord']
   simp [ord_mul', ord_Ipow, ord_Ipow (Eis 2), ord_Ipow (Eis 3)]
   trans 1 * 1 * 1; congr
   rw [ord_mul_ord' (ha := instPowNeZero (Eis 2)) (hb := instPowNeZero (Eis 3))]
@@ -953,15 +968,10 @@ private lemma two_mul_div (a : IntegerModularForm k) [ha : NeZero a] : 2 * (k / 
   omega
 
 
-theorem GFin_eq (k c) [Fact (k ≠ 1)] : GFin k c = G k c :=
-  Eq.symm (Basis.mk_apply G_LI G_span c)
 
 
-theorem exists_G_combo [Fact (k ≠ 1)] (a : IntegerModularForm (2 * k)) :
-    ∃ l : Fin (dim k) → ℤ, ∑ c, l c • (G k) c = a := by
-  have : ⊤ ≤ Submodule.span ℤ (Set.range (GFin k)) := G_span
-  simp only [Submodule.top_le_span_range_iff_forall_exists_fun, GFin_eq] at this
-  exact this a
+
+
 
 
 
@@ -1137,36 +1147,31 @@ theorem Delta_eq_Eis : 1728 • Δ = Eis 2 ** 3 - Eis 3 ** 2 := by
 
 
 
-end Integer
+end IntegerModularForm
 
-namespace Modulo
-open ModularForm Integer
+namespace ModularFormMod
+open ModularForm IntegerModularForm
 
 variable {ℓ k : ℕ} [NeZero ℓ]
 open Int
 
 
 theorem Delta_eq_Eis : 1728 • (Δ : ModularFormMod ℓ 12) == (Eis 2 ** 3 -l Eis 3 ** 2) (by norm_num) := by
-  intro n; rw [Delta, ← Reduce_nsmul, Integer.Delta_eq_Eis]; simp [Reduce_pow, Eis]
+  intro n; rw [Delta, ← Reduce_nsmul, IntegerModularForm.Delta_eq_Eis]; simp [Reduce_pow, Eis]
 
-
-
-theorem reduce_apply (a : ℕ → ℤ) (n : ℕ) : a n = reduce ℓ a n := rfl
 
 
 -- we can assume that the function that reduces to a Modular Form Mod ℓ has the maximum ord possible
 theorem exists_maximal_Reduce {j p} [Fact (Nat.Prime ℓ)] (a : ModularFormMod ℓ (2 * k))
   [ha : NeZero a] (hk : ∀ n < p, a n = 0) (haw : hasWeight a (2 * j)) :
     ∃ b : IntegerModularForm (2 * j), ∃ h : NeZero b, ∃ hj : (2 * j : ℕ) = (2 * k : ZMod (ℓ - 1)),
-      a = Mcongr hj (Reduce ℓ b) ∧ ord (h := h) b  ≥ p := by
+      a = Mcast hj (Reduce ℓ b) ∧ ord (h := h) b  ≥ p := by
 
   obtain ⟨c, ceq⟩ := haw
   obtain ⟨hj, aeqcr⟩ := Reduce_of_reduce ceq
   have : NeZero c := ⟨by
-    have := ha.out; contrapose! this; ext n; apply DFunLike.ext_iff.mp at ceq
-    specialize ceq n; trans a.sequence n; rfl
-    trans reduce ℓ 0 n; rwa [this] at ceq; rw [← reduce_apply]
-    rw [Pi.zero_apply, cast_zero, zero_apply] ⟩
+    have := ha.out; contrapose! this; ext n
+    rw [ceq, this, zero_apply, IntegerModularForm.zero_apply, cast_zero]⟩
 
 
   have : Fact (j ≠ 1) := ⟨by rintro rfl; exact False_of_two c⟩
@@ -1177,15 +1182,15 @@ theorem exists_maximal_Reduce {j p} [Fact (Nat.Prime ℓ)] (a : ModularFormMod �
     intro n
     trans a.1 n; rfl
     simp only [coe_apply]
-    rw [ceq]; rfl
+    rw [ceq]
 
 
-  set b := ∑ c, (if ↑ℓ ∣ l c then 0 else l c) • Integer.G j c with beq
+  set b := ∑ c, (if ↑ℓ ∣ l c then 0 else l c) • IntegerModularForm.G j c with beq
 
-  have habve : a = Mcongr hj (Reduce ℓ b) := by
-    ext n; rw [Mcongr_apply, Reduce_apply, aeqc n]
-    simp [beq, ← leq, Integer.add_apply, sum_smul_rw, zsmul_apply, smul_eq_mul, ite_mul, Finset.sum_ite]
-    trans ↑(∑ c with ¬↑ℓ ∣ l c, (l c • (Integer.G j) c) n)
+  have habve : a = Mcast hj (Reduce ℓ b) := by
+    ext n; rw [Mcast_apply, Reduce_apply, aeqc n]
+    simp [beq, ← leq, IntegerModularForm.add_apply, sum_smul_rw, zsmul_apply, smul_eq_mul, ite_mul, Finset.sum_ite]
+    trans ↑(∑ c with ¬↑ℓ ∣ l c, (l c • (IntegerModularForm.G j) c) n)
     simp only [zsmul_apply, smul_eq_mul, cast_sum, cast_mul]
     refine Eq.symm (Finset.sum_filter_of_ne ?_)
 
@@ -1198,8 +1203,8 @@ theorem exists_maximal_Reduce {j p} [Fact (Nat.Prime ℓ)] (a : ModularFormMod �
 
   have bn0 : NeZero b := by
     obtain ⟨n, hn0⟩ := (NeZero.Mcoe a).exists
-    refine Integer.Exists_ne_zero ⟨n, ?_⟩
-    contrapose! hn0; simp only [habve, _root_.cast_eval, Reduce_apply, hn0, cast_zero]
+    refine IntegerModularForm.Exists_ne_zero ⟨n, ?_⟩
+    contrapose! hn0; simp only [habve, Mcast_apply, Reduce_apply, hn0, cast_zero]
 
   use b, bn0, hj, habve
 
@@ -1223,7 +1228,7 @@ theorem exists_maximal_Reduce {j p} [Fact (Nat.Prime ℓ)] (a : ModularFormMod �
         exact (nldiv this).rec
 
       rw [aeqc, ← leq, sum_smul_rw]; push_cast
-      trans (l ⟨x, xlt⟩ : ZMod ℓ) • ↑((Integer.G j) ⟨x,xlt⟩ ↑(⟨x,xlt⟩ : Fin (dim j)))
+      trans (l ⟨x, xlt⟩ : ZMod ℓ) • ↑((IntegerModularForm.G j) ⟨x,xlt⟩ ↑(⟨x,xlt⟩ : Fin (dim j)))
       rw [G_ord_G, cast_one, smul_eq_mul, mul_one]
       simp; symm; apply Fintype.sum_eq_single
       rintro ⟨m, mlt⟩ mnx
@@ -1247,4 +1252,4 @@ theorem exists_maximal_Reduce {j p} [Fact (Nat.Prime ℓ)] (a : ModularFormMod �
   }
 
 
-end Modulo
+end ModularFormMod
