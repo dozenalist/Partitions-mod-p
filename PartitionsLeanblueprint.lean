@@ -32,3 +32,13 @@ import PartitionsLeanblueprint.PrimaryLemmas
 import PartitionsLeanblueprint.DescentArgument
 
 import PartitionsLeanblueprint.FinalSection
+
+import PartitionsLeanblueprint.RamanujanCongruence.IntegerModularForm.Defs
+import PartitionsLeanblueprint.RamanujanCongruence.IntegerModularForm.Basic
+import PartitionsLeanblueprint.RamanujanCongruence.IntegerModularForm.Basis
+
+import PartitionsLeanblueprint.RamanujanCongruence.ModularFormMod.Defs
+import PartitionsLeanblueprint.RamanujanCongruence.ModularFormMod.Basic
+
+import PartitionsLeanblueprint.RamanujanCongruence.PowerSeries
+import PartitionsLeanblueprint.RamanujanCongruence.EventuallyEq

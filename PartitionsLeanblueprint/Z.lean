@@ -754,7 +754,7 @@ namespace Algebra
 #check DirectSum
 
 
-@[reducible] def M (ℓ : ℕ) : Type := (⨁ i, oModularForm ℓ i)
+@[reducible] def M (ℓ : ℕ) : Type := (⨁ i ∈ (ℓ - 1)ℤ + k, oModularForm ℓ i)
 
 instance : Module (o ℓ) (M ℓ) := sorry
 
@@ -783,18 +783,25 @@ def ofPoly : (o ℓ)[X,Y] →ₗ[o ℓ] (M ℓ) :=
 def M.pexp (f : M ℓ) : (o ℓ)[X,Y] :=
   ∑ i ∈ f.support, (pull ℓ (f i)).forget
 
-def Iso : M ℓ ≅ (o ℓ)[X,Y] where
-  hom := M.pexp
-  inv p := ofPoly p
-  hom_inv_id := by sorry
-    -- ext f a b
-    -- simp [ofPoly]
-    -- sorry
+-- def Iso : M ℓ ≅ (o ℓ)[X,Y] where
+--   hom := M.pexp
+--   inv p := ofPoly p
+--   hom_inv_id := by sorry
+--     -- ext f a b
+--     -- simp [ofPoly]
+--     -- sorry
 
 
+-- this doesnt work since E 2 is not a modular form
+def P : M ℓ := of _ _ (ofIntegerModularForm (ol ℓ) (Eis 1))
+
+def Q : M ℓ := of _ _ (ofIntegerModularForm (ol ℓ) (Eis 2))
+
+def R : M ℓ := of _ _ (ofIntegerModularForm (ol ℓ) (Eis 3))
 
 def A : (o ℓ)[X,Y] := M.pexp (of _ _ (ofIntegerModularForm (ol ℓ) (Eis (((ℓ - 1) / 2)))))
 
+def B : (o ℓ)[X,Y] := M.pexp (of _ _ (ofIntegerModularForm (ol ℓ) (Eis (((ℓ + 1) / 2)))))
 
 def M_tilde_set (ℓ) [Fact (Nat.Prime ℓ)] : Set (ℕ → ZMod ℓ) :=
     {fun n => (f.qexp n).reduce | f : M ℓ}
@@ -847,17 +854,18 @@ def ofModularFormMod (a : ModularFormMod' ℓ k) : M_tilde ℓ :=
     rfl ⟩
 
 
-def MvPolynomial.reduce : (o ℓ)[X,Y] → (ZMod ℓ)[X,Y]
-  | ⟨a, b, c⟩ =>
-    ⟨{x ∈ a | (b x).reduce ≠ 0}, fun x => (b x).reduce, fun x => by
-      simp [c x]; contrapose!
-      intro h; rw [h]; sorry ⟩
+def MvPolynomial.reduce : (o ℓ)[X,Y] →+* (ZMod ℓ)[X,Y] :=
+  MvPolynomial.map o.reduce
+
+
 
 -- def MvPolynomial.reduce_hom : (o ℓ)[X,Y] →+* (ZMod ℓ)[X,Y] where
 --   toFun := MvPolynomial.reduce
 
 
 def A_tilde : (ZMod ℓ)[X,Y] := MvPolynomial.reduce A
+
+def B_tilde : (ZMod ℓ)[X,Y] := MvPolynomial.reduce B
 
 
 def ofPoly'_mono (f : Vars →₀ ℕ) : (M_tilde ℓ) :=
@@ -889,7 +897,7 @@ variable {R : Type} [CommRing R]
 def Theta (f : R⟦X⟧) : R⟦X⟧ :=
   PowerSeries.X * f.derivativeFun
 
-
+#check Complex.instMul
 
 def oModularForm.Del (k : ℕ) (f : oModularForm ℓ k) : oModularForm ℓ (k + 2) := sorry
 
@@ -903,33 +911,142 @@ def oModularForm.De (k : ℕ) : oModularForm ℓ k →+ M ℓ where
 def M.Del : M ℓ →+ M ℓ := DirectSum.toAddMonoid oModularForm.De
 
 
-def ofPoly'_mono'  :
-
-  Derivation (o ℓ) ((o ℓ)[X,Y]) ((o ℓ)[X,Y]) :=
+def Poly.Del : Derivation (o ℓ) ((o ℓ)[X,Y]) ((o ℓ)[X,Y]) :=
 
   MvPolynomial.mkDerivation (o ℓ) fun
-
-  | Var.x => dX
-
-  | Var.y => dY
+    | Vars.X => -4 * Poly.Y
+    | Vars.Y => -6 * Poly.X ^ 2
 
 
+theorem Del_commute : Poly.Del ∘ M.pexp = M.pexp (ℓ := ℓ) ∘ M.Del := sorry
+
+
+def toClosure : (ZMod ℓ) [X,Y] →+* (AlgebraicClosure (ZMod ℓ))[X,Y] :=
+  MvPolynomial.map (algebraMap (ZMod ℓ) (AlgebraicClosure (ZMod ℓ)))
+
+
+def Abar := toClosure A_tilde (ℓ := ℓ)
+
+
+theorem sqfr : Squarefree <| Abar (ℓ := ℓ) := sorry
 
 
 end Del
 
 
+section Theorem2
+
+theorem A_tilde_eq : ofPoly' A_tilde (ℓ := ℓ) = 1 := sorry
 
 
-#check PowerSeries
+theorem B_tilde_eq : ofPoly' B_tilde (ℓ := ℓ) = P.reduce := sorry
 
-theorem A_tilde_irreducible : Irreducible (A_tilde - (1 : (ZMod ℓ)[X,Y])) := sorry
+
+theorem A_tilde_Del : MvPolynomial.reduce (ℓ := ℓ) (Poly.Del A) = MvPolynomial.reduce B := sorry
+
+theorem B_tilde_Del : MvPolynomial.reduce (ℓ := ℓ) (Poly.Del B) = Poly.X * MvPolynomial.reduce A := sorry
+
+
+-- casting issues?
+theorem A_tilde_inseperable : Squarefree <| Abar (ℓ := ℓ) := sorry
+
+
+theorem A_tilde_coprime : IsCoprime (A_tilde (ℓ := ℓ)) B_tilde := sorry
+
+
+
+#check Polynomial.Separable
+#check Weight
+
+def isodeg  (p : (ZMod ℓ)[X,Y]) : ℕ :=
+  sSup (Weight '' {(m : Vars →₀ ℕ) | p.coeff m ≠ 0})
+
+lemma isodeg_one : isodeg 1 (ℓ := ℓ) = 0 := by
+  rw [isodeg]
+  sorry
+
+#check NumberField
+
+
+theorem const_eq_sum (f : M ℓ) (g : Vars) : f.qexp 0 = f.pexp.eval fun | .X => 1 | .Y => 1 := by
+  sorry
+
+variable (C : (ZMod ℓ)[X,Y]) (m : Vars →₀ ℕ)
+#check C.coeff m
+
+theorem A_ndvd_ℓ : ∃ m : Vars →₀ ℕ, ((A (ℓ := ℓ)).coeff m).reduce = 0 := by
+  by_contra h
+  simp at h
+  have : (ofPoly A (ℓ := ℓ)).qexp 0 = 1 := by
+    sorry
+  have : ((ofPoly A (ℓ := ℓ)).qexp 0).reduce = 0 := by
+    rw [const_eq_sum]
+
+
+  unfold o.reduce
+  sorry
+
+
+theorem isodeg_A_tilde : isodeg A_tilde (ℓ := ℓ) = ℓ - 1 := sorry
+
+theorem isodeg_A_tilde_sub_one : isodeg (A_tilde - 1) (ℓ := ℓ) = ℓ - 1 := by
+  have hA := isodeg_A_tilde (ℓ := ℓ)
+  have : ∃ m : Vars →₀ ℕ, (A_tilde.coeff m : ZMod ℓ) ≠ 0 ∧ Weight m = ℓ - 1 := by
+    rw[isodeg] at hA
+    sorry
+  rw[isodeg, sSup]
+
+
+
+
+
+
+theorem A_tilde_not_Unit : ¬IsUnit (A_tilde - (1 : (ZMod ℓ)[X,Y])) := by
+  simp [isUnit_iff_exists]
+  intro p hp
+  have := congrArg isodeg hp
+
+
+
+
+
+
+
+theorem A_tilde_Irreducible : Irreducible (A_tilde - (1 : (ZMod ℓ)[X,Y])) := by
+  rw [irreducible_iff]
+  by_contra h
+  simp only [not_and, not_forall, Classical.not_imp, not_or] at h
+  specialize h A_tilde_not_Unit
+  obtain ⟨φ, γ, hA, hφ, hγ⟩ := h
+
+  set Zbar := (AlgebraicClosure (ZMod ℓ)) with Zbar_eq
+
+  set φbar := toClosure φ with φbar_eq
+
+  set γbar := toClosure γ with γbar_eq
+
+  have hAbar : Abar - 1 = φbar * γbar := by
+    have := congrArg toClosure hA
+    simpa only [map_sub, map_one, map_mul]
+
+
+
+
+
+
+
+
+
+
+
 
 
 theorem A_tilde_prime : Ideal.IsPrime <| Ideal.span {A_tilde - (1 : (ZMod ℓ)[X,Y])} := sorry
 
 
 theorem main_ker : RingHom.ker ofPoly'_hom = Ideal.span {A_tilde - (1 : (ZMod ℓ)[X,Y])} := sorry
+
+
 
 
 
@@ -943,6 +1060,53 @@ theorem ModularFormMod'_congr {k k'} (a : ModularFormMod' ℓ k) (b : ModularFor
 
 
 
+example : ((1 / 2) : Rat) = 2 / 4 := by decide
+
+
+
+
+
+
+
+-- def congruence_eqv : Setoid (M ℓ) where
+
+--   r f g := ∀ n, (f.qexp n).reduce = (g.qexp n).reduce
+
+--   iseqv := sorry
+
+
+
+
+
+
+-- def Mtilde (ℓ : ℕ) [Fact (Nat.Prime ℓ)] := ∀ i, ModularFormMod' ℓ i
+
+
+
+-- def Mtilde (ℓ : ℕ) [Fact (Nat.Prime ℓ)] :=
+--   @Quotient (M ℓ) congruence_eqv
+
+-- namespace Mtilde
+
+-- def add : Mtilde ℓ → Mtilde ℓ → Mtilde ℓ :=
+--   Quotient.lift₂ (fun a b : M ℓ => ⟦a + b⟧) (by sorry)
+
+-- instance : Add (Mtilde ℓ) where
+--   add := add
+
+-- def mul : Mtilde ℓ → Mtilde ℓ → Mtilde ℓ :=
+--   Quotient.lift₂ (fun a b : M ℓ => ⟦a * b⟧) (by sorry)
+
+-- instance : Mul (Mtilde ℓ) where
+--   mul := mul
+
+
+
+
+
+-- structure Mdrop_weight (ℓ) [Fact (Nat.Prime ℓ)] where
+--   val : ℕ → ZMod ℓ
+--   ofModularFormMod' : ∃ (i : ℕ) (a : ModularFormMod' ℓ i), val = ⇑a
 
 
 
@@ -951,63 +1115,16 @@ theorem ModularFormMod'_congr {k k'} (a : ModularFormMod' ℓ k) (b : ModularFor
 
 
 
-def congruence_eqv : Setoid (M ℓ) where
-
-  r f g := ∀ n, (f.qexp n).reduce = (g.qexp n).reduce
-
-  iseqv := sorry
+-- def M_tilde : Submodule (ZMod ℓ) (ℕ → ZMod ℓ) :=
+--   Submodule.span (ZMod ℓ) (M_tilde_set)
 
 
 
+-- -- doesn't equate elements of different weights
+-- @[reducible] def M_tilde (ℓ : ℕ) [Fact (Nat.Prime ℓ)] : Type := Π i, ModularFormMod' ℓ i
+
+-- variable {ℓ : ℕ} [Fact (Nat.Prime ℓ)]
 
 
-
-def Mtilde (ℓ : ℕ) [Fact (Nat.Prime ℓ)] := ∀ i, ModularFormMod' ℓ i
-
-
-
-def Mtilde (ℓ : ℕ) [Fact (Nat.Prime ℓ)] :=
-  @Quotient (M ℓ) congruence_eqv
-
-namespace Mtilde
-
-def add : Mtilde ℓ → Mtilde ℓ → Mtilde ℓ :=
-  Quotient.lift₂ (fun a b : M ℓ => ⟦a + b⟧) (by sorry)
-
-instance : Add (Mtilde ℓ) where
-  add := add
-
-def mul : Mtilde ℓ → Mtilde ℓ → Mtilde ℓ :=
-  Quotient.lift₂ (fun a b : M ℓ => ⟦a * b⟧) (by sorry)
-
-instance : Mul (Mtilde ℓ) where
-  mul := mul
-
-
-
-
-
-structure Mdrop_weight (ℓ) [Fact (Nat.Prime ℓ)] where
-  val : ℕ → ZMod ℓ
-  ofModularFormMod' : ∃ (i : ℕ) (a : ModularFormMod' ℓ i), val = ⇑a
-
-
-
-
-
-
-
-
-def M_tilde : Submodule (ZMod ℓ) (ℕ → ZMod ℓ) :=
-  Submodule.span (ZMod ℓ) (M_tilde_set)
-
-
-
--- doesn't equate elements of different weights
-@[reducible] def M_tilde (ℓ : ℕ) [Fact (Nat.Prime ℓ)] : Type := Π i, ModularFormMod' ℓ i
-
-variable {ℓ : ℕ} [Fact (Nat.Prime ℓ)]
-
-
-def M.Reduce (a : M ℓ) : M_tilde ℓ :=
-  fun i => (a i).Reduce ℓ
+-- def M.Reduce (a : M ℓ) : M_tilde ℓ :=
+--   fun i => (a i).Reduce ℓ

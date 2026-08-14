@@ -1,331 +1,335 @@
 
-import PartitionsLeanblueprint.ModularFormDefs
-import Mathlib.Data.Finset.NatAntidiagonal
-import Mathlib.Data.Nat.Choose.Multinomial
+-- import PartitionsLeanblueprint.ModularFormDefs
+-- import Mathlib.Data.Finset.NatAntidiagonal
+-- import Mathlib.Data.Nat.Choose.Multinomial
 
-/- This file defines Modular Forms Mod ℓ as sequences from ℕ to ZMod ℓ.
-Each modular Form Mod ℓ has a weight defined by the congruence of its weight mod ℓ - 1.
-a sequence b is modular if there exists an Integer Modular Form a of any weight such that
-b is the reduction of a mod ℓ -/
+-- /- This file defines Modular Forms Mod ℓ as sequences from ℕ to ZMod ℓ.
+-- Each modular Form Mod ℓ has a weight defined by the congruence of its weight mod ℓ - 1.
+-- a sequence b is modular if there exists an Integer Modular Form a of any weight such that
+-- b is the reduction of a mod ℓ -/
 
 
-open IntegerModularForm
+-- open IntegerModularForm
 
-noncomputable section
+-- noncomputable section
 
 
 
-/-- A modular form mod ℓ is a sequence in ZMod ℓ such that there exists some
-integer modular of appropriate weight that reduces to that sequence mod ℓ.
-It has a weight defined by the congruence of the weight of its carrier mod ℓ - 1 -/
-structure ModularFormMod (ℓ : ℕ) [NeZero ℓ] (k : ZMod (ℓ - 1)) where
+-- /-- A modular form mod ℓ is a sequence in ZMod ℓ such that there exists some
+-- integer modular of appropriate weight that reduces to that sequence mod ℓ.
+-- It has a weight defined by the congruence of the weight of its carrier mod ℓ - 1 -/
+-- structure ModularFormMod (ℓ : ℕ) [NeZero ℓ] (k : ZMod (ℓ - 1)) where
 
-  sequence : (ℕ → ZMod ℓ)
+--   sequence : PowerSeries (ZMod ℓ)
 
-  modular : ∃ k' : ℕ, ∃ a : IntegerModularForm k', k' = k ∧ ∀ n, sequence n = a n
--- or (k : Fin ℓ), ℓ ∣ k' - k.1
+--   weight : ℕ
 
+--   modular : ∃ k' : ℕ, ∃ a : IntegerModularForm k', k' = k ∧ ∀ n, sequence.coeff n = a.coeff n
+-- -- or (k : Fin ℓ), ℓ ∣ k' - k.1
 
-namespace ModularFormMod
 
-variable {k : ℕ}
+-- namespace ModularFormMod
 
-def Reduce (ℓ : ℕ) [h : NeZero ℓ] (a : IntegerModularForm k) : ModularFormMod ℓ k where
-  sequence n := (a n : ZMod ℓ)
-  modular := ⟨k, a, rfl, fun _ => rfl⟩
+-- variable {k : ℕ}
 
+-- def Reduce (ℓ : ℕ) [h : NeZero ℓ] (a : IntegerModularForm k) : ModularFormMod ℓ k where
+--   sequence n := (a n : ZMod ℓ)
+--   modular := ⟨k, a, rfl, fun _ => rfl⟩
 
-variable {ℓ n : ℕ} [NeZero ℓ]
-variable {k j : ZMod (ℓ-1)}
 
+-- variable {ℓ n : ℕ} [NeZero ℓ]
+-- variable {k j : ZMod (ℓ-1)}
 
-instance (priority := 100) : FunLike (ModularFormMod ℓ k) ℕ (ZMod ℓ) where
-  coe a := a.1
-  coe_injective' a b c := by cases a; cases b; congr
 
-instance (priority := 100) : FunLike (ℕ → ZMod ℓ) ℕ (ZMod ℓ) where
-  coe a := a
-  coe_injective' _ _ h := h
+-- instance (priority := 100) : FunLike (ModularFormMod ℓ k) ℕ (ZMod ℓ) where
+--   coe a := a.1
+--   coe_injective' a b c := by cases a; cases b; congr
 
+-- instance (priority := 100) : FunLike (ℕ → ZMod ℓ) ℕ (ZMod ℓ) where
+--   coe a := a
+--   coe_injective' _ _ h := h
 
-instance : Zero (ModularFormMod ℓ k) where
-  zero :=
-  { sequence := fun n ↦ (0 : ZMod ℓ)
-    modular := sorry
-  }
 
-instance : Inhabited (ModularFormMod ℓ k) := ⟨0⟩
+-- instance : Zero (ModularFormMod ℓ k) where
+--   zero :=
+--   { sequence := fun n ↦ (0 : ZMod ℓ)
+--     modular := sorry
+--   }
 
+-- instance : Inhabited (ModularFormMod ℓ k) := ⟨0⟩
 
-instance add : Add (ModularFormMod ℓ k) where
-  add a b :=
-  { sequence := a + b
-    modular := sorry }
-    -- Multiply by E_{ℓ - 1} ect.
 
+-- instance add : Add (ModularFormMod ℓ k) where
+--   add a b :=
+--   { sequence := a + b
+--     modular := sorry }
+--     -- Multiply by E_{ℓ - 1} ect.
 
-open Nat Finset Finset.Nat
 
-def mul (f : ModularFormMod ℓ k) (g : ModularFormMod ℓ j) : (ModularFormMod ℓ (k + j)) where
+-- open Nat Finset Finset.Nat
 
-  sequence n := ∑ ⟨x,y⟩ ∈ (antidiagonal n), f x * g y
-  -- sum over all x + y = n
-  modular := sorry
+-- def mul (f : ModularFormMod ℓ k) (g : ModularFormMod ℓ j) : (ModularFormMod ℓ (k + j)) where
 
-instance : HMul (ModularFormMod ℓ k) (ModularFormMod ℓ j) (ModularFormMod ℓ (k + j)) where
-  hMul := mul
+--   sequence n := ∑ ⟨x,y⟩ ∈ (antidiagonal n), f x * g y
+--   -- sum over all x + y = n
+--   modular := sorry
 
+-- instance : HMul (ModularFormMod ℓ k) (ModularFormMod ℓ j) (ModularFormMod ℓ (k + j)) where
+--   hMul := mul
 
-def natify (a : ModularFormMod ℓ k) : ℕ → ℕ :=
-  fun n ↦ (a n).val
 
+-- def natify (a : ModularFormMod ℓ k) : ℕ → ℕ :=
+--   fun n ↦ (a n).val
 
 
-def Mpow (a : ModularFormMod ℓ k) (j : ℕ) : ModularFormMod ℓ (k * j) where
-  sequence n := ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y)
-  -- sum over all x1 + ... + xj = n
 
-  modular := sorry
+-- def Mpow (a : ModularFormMod ℓ k) (j : ℕ) : ModularFormMod ℓ (k * j) where
+--   sequence n := ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y)
+--   -- sum over all x1 + ... + xj = n
 
-scoped infixl:80 " ** " => Mpow
+--   modular := sorry
 
+-- scoped infixl:80 " ** " => Mpow
 
 
 
-instance instSMulZ : SMul ℤ (ModularFormMod ℓ k) where
-  smul c a :=
-  { sequence := c • a
-    modular := sorry}
 
-instance instSMulN : SMul ℕ (ModularFormMod ℓ k) where
-  smul c a :=
-  { sequence := c • a
-    modular := sorry}
+-- instance instSMulZ : SMul ℤ (ModularFormMod ℓ k) where
+--   smul c a :=
+--   { sequence := c • a
+--     modular := sorry}
 
-instance instNeg : Neg (ModularFormMod ℓ k) where
-  neg := fun a ↦
-  { sequence := -a
-    modular := sorry }
+-- instance instSMulN : SMul ℕ (ModularFormMod ℓ k) where
+--   smul c a :=
+--   { sequence := c • a
+--     modular := sorry}
 
-instance instSub : Sub (ModularFormMod ℓ k) :=
-  ⟨fun f g => f + -g⟩
+-- instance instNeg : Neg (ModularFormMod ℓ k) where
+--   neg := fun a ↦
+--   { sequence := -a
+--     modular := sorry }
 
+-- instance instSub : Sub (ModularFormMod ℓ k) :=
+--   ⟨fun f g => f + -g⟩
 
 
-variable {ℓ : ℕ} [NeZero ℓ]
-variable {k j : ZMod (ℓ-1)}
 
+-- variable {ℓ : ℕ} [NeZero ℓ]
+-- variable {k j : ZMod (ℓ-1)}
 
-@[simp]
-theorem natify_apply (a : ModularFormMod ℓ k) (n : ℕ) : natify a n = (a n).val := rfl
 
-@[simp]
-theorem Reduce_apply {k ℓ} [NeZero ℓ] (a : IntegerModularForm k) (n : ℕ) :
-  Reduce ℓ a n = a n := rfl
+-- @[simp]
+-- theorem natify_apply (a : ModularFormMod ℓ k) (n : ℕ) : natify a n = (a n).val := rfl
 
+-- @[simp]
+-- theorem Reduce_apply {k ℓ} [NeZero ℓ] (a : IntegerModularForm k) (n : ℕ) :
+--   Reduce ℓ a n = a n := rfl
 
-@[simp]
-theorem toFun_eq_coe (f : ModularFormMod ℓ k) : ⇑f = (f : ℕ → ZMod ℓ) := rfl
 
-@[simp]
-theorem coe_apply (f : ModularFormMod ℓ k) (n : ℕ) : f.sequence n = f n := rfl
+-- @[simp]
+-- theorem toFun_eq_coe (f : ModularFormMod ℓ k) : ⇑f = (f : ℕ → ZMod ℓ) := rfl
 
-@[simp]
-theorem coe_add (f g : ModularFormMod ℓ k) : ⇑(f + g) = f + g := rfl
+-- @[simp]
+-- theorem coe_apply (f : ModularFormMod ℓ k) (n : ℕ) : f.sequence n = f n := rfl
 
-@[simp]
-theorem add_apply (f g : ModularFormMod ℓ k) (z : ℕ) : (f + g) z = f z + g z := rfl
+-- @[simp]
+-- theorem coe_add (f g : ModularFormMod ℓ k) : ⇑(f + g) = f + g := rfl
 
-@[simp]
-theorem coe_mul (f g : ModularFormMod ℓ k) : ⇑ (f * g) =
-  fun n ↦ ∑ ⟨x,y⟩ ∈ antidiagonal n, f x * g y := rfl
+-- @[simp]
+-- theorem add_apply (f g : ModularFormMod ℓ k) (z : ℕ) : (f + g) z = f z + g z := rfl
 
-@[simp]
-theorem mul_coe (f : ModularFormMod ℓ k) (g : ModularFormMod ℓ j ) :
-  (f * g : ℕ → ZMod ℓ) = f * g := rfl
+-- @[simp]
+-- theorem coe_mul (f g : ModularFormMod ℓ k) : ⇑ (f * g) =
+--   fun n ↦ ∑ ⟨x,y⟩ ∈ antidiagonal n, f x * g y := rfl
 
+-- @[simp]
+-- theorem mul_coe (f : ModularFormMod ℓ k) (g : ModularFormMod ℓ j ) :
+--   (f * g : ℕ → ZMod ℓ) = f * g := rfl
 
-theorem mul_apply (f : ModularFormMod ℓ k) (g : ModularFormMod ℓ j ) (n : ℕ) : (f * g) n =
-  ∑ ⟨x,y⟩ ∈ antidiagonal n, f x * g y := rfl
 
-@[simp]
-theorem coe_smulz (f : ModularFormMod ℓ k) (n : ℤ) : ⇑(n • f) = n • ⇑f := rfl
+-- theorem mul_apply (f : ModularFormMod ℓ k) (g : ModularFormMod ℓ j ) (n : ℕ) : (f * g) n =
+--   ∑ ⟨x,y⟩ ∈ antidiagonal n, f x * g y := rfl
 
-@[simp]
-theorem coe_smuln (f : ModularFormMod ℓ k) (n : ℕ) : ⇑(n • f) = n • ⇑f := rfl
+-- @[simp]
+-- theorem coe_smulz (f : ModularFormMod ℓ k) (n : ℤ) : ⇑(n • f) = n • ⇑f := rfl
 
-@[simp]
-theorem smul_apply (f : ModularFormMod ℓ k) (n z : ℕ) : (n • f) z = n • f z := rfl
+-- @[simp]
+-- theorem coe_smuln (f : ModularFormMod ℓ k) (n : ℕ) : ⇑(n • f) = n • ⇑f := rfl
 
-@[simp]
-theorem coe_zero : ⇑(0 : ModularFormMod ℓ k) = (0 : ℕ → ZMod ℓ) := rfl
+-- @[simp]
+-- theorem smul_apply (f : ModularFormMod ℓ k) (n z : ℕ) : (n • f) z = n • f z := rfl
 
-@[simp]
-theorem zero_apply (z : ℕ) : (0 : ModularFormMod ℓ k) z = 0 := rfl
+-- @[simp]
+-- theorem coe_zero : ⇑(0 : ModularFormMod ℓ k) = (0 : ℕ → ZMod ℓ) := rfl
 
-@[simp]
-theorem coe_neg (f : ModularFormMod ℓ k) : ⇑(-f) = -f := rfl
+-- @[simp]
+-- theorem zero_apply (z : ℕ) : (0 : ModularFormMod ℓ k) z = 0 := rfl
 
-@[simp]
-theorem neg_apply (f : ModularFormMod ℓ k) (n : ℕ) : (-f) n = - f n := rfl
+-- @[simp]
+-- theorem coe_neg (f : ModularFormMod ℓ k) : ⇑(-f) = -f := rfl
 
-@[simp]
-theorem coe_sub (f g : ModularFormMod ℓ k) : ⇑(f - g) = f - g :=
-  Eq.symm (Mathlib.Tactic.Abel.unfold_sub (⇑f) (⇑g) (⇑(f - g)) rfl)
+-- @[simp]
+-- theorem neg_apply (f : ModularFormMod ℓ k) (n : ℕ) : (-f) n = - f n := rfl
 
-@[simp]
-theorem sub_apply (f g : ModularFormMod ℓ k) (z : ℕ) : (f - g) z = f z - g z :=
-  Eq.symm (Mathlib.Tactic.Abel.unfold_sub (f z) (g z) ((f - g) z) rfl)
+-- @[simp]
+-- theorem coe_sub (f g : ModularFormMod ℓ k) : ⇑(f - g) = f - g :=
+--   Eq.symm (Mathlib.Tactic.Abel.unfold_sub (⇑f) (⇑g) (⇑(f - g)) rfl)
 
+-- @[simp]
+-- theorem sub_apply (f g : ModularFormMod ℓ k) (z : ℕ) : (f - g) z = f z - g z :=
+--   Eq.symm (Mathlib.Tactic.Abel.unfold_sub (f z) (g z) ((f - g) z) rfl)
 
-theorem coe_Mpow (a : ModularFormMod ℓ k) (j : ℕ) : ⇑(Mpow a j) = fun n ↦ ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
 
-theorem Mpow_apply (a : ModularFormMod ℓ k) (j n : ℕ) : (Mpow a j) n = ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
+-- theorem coe_Mpow (a : ModularFormMod ℓ k) (j : ℕ) : ⇑(Mpow a j) = fun n ↦ ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
 
-@[ext]
-theorem ModularFormMod.ext {a b : ModularFormMod ℓ k} (h : ∀ n, a n = b n) : a = b :=
-  DFunLike.ext a b h
+-- theorem Mpow_apply (a : ModularFormMod ℓ k) (j n : ℕ) : (Mpow a j) n = ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
 
-@[simp]
-theorem Reduce_zero {k ℓ} [NeZero ℓ] :
-    Reduce ℓ (0 : IntegerModularForm k) = (0 : ModularFormMod ℓ k) := by
-  ext n; rw [Reduce_apply, IntegerModularForm.zero_apply, Int.cast_zero, zero_apply]
+-- @[ext]
+-- theorem ModularFormMod.ext {a b : ModularFormMod ℓ k} (h : ∀ n, a n = b n) : a = b :=
+--   DFunLike.ext a b h
 
-@[simp] theorem zero_Mpow (j : ℕ) [hj : NeZero j] : (0 : ModularFormMod ℓ k) ** j = 0 := by
-  ext n; simp [Mpow_apply, hj.out]
+-- @[simp]
+-- theorem Reduce_zero {k ℓ} [NeZero ℓ] :
+--     Reduce ℓ (0 : IntegerModularForm k) = (0 : ModularFormMod ℓ k) := by
+--   ext n; rw [Reduce_apply, IntegerModularForm.zero_apply, Int.cast_zero, zero_apply]
 
+-- @[simp] theorem zero_Mpow (j : ℕ) [hj : NeZero j] : (0 : ModularFormMod ℓ k) ** j = 0 := by
+--   ext n; simp [Mpow_apply, hj.out]
 
--- the constant modular forms of weight 0
-def const (x : ZMod ℓ) : ModularFormMod ℓ 0 where
 
-  sequence
-    | 0 => x
-    | _ + 1 => 0
+-- -- the constant modular forms of weight 0
+-- def const (x : ZMod ℓ) : ModularFormMod ℓ 0 where
 
-  modular := sorry
+--   sequence
+--     | 0 => x
+--     | _ + 1 => 0
 
-instance : Coe (ZMod ℓ) (ModularFormMod ℓ 0) where
-  coe x := const x
+--   modular := sorry
 
-instance : NatCast (ModularFormMod ℓ 0) where
-  natCast n := const n
+-- instance : Coe (ZMod ℓ) (ModularFormMod ℓ 0) where
+--   coe x := const x
 
--- @[simp, norm_cast]
--- lemma coe_natCast (n : ZMod ℓ) :
---     ⇑(n : ModularFormMod ℓ 0) = n := rfl
+-- instance : NatCast (ModularFormMod ℓ 0) where
+--   natCast n := const n
 
-instance : IntCast (ModularFormMod ℓ 0) where
-  intCast z := const z
+-- -- @[simp, norm_cast]
+-- -- lemma coe_natCast (n : ZMod ℓ) :
+-- --     ⇑(n : ModularFormMod ℓ 0) = n := rfl
 
--- @[simp, norm_cast]
--- lemma coe_intCast (z : ℤ) :
---     ⇑(z : ModularFormMod ℓ 0) = z := rfl
+-- instance : IntCast (ModularFormMod ℓ 0) where
+--   intCast z := const z
 
+-- -- @[simp, norm_cast]
+-- -- lemma coe_intCast (z : ℤ) :
+-- --     ⇑(z : ModularFormMod ℓ 0) = z := rfl
 
-theorem const_apply (x : ZMod ℓ) (n : ℕ) : (const x) n =
-    match n with
-    | 0 => x
-    | succ _ => 0 := by
-  cases n <;> rfl
 
+-- theorem const_apply (x : ZMod ℓ) (n : ℕ) : (const x) n =
+--     match n with
+--     | 0 => x
+--     | succ _ => 0 := by
+--   cases n <;> rfl
 
-@[simp]
-theorem const_zero (x : ZMod ℓ) : (const x) 0 = x := rfl
 
-@[simp]
-theorem const_succ (x : ZMod ℓ) (n : ℕ) : (const x) n.succ = 0 := rfl
+-- @[simp]
+-- theorem const_zero (x : ZMod ℓ) : (const x) 0 = x := rfl
 
+-- @[simp]
+-- theorem const_succ (x : ZMod ℓ) (n : ℕ) : (const x) n.succ = 0 := rfl
 
-instance {ℓ : ℕ} [Fact (Nat.Prime ℓ)] : NeZero (ℓ - 1) where
-  out :=
-    let lg2 := Prime.two_le Fact.out
-    Nat.sub_ne_zero_iff_lt.mpr lg2
 
-instance : AddCommGroup (ModularFormMod ℓ k) :=
-  DFunLike.coe_injective.addCommGroup _ rfl coe_add coe_neg coe_sub coe_smuln coe_smulz
+-- instance {ℓ : ℕ} [Fact (Nat.Prime ℓ)] : NeZero (ℓ - 1) where
+--   out :=
+--     let lg2 := Prime.two_le Fact.out
+--     Nat.sub_ne_zero_iff_lt.mpr lg2
 
-instance : Module ℤ (ModularFormMod ℓ k) := sorry
+-- instance : AddCommGroup (ModularFormMod ℓ k) :=
+--   DFunLike.coe_injective.addCommGroup _ rfl coe_add coe_neg coe_sub coe_smuln coe_smulz
 
+-- instance : Module ℤ (ModularFormMod ℓ k) := sorry
 
-instance : DirectSum.GCommRing (ModularFormMod ℓ) := sorry
 
-instance : DirectSum.GAlgebra ℤ (ModularFormMod ℓ) := sorry
+-- instance : DirectSum.GCommRing (ModularFormMod ℓ) := sorry
 
 
-/-- Casts a modular form mod ℓ to a different but provably equal weight -/
-def Mcast {m n : ZMod (ℓ - 1)} (h : m = n) (a : ModularFormMod ℓ m) : ModularFormMod ℓ n :=
-  h ▸ a
 
-@[simp]
-lemma Mcast_apply {k j : ZMod (ℓ -1)} {h : k = j} {n : ℕ} {a : ModularFormMod ℓ k} :
-  Mcast h a n = a n := by
-  subst h; rfl
+-- instance : DirectSum.GAlgebra ℤ (ModularFormMod ℓ) := sorry
 
 
-@[simp]
-lemma triangle_eval {k j : ZMod (ℓ -1)} {h : k = j} {n : ℕ} {a : ModularFormMod ℓ k} :
-  (h ▸ a) n = a n := by
-  subst h; rfl
+-- /-- Casts a modular form mod ℓ to a different but provably equal weight -/
+-- def Mcast {m n : ZMod (ℓ - 1)} (h : m = n) (a : ModularFormMod ℓ m) : ModularFormMod ℓ n :=
+--   h ▸ a
 
+-- @[simp]
+-- lemma Mcast_apply {k j : ZMod (ℓ -1)} {h : k = j} {n : ℕ} {a : ModularFormMod ℓ k} :
+--   Mcast h a n = a n := by
+--   subst h; rfl
 
-end ModularFormMod
 
+-- @[simp]
+-- lemma triangle_eval {k j : ZMod (ℓ -1)} {h : k = j} {n : ℕ} {a : ModularFormMod ℓ k} :
+--   (h ▸ a) n = a n := by
+--   subst h; rfl
 
-variable {α : Type*} {k j : ℕ} [CommSemiring α]
-open Finset.Nat Finset
 
-def Sequencemul (a b : ℕ → α) : ℕ → α :=
-  fun n ↦ ∑ ⟨x,y⟩ ∈ antidiagonal n, a x * b y
+-- end ModularFormMod
 
 
-def Sequencepow (a : ℕ → α) (j : ℕ) : ℕ → α :=
-  fun n ↦ ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y)
+-- variable {α : Type*} {k j : ℕ} [CommSemiring α]
+-- open Finset.Nat Finset
 
+-- def Sequencemul (a b : ℕ → α) : ℕ → α :=
+--   fun n ↦ ∑ ⟨x,y⟩ ∈ antidiagonal n, a x * b y
 
-theorem coe_Sequencemul (f g : ℕ → α) : Sequencemul f g =
-  fun n ↦ ∑ ⟨x,y⟩ ∈ antidiagonal n, f x * g y := rfl
 
+-- def Sequencepow (a : ℕ → α) (j : ℕ) : ℕ → α :=
+--   fun n ↦ ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y)
 
-theorem Sequencemul_apply (f g : ℕ → α) (n : ℕ) : (Sequencemul f g) n =
-  ∑ ⟨x,y⟩ ∈ antidiagonal n, f x * g y := rfl
 
-theorem coe_Sequencepow (a : ℕ → α) (j : ℕ) :
-  Sequencepow a j = fun n ↦ ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
+-- theorem coe_Sequencemul (f g : ℕ → α) : Sequencemul f g =
+--   fun n ↦ ∑ ⟨x,y⟩ ∈ antidiagonal n, f x * g y := rfl
 
-theorem Sequencepow_apply (a : ℕ → α) (j n : ℕ) :
-  (Sequencepow a j) n = ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
 
-namespace IntegerModularForm
+-- theorem Sequencemul_apply (f g : ℕ → α) (n : ℕ) : (Sequencemul f g) n =
+--   ∑ ⟨x,y⟩ ∈ antidiagonal n, f x * g y := rfl
 
-theorem mul_eq_Sequencemul (a : IntegerModularForm k) (b : IntegerModularForm j) :
-  ⇑(a * b) = Sequencemul a b := rfl
+-- theorem coe_Sequencepow (a : ℕ → α) (j : ℕ) :
+--   Sequencepow a j = fun n ↦ ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
 
-theorem Ipow_eq_Sequencepow (a : IntegerModularForm k) (j : ℕ) :
-  Ipow a j = Sequencepow a j := rfl
+-- theorem Sequencepow_apply (a : ℕ → α) (j n : ℕ) :
+--   (Sequencepow a j) n = ∑ x ∈ antidiagonalTuple j n, ∏ y, a (x y) := rfl
 
-theorem mul_eq_Sequencemul_apply (a : IntegerModularForm k) (b : IntegerModularForm j) (n : ℕ) :
-  (a * b) n = Sequencemul a b n := rfl
+-- namespace IntegerModularForm
 
-theorem Ipow_eq_Sequencepow_apply (a : IntegerModularForm k) (j : ℕ) (n : ℕ) :
-  Ipow a j n = Sequencepow a j n := rfl
+-- theorem mul_eq_Sequencemul (a : IntegerModularForm k) (b : IntegerModularForm j) :
+--   ⇑(a * b) = Sequencemul a b := rfl
 
-end IntegerModularForm
+-- theorem Ipow_eq_Sequencepow (a : IntegerModularForm k) (j : ℕ) :
+--   Ipow a j = Sequencepow a j := rfl
 
-namespace ModularFormMod
-variable {ℓ : ℕ} [NeZero ℓ] {k j : ZMod (ℓ - 1)}
+-- theorem mul_eq_Sequencemul_apply (a : IntegerModularForm k) (b : IntegerModularForm j) (n : ℕ) :
+--   (a * b) n = Sequencemul a b n := rfl
 
-theorem mul_eq_Sequencemul (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) :
-  ⇑(a * b) = Sequencemul a b := rfl
+-- theorem Ipow_eq_Sequencepow_apply (a : IntegerModularForm k) (j : ℕ) (n : ℕ) :
+--   Ipow a j n = Sequencepow a j n := rfl
 
-theorem Mpow_eq_Sequencepow (a : ModularFormMod ℓ k) (j : ℕ) :
-  Mpow a j = Sequencepow a j := rfl
+-- end IntegerModularForm
 
-theorem mul_eq_Sequencemul_apply (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (n : ℕ) :
-  (a * b) n = Sequencemul a b n := rfl
+-- namespace ModularFormMod
+-- variable {ℓ : ℕ} [NeZero ℓ] {k j : ZMod (ℓ - 1)}
 
-theorem Mpow_eq_Sequencepow_apply (a : ModularFormMod ℓ k) (j : ℕ) (n : ℕ) :
-  Mpow a j n = Sequencepow a j n := rfl
+-- theorem mul_eq_Sequencemul (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) :
+--   ⇑(a * b) = Sequencemul a b := rfl
 
-end ModularFormMod
+-- theorem Mpow_eq_Sequencepow (a : ModularFormMod ℓ k) (j : ℕ) :
+--   Mpow a j = Sequencepow a j := rfl
 
-end section
+-- theorem mul_eq_Sequencemul_apply (a : ModularFormMod ℓ k) (b : ModularFormMod ℓ j) (n : ℕ) :
+--   (a * b) n = Sequencemul a b n := rfl
+
+-- theorem Mpow_eq_Sequencepow_apply (a : ModularFormMod ℓ k) (j : ℕ) (n : ℕ) :
+--   Mpow a j n = Sequencepow a j n := rfl
+
+-- end ModularFormMod
+
+-- end section
