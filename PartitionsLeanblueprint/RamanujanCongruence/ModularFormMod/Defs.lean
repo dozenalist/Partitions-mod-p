@@ -19,7 +19,7 @@ theorem IntegerModularForm.reduce_mul {k j : ℤ} (ℓ : ℕ) (f : IntegerModula
 
 def IntegerModularForm.ZMod.reduce_set {ℓ : ℕ} (k : ZMod (ℓ - 1)) : AddSubgroup (PowerSeries (ZMod ℓ)) where
   carrier := ⋃ j ∈ {j : ℤ | ↑j = k}, Set.range (@IntegerModularForm.reduce j ℓ)
-  add_mem' := sorry -- multiply by E (ℓ - 1)
+  add_mem' := sorry -- multiply by Eis (ℓ - 1)
   zero_mem' := by simpa using ⟨k.cast, by simp, 0, map_zero _⟩
   neg_mem' {f} h := by
     simp_all only [Set.mem_ofPred_eq, Set.mem_iUnion, Set.mem_range, exists_prop]
@@ -171,6 +171,11 @@ variable (f g : ModularFormMod ℓ k) (h : ModularFormMod ℓ j)
 
 @[simp] theorem fourier_smul (x : ZMod ℓ) : (x • f).fourier = x • f.fourier := rfl
 
+theorem _root_.IntegerModularForm.fourier_reduce {k} (f : IntegerModularForm k) :
+  (f.reduce ℓ) = map (Int.castRingHom (ZMod ℓ)) f.fourier := rfl
+
+@[simp] theorem _root_.IntegerModularForm.reduce_coeff {k} (f : IntegerModularForm k) (n) :
+  (f.reduce ℓ).coeff n = f.coeff n := rfl
 
 
 instance : AddCommGroup (ModularFormMod ℓ k) :=
@@ -202,6 +207,8 @@ variable (n : ℕ)
 
 
 theorem coeff_def : f.coeff n = f.fourier.coeff n := rfl
+
+@[simp] theorem coeff_zero (n) : (0 : ModularFormMod ℓ k).coeff n = 0 := rfl
 
 @[simp low]
 theorem coeff_const (x : ZMod ℓ) : (const x).coeff n = if n = 0 then x else 0 := by
@@ -239,11 +246,32 @@ lemma fourier_Mcast {h : k = j} (a : ModularFormMod ℓ k) : (a.Mcast h).fourier
 lemma coeff_Mcast {k j : ZMod (ℓ - 1)} {h : k = j} {n : ℕ} (a : ModularFormMod ℓ k) :
   (Mcast h a).coeff n = a.coeff n := rfl
 
+@[simp] lemma pow_Mcast {k j : ZMod (ℓ - 1)} {h : k = j} (a : ModularFormMod ℓ k) (m : ℕ) :
+  (Mcast h a).pow m = (a.pow m).Mcast (h ▸ rfl) := rfl
 
 @[simp]
 lemma coeff_triangle {k j : ZMod (ℓ -1)} {h : k = j} {n : ℕ} (a : ModularFormMod ℓ k) :
   (h ▸ a).coeff n = a.coeff n := by
   subst h; rfl
+
+@[simp] theorem Mcast_zero (h : k = j) : (0 : ModularFormMod ℓ k).Mcast h = 0 := rfl
+
+theorem zero_def : (0 : ModularFormMod ℓ k) = ⟨0, zero_mem _⟩ := rfl
+theorem one_def : (1 : ModularFormMod ℓ 0) = const 1 := rfl
+
+@[simp] theorem zero_mul : (0 : ModularFormMod ℓ j).mul f = 0 :=
+  fourier_inj <| by simp only [fourier_mul, fourier_zero, MulZeroClass.zero_mul]
+
+@[simp] theorem mul_zero : f.mul (0 : ModularFormMod ℓ j) = 0 :=
+  fourier_inj <| by simp only [fourier_mul, fourier_zero, MulZeroClass.mul_zero]
+
+@[simp] theorem one_mul : (1 : ModularFormMod ℓ 0).mul f = f.Mcast :=
+  fourier_inj <| by simp only [one_def, fourier_mul,
+    fourier_const, map_one, _root_.one_mul, fourier_Mcast]
+
+@[simp] theorem mul_one : f.mul (1 : ModularFormMod ℓ 0) = f.Mcast :=
+  fourier_inj <| by simp only [one_def, fourier_mul,
+    fourier_const, map_one, _root_.mul_one, fourier_Mcast]
 
 
 @[simp] theorem pow_zero (a : ModularFormMod ℓ k) : a.pow 0 = (const 1).Mcast :=
@@ -260,8 +288,16 @@ lemma coeff_triangle {k j : ZMod (ℓ -1)} {h : k = j} {n : ℕ} (a : ModularFor
   fourier_inj <| by simp [smul_eq_C_mul]
 
 
-theorem mul_comm : f.mul g = (g.mul f).Mcast :=
+theorem mul_comm_Mcast : f.mul g = (g.mul f).Mcast :=
   fourier_inj <| by simp [_root_.mul_comm]
+
+def McastLinearMap (h : k = j) :
+    ModularFormMod ℓ k →ₗ[ZMod ℓ] ModularFormMod ℓ j :=
+  h ▸ LinearMap.id
+
+@[simp] theorem McastLinearMap_apply (h : k = j) : McastLinearMap h f = f.Mcast h := by
+  subst h; rfl
+
 
 
 @[ext (iff := false)]
@@ -319,8 +355,8 @@ variable {ℓ : ℕ} {k j : ℤ} (f g : IntegerModularForm k) (h : IntegerModula
 
 @[simp] theorem coeff_Reduce (n) : (f.Reduce ℓ).coeff n = ↑(f.coeff n) := rfl
 
-@[simp] theorem Reduce_mul : (f.mul g).Reduce ℓ = ((f.Reduce ℓ).mul (g.Reduce ℓ)).Mcast :=
+theorem Reduce_mul : (f.mul h).Reduce ℓ = ((f.Reduce ℓ).mul (h.Reduce ℓ)).Mcast :=
   fourier_inj <| by simp
 
-@[simp] theorem Reduce_pow (m) : (f.pow m).Reduce ℓ = ((f.Reduce ℓ).pow m).Mcast (by norm_cast) :=
+@[simp] theorem Reduce_pow (m) : (f.Reduce ℓ).pow m = ((f.pow m).Reduce ℓ).Mcast (by norm_cast) :=
   fourier_inj <| by simp [reduce]

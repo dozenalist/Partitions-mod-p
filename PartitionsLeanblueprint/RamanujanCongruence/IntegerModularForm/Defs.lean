@@ -5,26 +5,35 @@ import Mathlib.NumberTheory.ModularForms.QExpansion
 open ModularForm PowerSeries MatrixGroups UpperHalfPlane Set DirectSum
 
 
-protected noncomputable def DirectSum.qexp : (⨁ k, ModularForm 𝒮ℒ k) →+* ℂ⟦X⟧ :=
-  qExpansionRingHom (Γ := 𝒮ℒ) 1 zero_lt_one (by simp)
+-- protected noncomputable def DirectSum.qexp : (⨁ k, ModularForm 𝒮ℒ k) →+* ℂ⟦X⟧ :=
+--   qExpansionRingHom (Γ := 𝒮ℒ) 1 zero_lt_one (by simp)
 
 
-protected noncomputable def ModularForm.qexp {k : ℤ} : ModularForm 𝒮ℒ k →+ ℂ⟦X⟧ where
-  toFun f := DirectSum.qexp (of _ _ f)
-  map_zero' := by simp only [map_zero]
-  map_add' := by simp only [map_add, implies_true]
+noncomputable abbrev ModularForm.qexp {k} := ModularForm.qExpansionAddHom (Γ := 𝒮ℒ) zero_lt_one (by simp) k
 
-theorem ModularForm.qexp_def {k} (f : ModularForm 𝒮ℒ k) : f.qexp = DirectSum.qexp (of _ _ f) :=
-  rfl
+theorem ModularForm.qexp_injective {k} : Function.Injective <| ModularForm.qexp (k := k) :=
+  fun f g h => sub_eq_zero.1 (by
+    rw [← ModularForm.qExpansion_eq_zero_iff zero_lt_one (by simp),
+      coe_sub, ModularForm.qExpansion_sub zero_lt_one (by simp)]
+    exact sub_eq_zero.mpr h )
+
+
+-- protected noncomputable def ModularForm.qexp {k : ℤ} : ModularForm 𝒮ℒ k →+ ℂ⟦X⟧ where
+--   toFun f := DirectSum.qexp (of _ _ f)
+--   map_zero' := by simp only [map_zero]
+--   map_add' := by simp only [map_add, implies_true]
+
+-- theorem ModularForm.qexp_def {k} (f : ModularForm 𝒮ℒ k) : f.qexp = DirectSum.qexp (of _ _ f) :=
+--   rfl
 
 theorem ModularForm.qexp_eq {k} (f : ModularForm 𝒮ℒ k) : f.qexp = ((of _ _ f) k).qexp := by
   simp
 
 theorem ModularForm.qexp_eq' {k} (f : ModularForm 𝒮ℒ k) : f.qexp = qExpansion 1 f := by
-  simp [ModularForm.qexp, DirectSum.qexp]
+  simp [ModularForm.qexp, qExpansionAddHom]
 
-lemma ModularForm.of_mul {k j : ℤ} (f : ModularForm 𝒮ℒ k) (g : ModularForm 𝒮ℒ j) : of _ _ (f.mul g) = of _ _ f * of _ _ g := by
-  simp [of]
+lemma ModularForm.of_mul {k j : ℤ} (f : ModularForm 𝒮ℒ k) (g : ModularForm 𝒮ℒ j) :
+    of _ _ (f.mul g) = of _ _ f * of _ _ g := by
   sorry
 
 
@@ -35,11 +44,11 @@ lemma ModularForm.qexp_mul {k j : ℤ} (f : ModularForm 𝒮ℒ k) (g : ModularF
   simp [of_mul]
 
 lemma ModularForm.qexp_pow {k : ℤ} (f : ModularForm 𝒮ℒ k) (j : ℕ) : (f.pow j).qexp = f.qexp ^ j := by
-  simp [ModularForm.qexp, DirectSum.qexp]
+  simp [ModularForm.qexp, qExpansionAddHom]
   rw [← ModularForm.coe_pow, ModularForm.qExpansion_pow zero_lt_one (by simp), ← qexp_eq']
 
-theorem qexp_injective {k : ℤ} (f g : ModularForm 𝒮ℒ k) : f.qexp = g.qexp → f = g := by
-  sorry
+-- theorem qexp_injective {k : ℤ} (f g : ModularForm 𝒮ℒ k) : f.qexp = g.qexp → f = g := by
+--   sorry
 
 
 
@@ -50,7 +59,6 @@ fourier : PowerSeries ℤ
 carrier : ModularForm 𝒮ℒ k
 
 carrier_eq : carrier.qexp = map (Int.castRingHom ℂ) fourier
-
 
 
 -- #check algebraMap
@@ -64,8 +72,10 @@ carrier_eq : carrier.qexp = map (Int.castRingHom ℂ) fourier
 -- modular : ∃ f : ModularForm 𝒮ℒ k, map (Int.castRingHom ℂ) fourier = f.qexp
 
 -- #check algebraMap
-namespace IntegerModularForm
+
 noncomputable section
+
+namespace IntegerModularForm
 
 variable {k : ℤ}
 
@@ -119,7 +129,9 @@ theorem ext₂ {f g : IntegerModularForm k} (h : ∀ z, f z = g z) : f = g :=
 def const (x : ℤ) : IntegerModularForm 0 where
   fourier := C x
   carrier := x
-  carrier_eq := by simp [qexp_def]
+  carrier_eq := by simp [qExpansionAddHom, ← qExpansionRingHom_apply]
+
+
 
 
 instance : Coe ℤ (IntegerModularForm 0) where
@@ -153,14 +165,14 @@ instance instSMulZ : SMul ℤ (IntegerModularForm k) where
   smul c a :=
   { fourier := c • a.fourier
     carrier := c • a.carrier
-    carrier_eq := by simp [qexp_def, ← a.carrier_eq] }
+    carrier_eq := by simp [← a.carrier_eq] }
 
 
 instance instSMulN : SMul ℕ (IntegerModularForm k) where
   smul c a :=
   { fourier := c • a.fourier
     carrier := c • a.carrier
-    carrier_eq := by simp [qexp_def, ← a.carrier_eq] }
+    carrier_eq := by simp [← a.carrier_eq] }
 
 instance instNeg : Neg (IntegerModularForm k) where
   neg := fun a ↦
@@ -283,6 +295,16 @@ theorem zero_apply : (0 : IntegerModularForm k) z = 0 := rfl
 @[simp]
 theorem coeff_zero : (0 : IntegerModularForm k).coeff n = 0 := rfl
 
+theorem one_def : 1 = const 1 := rfl
+
+@[simp low]
+theorem coeff_one : (1 : IntegerModularForm 0).coeff n = if n = 0 then 1 else 0 := by
+  rw [one_def, coeff_const]
+
+@[simp]
+theorem one_apply : (1 : IntegerModularForm 0) z = 1 := by
+  rw [one_def, const_apply, Int.cast_one]
+
 @[simp]
 theorem coe_neg : ⇑(-f) = -f := rfl
 
@@ -353,36 +375,94 @@ lemma coeff_triangle {k j : ℤ} {h : k = j} (a : IntegerModularForm k) :
 
 
 @[simp] theorem pow_zero (a : IntegerModularForm k) : a.pow 0 = (const 1).Icast (by group) :=
-  IntegerModularForm.ext₂ fun x => by
+  ext₂ fun x => by
     rw [pow_apply, _root_.pow_zero, Icast_apply, const_apply, Int.cast_one]
 
 
 @[simp] theorem pow_one (a : IntegerModularForm k) : a.pow 1 = a.Icast (one_mul k).symm :=
-  IntegerModularForm.ext₂ fun x => by rw [pow_apply, _root_.pow_one, Icast_apply]
+  ext₂ fun x => by rw [pow_apply, _root_.pow_one, Icast_apply]
 
 @[simp] theorem zero_pow (j : ℕ) [hj : NeZero j] : (0 : IntegerModularForm k).pow j = 0 := by
   ext n; simp [coeff_pow, hj.out]
 
+@[simp] theorem zero_mul : (0 : IntegerModularForm j).mul f = 0 :=
+  ext₂ fun _ => by simp only [mul_apply, zero_apply, MulZeroClass.zero_mul]
+
+@[simp] theorem mul_zero : f.mul (0 : IntegerModularForm j) = 0 :=
+  ext₂ fun _ => by simp only [mul_apply, zero_apply, MulZeroClass.mul_zero]
+
+@[simp] theorem one_mul : (1 : IntegerModularForm 0).mul f = f.Icast :=
+  ext₂ fun _ => by simp only [mul_apply, one_apply, _root_.one_mul, Icast_apply]
+
+@[simp] theorem mul_one : f.mul (1 : IntegerModularForm 0)= f.Icast :=
+  ext₂ fun _ => by simp only [mul_apply, one_apply, _root_.mul_one, Icast_apply]
+
 
 @[simp]
-lemma const_mul (c : ℤ) (a : IntegerModularForm k) : (const c).mul a = Icast (zero_add _).symm (c • a) := by
-  ext n; rw [coeff_mul, coeff_Icast, coeff_smulz]; calc
+lemma const_mul (c : ℤ) (a : IntegerModularForm k) : (const c).mul a = (c • a).Icast :=
+  ext₂ fun _ => by simp only [mul_apply, const_apply, Icast_apply, zsmul_apply, zsmul_eq_mul]
 
-  _ = ∑ x ∈ (antidiagonal n).erase (0,n), (const c).coeff x.1 * a.coeff x.2 + (const c).coeff 0 * a.coeff n := by
-    simp
+theorem mul_comm_Icast : f.mul g = (g.mul f).Icast :=
+  ext₂ fun _ => by simp only [mul_apply, Icast_apply, mul_comm]
 
-  _ = 0 + c • a.coeff n := by
-    rw [coeff_const_zero, smul_eq_mul]; congr
-    apply sum_eq_zero fun x xin => ?_
-    simp only [mem_erase, HasAntidiagonal.mem_antidiagonal] at xin
-    have : x.1 ≠ 0 := by
-      obtain ⟨h1, h2⟩ := xin
-      have : x.1 ≠ 0 ∨ x.2 ≠ n := by contrapose! h1; ext; exacts [h1.1, h1.2]
-      omega
-    obtain ⟨n, hn⟩ := Nat.exists_eq_succ_of_ne_zero this
-    rw [hn, coeff_const_succ, zero_mul]
 
-  _ = c • a.coeff n := zero_add _
+theorem leading_pow_zeros {f : IntegerModularForm k} {m} (h : f.coeff 0 = 0) :
+    ∀ {n}, n < m → (f.pow m).coeff n = 0 := fun {n} nlm => by
+  simpa only [coeff_pow] using sum_eq_zero fun x xin => by
+    suffices ∃ y ∈ Finset.range m, x y = 0 by
+      obtain ⟨y, yin, hy⟩ := this
+      rw [prod_eq_zero yin]
+      exact hy ▸ h
+
+    obtain ⟨hx, xsupp⟩ := by simpa only [mem_finsuppAntidiag] using xin
+    contrapose! hx
+    simp_all only [← Nat.one_le_iff_ne_zero]
+    apply Nat.ne_of_gt
+    calc
+      _ < m := nlm
+      _ = ∑ _ ∈ Finset.range m, 1 := by
+        simp only [sum_const, card_range, smul_eq_mul, _root_.mul_one]
+      _ ≤ _ := sum_le_sum hx
+
+
+theorem coeff_pow_of_leading_zero {f : IntegerModularForm k} (h : f.coeff 0 = 0) :
+    ∀ m, (f.pow m).coeff m = f.coeff 1 ^ m := fun m => by
+  rcases f with ⟨p,q,r⟩
+  simp_all only [coeff, coeff_zero_eq_constantCoeff, fourier_pow]
+  obtain ⟨q, rfl⟩ := X_dvd_iff.2 h
+  nth_rw 1 [mul_pow, ← zero_add m, coeff_succ_X_mul]
+  simp only [coeff_zero_eq_constantCoeff, coeff_X_pow_mul, map_pow]
+
+
+open PowerSeries
+
+
+
+-- Step 0: a helper — the "coeff 1 of a product" formula, i.e. the degree-1
+-- Cauchy product has only two terms.
+private lemma coeff_one_mul (φ ψ : ℤ⟦X⟧) :
+    (φ * ψ).coeff 1 = φ.coeff 0 * ψ.coeff 1 + φ.coeff 1 * ψ.coeff 0 := by
+  simp [PowerSeries.coeff_mul, show antidiagonal 1 = {(0, 1), (1, 0)} from rfl]
+
+-- Step 1: the clean, unshifted auxiliary lemma (avoids ℕ-subtraction pain)
+private lemma coeff_one_pow_succ (q : ℤ⟦X⟧) :
+    ∀ n : ℕ, (q ^ (n + 1)).coeff 1 = (n + 1 : ℕ) • q.coeff 1 * (q.coeff 0) ^ n
+  | 0 => by simp
+  | n + 1 => by
+    simp [pow_succ q (n + 1), coeff_one_mul, coeff_one_pow_succ]
+    ring
+
+
+
+theorem coeff_succ_pow_of_leading_zero {f : IntegerModularForm k} (h : f.coeff 0 = 0) :
+    ∀ m, (f.pow m).coeff (m + 1) = m • f.coeff 2 * f.coeff 1 ^ (m - 1)
+  | 0 => by simp
+  | m + 1 => by
+    rcases f with ⟨p,q,r⟩
+    simp_all only [coeff, coeff_zero_eq_constantCoeff, fourier_pow]
+    obtain ⟨q, rfl⟩ := X_dvd_iff.2 h
+    simp [mul_pow, add_comm (m + 1), coeff_one_pow_succ]
+
 
 
 instance : AddCommGroup (IntegerModularForm k) :=
@@ -421,26 +501,26 @@ instance : GradedMonoid.GMul (IntegerModularForm) where
 -- #check h.choose
 -- #check @Nat.find {x | x = 5} _ h
 -- #check Nat.find
--- instance : DirectSum.GCommRing (IntegerModularForm) where
---   -- mul a b := a.mul b
---   -- mul_zero _ := ext₂ fun _ => by simp
---   -- zero_mul _ := ext₂  fun _ => by simp
---   -- one := 1
---   one_mul _ := gradedMonoid_eq_of_cast (zero_add _) (ext₂ fun _ => one_mul _)
---   mul_assoc _ _ _ := gradedMonoid_eq_of_cast (add_assoc _ _ _) (ext₂  fun _ => mul_assoc _ _ _)
---   mul_zero {_ _} _ := ext₂ fun _ => mul_zero _
---   zero_mul {_ _} _ := ext₂ fun _ => zero_mul _
---   mul_add {_ _} _ _ _ := ext₂ fun _ => mul_add _ _ _
---   add_mul {_ _} _ _ _ := ext₂ fun _ => add_mul _ _ _
---   mul_comm _ _ := gradedMonoid_eq_of_cast (add_comm _ _) (ext₂ fun _ => mul_comm _ _)
---   natCast := Nat.cast
---   natCast_zero := ext₂ fun _ => Nat.cast_zero
---   natCast_succ _ := ext₂ fun _ => Nat.cast_succ _
---   intCast := Int.cast
---   intCast_ofNat _ := ext₂ fun _ => AddGroupWithOne.intCast_ofNat _
---   intCast_negSucc_ofNat _ := ext₂ fun _ => AddGroupWithOne.intCast_negSucc _
---   mul_one _ := gradedMonoid_eq_of_cast (add_zero _) (ext₂ fun _ => mul_one _)
---   mul := mul
+instance : DirectSum.GCommRing (IntegerModularForm) := sorry
+  -- -- mul a b := a.mul b
+  -- -- mul_zero _ := ext₂ fun _ => by simp
+  -- -- zero_mul _ := ext₂  fun _ => by simp
+  -- -- one := 1
+  -- one_mul _ := gradedMonoid_eq_of_cast (zero_add _) (ext₂ fun _ => one_mul _)
+  -- mul_assoc _ _ _ := gradedMonoid_eq_of_cast (add_assoc _ _ _) (ext₂  fun _ => mul_assoc _ _ _)
+  -- mul_zero {_ _} _ := ext₂ fun _ => mul_zero _
+  -- zero_mul {_ _} _ := ext₂ fun _ => zero_mul _
+  -- mul_add {_ _} _ _ _ := ext₂ fun _ => mul_add _ _ _
+  -- add_mul {_ _} _ _ _ := ext₂ fun _ => add_mul _ _ _
+  -- mul_comm _ _ := gradedMonoid_eq_of_cast (add_comm _ _) (ext₂ fun _ => mul_comm _ _)
+  -- natCast := Nat.cast
+  -- natCast_zero := ext₂ fun _ => Nat.cast_zero
+  -- natCast_succ _ := ext₂ fun _ => Nat.cast_succ _
+  -- intCast := Int.cast
+  -- intCast_ofNat _ := ext₂ fun _ => AddGroupWithOne.intCast_ofNat _
+  -- intCast_negSucc_ofNat _ := ext₂ fun _ => AddGroupWithOne.intCast_negSucc _
+  -- mul_one _ := gradedMonoid_eq_of_cast (add_zero _) (ext₂ fun _ => mul_one _)
+  -- mul := mul
 
 
   -- mul_one:= sorry
@@ -479,3 +559,16 @@ instance : GradedMonoid.GMul (IntegerModularForm) where
 -- @[simp]
 -- theorem coe_sum {α : Type} [Fintype α] (l : α → IntegerModularForm k) (n : ℕ) : (∑ c, l c) n = ∑ c, (l c) n := by
 --   sorry
+
+
+end IntegerModularForm
+
+open ModularForm UpperHalfPlane IntegerModularForm
+
+variable {k : ℤ}
+
+def ModularForm.toIntegerModularForm (f : ModularForm 𝒮ℒ k)
+    (h : qExpansion 1 f ∈ range (map (algebraMap ℤ ℂ))) : IntegerModularForm k where
+  fourier := h.choose
+  carrier := f
+  carrier_eq := by simpa [qExpansionAddHom] using h.choose_spec.symm

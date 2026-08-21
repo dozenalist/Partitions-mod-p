@@ -6,6 +6,8 @@ import Mathlib.RingTheory.PowerSeries.Order
 
 open PowerSeries Finset.HasAntidiagonal Finset Nat
 
+namespace PowerSeries
+
 variable {α : Type*}
 
 lemma coeff_X_mul [Semiring α] (f : α ⟦X⟧) {n : ℕ} (npos : n > 0) :
@@ -138,7 +140,7 @@ lemma coeff_mul_shift_of_zero [CommRing α] {m N : ℕ} (f : ℕ → α ⟦X⟧)
     rw[zero_mul]
 
 
-@[norm_cast] lemma Polynomial.coe_prod [CommSemiring α] (m : ℕ) (f : ℕ → Polynomial α) :
+@[norm_cast] lemma _root_.Polynomial.coe_prod [CommSemiring α] (m : ℕ) (f : ℕ → Polynomial α) :
     ∏ i ∈ range m, (f i : α ⟦X⟧) = ((∏ i ∈ range m, f i : Polynomial α) : α ⟦X⟧) := by
   induction m with
   | zero => simp only [range_zero, prod_empty, Polynomial.coe_one]
@@ -200,7 +202,7 @@ lemma coeff_sum_eventually_zero [Semiring α] (m : ℕ) (f : ℕ → Polynomial 
       rw[Meq, this]; exact le_sup xlm
     _ < n := Mle
 
-
+#check Eq.subst
 lemma coeff_prod_eventually_zero [CommSemiring α] (m : ℕ) (f : ℕ → Polynomial α) :
     ∃ N, ∀ n ≥ N, coeff (R := α) n (∏ i ∈ range m, f i) = 0 := by
   simp only [ge_iff_le]
@@ -210,8 +212,7 @@ lemma coeff_prod_eventually_zero [CommSemiring α] (m : ℕ) (f : ℕ → Polyno
   apply Polynomial.coe_prod
   simp only [Polynomial.coeff_coe]
   apply Polynomial.coeff_eq_zero_of_natDegree_lt; calc
-    _ ≤ M := by
-      rw[Meq]; exact Polynomial.natDegree_prod_le (range m) f
+    _ ≤ M := by rw[Meq]; exact Polynomial.natDegree_prod_le (range m) f
     _ < n := Mle
 
 
@@ -243,3 +244,6 @@ lemma prod_eq_sum (α) [CommRing α] (ℓ K : ℕ) [NeZero ℓ] : ∃ c : ℕ �
   symm; apply sum_eq_zero; intro x xle
   apply if_neg; rw[dvd_def] at ldi; push Not at ldi
   exact ldi x
+
+
+end PowerSeries

@@ -1,74 +1,48 @@
--- import Mathlib.Data.Real.Basic
--- import Mathlib.NumberTheory.ModularForms.Basic
--- import Mathlib.Tactic
-
-
--- -- variable {k : ℕ}
--- structure testb (k:ℕ) where
---   a : ℕ
-
--- def add {k:ℕ} (x y : testb k) : testb k :=
---   { a := x.a + y.a }
-
--- instance {k : ℕ} : Add (testb k) where
---   add a b := add a b
-
--- variable {k1 : ℕ} {k2 : ℕ}
--- variable {a : testb (k1+k2)} {b : testb (k2+k1)}
-
-
-
--- open MatrixGroups
-
--- variable {Γ : Subgroup SL(2, ℤ)}
--- variable {a : ModularForm Γ 2} {b : ModularForm Γ (2 + 0)}
-
-
-
--- structure Multivector (α : Type*) (n : ℕ) where
-
---   toMultiset : Multiset α
-
---   card_toMultiset : toMultiset.card = n
-
-
--- lemma condor {p q : Prop} (h : p → q) : ¬ q → ¬ p := λ a a_1 ↦ a (h a_1)
-
-
--- inductive exis {α : Type} (p : α → Prop) where
-
---   | intro (w : α) (hw : p w)
+import Mathlib
 
 
 
 
 
 
--- local notation "["a"]" => Function.const _ a
 
--- def gg : ℕ → Prop := [2 = 3]
+#check riemannZeta
 
--- open Function
+variable (p) [Fact (Nat.Prime p)]
 
--- def swip {α β χ} (f : α → β) (g : β → χ) (a : α) := g (f a)
-
--- infixl : 100 "<<|" => swip
-
--- def swap_comp {α β χ} (f : α → β) (g : β → χ) := g ∘ f
-
--- infixl : 100 "⊚" => swap_comp
-
-
--- lemma condo {p q : Prop} : (p → q) → ¬ q → ¬ p :=
---   (· ⊚ · <| ·)
+#synth ExpChar (PowerSeries (ZMod p))
 
 
 
--- infixl:15 " › " => Trans.trans
+local notation "["a"]" => Function.const _ a
 
--- lemma transin {a b c d e f : ℕ} (h1 : a ≤ b) (h2 : b < c)
---     (h3 : c ≤ d) (h4 : d ≤ e) (h5 : e < f) : a < f :=
---   h1 › h2 › h3 › h4 › h5
+def gg : ℕ → Prop := [2 = 3]
 
--- lemma bla (n) : n ≡ 3 [MOD 3] := by
---   mod_cases 3
+open Function
+
+def swip {α β χ} (f : α → β) (g : β → χ) (a : α) := g (f a)
+
+infixl : 100 "<<|" => swip
+
+def swap_comp {α β χ} (f : α → β) (g : β → χ) := g ∘ f
+
+infixl : 100 "⊚" => swap_comp
+
+
+lemma condo {p q : Prop} : (p → q) → ¬ q → ¬ p :=
+  (· ⊚ · <| ·)
+
+
+
+infixl:15 " › " => Trans.trans
+
+lemma transin {a b c d e f : ℕ} (h1 : a ≤ b) (h2 : b < c)
+    (h3 : c ≤ d) (h4 : d ≤ e) (h5 : e < f) : a < f :=
+  h1 › h2 › h3 › h4 › h5
+
+lemma bla (n) : n ≡ 3 [MOD 3] := by
+  mod_cases n % 3 <;> sorry
+
+theorem wrong (α : Prop) : α := sorry
+
+#check id
