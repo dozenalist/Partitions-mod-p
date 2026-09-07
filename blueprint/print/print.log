@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.6.5)  7 SEP 2026 17:17
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.6.5)  7 SEP 2026 17:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -953,12 +953,7 @@ LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 (Font)              scaled to size 4.99947pt on input line 148.
 
-
-LaTeX Warning: Reference `theorem:num_two_mul_bernoulli' on page 1 undefined on
- input line 163.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 288--292
+Underfull \hbox (badness 10000) in paragraph at lines 289--293
 
  []
 
@@ -967,7 +962,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 288--292
 [1]
 
 [2]
-Underfull \hbox (badness 10000) in paragraph at lines 691--698
+Underfull \hbox (badness 10000) in paragraph at lines 693--700
 
  []
 
@@ -984,18 +979,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 691--698
 LaTeX2e <2025-06-01>
 L3 programming layer <2025-05-26>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
 Package rerunfilecheck Info: File `print.out' has not changed.
 (rerunfilecheck)             Checksum: 6B60783D111D6189AC05B5EB5620E3FE;185.
  ) 
 Here is how much of TeX's memory you used:
- 17050 strings out of 468533
- 311706 string characters out of 5451482
+ 17049 strings out of 468533
+ 311675 string characters out of 5451482
  919037 words of memory out of 5000000
- 45197 multiletter control sequences out of 15000+600000
+ 45196 multiletter control sequences out of 15000+600000
  633412 words of font info for 94 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  90i,12n,107p,542b,487s stack positions out of 10000i,1000n,20000p,200000b,200000s

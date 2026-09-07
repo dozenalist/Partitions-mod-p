@@ -152,7 +152,7 @@
 \begin{theorem}
   \label{thm:num_two_mul_bernoulli}
   \lean{IntegerModularForm.num_two_mul_bernoulli}
-
+  \leanok
   $\frac{2k}{bernoulli_{2k}}$ is an integer
 
 \end{theorem}
@@ -160,7 +160,7 @@
 
 \begin{definition} [Eisenstein Series]
   \label{def:Eis}
-  \uses{def:IntegerModularForm, theorem:num_two_mul_bernoulli}
+  \uses{def:IntegerModularForm, thm:num_two_mul_bernoulli}
   \lean{IntegerModularForm.Eis}
   \leanok
   For $k \ge 2 \in \mathbb{N}$, the Eisenstein series $E_k$ is an integer modular form of weight $2k$ defined by 
@@ -173,6 +173,7 @@
   \label{thm:dvd_coeff_succ_El}
   \uses{def:Eis}
   \lean{IntegerModularForm.dvd_coeff_succ_El}
+  \leanok
 
   For $n > 0$, $\ell$ divides the $n$th coefficient in the q-expansion of $Eis_{\ell - 1}$.
 \end{theorem}
@@ -202,7 +203,7 @@
   \label{def:UOp}
   \uses{def:ModularFormMod}
   \lean{ModularFormMod.UOp}
-  \leanok
+
   The operator $U$ sends modular forms mod $\ell$ of weight $k$ to weight $k$ by \\
   $ (a|U) n = a(\ell n).$
 \end{definition}
@@ -392,6 +393,7 @@
   \label{def:G}
   \uses{def:Eis, def:Delta, def:dim}
   \lean{IntegerModularForm.G}
+  \leanok
 
   For $ k \ne 1$ and $c < $ dim$(k)$, 
   write $k$ uniquely as $k = 6\ell + k'$, where $k' \in \{0, 2, 3, 4, 5, 7\}$.
