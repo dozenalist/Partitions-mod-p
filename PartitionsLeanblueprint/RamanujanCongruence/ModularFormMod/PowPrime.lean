@@ -52,3 +52,6 @@ theorem coeff_pow_Prime (n) : (f.pow ℓ).coeff n = if ℓ ∣ n then f.coeff (n
 
 theorem coeff_pow_Prime_of_not_dvd {n} (h : ¬ ℓ ∣ n) : (f.pow ℓ).coeff n = 0 :=
   coeff_pow_Prime f n ▸ if_neg h
+
+
+end ModularFormMod

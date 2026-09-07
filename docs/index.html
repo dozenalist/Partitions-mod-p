@@ -39,56 +39,12 @@
 <p> <br /><br /></p>
 <div class="centered"> This latex document details roughly how things are currently stated in lean, not how they are in the paper. </div>
 <h1 id="a0000000002">0.1 Definitions</h1>
-<div class="definition_thmwrapper theorem-style-definition" id="def:ModularForm">
-  <div class="definition_thmheading">
-    <span class="definition_thmcaption">
-    Definition
-    </span>
-    <span class="definition_thmlabel">1</span>
-    <span class="definition_thmtitle">Modular Form</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#def:ModularForm">#</a>
-    
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/ModularFormDefs.lean#L32" class="lean_decl">ModularForm</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="definition_thmcontent">
-  <p>   In lean, A modular form of weight \(k \in \mathbb {N}\) is a function \(f : \mathbb {C} → \mathbb {C}\) such that : <br /><br />(1) \(f\) is holomorphic on \(\mathbb {H}\) <br />(2) For all \(z \in \mathbb {H}, f(z + 1) = f(z)\) <br />(3) For all \(z \in \mathbb {H}, f(-1/z) = z^{k} f(z)\) <br />(4) \(f\) is bounded as Im\((z) \to \infty \) <br /></p>
-
-  </div>
-</div>
 <div class="definition_thmwrapper theorem-style-definition" id="def:IntegerModularForm">
   <div class="definition_thmheading">
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">2</span>
+    <span class="definition_thmlabel">1</span>
     <span class="definition_thmtitle">Integer Modular Form</span>
     <div class="thm_header_extras">
 
@@ -100,26 +56,6 @@
     <a class="icon proof" href="index.html#def:IntegerModularForm">#</a>
     
     
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#def:ModularForm">Definition 1</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
     
     <button class="modal lean">L∃∀N</button>
         <div class="modal-container">
@@ -132,7 +68,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/ModularFormDefs.lean#L421" class="lean_decl">IntegerModularForm</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/IntegerModularForm/Defs.lean#L57" class="lean_decl">IntegerModularForm</a></li>
           
         </ul>
     
@@ -143,7 +79,7 @@
         </div>
   </div>
   <div class="definition_thmcontent">
-  <p>    An integer modular form of weight \(k \in \mathbb {N}\) is a sequence \(a : \mathbb {N} → \mathbb {Z}\) such that \(\sum _{n=0}^{\infty } a(n) q^n\) is a modular form of weight \(k\), where \(q = e ^{2 \pi i z}.\) </p>
+  <p>   An integer modular form of weight \(k \in \mathbb {N}\) is a sequence \(a : \mathbb {N} → \mathbb {Z}\) such that \(\sum _{n=0}^{\infty } a(n) q^n\) is a modular form of weight \(k\), where \(q = e ^{2 \pi i z}.\) </p>
 
   </div>
 </div>
@@ -152,8 +88,8 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">3</span>
-    <span class="definition_thmtitle">ModularFormMod \(\ell \)</span>
+    <span class="definition_thmlabel">2</span>
+    <span class="definition_thmtitle">Modular Form Mod \(\ell \)</span>
     <div class="thm_header_extras">
 
     
@@ -176,7 +112,7 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:IntegerModularForm">Definition 2</a></li>
+          <li><a href="index.html#def:IntegerModularForm">Definition 1</a></li>
           
         </ul>
     
@@ -196,7 +132,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/ModuloDefs2.lean#L25" class="lean_decl">ModularFormMod</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/ModularFormMod/Defs.lean#L89" class="lean_decl">ModularFormMod</a></li>
           
         </ul>
     
@@ -216,12 +152,10 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">4</span>
+    <span class="definition_thmlabel">3</span>
     <span class="definition_thmtitle">Theta</span>
     <div class="thm_header_extras">
 
-    
-    ✓
         </div>
     <div class="thm_header_hidden_extras">
 
@@ -240,7 +174,7 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:ModularFormMod">Definition 3</a></li>
+          <li><a href="index.html#def:ModularFormMod">Definition 2</a></li>
           
         </ul>
     
@@ -260,7 +194,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/BasicOperators.lean#L128" class="lean_decl">Theta</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/ModularFormMod/Operators.lean#L142" class="lean_decl">ModularFormMod.Theta</a></li>
           
         </ul>
     
@@ -275,12 +209,12 @@
 
   </div>
 </div>
-<div class="definition_thmwrapper theorem-style-definition" id="def:U_Operator">
+<div class="definition_thmwrapper theorem-style-definition" id="def:UOp">
   <div class="definition_thmheading">
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">5</span>
+    <span class="definition_thmlabel">4</span>
     <span class="definition_thmtitle">U Operator</span>
     <div class="thm_header_extras">
 
@@ -289,7 +223,7 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="index.html#def:U_Operator">#</a>
+    <a class="icon proof" href="index.html#def:UOp">#</a>
     
     
     <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
@@ -304,7 +238,7 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:ModularFormMod">Definition 3</a></li>
+          <li><a href="index.html#def:ModularFormMod">Definition 2</a></li>
           
         </ul>
     
@@ -324,7 +258,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/BasicOperators.lean#L132" class="lean_decl">U_Operator</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/ModularFormMod/Operators.lean#L222" class="lean_decl">ModularFormMod.UOp</a></li>
           
         </ul>
     
@@ -344,7 +278,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">6</span>
+    <span class="definition_thmlabel">5</span>
     <span class="definition_thmtitle">hasWeight</span>
     <div class="thm_header_extras">
 
@@ -368,7 +302,7 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:ModularFormMod">Definition 3</a></li>
+          <li><a href="index.html#def:ModularFormMod">Definition 2</a></li>
           
         </ul>
     
@@ -388,7 +322,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/BasicOperators.lean#L382" class="lean_decl">hasWeight</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/ModularFormMod/Operators.lean#L20" class="lean_decl">ModularFormMod.hasWeight</a></li>
           
         </ul>
     
@@ -408,7 +342,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">7</span>
+    <span class="definition_thmlabel">6</span>
     <span class="definition_thmtitle">Filtration</span>
     <div class="thm_header_extras">
 
@@ -432,9 +366,9 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:ModularFormMod">Definition 3</a></li>
+          <li><a href="index.html#def:ModularFormMod">Definition 2</a></li>
           
-          <li><a href="index.html#def:hasWeight">Definition 6</a></li>
+          <li><a href="index.html#def:hasWeight">Definition 5</a></li>
           
         </ul>
     
@@ -454,7 +388,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/BasicOperators.lean#L387" class="lean_decl">Filtration</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/ModularFormMod/Operators.lean#L41" class="lean_decl">ModularFormMod.Filtration</a></li>
           
         </ul>
     
@@ -465,7 +399,7 @@
         </div>
   </div>
   <div class="definition_thmcontent">
-  <p>    Let a be a of a modular form mod \(\ell \). The filtration of \(a, \omega (a), \) is defined as the minimum natural number \(j\) such that \(a\) has weight \(j\). The filtration of the zero function is \(0\). </p>
+  <p>    Let \(a\) be a modular form mod \(\ell \). The filtration of \(a, \omega (a), \) is defined as the minimum natural number \(j\) such that \(a\) has weight \(j\). The filtration of the zero function is \(0\). </p>
 
   </div>
 </div>
@@ -474,7 +408,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">8</span>
+    <span class="definition_thmlabel">7</span>
     <span class="definition_thmtitle">multiplication and exponentiation</span>
     <div class="thm_header_extras">
 
@@ -498,7 +432,7 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:ModularFormMod">Definition 3</a></li>
+          <li><a href="index.html#def:ModularFormMod">Definition 2</a></li>
           
         </ul>
     
@@ -518,9 +452,9 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/ModuloDefs2.lean#L73" class="lean_decl">Modulo.mul</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/ModularFormMod/Defs.lean#L149" class="lean_decl">ModularFormMod.mul</a></li>
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/ModuloDefs2.lean#L88" class="lean_decl">Modulo.Mpow</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/ModularFormMod/Defs.lean#L154" class="lean_decl">ModularFormMod.pow</a></li>
           
         </ul>
     
@@ -531,7 +465,7 @@
         </div>
   </div>
   <div class="definition_thmcontent">
-  <p>    It’s worth stated how multiplication and exponentiation are defined here, because they are not defined in the normal way. The multiplication of two modular forms mod \(\ell \) called \(a\) and \(b\) is defined as </p>
+  <p>    It’s worth stating how multiplication and exponentiation are defined here, because they are not defined in the normal way. The multiplication of two modular forms mod \(\ell \) called \(a\) and \(b\) is defined as </p>
 <div class="displaymath" id="a0000000003">
   \[ (a \cdot b) n = \sum _{x + y = n} a(x) b(y). \]
 </div>
@@ -542,14 +476,13 @@
 
   </div>
 </div>
-<h1 id="a0000000005">0.2 PowPrime</h1>
-<div class="definition_thmwrapper theorem-style-definition" id="def:perm_equiv">
-  <div class="definition_thmheading">
-    <span class="definition_thmcaption">
-    Definition
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:coeff_pow_Prime">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
     </span>
-    <span class="definition_thmlabel">9</span>
-    <span class="definition_thmtitle">permutational equivalence</span>
+    <span class="theorem_thmlabel">8</span>
+    <span class="theorem_thmtitle">Pow Prime</span>
     <div class="thm_header_extras">
 
     
@@ -557,52 +490,9 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="index.html#def:perm_equiv">#</a>
+    <a class="icon proof" href="index.html#thm:coeff_pow_Prime">#</a>
     
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L32" class="lean_decl">perm_equiv</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="definition_thmcontent">
-  <p>   Two functions \(a, b : \) Fin \(n \to \mathbb {N}\), which can be thought of as tuples of n natural numbers, are permutationally equivalent if there exists a bijective function \(\sigma : \) Fin \(n \to \) Fin \(n\) such that \(a = b \circ \sigma \). This is an equivalence relation. </p>
-
-  </div>
-</div>
-<div class="lemma_thmwrapper theorem-style-plain" id="lem:non_diag_vanish">
-  <div class="lemma_thmheading">
-    <span class="lemma_thmcaption">
-    Lemma
-    </span>
-    <span class="lemma_thmlabel">10</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#lem:non_diag_vanish">#</a>
-    
-    <a class="icon proof" href="index.html#a0000000006"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000005"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -618,7 +508,7 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:perm_equiv">Definition 9</a></li>
+          <li><a href="index.html#def:mulpow">Definition 7</a></li>
           
         </ul>
     
@@ -638,7 +528,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L225" class="lean_decl">non_diag_vanish</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/ModularFormMod/PowPrime.lean#L47" class="lean_decl">ModularFormMod.coeff_pow_Prime</a></li>
           
         </ul>
     
@@ -648,15 +538,15 @@
     
         </div>
   </div>
-  <div class="lemma_thmcontent">
-  <p>   If \(x = (x_1, ..., x_k)\) is not constant (i.e not all \(x_i\) are equal) then for any \(n \in \mathbb {N}\), </p>
-<div class="displaymath" id="a0000000007">
-  \[  k \mid \#  \{ y = (y_1, ..., y_k) : \sum _{i = 1}^k y_i = n \text{ and $x$ and $y$ are permutationally equivalent} \}   \]
+  <div class="theorem_thmcontent">
+  <p>    Let \(\ell \) be a prime and \(a\) a modular form mod \(\ell \) of any weight. Then <br /></p>
+<div class="displaymath" id="a0000000006">
+  \[ a ^\ell (n) = \begin{cases}  a (n / \ell ) &  \text{if $\ell \mid n$} \\ 0 &  \text{otherwise} \end{cases}  \]
 </div>
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000006">
+<div class="proof_wrapper" id="a0000000005">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -668,12 +558,13 @@
 
   </div>
 </div>
-<div class="lemma_thmwrapper theorem-style-plain" id="lem:prod_eq_of_perm_equiv">
-  <div class="lemma_thmheading">
-    <span class="lemma_thmcaption">
-    Lemma
+<h1 id="a0000000007">0.2 Theorems</h1>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:UOp_pow_l">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
     </span>
-    <span class="lemma_thmlabel">11</span>
+    <span class="theorem_thmlabel">9</span>
     <div class="thm_header_extras">
 
     
@@ -681,7 +572,7 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="index.html#lem:prod_eq_of_perm_equiv">#</a>
+    <a class="icon proof" href="index.html#thm:UOp_pow_l">#</a>
     
     <a class="icon proof" href="index.html#a0000000008"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
@@ -699,7 +590,11 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:perm_equiv">Definition 9</a></li>
+          <li><a href="index.html#thm:coeff_pow_Prime">Theorem 8</a></li>
+          
+          <li><a href="index.html#def:UOp">Definition 4</a></li>
+          
+          <li><a href="index.html#def:Theta">Definition 3</a></li>
           
         </ul>
     
@@ -719,7 +614,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L327" class="lean_decl">prod_eq_of_perm_equiv</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/PreliminaryResults.lean#L15" class="lean_decl">UOp_pow_l</a></li>
           
         </ul>
     
@@ -729,8 +624,8 @@
     
         </div>
   </div>
-  <div class="lemma_thmcontent">
-  <p>   If \(x\) and \(y\) are permutationally equivalent then \(\prod _{i = 1}^k a(x_i) = \prod _{i = 1}^k a(y_i)\). </p>
+  <div class="theorem_thmcontent">
+  <p>   Let \(a\) be a modular form mod \(\ell \). Then \((a|U) ^\ell = a - \Theta ^{\ell - 1} a\). </p>
 
   </div>
 </div>
@@ -746,373 +641,12 @@
 
   </div>
 </div>
-<div class="lemma_thmwrapper theorem-style-plain" id="lem:non_const_of_tuple">
-  <div class="lemma_thmheading">
-    <span class="lemma_thmcaption">
-    Lemma
-    </span>
-    <span class="lemma_thmlabel">12</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#lem:non_const_of_tuple">#</a>
-    
-    <a class="icon proof" href="index.html#a0000000009"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
-</a>
-    
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L342" class="lean_decl">non_const_of_tuple_non_diag</a></li>
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L365" class="lean_decl">non_const_of_tuple_diag</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="lemma_thmcontent">
-  <p>  Let \(x = (x_1, x_2, ..., x_k)\) and \(n \in \mathbb {N}\). Suppose that \(\sum _{i = 1}^k x_i = n\). <br />(1) If \(k \nmid n\) then \(x\) is not constant. <br />(2) If \(k \mid n\) and \(x \neq (n/k, ..., n/k)\) then \(x\) is not constant. </p>
-
-  </div>
-</div>
-<div class="proof_wrapper" id="a0000000009">
-  <div class="proof_heading">
-    <span class="proof_caption">
-    Proof
-    </span>
-    <span class="expand-proof">▶</span>
-  </div>
-  <div class="proof_content">
-  
-
-  </div>
-</div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:Pow_Prime">
-  <div class="theorem_thmheading">
-    <span class="theorem_thmcaption">
-    Theorem
-    </span>
-    <span class="theorem_thmlabel">13</span>
-    <span class="theorem_thmtitle">Pow Prime</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#thm:Pow_Prime">#</a>
-    
-    <a class="icon proof" href="index.html#a0000000010"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
-</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#def:mulpow">Definition 8</a></li>
-          
-          <li><a href="index.html#lem:non_diag_vanish">Lemma 10</a></li>
-          
-          <li><a href="index.html#lem:prod_eq_of_perm_equiv">Lemma 11</a></li>
-          
-          <li><a href="index.html#lem:non_const_of_tuple">Lemma 12</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PowFacts.lean#L388" class="lean_decl">Pow_Prime</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="theorem_thmcontent">
-  <p>    Let \(\ell \) be a prime and \(a\) a modular form mod \(\ell \) of any weight. Then <br /></p>
-<div class="displaymath" id="a0000000011">
-  \[ a ^\ell (n) = \begin{cases}  a (n / \ell ) &  \text{if $\ell \mid n$} \\ 0 &  \text{otherwise} \end{cases}  \]
-</div>
-
-  </div>
-</div>
-<div class="proof_wrapper" id="a0000000010">
-  <div class="proof_heading">
-    <span class="proof_caption">
-    Proof
-    </span>
-    <span class="expand-proof">▶</span>
-  </div>
-  <div class="proof_content">
-  
-
-  </div>
-</div>
-<h1 id="a0000000012">0.3 Theorems</h1>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one">
-  <div class="theorem_thmheading">
-    <span class="theorem_thmcaption">
-    Theorem
-    </span>
-    <span class="theorem_thmlabel">14</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one">#</a>
-    
-    <a class="icon proof" href="index.html#a0000000013"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
-</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#thm:Pow_Prime">Theorem 13</a></li>
-          
-          <li><a href="index.html#def:U_Operator">Definition 5</a></li>
-          
-          <li><a href="index.html#def:Theta">Definition 4</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PreliminaryResults.lean#L20" class="lean_decl">U_pow_l_eq_self_sub_Theta_pow_l_sub_one</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="theorem_thmcontent">
-  <p>   Let \(a\) be a modular form mod \(\ell \). Then \((a|U) ^\ell = a - \Theta ^{\ell - 1} a\). </p>
-
-  </div>
-</div>
-<div class="proof_wrapper" id="a0000000013">
-  <div class="proof_heading">
-    <span class="proof_caption">
-    Proof
-    </span>
-    <span class="expand-proof">▶</span>
-  </div>
-  <div class="proof_content">
-  
-
-  </div>
-</div>
-<div class="lemma_thmwrapper theorem-style-plain" id="lem:const_of_Filt_zero">
-  <div class="lemma_thmheading">
-    <span class="lemma_thmcaption">
-    Lemma
-    </span>
-    <span class="lemma_thmlabel">15</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#lem:const_of_Filt_zero">#</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#def:Filtration">Definition 7</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PreliminaryResults.lean#L35" class="lean_decl">const_of_Filt_zero</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="lemma_thmcontent">
-  <p>   Let a be a modular form mod \(\ell \). If \(\omega (a) = 0\) then \(a\) is constant, i.e. for all \(n \:  {\gt} \:  0, a(n) = 0\). </p>
-
-  </div>
-</div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:Filtration_Log">
-  <div class="theorem_thmheading">
-    <span class="theorem_thmcaption">
-    Theorem
-    </span>
-    <span class="theorem_thmlabel">16</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#thm:Filtration_Log">#</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#def:Filtration">Definition 7</a></li>
-          
-          <li><a href="index.html#lem:const_of_Filt_zero">Lemma 15</a></li>
-          
-          <li><a href="index.html#def:mulpow">Definition 8</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PreliminaryResults.lean#L41" class="lean_decl">Filtration_Log</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="theorem_thmcontent">
-  <p>   Let a be a modular form mod \(\ell \) and \(i \in \mathbb {N}\). Then \(\omega (a ^i)\) = \(i \omega (a)\). </p>
-
-  </div>
-</div>
 <div class="theorem_thmwrapper theorem-style-plain" id="thm:Filtration_congruence">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">17</span>
+    <span class="theorem_thmlabel">10</span>
     <div class="thm_header_extras">
 
     
@@ -1135,7 +669,7 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:Filtration">Definition 7</a></li>
+          <li><a href="index.html#def:Filtration">Definition 6</a></li>
           
         </ul>
     
@@ -1155,7 +689,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PreliminaryResults.lean#L45" class="lean_decl">Filtration_congruence</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/ModularFormMod/MaximalReduce.lean#L23" class="lean_decl">ModularFormMod.Filtration_congruence</a></li>
           
         </ul>
     
@@ -1175,7 +709,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">18</span>
+    <span class="definition_thmlabel">11</span>
     <span class="definition_thmtitle">Eisenstein Series</span>
     <div class="thm_header_extras">
 
@@ -1199,7 +733,7 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:IntegerModularForm">Definition 2</a></li>
+          <li><a href="index.html#def:IntegerModularForm">Definition 1</a></li>
           
         </ul>
     
@@ -1219,7 +753,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Basis.lean#L676" class="lean_decl">Integer.Eis</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/IntegerModularForm/Basic.lean#L572" class="lean_decl">IntegerModularForm.Eis</a></li>
           
         </ul>
     
@@ -1231,7 +765,7 @@
   </div>
   <div class="definition_thmcontent">
   <p>    For \(k \ge 2 \in \mathbb {N}\), the Eisenstein series \(E_k\) is an integer modular form of weight \(2k\) defined by </p>
-<div class="displaymath" id="a0000000014">
+<div class="displaymath" id="a0000000009">
   \[  E_k = 1 - \frac{4k}{B_{2k}} \sum _{n = 1}^{\infty } \sigma _{2k - 1} (n) q ^n  \]
 </div>
 <p> where \(B_k\) is the kth Bernoulli number and \(\sigma _{k} (n)\) is the sum of the kth powers of the divisors of \(n\). </p>
@@ -1243,12 +777,10 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">19</span>
+    <span class="definition_thmlabel">12</span>
     <span class="definition_thmtitle">Delta</span>
     <div class="thm_header_extras">
 
-    
-    ✓
         </div>
     <div class="thm_header_hidden_extras">
 
@@ -1267,7 +799,7 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:IntegerModularForm">Definition 2</a></li>
+          <li><a href="index.html#def:IntegerModularForm">Definition 1</a></li>
           
         </ul>
     
@@ -1287,7 +819,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Basis.lean#L211" class="lean_decl">Integer.Delta</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/IntegerModularForm/Basic.lean#L427" class="lean_decl">IntegerModularForm.Delta</a></li>
           
         </ul>
     
@@ -1308,7 +840,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">20</span>
+    <span class="definition_thmlabel">13</span>
     <div class="thm_header_extras">
 
     
@@ -1331,7 +863,7 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:Delta">Definition 19</a></li>
+          <li><a href="index.html#def:Delta">Definition 12</a></li>
           
         </ul>
     
@@ -1351,7 +883,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Basis.lean#L218" class="lean_decl">Integer.fl</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/IntegerModularForm/Basic.lean#L437" class="lean_decl">IntegerModularForm.fl</a></li>
           
         </ul>
     
@@ -1366,12 +898,12 @@
 
   </div>
 </div>
-<div class="lemma_thmwrapper theorem-style-plain" id="lem:Filt_fl">
-  <div class="lemma_thmheading">
-    <span class="lemma_thmcaption">
-    Lemma
+<div class="definition_thmwrapper theorem-style-definition" id="def:dim">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
     </span>
-    <span class="lemma_thmlabel">21</span>
+    <span class="definition_thmlabel">14</span>
     <div class="thm_header_extras">
 
     
@@ -1379,30 +911,8 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="index.html#lem:Filt_fl">#</a>
+    <a class="icon proof" href="index.html#def:dim">#</a>
     
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#thm:Filtration_Log">Theorem 16</a></li>
-          
-          <li><a href="index.html#def:fl">Definition 20</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
     
     
     <button class="modal lean">L∃∀N</button>
@@ -1416,7 +926,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L207" class="lean_decl">Filt_fl</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/IntegerModularForm/Basis.lean#L18" class="lean_decl">dim</a></li>
           
         </ul>
     
@@ -1426,25 +936,23 @@
     
         </div>
   </div>
-  <div class="lemma_thmcontent">
-  <p>   \( \omega (f_\ell ) = 12 \delta _\ell = \frac{\ell ^2 - 1}{2}.\) </p>
+  <div class="definition_thmcontent">
+  <p>  For \(k \in \mathbb {N}\), define dim\((k) = \lfloor k / 6 \rfloor + \begin{cases}  0 &  \text{ if } k\equiv 1\pmod{6} \\ 1 &  \text{ else } \end{cases} \). <br />dim\((k)\) is the dimension of the space of modular forms of weight \(2k\). </p>
 
   </div>
 </div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:Filt_Theta_bound">
-  <div class="theorem_thmheading">
-    <span class="theorem_thmcaption">
-    Theorem
+<div class="definition_thmwrapper theorem-style-definition" id="def:G">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
     </span>
-    <span class="theorem_thmlabel">22</span>
+    <span class="definition_thmlabel">15</span>
     <div class="thm_header_extras">
 
-    
-    ✓
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="index.html#thm:Filt_Theta_bound">#</a>
+    <a class="icon proof" href="index.html#def:G">#</a>
     
     
     <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
@@ -1459,7 +967,11 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:Theta">Definition 4</a></li>
+          <li><a href="index.html#def:Eis">Definition 11</a></li>
+          
+          <li><a href="index.html#def:Delta">Definition 12</a></li>
+          
+          <li><a href="index.html#def:dim">Definition 14</a></li>
           
         </ul>
     
@@ -1479,7 +991,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L216" class="lean_decl">Filt_Theta_bound</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/IntegerModularForm/Basis.lean#L235" class="lean_decl">IntegerModularForm.G</a></li>
           
         </ul>
     
@@ -1489,71 +1001,13 @@
     
         </div>
   </div>
-  <div class="theorem_thmcontent">
-  <p>   This is part (1) of Lemma 2.1. <br />Let \(a\) be a modular form mod \(\ell \). Then \(\omega (\Theta a) \le \omega (a) + \ell + 1\). </p>
-
-  </div>
+  <div class="definition_thmcontent">
+  
+<p>For \( k \ne 1\) and \(c {\lt} \) dim\((k)\), write \(k\) uniquely as \(k = 6\ell + k'\), where \(k' \in \{ 0, 2, 3, 4, 5, 7\} \). \(G_{k,\,  c}\) is a modular form of weight \(2k\) defined as </p>
+<div class="displaymath" id="a0000000010">
+  \[ G_{k,\,  c} = E_2 ^a E_3 ^b E_2 ^{\ell - 3c} \Delta ^c  \]
 </div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:Filt_Theta_iff">
-  <div class="theorem_thmheading">
-    <span class="theorem_thmcaption">
-    Theorem
-    </span>
-    <span class="theorem_thmlabel">23</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#thm:Filt_Theta_iff">#</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#thm:Filt_Theta_bound">Theorem 22</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L219" class="lean_decl">Filt_Theta_iff</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="theorem_thmcontent">
-  <p>   This is part (2) of Lemma 2.1. <br />Let \(a\) be a modular form mod \(\ell \). Then \(\omega (\Theta a) = \omega (a) + \ell + 1\) if and only if \(\ell \nmid \omega (a).\) </p>
+<p> where \(a, b\) are the unique natural numbers with \(2a + 3b = k'.\) <br />We have that the set of all such \(G_{k,\,  c}\) for fixed \(k\) form a basis for the modular forms of weight \(2k\). </p>
 
   </div>
 </div>
@@ -1562,7 +1016,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">24</span>
+    <span class="definition_thmlabel">16</span>
     <span class="definition_thmtitle">ord</span>
     <div class="thm_header_extras">
 
@@ -1586,7 +1040,7 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:IntegerModularForm">Definition 2</a></li>
+          <li><a href="index.html#def:IntegerModularForm">Definition 1</a></li>
           
         </ul>
     
@@ -1606,7 +1060,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Ord.lean#L88" class="lean_decl">Integer.ord</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/IntegerModularForm/Ord.lean#L15" class="lean_decl">IntegerModularForm.ord</a></li>
           
         </ul>
     
@@ -1626,7 +1080,7 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">25</span>
+    <span class="theorem_thmlabel">17</span>
     <div class="thm_header_extras">
 
     
@@ -1635,6 +1089,324 @@
     <div class="thm_header_hidden_extras">
 
     <a class="icon proof" href="index.html#thm:ord_mul">#</a>
+    
+    <a class="icon proof" href="index.html#a0000000011"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#def:ord">Definition 16</a></li>
+          
+          <li><a href="index.html#def:mulpow">Definition 7</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/IntegerModularForm/Ord.lean#L21" class="lean_decl">IntegerModularForm.ord_mul</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   ord\((a \cdot b) = \) ord\((a) + \) ord\((b)\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000011">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:coeff_mul_ord">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">18</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#thm:coeff_mul_ord">#</a>
+    
+    <a class="icon proof" href="index.html#a0000000012"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#thm:ord_mul">Theorem 17</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/IntegerModularForm/Ord.lean#L84" class="lean_decl">IntegerModularForm.coeff_mul_ord</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   \((a \cdot b) (\)ord\((a) + \) ord\((b)) = a(\) ord\((a)) \cdot b(\) ord\((b))\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000012">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:ord_Delta">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">19</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#thm:ord_Delta">#</a>
+    
+    <a class="icon proof" href="index.html#a0000000013"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#def:Delta">Definition 12</a></li>
+          
+          <li><a href="index.html#def:ord">Definition 16</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/IntegerModularForm/Ord.lean#L64" class="lean_decl">IntegerModularForm.ord_Delta</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   ord\((\Delta ) = 1\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000013">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:ord_Eis">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">20</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#thm:ord_Eis">#</a>
+    
+    <a class="icon proof" href="index.html#a0000000014"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#def:Eis">Definition 11</a></li>
+          
+          <li><a href="index.html#def:ord">Definition 16</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/IntegerModularForm/Ord.lean#L69" class="lean_decl">IntegerModularForm.ord_Eis</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   For any k, ord\((E_k) = 0\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000014">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:ord_G">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">21</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#thm:ord_G">#</a>
     
     <a class="icon proof" href="index.html#a0000000015"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
@@ -1652,9 +1424,13 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:ord">Definition 24</a></li>
+          <li><a href="index.html#def:G">Definition 15</a></li>
           
-          <li><a href="index.html#def:mulpow">Definition 8</a></li>
+          <li><a href="index.html#thm:ord_Delta">Theorem 19</a></li>
+          
+          <li><a href="index.html#thm:ord_Eis">Theorem 20</a></li>
+          
+          <li><a href="index.html#thm:ord_mul">Theorem 17</a></li>
           
         </ul>
     
@@ -1674,7 +1450,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Ord.lean#L212" class="lean_decl">Integer.ord_mul</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/IntegerModularForm/Basis.lean#L241" class="lean_decl">IntegerModularForm.ord_G</a></li>
           
         </ul>
     
@@ -1685,7 +1461,7 @@
         </div>
   </div>
   <div class="theorem_thmcontent">
-  <p>   ord\((a \cdot b) = \) ord\((a) + \) ord\((b)\). </p>
+  <p>   ord\((G_{k, \,  c}) = c\). </p>
 
   </div>
 </div>
@@ -1701,12 +1477,12 @@
 
   </div>
 </div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:ord_mul_ord">
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:G_ord_G">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">26</span>
+    <span class="theorem_thmlabel">22</span>
     <div class="thm_header_extras">
 
     
@@ -1714,7 +1490,7 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="index.html#thm:ord_mul_ord">#</a>
+    <a class="icon proof" href="index.html#thm:G_ord_G">#</a>
     
     <a class="icon proof" href="index.html#a0000000016"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
@@ -1732,7 +1508,9 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#thm:ord_mul">Theorem 25</a></li>
+          <li><a href="index.html#thm:ord_G">Theorem 21</a></li>
+          
+          <li><a href="index.html#thm:coeff_mul_ord">Theorem 18</a></li>
           
         </ul>
     
@@ -1752,7 +1530,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Ord.lean#L233" class="lean_decl">Integer.ord_mul_ord</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/IntegerModularForm/Basis.lean#L247" class="lean_decl">IntegerModularForm.G_ord_G</a></li>
           
         </ul>
     
@@ -1763,7 +1541,7 @@
         </div>
   </div>
   <div class="theorem_thmcontent">
-  <p>   \((a \cdot b) (\)ord\((a) + \) ord\((b)) = a(\) ord\((a)) \cdot b(\) ord\((b))\). </p>
+  <p>   \(G_{k,\,  c} (c) = 1\). </p>
 
   </div>
 </div>
@@ -1779,12 +1557,12 @@
 
   </div>
 </div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:ord_pow_ord">
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:coeff_trunc_injective">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">27</span>
+    <span class="theorem_thmlabel">23</span>
     <div class="thm_header_extras">
 
     
@@ -1792,7 +1570,7 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="index.html#thm:ord_pow_ord">#</a>
+    <a class="icon proof" href="index.html#thm:coeff_trunc_injective">#</a>
     
     <a class="icon proof" href="index.html#a0000000017"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
@@ -1810,9 +1588,11 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:ord">Definition 24</a></li>
+          <li><a href="index.html#def:G">Definition 15</a></li>
           
-          <li><a href="index.html#thm:ord_mul">Theorem 25</a></li>
+          <li><a href="index.html#thm:ord_G">Theorem 21</a></li>
+          
+          <li><a href="index.html#def:dim">Definition 14</a></li>
           
         </ul>
     
@@ -1832,7 +1612,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Ord.lean#L256" class="lean_decl">Integer.ord_Ipow_ord</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/IntegerModularForm/Basis.lean#L90" class="lean_decl">IntegerModularForm.coeff_trunc_injective</a></li>
           
         </ul>
     
@@ -1843,7 +1623,7 @@
         </div>
   </div>
   <div class="theorem_thmcontent">
-  <p>   \(a ^m (m \cdot \) ord\((a)) = a(\) ord\((a)) ^m\). </p>
+  <p>   If the coefficients of \(a\) and \(b\) match up to dim\((k)\), then \(a = b\). </p>
 
   </div>
 </div>
@@ -1859,12 +1639,12 @@
 
   </div>
 </div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:ord_Delta">
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:eq_G_of_ord_max">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">28</span>
+    <span class="theorem_thmlabel">24</span>
     <div class="thm_header_extras">
 
     
@@ -1872,7 +1652,7 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="index.html#thm:ord_Delta">#</a>
+    <a class="icon proof" href="index.html#thm:eq_G_of_ord_max">#</a>
     
     <a class="icon proof" href="index.html#a0000000018"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
@@ -1890,9 +1670,9 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:Delta">Definition 19</a></li>
+          <li><a href="index.html#thm:coeff_trunc_injective">Theorem 23</a></li>
           
-          <li><a href="index.html#def:ord">Definition 24</a></li>
+          <li><a href="index.html#thm:G_ord_G">Theorem 22</a></li>
           
         </ul>
     
@@ -1912,7 +1692,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Ord.lean#L309" class="lean_decl">Integer.ord_Delta</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/IntegerModularForm/Basis.lean#L407" class="lean_decl">IntegerModularForm.eq_G_of_ord_max</a></li>
           
         </ul>
     
@@ -1923,7 +1703,7 @@
         </div>
   </div>
   <div class="theorem_thmcontent">
-  <p>   ord\((\Delta ) = 1\). </p>
+  <p>   Let \(a\) be a modular form of weight \(2k\). If ord\((a) = \) dim\((k) - 1\) then \(a = a (\)dim\((k) - 1) G_{k, \,  \text{dim} (k) - 1}.\) </p>
 
   </div>
 </div>
@@ -1939,12 +1719,12 @@
 
   </div>
 </div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:ord_Eis">
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:Reduce_of_reduce">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">29</span>
+    <span class="theorem_thmlabel">25</span>
     <div class="thm_header_extras">
 
     
@@ -1952,7 +1732,73 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="index.html#thm:ord_Eis">#</a>
+    <a class="icon proof" href="index.html#thm:Reduce_of_reduce">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#def:ModularFormMod">Definition 2</a></li>
+          
+          <li><a href="index.html#def:IntegerModularForm">Definition 1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/ModularFormMod/MaximalReduce.lean#L19" class="lean_decl">ModularFormMod.Reduce_of_reduce</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  
+<p>If an integer modular form of \(a\) weight \(k\) reduces to a modular form mod \(\ell \) of weight \(j\) then we must have \(k \equiv j \pmod\ell \) </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:exists_maximal_Reduce">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">26</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#thm:exists_maximal_Reduce">#</a>
     
     <a class="icon proof" href="index.html#a0000000019"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
@@ -1970,9 +1816,11 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:Eis">Definition 18</a></li>
+          <li><a href="index.html#thm:G_ord_G">Theorem 22</a></li>
           
-          <li><a href="index.html#def:ord">Definition 24</a></li>
+          <li><a href="index.html#thm:Reduce_of_reduce">Theorem 25</a></li>
+          
+          <li><a href="index.html#thm:coeff_trunc_injective">Theorem 23</a></li>
           
         </ul>
     
@@ -1992,7 +1840,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Ord.lean#L311" class="lean_decl">Integer.ord_Eis</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/ModularFormMod/MaximalReduce.lean#L28" class="lean_decl">ModularFormMod.exists_maximal_Reduce</a></li>
           
         </ul>
     
@@ -2003,7 +1851,7 @@
         </div>
   </div>
   <div class="theorem_thmcontent">
-  <p>   For any k, ord\((E_k) = 0\). </p>
+  <p>   Let \(a\) be a modular form mod \(\ell \) of weight \(k\). If ord\((a) \ge m\), then there exists an integer modular form \(b\) of weight \(k\) such that <br />(1) ord\((b) \ge m\), and <br />(2) the reduction of \(b\) is equal to \(a\). </p>
 
   </div>
 </div>
@@ -2019,12 +1867,12 @@
 
   </div>
 </div>
-<div class="definition_thmwrapper theorem-style-definition" id="def:dim">
-  <div class="definition_thmheading">
-    <span class="definition_thmcaption">
-    Definition
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:Filt_fl">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
     </span>
-    <span class="definition_thmlabel">30</span>
+    <span class="lemma_thmlabel">27</span>
     <div class="thm_header_extras">
 
     
@@ -2032,48 +1880,10 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="index.html#def:dim">#</a>
+    <a class="icon proof" href="index.html#lem:Filt_fl">#</a>
     
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Dimension.lean#L532" class="lean_decl">ModularForm.dim</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="definition_thmcontent">
-  <p>  For \(k \in \mathbb {N}\), define dim\((k) = \lfloor k / 6 \rfloor + \begin{cases}  0 &  \text{ if } k\equiv 1\pmod{6} \\ 1 &  \text{ else } \end{cases} \). <br />dim\((k)\) is the dimension of the space of modular forms of weight \(2k\). </p>
-
-  </div>
-</div>
-<div class="definition_thmwrapper theorem-style-definition" id="def:G">
-  <div class="definition_thmheading">
-    <span class="definition_thmcaption">
-    Definition
-    </span>
-    <span class="definition_thmlabel">31</span>
-    <div class="thm_header_extras">
-
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#def:G">#</a>
+    <a class="icon proof" href="index.html#a0000000020"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
     
     
     <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
@@ -2088,11 +1898,9 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:Eis">Definition 18</a></li>
+          <li><a href="index.html#def:fl">Definition 13</a></li>
           
-          <li><a href="index.html#def:Delta">Definition 19</a></li>
-          
-          <li><a href="index.html#def:dim">Definition 30</a></li>
+          <li><a href="index.html#thm:exists_maximal_Reduce">Theorem 26</a></li>
           
         </ul>
     
@@ -2112,7 +1920,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Dimension.lean#L826" class="lean_decl">Integer.G</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/PrimaryLemmas.lean#L64" class="lean_decl">Filt_fl</a></li>
           
         </ul>
     
@@ -2122,22 +1930,29 @@
     
         </div>
   </div>
-  <div class="definition_thmcontent">
-  
-<p>For \( k \ne 1\) and \(c {\lt} \) dim\((k)\), write \(k\) uniquely as \(k = 6\ell + k'\), where \(k' \in \{ 0, 2, 3, 4, 5, 7\} \). \(G_{k,\,  c}\) is a modular form of weight \(2k\) defined as </p>
-<div class="displaymath" id="a0000000020">
-  \[ G_{k,\,  c} = E_2 ^a E_3 ^b E_2 ^{\ell - 3c} \Delta ^c  \]
-</div>
-<p> where \(a, b\) are the unique natural numbers with \(2a + 3b = k'.\) <br />We have that the set of all such \(G_{k,\,  c}\) for fixed \(k\) form a basis for the modular forms of weight \(2k\). </p>
+  <div class="lemma_thmcontent">
+  <p>   \( \omega (f_\ell ) = 12 \delta _\ell = \frac{\ell ^2 - 1}{2}.\) </p>
 
   </div>
 </div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:ord_G">
+<div class="proof_wrapper" id="a0000000020">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:Filt_Theta_bound">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">32</span>
+    <span class="theorem_thmlabel">28</span>
     <div class="thm_header_extras">
 
     
@@ -2145,7 +1960,135 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="index.html#thm:ord_G">#</a>
+    <a class="icon proof" href="index.html#thm:Filt_Theta_bound">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#def:Theta">Definition 3</a></li>
+          
+          <li><a href="index.html#def:Filtration">Definition 6</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/PrimaryLemmas.lean#L77" class="lean_decl">Filt_Theta_bound</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   This is part (1) of Lemma 2.1. <br />Let \(a\) be a modular form mod \(\ell \). Then \(\omega (\Theta a) \le \omega (a) + \ell + 1\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:Filt_Theta_iff">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">29</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#thm:Filt_Theta_iff">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#thm:Filt_Theta_bound">Theorem 28</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/PrimaryLemmas.lean#L80" class="lean_decl">Filt_Theta_iff</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   This is part (2) of Lemma 2.1. <br />Let \(a\) be a modular form mod \(\ell \). Then \(\omega (\Theta a) = \omega (a) + \ell + 1\) if and only if \(\ell \nmid \omega (a).\) </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:le_Filt_Theta_fl">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">30</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#thm:le_Filt_Theta_fl">#</a>
     
     <a class="icon proof" href="index.html#a0000000021"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
@@ -2163,13 +2106,11 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:G">Definition 31</a></li>
+          <li><a href="index.html#def:fl">Definition 13</a></li>
           
-          <li><a href="index.html#thm:ord_Delta">Theorem 28</a></li>
+          <li><a href="index.html#thm:Filtration_congruence">Theorem 10</a></li>
           
-          <li><a href="index.html#thm:ord_Eis">Theorem 29</a></li>
-          
-          <li><a href="index.html#thm:ord_mul">Theorem 25</a></li>
+          <li><a href="index.html#thm:exists_maximal_Reduce">Theorem 26</a></li>
           
         </ul>
     
@@ -2189,7 +2130,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Dimension.lean#L907" class="lean_decl">Integer.ord_G</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/PrimaryLemmas.lean#L141" class="lean_decl">le_Filt_Theta_fl</a></li>
           
         </ul>
     
@@ -2200,7 +2141,7 @@
         </div>
   </div>
   <div class="theorem_thmcontent">
-  <p>   ord\((G_{k, \,  c}) = c\). </p>
+  <p>   This is Lemma 3.2. <br />For all \(m \in \mathbb {N}\), \(\omega (\Theta ^m f_\ell ) \ge \omega (f_\ell ) = \frac{\ell ^2 - 1}{2}.\) </p>
 
   </div>
 </div>
@@ -2216,12 +2157,12 @@
 
   </div>
 </div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:G_ord_G">
+<div class="theorem_thmwrapper theorem-style-plain" id="Filtration_Theta_pow_sub_one">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">33</span>
+    <span class="theorem_thmlabel">31</span>
     <div class="thm_header_extras">
 
     
@@ -2229,7 +2170,7 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="index.html#thm:G_ord_G">#</a>
+    <a class="icon proof" href="index.html#Filtration_Theta_pow_sub_one">#</a>
     
     <a class="icon proof" href="index.html#a0000000022"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
@@ -2247,11 +2188,9 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#thm:ord_G">Theorem 32</a></li>
+          <li><a href="index.html#thm:UOp_pow_l">Theorem 9</a></li>
           
-          <li><a href="index.html#thm:ord_pow_ord">Theorem 27</a></li>
-          
-          <li><a href="index.html#thm:ord_mul_ord">Theorem 26</a></li>
+          <li><a href="index.html#def:Filtration">Definition 6</a></li>
           
         </ul>
     
@@ -2271,7 +2210,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Dimension.lean#L912" class="lean_decl">Integer.G_ord_G</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/PrimaryLemmas.lean#L215" class="lean_decl">Filtration_Theta_pow_sub_one</a></li>
           
         </ul>
     
@@ -2282,7 +2221,7 @@
         </div>
   </div>
   <div class="theorem_thmcontent">
-  <p>   \(G_{k,\,  c} (c) = 1\). </p>
+  <p>   The conclusion of Lemma 3.3 <br />If \(f_\ell | U = 0 then \omega (\Theta ^{\ell - 1} f_\ell ) = \frac{\ell ^2 - 1}{2}\) </p>
 
   </div>
 </div>
@@ -2298,12 +2237,12 @@
 
   </div>
 </div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:zero_of_leading_zeros">
-  <div class="theorem_thmheading">
-    <span class="theorem_thmcaption">
-    Theorem
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:Filt_Theta_congruence_of_dvd">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
     </span>
-    <span class="theorem_thmlabel">34</span>
+    <span class="lemma_thmlabel">32</span>
     <div class="thm_header_extras">
 
     
@@ -2311,7 +2250,7 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="index.html#thm:zero_of_leading_zeros">#</a>
+    <a class="icon proof" href="index.html#lem:Filt_Theta_congruence_of_dvd">#</a>
     
     <a class="icon proof" href="index.html#a0000000023"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
@@ -2329,11 +2268,11 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:G">Definition 31</a></li>
+          <li><a href="index.html#thm:Reduce_of_reduce">Theorem 25</a></li>
           
-          <li><a href="index.html#thm:ord_G">Theorem 32</a></li>
+          <li><a href="index.html#thm:Filt_Theta_bound">Theorem 28</a></li>
           
-          <li><a href="index.html#def:dim">Definition 30</a></li>
+          <li><a href="index.html#thm:Filt_Theta_iff">Theorem 29</a></li>
           
         </ul>
     
@@ -2353,7 +2292,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Dimension.lean#L1008" class="lean_decl">Integer.zero_of_leading_zeros</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/PrimaryLemmas.lean#L105" class="lean_decl">Filt_Theta_congruence_of_dvd</a></li>
           
         </ul>
     
@@ -2363,8 +2302,8 @@
     
         </div>
   </div>
-  <div class="theorem_thmcontent">
-  <p>   Let \(a\) be a modular form of weight \(2k\). If ord\((a) \:  \ge \:  \)dim\((k)\) then \(a\) is the zero function. </p>
+  <div class="lemma_thmcontent">
+  <p>   Let \(a\) be a modular form mod \(\ell \). If \(\ell \mid \omega (a)\) then there exists an \(\alpha \in \mathbb {N}\) such that \(\omega (\Theta a) = \omega (a) + \ell + 1 - (\alpha + 1) (\ell - 1)\). </p>
 
   </div>
 </div>
@@ -2380,12 +2319,12 @@
 
   </div>
 </div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:eq_G_of_ord_max">
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:Filt_Theta_l_sub_two">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">35</span>
+    <span class="theorem_thmlabel">33</span>
     <div class="thm_header_extras">
 
     
@@ -2393,7 +2332,7 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="index.html#thm:eq_G_of_ord_max">#</a>
+    <a class="icon proof" href="index.html#thm:Filt_Theta_l_sub_two">#</a>
     
     <a class="icon proof" href="index.html#a0000000024"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
@@ -2411,9 +2350,9 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#thm:zero_of_leading_zeros">Theorem 34</a></li>
+          <li><a href="index.html#lem:Filt_fl">Lemma 27</a></li>
           
-          <li><a href="index.html#thm:G_ord_G">Theorem 33</a></li>
+          <li><a href="index.html#thm:le_Filt_Theta_fl">Theorem 30</a></li>
           
         </ul>
     
@@ -2433,7 +2372,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Dimension.lean#L1102" class="lean_decl">Integer.eq_G_of_ord_max</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/DescentArgument.lean#L41" class="lean_decl">Filt_Theta_l_sub_two</a></li>
           
         </ul>
     
@@ -2444,7 +2383,7 @@
         </div>
   </div>
   <div class="theorem_thmcontent">
-  <p>   Let \(a\) be a modular form of weight \(2k\). If ord\((a) = \) dim\((k) - 1\) then \(a = a (\)dim\((k) - 1) G_{k, \,  \text{dim} (k) - 1}.\) </p>
+  <p>   If \((f_\ell | U) = 0\) then \(\ell \mid \omega (\Theta ^{\ell - 2} f_\ell )\). </p>
 
   </div>
 </div>
@@ -2460,12 +2399,12 @@
 
   </div>
 </div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:exists_maximal_Reduce">
-  <div class="theorem_thmheading">
-    <span class="theorem_thmcaption">
-    Theorem
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:Filt_Theta_lel_add_one_div_two">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
     </span>
-    <span class="theorem_thmlabel">36</span>
+    <span class="lemma_thmlabel">34</span>
     <div class="thm_header_extras">
 
     
@@ -2473,7 +2412,7 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="index.html#thm:exists_maximal_Reduce">#</a>
+    <a class="icon proof" href="index.html#lem:Filt_Theta_lel_add_one_div_two">#</a>
     
     <a class="icon proof" href="index.html#a0000000025"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
@@ -2491,9 +2430,9 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#thm:G_ord_G">Theorem 33</a></li>
+          <li><a href="index.html#thm:Filt_Theta_iff">Theorem 29</a></li>
           
-          <li><a href="index.html#thm:Filtration_congruence">Theorem 17</a></li>
+          <li><a href="index.html#lem:Filt_fl">Lemma 27</a></li>
           
         </ul>
     
@@ -2513,7 +2452,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Dimension.lean#L1159" class="lean_decl">Modulo.exists_maximal_Reduce</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/DescentArgument.lean#L124" class="lean_decl">Filt_Theta_lel_add_one_div_two</a></li>
           
         </ul>
     
@@ -2523,8 +2462,8 @@
     
         </div>
   </div>
-  <div class="theorem_thmcontent">
-  <p>   Let \(a\) be a modular form mod \(\ell \) of weight \(k\). If ord\((a) \ge m\), then there exists an integer modular form \(b\) of weight \(k\) such that <br />(1) ord\((b) \ge m\), and <br />(2) the reduction of \(b\) is equal to \(a\). </p>
+  <div class="lemma_thmcontent">
+  <p>   For all \(m \in \mathbb {N}\) with \(m \le \frac{\ell + 1}{2}\), \(\omega (\Theta ^m f_\ell ) = \frac{\ell ^2 - 1}{2} + m (\ell + 1)\). </p>
 
   </div>
 </div>
@@ -2536,16 +2475,16 @@
     <span class="expand-proof">▶</span>
   </div>
   <div class="proof_content">
-  
+  <p>Induction. </p>
 
   </div>
 </div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:le_Filt_Theta_fl">
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:Filt_Theta_l_add_one_div_two">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">37</span>
+    <span class="theorem_thmlabel">35</span>
     <div class="thm_header_extras">
 
     
@@ -2553,7 +2492,7 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="index.html#thm:le_Filt_Theta_fl">#</a>
+    <a class="icon proof" href="index.html#thm:Filt_Theta_l_add_one_div_two">#</a>
     
     <a class="icon proof" href="index.html#a0000000026"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
@@ -2571,13 +2510,7 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:fl">Definition 20</a></li>
-          
-          <li><a href="index.html#thm:Filtration_congruence">Theorem 17</a></li>
-          
-          <li><a href="index.html#thm:exists_maximal_Reduce">Theorem 36</a></li>
-          
-          <li><a href="index.html#thm:zero_of_leading_zeros">Theorem 34</a></li>
+          <li><a href="index.html#lem:Filt_Theta_lel_add_one_div_two">Lemma 34</a></li>
           
         </ul>
     
@@ -2597,495 +2530,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L318" class="lean_decl">le_Filt_Theta_fl</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="theorem_thmcontent">
-  <p>   This is Lemma 3.2. <br />For all \(m \in \mathbb {N}\), \(\omega (\Theta ^m f_\ell ) \ge \omega (f_\ell ) = \frac{\ell ^2 - 1}{2}.\) </p>
-
-  </div>
-</div>
-<div class="proof_wrapper" id="a0000000026">
-  <div class="proof_heading">
-    <span class="proof_caption">
-    Proof
-    </span>
-    <span class="expand-proof">▶</span>
-  </div>
-  <div class="proof_content">
-  
-
-  </div>
-</div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:Filt_Theta_pow_l_sub_one">
-  <div class="theorem_thmheading">
-    <span class="theorem_thmcaption">
-    Theorem
-    </span>
-    <span class="theorem_thmlabel">38</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#thm:Filt_Theta_pow_l_sub_one">#</a>
-    
-    <a class="icon proof" href="index.html#a0000000027"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
-</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#lem:Filt_fl">Lemma 21</a></li>
-          
-          <li><a href="index.html#thm:Filt_Theta_iff">Theorem 23</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L367" class="lean_decl">Filt_Theta_pow_l_sub_one</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="theorem_thmcontent">
-  <p>   This is part (1) of Lemma 3.3. <br />If \(\ell \nmid \omega (\Theta ^{\ell - 1} f_\ell )\) then \(\omega (\Theta ^{\ell - 1} f_\ell ) = \frac{\ell ^2 - 1}{2}.\) </p>
-
-  </div>
-</div>
-<div class="proof_wrapper" id="a0000000027">
-  <div class="proof_heading">
-    <span class="proof_caption">
-    Proof
-    </span>
-    <span class="expand-proof">▶</span>
-  </div>
-  <div class="proof_content">
-  
-
-  </div>
-</div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:Filt_U_pos">
-  <div class="theorem_thmheading">
-    <span class="theorem_thmcaption">
-    Theorem
-    </span>
-    <span class="theorem_thmlabel">39</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#thm:Filt_U_pos">#</a>
-    
-    <a class="icon proof" href="index.html#a0000000028"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
-</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#lem:Filt_fl">Lemma 21</a></li>
-          
-          <li><a href="index.html#thm:Filtration_Log">Theorem 16</a></li>
-          
-          <li><a href="index.html#lem:const_of_Filt_zero">Lemma 15</a></li>
-          
-          <li><a href="index.html#thm:U_pow_l_eq_self_sub_Theta_pow_l_sub_one">Theorem 14</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L383" class="lean_decl">Filt_U_pos</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="theorem_thmcontent">
-  <p>   This is part (2) of Lemma 3.3. <br />If \(\ell \mid \omega (\Theta ^{\ell - 1} f_\ell )\) then \(\omega (f_\ell | U) \:  {\gt} \:  0\). </p>
-
-  </div>
-</div>
-<div class="proof_wrapper" id="a0000000028">
-  <div class="proof_heading">
-    <span class="proof_caption">
-    Proof
-    </span>
-    <span class="expand-proof">▶</span>
-  </div>
-  <div class="proof_content">
-  
-
-  </div>
-</div>
-<div class="lemma_thmwrapper theorem-style-plain" id="lem:Filt_Theta_congruence_of_dvd">
-  <div class="lemma_thmheading">
-    <span class="lemma_thmcaption">
-    Lemma
-    </span>
-    <span class="lemma_thmlabel">40</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#lem:Filt_Theta_congruence_of_dvd">#</a>
-    
-    <a class="icon proof" href="index.html#a0000000029"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
-</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#thm:Filtration_congruence">Theorem 17</a></li>
-          
-          <li><a href="index.html#thm:Filt_Theta_bound">Theorem 22</a></li>
-          
-          <li><a href="index.html#thm:Filt_Theta_iff">Theorem 23</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PrimaryLemmas.lean#L248" class="lean_decl">Filt_Theta_congruence_of_dvd</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="lemma_thmcontent">
-  <p>   Let \(a\) be a modular form mod \(\ell \). If \(\ell \mid \omega (a)\) then there exists an \(\alpha \in \mathbb {N}\) such that \(\omega (\Theta a) = \omega (a) + \ell + 1 - (\alpha + 1) (\ell - 1)\). </p>
-
-  </div>
-</div>
-<div class="proof_wrapper" id="a0000000029">
-  <div class="proof_heading">
-    <span class="proof_caption">
-    Proof
-    </span>
-    <span class="expand-proof">▶</span>
-  </div>
-  <div class="proof_content">
-  
-
-  </div>
-</div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:Filt_Theta_l_sub_two">
-  <div class="theorem_thmheading">
-    <span class="theorem_thmcaption">
-    Theorem
-    </span>
-    <span class="theorem_thmlabel">41</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#thm:Filt_Theta_l_sub_two">#</a>
-    
-    <a class="icon proof" href="index.html#a0000000030"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
-</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#thm:Filt_Theta_pow_l_sub_one">Theorem 38</a></li>
-          
-          <li><a href="index.html#thm:Filt_U_pos">Theorem 39</a></li>
-          
-          <li><a href="index.html#lem:Filt_fl">Lemma 21</a></li>
-          
-          <li><a href="index.html#thm:le_Filt_Theta_fl">Theorem 37</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/DescentArgument.lean#L21" class="lean_decl">Filt_Theta_l_sub_two</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="theorem_thmcontent">
-  <p>   If \((f_\ell | U) = 0\) then \(\ell \mid \omega (\Theta ^{\ell - 2} f_\ell )\). </p>
-
-  </div>
-</div>
-<div class="proof_wrapper" id="a0000000030">
-  <div class="proof_heading">
-    <span class="proof_caption">
-    Proof
-    </span>
-    <span class="expand-proof">▶</span>
-  </div>
-  <div class="proof_content">
-  
-
-  </div>
-</div>
-<div class="lemma_thmwrapper theorem-style-plain" id="lem:Filt_Theta_lel_add_one_div_two">
-  <div class="lemma_thmheading">
-    <span class="lemma_thmcaption">
-    Lemma
-    </span>
-    <span class="lemma_thmlabel">42</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#lem:Filt_Theta_lel_add_one_div_two">#</a>
-    
-    <a class="icon proof" href="index.html#a0000000031"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
-</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#thm:Filt_Theta_iff">Theorem 23</a></li>
-          
-          <li><a href="index.html#lem:Filt_fl">Lemma 21</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/DescentArgument.lean#L104" class="lean_decl">Filt_Theta_lel_add_one_div_two</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="lemma_thmcontent">
-  <p>   For all \(m \in \mathbb {N}\) with \(m \le \frac{\ell + 1}{2}\), \(\omega (\Theta ^m f_\ell ) = \frac{\ell ^2 - 1}{2} + m (\ell + 1)\). </p>
-
-  </div>
-</div>
-<div class="proof_wrapper" id="a0000000031">
-  <div class="proof_heading">
-    <span class="proof_caption">
-    Proof
-    </span>
-    <span class="expand-proof">▶</span>
-  </div>
-  <div class="proof_content">
-  <p>Induction. </p>
-
-  </div>
-</div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:Filt_Theta_l_add_one_div_two">
-  <div class="theorem_thmheading">
-    <span class="theorem_thmcaption">
-    Theorem
-    </span>
-    <span class="theorem_thmlabel">43</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#thm:Filt_Theta_l_add_one_div_two">#</a>
-    
-    <a class="icon proof" href="index.html#a0000000032"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
-</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#lem:Filt_Theta_lel_add_one_div_two">Lemma 42</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/DescentArgument.lean#L122" class="lean_decl">Filt_Theta_l_add_one_div_two</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/DescentArgument.lean#L145" class="lean_decl">Filt_Theta_l_add_one_div_two</a></li>
           
         </ul>
     
@@ -3100,7 +2545,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000032">
+<div class="proof_wrapper" id="a0000000026">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -3117,7 +2562,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">44</span>
+    <span class="definition_thmlabel">36</span>
     <div class="thm_header_extras">
 
     
@@ -3140,11 +2585,11 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#lem:Filt_Theta_lel_add_one_div_two">Lemma 42</a></li>
+          <li><a href="index.html#lem:Filt_Theta_lel_add_one_div_two">Lemma 34</a></li>
           
-          <li><a href="index.html#lem:Filt_Theta_congruence_of_dvd">Lemma 40</a></li>
+          <li><a href="index.html#lem:Filt_Theta_congruence_of_dvd">Lemma 32</a></li>
           
-          <li><a href="index.html#thm:Filt_Theta_l_add_one_div_two">Theorem 43</a></li>
+          <li><a href="index.html#thm:Filt_Theta_l_add_one_div_two">Theorem 35</a></li>
           
         </ul>
     
@@ -3164,7 +2609,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/DescentArgument.lean#L271" class="lean_decl">Final.Hidden.alpha</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/find/#doc/alpha" class="lean_decl">alpha</a></li>
           
         </ul>
     
@@ -3184,7 +2629,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">45</span>
+    <span class="definition_thmlabel">37</span>
     <div class="thm_header_extras">
 
     
@@ -3207,7 +2652,7 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#thm:Filt_Theta_l_sub_two">Theorem 41</a></li>
+          <li><a href="index.html#thm:Filt_Theta_l_sub_two">Theorem 33</a></li>
           
         </ul>
     
@@ -3227,7 +2672,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/DescentArgument.lean#L300" class="lean_decl">Final.Hidden.j</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/find/#doc/j" class="lean_decl">j</a></li>
           
         </ul>
     
@@ -3247,7 +2692,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">46</span>
+    <span class="lemma_thmlabel">38</span>
     <div class="thm_header_extras">
 
     
@@ -3256,6 +2701,488 @@
     <div class="thm_header_hidden_extras">
 
     <a class="icon proof" href="index.html#lem:alpha_bound">#</a>
+    
+    <a class="icon proof" href="index.html#a0000000027"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#def:alpha">Definition 36</a></li>
+          
+          <li><a href="index.html#thm:le_Filt_Theta_fl">Theorem 30</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/DescentArgument.lean#L214" class="lean_decl">alpha_bound</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   \(\alpha \le \frac{\ell + 3}{2}\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000027">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:j_bound">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">39</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#lem:j_bound">#</a>
+    
+    <a class="icon proof" href="index.html#a0000000028"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#def:j">Definition 37</a></li>
+          
+          <li><a href="index.html#thm:Filt_Theta_l_sub_two">Theorem 33</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/DescentArgument.lean#L242" class="lean_decl">j_bound</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   \(j \le \frac{\ell - 7}{2}\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000028">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:Filt_Theta_lej">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">40</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#lem:Filt_Theta_lej">#</a>
+    
+    <a class="icon proof" href="index.html#a0000000029"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#def:alpha">Definition 36</a></li>
+          
+          <li><a href="index.html#def:j">Definition 37</a></li>
+          
+          <li><a href="index.html#thm:Filt_Theta_iff">Theorem 29</a></li>
+          
+          <li><a href="index.html#lem:alpha_bound">Lemma 38</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/DescentArgument.lean#L252" class="lean_decl">Filt_Theta_lej</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   For all \(m \le j\), \(\omega (\Theta ^{\frac{\ell + 3}{2} + m} f_\ell ) = \frac{\ell ^2 - 1}{2} + (\frac{\ell + 3}{2} + m) (\ell + 1) - (\alpha + 1) (\ell - 1).\) </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000029">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:ldiv_j_add_a">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">41</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#lem:ldiv_j_add_a">#</a>
+    
+    <a class="icon proof" href="index.html#a0000000030"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#lem:Filt_Theta_lej">Lemma 40</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/DescentArgument.lean#L270" class="lean_decl">ldiv_j_add_a</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   \(\ell \mid (j + 1) + (\alpha + 1)\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000030">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:alpha_equal">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">42</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#lem:alpha_equal">#</a>
+    
+    <a class="icon proof" href="index.html#a0000000031"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#lem:ldiv_j_add_a">Lemma 41</a></li>
+          
+          <li><a href="index.html#lem:alpha_bound">Lemma 38</a></li>
+          
+          <li><a href="index.html#lem:j_bound">Lemma 39</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/DescentArgument.lean#L295" class="lean_decl">alpha_equal</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   \(\alpha + 1 = \frac{\ell + 5}{2}\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000031">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:Filt_Theta_l_add_three_div_two">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">43</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#thm:Filt_Theta_l_add_three_div_two">#</a>
+    
+    <a class="icon proof" href="index.html#a0000000032"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#lem:alpha_equal">Lemma 42</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/DescentArgument.lean#L326" class="lean_decl">Filt_Theta_l_add_three_div_two</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   \( \omega (\Theta ^{\frac{\ell + 3}{2}} f_\ell )= \frac{\ell ^2 - 1}{2} + 4 \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000032">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:fl_delta_add_one">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">44</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#lem:fl_delta_add_one">#</a>
     
     <a class="icon proof" href="index.html#a0000000033"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
@@ -3273,89 +3200,9 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:alpha">Definition 44</a></li>
+          <li><a href="index.html#def:fl">Definition 13</a></li>
           
-          <li><a href="index.html#thm:le_Filt_Theta_fl">Theorem 37</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/DescentArgument.lean#L277" class="lean_decl">Final.Hidden.alpha_bound</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="lemma_thmcontent">
-  <p>   \(\alpha \le \frac{\ell + 3}{2}\). </p>
-
-  </div>
-</div>
-<div class="proof_wrapper" id="a0000000033">
-  <div class="proof_heading">
-    <span class="proof_caption">
-    Proof
-    </span>
-    <span class="expand-proof">▶</span>
-  </div>
-  <div class="proof_content">
-  
-
-  </div>
-</div>
-<div class="lemma_thmwrapper theorem-style-plain" id="lem:j_bound">
-  <div class="lemma_thmheading">
-    <span class="lemma_thmcaption">
-    Lemma
-    </span>
-    <span class="lemma_thmlabel">47</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#lem:j_bound">#</a>
-    
-    <a class="icon proof" href="index.html#a0000000034"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
-</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#def:j">Definition 45</a></li>
-          
-          <li><a href="index.html#thm:Filt_Theta_l_sub_two">Theorem 41</a></li>
+          <li><a href="index.html#def:mulpow">Definition 7</a></li>
           
         </ul>
     
@@ -3375,411 +3222,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/DescentArgument.lean#L303" class="lean_decl">Final.Hidden.j_bound</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="lemma_thmcontent">
-  <p>   \(j \le \frac{\ell - 7}{2}\). </p>
-
-  </div>
-</div>
-<div class="proof_wrapper" id="a0000000034">
-  <div class="proof_heading">
-    <span class="proof_caption">
-    Proof
-    </span>
-    <span class="expand-proof">▶</span>
-  </div>
-  <div class="proof_content">
-  
-
-  </div>
-</div>
-<div class="lemma_thmwrapper theorem-style-plain" id="lem:Filt_Theta_lej">
-  <div class="lemma_thmheading">
-    <span class="lemma_thmcaption">
-    Lemma
-    </span>
-    <span class="lemma_thmlabel">48</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#lem:Filt_Theta_lej">#</a>
-    
-    <a class="icon proof" href="index.html#a0000000035"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
-</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#def:alpha">Definition 44</a></li>
-          
-          <li><a href="index.html#def:j">Definition 45</a></li>
-          
-          <li><a href="index.html#thm:Filt_Theta_iff">Theorem 23</a></li>
-          
-          <li><a href="index.html#lem:alpha_bound">Lemma 46</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/DescentArgument.lean#L406" class="lean_decl">Final.Hidden.Filt_Theta_lej</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="lemma_thmcontent">
-  <p>   For all \(m \le j\), \(\omega (\Theta ^{\frac{\ell + 3}{2} + m} f_\ell ) = \frac{\ell ^2 - 1}{2} + (\frac{\ell + 3}{2} + m) (\ell + 1) - (\alpha + 1) (\ell - 1).\) </p>
-
-  </div>
-</div>
-<div class="proof_wrapper" id="a0000000035">
-  <div class="proof_heading">
-    <span class="proof_caption">
-    Proof
-    </span>
-    <span class="expand-proof">▶</span>
-  </div>
-  <div class="proof_content">
-  
-
-  </div>
-</div>
-<div class="lemma_thmwrapper theorem-style-plain" id="lem:ldiv_j_add_a">
-  <div class="lemma_thmheading">
-    <span class="lemma_thmcaption">
-    Lemma
-    </span>
-    <span class="lemma_thmlabel">49</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#lem:ldiv_j_add_a">#</a>
-    
-    <a class="icon proof" href="index.html#a0000000036"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
-</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#lem:Filt_Theta_lej">Lemma 48</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/DescentArgument.lean#L434" class="lean_decl">Final.Hidden.ldiv_j_add_a</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="lemma_thmcontent">
-  <p>   \(\ell \mid (j + 1) + (\alpha + 1)\). </p>
-
-  </div>
-</div>
-<div class="proof_wrapper" id="a0000000036">
-  <div class="proof_heading">
-    <span class="proof_caption">
-    Proof
-    </span>
-    <span class="expand-proof">▶</span>
-  </div>
-  <div class="proof_content">
-  
-
-  </div>
-</div>
-<div class="lemma_thmwrapper theorem-style-plain" id="lem:alpha_equal">
-  <div class="lemma_thmheading">
-    <span class="lemma_thmcaption">
-    Lemma
-    </span>
-    <span class="lemma_thmlabel">50</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#lem:alpha_equal">#</a>
-    
-    <a class="icon proof" href="index.html#a0000000037"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
-</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#lem:ldiv_j_add_a">Lemma 49</a></li>
-          
-          <li><a href="index.html#lem:alpha_bound">Lemma 46</a></li>
-          
-          <li><a href="index.html#lem:j_bound">Lemma 47</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/DescentArgument.lean#L538" class="lean_decl">Final.Hidden.alpha_equal</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="lemma_thmcontent">
-  <p>   \(\alpha + 1 = \frac{\ell + 5}{2}\). </p>
-
-  </div>
-</div>
-<div class="proof_wrapper" id="a0000000037">
-  <div class="proof_heading">
-    <span class="proof_caption">
-    Proof
-    </span>
-    <span class="expand-proof">▶</span>
-  </div>
-  <div class="proof_content">
-  
-
-  </div>
-</div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:Filt_Theta_l_add_three_div_two">
-  <div class="theorem_thmheading">
-    <span class="theorem_thmcaption">
-    Theorem
-    </span>
-    <span class="theorem_thmlabel">51</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#thm:Filt_Theta_l_add_three_div_two">#</a>
-    
-    <a class="icon proof" href="index.html#a0000000038"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
-</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#lem:alpha_equal">Lemma 50</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/DescentArgument.lean#L577" class="lean_decl">Filt_Theta_l_add_three_div_two</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="theorem_thmcontent">
-  <p>   \( \omega (\Theta ^{\frac{\ell + 3}{2}} f_\ell )= \frac{\ell ^2 - 1}{2} + 4 \). </p>
-
-  </div>
-</div>
-<div class="proof_wrapper" id="a0000000038">
-  <div class="proof_heading">
-    <span class="proof_caption">
-    Proof
-    </span>
-    <span class="expand-proof">▶</span>
-  </div>
-  <div class="proof_content">
-  
-
-  </div>
-</div>
-<div class="lemma_thmwrapper theorem-style-plain" id="lem:fl_delta_add_one">
-  <div class="lemma_thmheading">
-    <span class="lemma_thmcaption">
-    Lemma
-    </span>
-    <span class="lemma_thmlabel">52</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#lem:fl_delta_add_one">#</a>
-    
-    <a class="icon proof" href="index.html#a0000000039"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
-</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#def:fl">Definition 20</a></li>
-          
-          <li><a href="index.html#def:mulpow">Definition 8</a></li>
-          
-          <li><a href="index.html#lem:non_diag_vanish">Lemma 10</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/FinalSection.lean#L28" class="lean_decl">fl_delta_add_one</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/ModularFormMod/Basic.lean#L61" class="lean_decl">ModularFormMod.fl_delta_add_one</a></li>
           
         </ul>
     
@@ -3794,7 +3237,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000039">
+<div class="proof_wrapper" id="a0000000033">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -3811,7 +3254,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">53</span>
+    <span class="definition_thmlabel">45</span>
     <div class="thm_header_extras">
 
     
@@ -3834,7 +3277,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L47" class="lean_decl">ramanujan_congruence</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/Partition.lean#L30" class="lean_decl">ramanujan_congruence</a></li>
           
         </ul>
     
@@ -3854,7 +3297,7 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">54</span>
+    <span class="theorem_thmlabel">46</span>
     <div class="thm_header_extras">
 
     
@@ -3864,7 +3307,7 @@
 
     <a class="icon proof" href="index.html#thm:partitionProduct_eq">#</a>
     
-    <a class="icon proof" href="index.html#a0000000040"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000034"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -3880,7 +3323,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L267" class="lean_decl">partitionProduct_eq</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/Partition.lean#L252" class="lean_decl">partitionProduct_eq</a></li>
           
         </ul>
     
@@ -3892,14 +3335,14 @@
   </div>
   <div class="theorem_thmcontent">
   <p>  If \(n \:  {\gt} \:  0\) and \(m \ge n\), then \(p (n)\) is equal to the nth coefficient in the product exapansion of </p>
-<div class="displaymath" id="a0000000041">
+<div class="displaymath" id="a0000000035">
   \[  \prod _{i = 0}^{m} (1 - X^{i + 1})^{-1}  \]
 </div>
 <p> Note : In lean, \(p (0) = 0\). </p>
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000040">
+<div class="proof_wrapper" id="a0000000034">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -3916,7 +3359,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">55</span>
+    <span class="definition_thmlabel">47</span>
     <div class="thm_header_extras">
 
     
@@ -3939,7 +3382,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L328" class="lean_decl">eventuallyEq</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/EventuallyEq.lean#L25" class="lean_decl">PowerSeries.eventuallyEq</a></li>
           
         </ul>
     
@@ -3959,7 +3402,7 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">56</span>
+    <span class="theorem_thmlabel">48</span>
     <div class="thm_header_extras">
 
     
@@ -3969,7 +3412,7 @@
 
     <a class="icon proof" href="index.html#thm:eventuallyEq_mul">#</a>
     
-    <a class="icon proof" href="index.html#a0000000042"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000036"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -3985,7 +3428,7 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:eventuallyEq">Definition 55</a></li>
+          <li><a href="index.html#def:eventuallyEq">Definition 47</a></li>
           
         </ul>
     
@@ -4005,7 +3448,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L367" class="lean_decl">eventuallyEq_mul</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/EventuallyEq.lean#L64" class="lean_decl">PowerSeries.eventuallyEq_mul</a></li>
           
         </ul>
     
@@ -4020,7 +3463,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000042">
+<div class="proof_wrapper" id="a0000000036">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -4037,7 +3480,7 @@
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">57</span>
+    <span class="lemma_thmlabel">49</span>
     <div class="thm_header_extras">
 
     
@@ -4046,6 +3489,209 @@
     <div class="thm_header_hidden_extras">
 
     <a class="icon proof" href="index.html#lem:coeff_sum_X_pow_mul">#</a>
+    
+    <a class="icon proof" href="index.html#a0000000037"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/PowerSeries.lean#L37" class="lean_decl">PowerSeries.coeff_sum_X_pow_mul</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Let \(n, N, \ell \in \mathbb {N}\) with \(n \:  {\lt} \:  N\) and \(\ell \:  {\gt} \:  0\). Let \(a : \mathbb {N} \to \alpha \) be a sequence with coefficients in a semiring \(\alpha \). Then the nth coefficient of </p>
+<div class="displaymath" id="a0000000038">
+  \[  \sum _{i = 0}^{N} a (n) X ^{\ell i} = \begin{cases}  a (n / \ell ) &  \text{ if } \ell \mid n, \\ 0 &  \text{ otherwise.} \end{cases}  \]
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000037">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:coeff_sum_squash">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">50</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#lem:coeff_sum_squash">#</a>
+    
+    <a class="icon proof" href="index.html#a0000000039"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#lem:coeff_sum_X_pow_mul">Lemma 49</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/PowerSeries.lean#L65" class="lean_decl">PowerSeries.coeff_sum_squash</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   Let \(j, \ell , N, M \in \mathbb {N}\) with \(\ell \:  {\gt} \:  0\) and \(N, M \:  {\gt} \:  \ell j\). Let \(a, b : \mathbb {N} \to \alpha \). Then the \(\ell j\) th coefficient of </p>
+<div class="displaymath" id="a0000000040">
+  \[  \sum _{i = 0}^{N} a (i) X ^i \sum _{i = 0}^{M} b (i) X ^{\ell i} = \sum _{x + y = j} a (\ell x) b (y)  \]
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000039">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:coeff_mul_shift_of_zero">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">51</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#lem:coeff_mul_shift_of_zero">#</a>
+    
+    <a class="icon proof" href="index.html#a0000000041"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/PowerSeries.lean#L133" class="lean_decl">PowerSeries.coeff_mul_shift_of_zero</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Let \(m, N \in \mathbb {N}\). Let \(f : \mathbb {N} \to \alpha [[X]]\) be a sequence with \(f(0) = 0\), the zero power series. Then </p>
+<div class="displaymath" id="a0000000042">
+  \[  X ^m \sum _{i = 0}^{N} f (i) X ^i = \sum _{i = 0}^{N + m} f (i - m) X ^i  \]
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000041">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:coeff_zero_of_ndvd">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">52</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#lem:coeff_zero_of_ndvd">#</a>
     
     <a class="icon proof" href="index.html#a0000000043"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
@@ -4063,7 +3709,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L406" class="lean_decl">coeff_sum_X_pow_mul</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/PowerSeries.lean#L156" class="lean_decl">PowerSeries.coeff_zero_of_ndvd</a></li>
           
         </ul>
     
@@ -4074,9 +3720,9 @@
         </div>
   </div>
   <div class="lemma_thmcontent">
-  <p>  Let \(n, N, \ell \in \mathbb {N}\) with \(n \:  {\lt} \:  N\) and \(\ell \:  {\gt} \:  0\). Let \(a : \mathbb {N} \to \alpha \) be a sequence with coefficients in a semiring \(\alpha \). Then the nth coefficient of </p>
+  <p>  Let \(M, \ell , k \in \mathbb {N}\) with \(\ell \nmid k\). Then the kth coefficient of </p>
 <div class="displaymath" id="a0000000044">
-  \[  \sum _{i = 0}^{N} a (n) X ^{\ell i} = \begin{cases}  a (n / \ell ) &  \text{ if } \ell \mid n, \\ 0 &  \text{ otherwise.} \end{cases}  \]
+  \[  \prod _{i = 0}^{M} (1 - X ^{\ell (i + 1)}) ^\ell = 0  \]
 </div>
 
   </div>
@@ -4093,12 +3739,12 @@
 
   </div>
 </div>
-<div class="lemma_thmwrapper theorem-style-plain" id="lem:coeff_sum_squash">
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:prod_eq_sum">
   <div class="lemma_thmheading">
     <span class="lemma_thmcaption">
     Lemma
     </span>
-    <span class="lemma_thmlabel">58</span>
+    <span class="lemma_thmlabel">53</span>
     <div class="thm_header_extras">
 
     
@@ -4106,7 +3752,7 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="index.html#lem:coeff_sum_squash">#</a>
+    <a class="icon proof" href="index.html#lem:prod_eq_sum">#</a>
     
     <a class="icon proof" href="index.html#a0000000045"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
@@ -4124,7 +3770,7 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#lem:coeff_sum_X_pow_mul">Lemma 57</a></li>
+          <li><a href="index.html#lem:coeff_zero_of_ndvd">Lemma 52</a></li>
           
         </ul>
     
@@ -4144,7 +3790,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L442" class="lean_decl">coeff_sum_squash</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/PowerSeries.lean#L225" class="lean_decl">PowerSeries.prod_eq_sum</a></li>
           
         </ul>
     
@@ -4155,9 +3801,9 @@
         </div>
   </div>
   <div class="lemma_thmcontent">
-  <p>   Let \(j, \ell , N, M \in \mathbb {N}\) with \(\ell \:  {\gt} \:  0\) and \(N, M \:  {\gt} \:  \ell j\). Let \(a, b : \mathbb {N} \to \alpha \). Then the \(\ell j\) th coefficient of </p>
+  <p>   Let \(\ell , K \in \mathbb {N}\) with \(\ell \:  {\gt} \:  0\). Then there exists a \(c : \mathbb {N} \to \alpha \) and \(M \in \mathbb {N}\) such that </p>
 <div class="displaymath" id="a0000000046">
-  \[  \sum _{i = 0}^{N} a (i) X ^i \sum _{i = 0}^{M} b (i) X ^{\ell i} = \sum _{x + y = j} a (\ell x) b (y)  \]
+  \[  \prod _{i = 0}^{K} (1 - X ^{\ell (i + 1)}) ^\ell = \sum _{i = 0}^{M} c (i) X ^{\ell i}  \]
 </div>
 
   </div>
@@ -4174,12 +3820,12 @@
 
   </div>
 </div>
-<div class="lemma_thmwrapper theorem-style-plain" id="lem:coeff_mul_shift_of_zero">
-  <div class="lemma_thmheading">
-    <span class="lemma_thmcaption">
-    Lemma
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:DeltaProduct_eventually_sum">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
     </span>
-    <span class="lemma_thmlabel">59</span>
+    <span class="theorem_thmlabel">54</span>
     <div class="thm_header_extras">
 
     
@@ -4187,11 +3833,33 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="index.html#lem:coeff_mul_shift_of_zero">#</a>
+    <a class="icon proof" href="index.html#thm:DeltaProduct_eventually_sum">#</a>
     
     <a class="icon proof" href="index.html#a0000000047"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#def:Delta">Definition 12</a></li>
+          
+          <li><a href="index.html#def:eventuallyEq">Definition 47</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
     
     
     <button class="modal lean">L∃∀N</button>
@@ -4205,7 +3873,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L510" class="lean_decl">coeff_mul_shift_of_zero</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/IntegerModularForm/Basic.lean#L459" class="lean_decl">IntegerModularForm.DeltaProduct_eventually_sum</a></li>
           
         </ul>
     
@@ -4215,10 +3883,10 @@
     
         </div>
   </div>
-  <div class="lemma_thmcontent">
-  <p>  Let \(m, N \in \mathbb {N}\). Let \(f : \mathbb {N} \to \alpha [[X]]\) be a sequence with \(f(0) = 0\), the zero power series. Then </p>
+  <div class="theorem_thmcontent">
+  <p>   The coefficients of the Delta product are eventually equal to the coefficients of the Delta function. In other words, </p>
 <div class="displaymath" id="a0000000048">
-  \[  X ^m \sum _{i = 0}^{N} f (i) X ^i = \sum _{i = 0}^{N + m} f (i - m) X ^i  \]
+  \[  X \prod _{i \,  \le \:  \cdot } (1 - X ^{i + 1}) ^{24} \longrightarrow \sum _{i \,  \le \:  \cdot } \Delta (i) X ^i  \]
 </div>
 
   </div>
@@ -4235,12 +3903,12 @@
 
   </div>
 </div>
-<div class="lemma_thmwrapper theorem-style-plain" id="lem:coeff_zero_of_ndvd">
-  <div class="lemma_thmheading">
-    <span class="lemma_thmcaption">
-    Lemma
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:flProduct_eventually_sum">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
     </span>
-    <span class="lemma_thmlabel">60</span>
+    <span class="theorem_thmlabel">55</span>
     <div class="thm_header_extras">
 
     
@@ -4248,11 +3916,35 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="index.html#lem:coeff_zero_of_ndvd">#</a>
+    <a class="icon proof" href="index.html#thm:flProduct_eventually_sum">#</a>
     
     <a class="icon proof" href="index.html#a0000000049"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#def:fl">Definition 13</a></li>
+          
+          <li><a href="index.html#thm:DeltaProduct_eventually_sum">Theorem 54</a></li>
+          
+          <li><a href="index.html#thm:eventuallyEq_mul">Theorem 48</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
     
     
     <button class="modal lean">L∃∀N</button>
@@ -4266,7 +3958,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L533" class="lean_decl">coeff_zero_of_ndvd</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/IntegerModularForm/Basic.lean#L475" class="lean_decl">IntegerModularForm.flProduct_eventually_sum</a></li>
           
         </ul>
     
@@ -4276,10 +3968,10 @@
     
         </div>
   </div>
-  <div class="lemma_thmcontent">
-  <p>  Let \(M, \ell , k \in \mathbb {N}\) with \(\ell \nmid k\). Then the kth coefficient of </p>
+  <div class="theorem_thmcontent">
+  <p>   If \(\ell \ge 5\) is prime, then the coefficients of the \(f_\ell \) product are eventually equal to the coefficients of the \(f_\ell \: \) function. In other words, </p>
 <div class="displaymath" id="a0000000050">
-  \[  \prod _{i = 0}^{M} (1 - X ^{\ell (i + 1)}) ^\ell = 0  \]
+  \[  (X ^{\delta _\ell } \prod _{i \,  \le \:  \cdot } (1 - X ^{i + 1}) ^{24 \delta _\ell } \longrightarrow \sum _{i \,  \le \:  \cdot } f_\ell (i) X ^i  \]
 </div>
 
   </div>
@@ -4296,12 +3988,12 @@
 
   </div>
 </div>
-<div class="lemma_thmwrapper theorem-style-plain" id="lem:prod_eq_sum">
-  <div class="lemma_thmheading">
-    <span class="lemma_thmcaption">
-    Lemma
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:flu_eq_zero">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
     </span>
-    <span class="lemma_thmlabel">61</span>
+    <span class="theorem_thmlabel">56</span>
     <div class="thm_header_extras">
 
     
@@ -4309,7 +4001,7 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="index.html#lem:prod_eq_sum">#</a>
+    <a class="icon proof" href="index.html#thm:flu_eq_zero">#</a>
     
     <a class="icon proof" href="index.html#a0000000051"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
@@ -4327,7 +4019,19 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#lem:coeff_zero_of_ndvd">Lemma 60</a></li>
+          <li><a href="index.html#def:UOp">Definition 4</a></li>
+          
+          <li><a href="index.html#def:ramanujan_congruence">Definition 45</a></li>
+          
+          <li><a href="index.html#thm:flProduct_eventually_sum">Theorem 55</a></li>
+          
+          <li><a href="index.html#thm:partitionProduct_eq">Theorem 46</a></li>
+          
+          <li><a href="index.html#lem:prod_eq_sum">Lemma 53</a></li>
+          
+          <li><a href="index.html#lem:coeff_mul_shift_of_zero">Lemma 51</a></li>
+          
+          <li><a href="index.html#lem:coeff_sum_squash">Lemma 50</a></li>
           
         </ul>
     
@@ -4347,7 +4051,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L603" class="lean_decl">prod_eq_sum</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/FluNeZero.lean#L24" class="lean_decl">flu_eq_zero</a></li>
           
         </ul>
     
@@ -4357,11 +4061,8 @@
     
         </div>
   </div>
-  <div class="lemma_thmcontent">
-  <p>   Let \(\ell , K \in \mathbb {N}\) with \(\ell \:  {\gt} \:  0\). Then there exists a \(c : \mathbb {N} \to \alpha \) and \(M \in \mathbb {N}\) such that </p>
-<div class="displaymath" id="a0000000052">
-  \[  \prod _{i = 0}^{K} (1 - X ^{\ell (i + 1)}) ^\ell = \sum _{i = 0}^{M} c (i) X ^{\ell i}  \]
-</div>
+  <div class="theorem_thmcontent">
+  <p>   Let \(\ell \ge 5\) be prime. If there is a ramanujan congruence mod \(\ell \), then \((f_\ell | U) = 0.\) </p>
 
   </div>
 </div>
@@ -4377,12 +4078,12 @@
 
   </div>
 </div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:DeltaProduct_eventually_sum">
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:Eis_two_one">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">62</span>
+    <span class="theorem_thmlabel">57</span>
     <div class="thm_header_extras">
 
     
@@ -4390,7 +4091,85 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="index.html#thm:DeltaProduct_eventually_sum">#</a>
+    <a class="icon proof" href="index.html#thm:Eis_two_one">#</a>
+    
+    <a class="icon proof" href="index.html#a0000000052"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#def:Eis">Definition 11</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/IntegerModularForm/Basic.lean#L617" class="lean_decl">IntegerModularForm.Eis_four_one</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   \(E_2 (1) = 240\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000052">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:G_delta_add_one">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">58</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#thm:G_delta_add_one">#</a>
     
     <a class="icon proof" href="index.html#a0000000053"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
@@ -4408,9 +4187,13 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:Delta">Definition 19</a></li>
+          <li><a href="index.html#def:G">Definition 15</a></li>
           
-          <li><a href="index.html#def:eventuallyEq">Definition 55</a></li>
+          <li><a href="index.html#thm:ord_Delta">Theorem 19</a></li>
+          
+          <li><a href="index.html#lem:fl_delta_add_one">Lemma 44</a></li>
+          
+          <li><a href="index.html#thm:Eis_two_one">Theorem 57</a></li>
           
         </ul>
     
@@ -4430,7 +4213,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L661" class="lean_decl">DeltaProduct_eventually_sum</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/MainResult.lean#L59" class="lean_decl">G_delta_add_one</a></li>
           
         </ul>
     
@@ -4441,10 +4224,7 @@
         </div>
   </div>
   <div class="theorem_thmcontent">
-  <p>   The coefficients of the Delta product are eventually equal to the coefficients of the Delta function. In other words, </p>
-<div class="displaymath" id="a0000000054">
-  \[  X \prod _{i \,  \le \:  \cdot } (1 - X ^{i + 1}) ^{24} \longrightarrow \sum _{i \,  \le \:  \cdot } \Delta (i) X ^i  \]
-</div>
+  <p>   \(G_{6\delta _\ell + 2, \,  \delta _\ell } (\delta _\ell + 1) \equiv 241 \pmod\ell \). </p>
 
   </div>
 </div>
@@ -4460,12 +4240,12 @@
 
   </div>
 </div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:fl_Product_eventually_sum">
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:Theta_l_add_three_div_two">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">63</span>
+    <span class="theorem_thmlabel">59</span>
     <div class="thm_header_extras">
 
     
@@ -4473,7 +4253,94 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="index.html#thm:fl_Product_eventually_sum">#</a>
+    <a class="icon proof" href="index.html#thm:Theta_l_add_three_div_two">#</a>
+    
+    <a class="icon proof" href="index.html#a0000000054"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#def:fl">Definition 13</a></li>
+          
+          <li><a href="index.html#thm:exists_maximal_Reduce">Theorem 26</a></li>
+          
+          <li><a href="index.html#thm:eq_G_of_ord_max">Theorem 24</a></li>
+          
+          <li><a href="index.html#thm:Reduce_of_reduce">Theorem 25</a></li>
+          
+          <li><a href="index.html#thm:Filt_Theta_l_add_three_div_two">Theorem 43</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/MainResult.lean#L88" class="lean_decl">Theta_l_add_three_div_two</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  
+<p>\(\Theta ^{\frac{\ell + 3}{2}} f_\ell \equiv \delta _\ell ^{\frac{\ell + 3}{2}} G_{6\delta _\ell + 2, \,  \delta _\ell } \pmod\ell \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000054">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:Theta_l_add_three_div_two_eq_241">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">60</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#thm:Theta_l_add_three_div_two_eq_241">#</a>
     
     <a class="icon proof" href="index.html#a0000000055"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
@@ -4491,11 +4358,9 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:fl">Definition 20</a></li>
+          <li><a href="index.html#thm:Theta_l_add_three_div_two">Theorem 59</a></li>
           
-          <li><a href="index.html#thm:DeltaProduct_eventually_sum">Theorem 62</a></li>
-          
-          <li><a href="index.html#thm:eventuallyEq_mul">Theorem 56</a></li>
+          <li><a href="index.html#thm:G_delta_add_one">Theorem 58</a></li>
           
         </ul>
     
@@ -4515,7 +4380,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L680" class="lean_decl">fl_Product_eventually_sum</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/MainResult.lean#L125" class="lean_decl">Theta_l_add_three_div_two_eq_241</a></li>
           
         </ul>
     
@@ -4526,10 +4391,7 @@
         </div>
   </div>
   <div class="theorem_thmcontent">
-  <p>   If \(\ell \ge 5\) is prime, then the coefficients of the \(f_\ell \) product are eventually equal to the coefficients of the \(f_\ell \: \) function. In other words, </p>
-<div class="displaymath" id="a0000000056">
-  \[  (X ^{\delta _\ell } \prod _{i \,  \le \:  \cdot } (1 - X ^{i + 1}) ^{24 \delta _\ell } \longrightarrow \sum _{i \,  \le \:  \cdot } f_\ell (i) X ^i  \]
-</div>
+  <p>   \((\Theta ^{\frac{\ell + 3}{2}} f_\ell ) \:  (\delta _\ell + 1) = 241 (\delta _\ell + 1)^{\frac{\ell + 3}{2}}\). </p>
 
   </div>
 </div>
@@ -4545,12 +4407,12 @@
 
   </div>
 </div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:flu_eq_zero">
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:flu_ne_zero">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">64</span>
+    <span class="theorem_thmlabel">61</span>
     <div class="thm_header_extras">
 
     
@@ -4558,7 +4420,87 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="index.html#thm:flu_eq_zero">#</a>
+    <a class="icon proof" href="index.html#thm:flu_ne_zero">#</a>
+    
+    <a class="icon proof" href="index.html#a0000000056"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#thm:Theta_l_add_three_div_two_eq_241">Theorem 60</a></li>
+          
+          <li><a href="index.html#lem:fl_delta_add_one">Lemma 44</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/MainResult.lean#L167" class="lean_decl">flu_ne_zero</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   If \(\ell \ge 13\) is prime, then \((f_\ell | U) \neq 0.\) </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000056">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:MainResult">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">62</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="index.html#thm:MainResult">#</a>
     
     <a class="icon proof" href="index.html#a0000000057"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
@@ -4576,19 +4518,9 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:U_Operator">Definition 5</a></li>
+          <li><a href="index.html#thm:flu_eq_zero">Theorem 56</a></li>
           
-          <li><a href="index.html#def:ramanujan_congruence">Definition 53</a></li>
-          
-          <li><a href="index.html#thm:fl_Product_eventually_sum">Theorem 63</a></li>
-          
-          <li><a href="index.html#thm:partitionProduct_eq">Theorem 54</a></li>
-          
-          <li><a href="index.html#lem:prod_eq_sum">Lemma 61</a></li>
-          
-          <li><a href="index.html#lem:coeff_mul_shift_of_zero">Lemma 59</a></li>
-          
-          <li><a href="index.html#lem:coeff_sum_squash">Lemma 58</a></li>
+          <li><a href="index.html#thm:flu_ne_zero">Theorem 61</a></li>
           
         </ul>
     
@@ -4608,87 +4540,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/PartitionDefs.lean#L732" class="lean_decl">flu_eq_zero</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="theorem_thmcontent">
-  <p>   Let \(\ell \ge 5\) be prime. If there is a ramanujan congruence mod \(\ell \), then \((f_\ell | U) = 0.\) </p>
-
-  </div>
-</div>
-<div class="proof_wrapper" id="a0000000057">
-  <div class="proof_heading">
-    <span class="proof_caption">
-    Proof
-    </span>
-    <span class="expand-proof">▶</span>
-  </div>
-  <div class="proof_content">
-  
-
-  </div>
-</div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:MainResult">
-  <div class="theorem_thmheading">
-    <span class="theorem_thmcaption">
-    Theorem
-    </span>
-    <span class="theorem_thmlabel">65</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#thm:MainResult">#</a>
-    
-    <a class="icon proof" href="index.html#a0000000058"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
-</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#thm:flu_eq_zero">Theorem 64</a></li>
-          
-          <li><a href="index.html#thm:flu_ne_zero">Theorem 70</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/FinalSection.lean#L727" class="lean_decl">MainResult</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/MainResult.lean#L301" class="lean_decl">MainResult</a></li>
           
         </ul>
     
@@ -4703,403 +4555,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000058">
-  <div class="proof_heading">
-    <span class="proof_caption">
-    Proof
-    </span>
-    <span class="expand-proof">▶</span>
-  </div>
-  <div class="proof_content">
-  
-
-  </div>
-</div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:Eis_two_one">
-  <div class="theorem_thmheading">
-    <span class="theorem_thmcaption">
-    Theorem
-    </span>
-    <span class="theorem_thmlabel">66</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#thm:Eis_two_one">#</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#def:Eis">Definition 18</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/Basis.lean#L720" class="lean_decl">Integer.Eis_two_one</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="theorem_thmcontent">
-  <p>   \(E_2 (1) = 240\). </p>
-
-  </div>
-</div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:G_delta_add_one">
-  <div class="theorem_thmheading">
-    <span class="theorem_thmcaption">
-    Theorem
-    </span>
-    <span class="theorem_thmlabel">67</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#thm:G_delta_add_one">#</a>
-    
-    <a class="icon proof" href="index.html#a0000000059"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
-</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#def:G">Definition 31</a></li>
-          
-          <li><a href="index.html#thm:ord_pow_ord">Theorem 27</a></li>
-          
-          <li><a href="index.html#thm:ord_Delta">Theorem 28</a></li>
-          
-          <li><a href="index.html#lem:fl_delta_add_one">Lemma 52</a></li>
-          
-          <li><a href="index.html#thm:Eis_two_one">Theorem 66</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/FinalSection.lean#L451" class="lean_decl">G_delta_add_one</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="theorem_thmcontent">
-  <p>   \(G_{6\delta _\ell + 2, \,  \delta _\ell } (\delta _\ell + 1) \equiv 241 \pmod\ell \). </p>
-
-  </div>
-</div>
-<div class="proof_wrapper" id="a0000000059">
-  <div class="proof_heading">
-    <span class="proof_caption">
-    Proof
-    </span>
-    <span class="expand-proof">▶</span>
-  </div>
-  <div class="proof_content">
-  
-
-  </div>
-</div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:Theta_l_add_three_div_two">
-  <div class="theorem_thmheading">
-    <span class="theorem_thmcaption">
-    Theorem
-    </span>
-    <span class="theorem_thmlabel">68</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#thm:Theta_l_add_three_div_two">#</a>
-    
-    <a class="icon proof" href="index.html#a0000000060"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
-</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#def:fl">Definition 20</a></li>
-          
-          <li><a href="index.html#thm:exists_maximal_Reduce">Theorem 36</a></li>
-          
-          <li><a href="index.html#thm:eq_G_of_ord_max">Theorem 35</a></li>
-          
-          <li><a href="index.html#thm:zero_of_leading_zeros">Theorem 34</a></li>
-          
-          <li><a href="index.html#thm:Filt_Theta_l_add_three_div_two">Theorem 51</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/FinalSection.lean#L497" class="lean_decl">Theta_l_add_three_div_two</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="theorem_thmcontent">
-  
-<p>\(\Theta ^{\frac{\ell + 3}{2}} f_\ell \equiv \delta _\ell ^{\frac{\ell + 3}{2}} G_{6\delta _\ell + 2, \,  \delta _\ell } \pmod\ell \). </p>
-
-  </div>
-</div>
-<div class="proof_wrapper" id="a0000000060">
-  <div class="proof_heading">
-    <span class="proof_caption">
-    Proof
-    </span>
-    <span class="expand-proof">▶</span>
-  </div>
-  <div class="proof_content">
-  
-
-  </div>
-</div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:Theta_l_add_three_div_two_eq_241">
-  <div class="theorem_thmheading">
-    <span class="theorem_thmcaption">
-    Theorem
-    </span>
-    <span class="theorem_thmlabel">69</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#thm:Theta_l_add_three_div_two_eq_241">#</a>
-    
-    <a class="icon proof" href="index.html#a0000000061"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
-</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#thm:Theta_l_add_three_div_two">Theorem 68</a></li>
-          
-          <li><a href="index.html#thm:G_delta_add_one">Theorem 67</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/FinalSection.lean#L550" class="lean_decl">Theta_l_add_three_div_two_eq_241</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="theorem_thmcontent">
-  <p>   \((\Theta ^{\frac{\ell + 3}{2}} f_\ell ) \:  (\delta _\ell + 1) = 241 (\delta _\ell + 1)^{\frac{\ell + 3}{2}}\). </p>
-
-  </div>
-</div>
-<div class="proof_wrapper" id="a0000000061">
-  <div class="proof_heading">
-    <span class="proof_caption">
-    Proof
-    </span>
-    <span class="expand-proof">▶</span>
-  </div>
-  <div class="proof_content">
-  
-
-  </div>
-</div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:flu_ne_zero">
-  <div class="theorem_thmheading">
-    <span class="theorem_thmcaption">
-    Theorem
-    </span>
-    <span class="theorem_thmlabel">70</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#thm:flu_ne_zero">#</a>
-    
-    <a class="icon proof" href="index.html#a0000000062"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
-</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#thm:Theta_l_add_three_div_two_eq_241">Theorem 69</a></li>
-          
-          <li><a href="index.html#lem:fl_delta_add_one">Lemma 52</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/FinalSection.lean#L594" class="lean_decl">flu_ne_zero</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="theorem_thmcontent">
-  <p>   If \(\ell \ge 13\) is prime, then \((f_\ell | U) \neq 0.\) </p>
-
-  </div>
-</div>
-<div class="proof_wrapper" id="a0000000062">
+<div class="proof_wrapper" id="a0000000057">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
