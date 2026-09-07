@@ -29,20 +29,16 @@ Formalized :
 
 
 TODO : 
+There are 8 sorries left.
+· `num_two_mul_bernoulli (k : ℕ) : (2 * k / bernoulli k).num = (2 * k / bernoulli k : ℂ)`
+· `Delta.carrier_eq`
+· `dvd_coeff_succ_El (n) : ↑ℓ ∣ (El ℓ).coeff (n + 1)`
+· `Reduce_of_reduce` (it is maybe unnecessary to assume this)
+· `Theta.modular`
+· `UOp.modular`
+· `Filt_Theta_bound : f.Theta.Filtration ≤ f.Filtration + (ℓ + 1)`
+· `Filt_Theta_iff : f.Theta.Filtration = f.Filtration + (ℓ + 1) ↔ ¬ ↑ℓ ∣ f.Filtration`
 
-- Prove that Integer Modular Forms and Modular Forms Mod ℓ form a graded ring. (i.e. fill in the sorries on the definitions of add, mul, and pow of these structures).
-
-- Prove that the Theta and U operators preserve modularity.
-
-- Prove lemma 2.1
-
-- Prove that if two Modular Forms Mod ℓ are equal, then their weights are congruent (mod ℓ - 1)
-
-- Prove that Δ and the Eisenstein series are Modular Forms.
-
-- Prove that the basis used actually forms a basis for the space of Modular Forms
-
-- Prove the Filtration Log property.
 
 
 Note : 
