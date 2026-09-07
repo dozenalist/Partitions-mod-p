@@ -287,8 +287,8 @@ theorem G_LI : LinearIndependent ℤ (@G k) := by
 noncomputable def upTriangle_coeff (f : IntegerModularForm k) : Fin (dim k) → ℤ
 
   | ⟨0, _⟩ => f.coeff 0
-  | ⟨n + 1, nlt⟩ =>
-    f.coeff (n + 1) - ∑ i : Fin (n + 1), upTriangle_coeff f ⟨i, i.2.trans nlt⟩ * (G (k := k) ⟨i, i.2.trans nlt⟩).coeff (n + 1)
+  | ⟨n + 1, nlt⟩ => f.coeff (n + 1) - ∑ i : Fin (n + 1),
+    upTriangle_coeff f ⟨i, i.2.trans nlt⟩ * (G (k := k) ⟨i, i.2.trans nlt⟩).coeff (n + 1)
 
 
 theorem upTriangle_coeff_zero (f : IntegerModularForm k) (hk : 0 < dim k) : upTriangle_coeff f ⟨0,hk⟩ = f.coeff 0 := by
@@ -301,7 +301,7 @@ theorem upTriangle_coeff_succ (f : IntegerModularForm k) (n) (hk : n + 1 < dim k
 
 
 theorem upTriangle_coeff_smul_G (f : IntegerModularForm k) :
-    ∑ (i : Fin (dim k)), upTriangle_coeff f i • G i = f := by
+    ∑ i, upTriangle_coeff f i • G i = f := by
 
   apply coeff_trunc_injective
   ext ⟨n, nlt⟩
@@ -382,7 +382,7 @@ theorem exists_G_combo (f : IntegerModularForm k) :
   simp only [Submodule.top_le_span_range_iff_forall_exists_fun, eq_comm] at this
   exact this f
 
-theorem dimension_eq_dim : Module.rank ℤ (IntegerModularForm k) = dim k := by 
+theorem dimension_eq_dim : Module.rank ℤ (IntegerModularForm k) = dim k := by
   rw [rank_eq_card_basis <| GBasis k, Fintype.card_fin]
 
 theorem finrank_eq_dim : Module.finrank ℤ (IntegerModularForm k) = dim k := by

@@ -149,9 +149,38 @@
   such that $\sum_{n=0}^{\infty} a(n) q^n$ is a modular form of weight $k$, where $q = e ^ {2 \pi i z}.$
 \end{definition}
 
+\begin{theorem}
+  \label{thm:num_two_mul_bernoulli}
+  \lean{IntegerModularForm.num_two_mul_bernoulli}
+
+  $\frac{2k}{bernoulli_{2k}}$ is an integer
+
+\end{theorem}
+
+
+\begin{definition} [Eisenstein Series]
+  \label{def:Eis}
+  \uses{def:IntegerModularForm, theorem:num_two_mul_bernoulli}
+  \lean{IntegerModularForm.Eis}
+  \leanok
+  For $k \ge 2 \in \mathbb{N}$, the Eisenstein series $E_k$ is an integer modular form of weight $2k$ defined by 
+  \[ E_k = 1 - \frac{2k}{B_{2k}} \sum_{n = 1}^{\infty} \sigma_{k - 1} (n) q ^ n \]
+  where $B_k$ is the kth Bernoulli number and $\sigma_{k} (n)$ is the sum of the kth powers of the divisors of $n$.
+\end{definition}
+
+
+\begin{theorem}
+  \label{thm:dvd_coeff_succ_El}
+  \uses{def:Eis}
+  \lean{IntegerModularForm.dvd_coeff_succ_El}
+
+  For $n > 0$, $\ell$ divides the $n$th coefficient in the q-expansion of $Eis_{\ell - 1}$.
+\end{theorem}
+
+
 \begin{definition} [Modular Form Mod $\ell$]
   \label{def:ModularFormMod}
-  \uses{def:IntegerModularForm}
+  \uses{def:IntegerModularForm, thm:dvd_coeff_succ_El}
   \lean{ModularFormMod}
   \leanok
   A modular form mod $\ell$ of weight $k \in \mathbb{Z} / (\ell - 1) \mathbb{Z}$ is a sequence $a : \mathbb{N} → \mathbb{Z} / \ell \mathbb{Z}$
@@ -308,7 +337,7 @@
   \leanok
 
   If an integer modular form of $a$ weight $k$ reduces to a modular form mod $\ell$ of weight $j$ 
-  then we must have $k \equiv j \pmod \ell$
+  then we must have $k \equiv j \pmod (\ell - 1)$
 
 \end{theorem}
 
@@ -323,17 +352,6 @@
 \begin{proof}
   \leanok
 \end{proof}
-
-
-\begin{definition} [Eisenstein Series]
-  \label{def:Eis}
-  \uses{def:IntegerModularForm}
-  \lean{IntegerModularForm.Eis}
-  \leanok
-  For $k \ge 2 \in \mathbb{N}$, the Eisenstein series $E_k$ is an integer modular form of weight $2k$ defined by 
-  \[ E_k = 1 - \frac{4k}{B_{2k}} \sum_{n = 1}^{\infty} \sigma_{2k - 1} (n) q ^ n \]
-  where $B_k$ is the kth Bernoulli number and $\sigma_{k} (n)$ is the sum of the kth powers of the divisors of $n$.
-\end{definition}
 
 
 \begin{definition}[Delta]
@@ -598,7 +616,7 @@
   \lean{Filtration_Theta_pow_sub_one}
   \leanok
   The conclusion of Lemma 3.3 \\
-  If $f_\ell | U = 0 then \omega (\Theta^{\ell - 1} f_\ell) = \frac{\ell ^ 2 - 1}{2}$
+  If $f_\ell | U = 0$ then $\omega (\Theta^{\ell - 1} f_\ell) = \frac{\ell ^ 2 - 1}{2}$
 \end{theorem}
 \begin{proof}
   \leanok

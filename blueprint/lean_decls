@@ -1,4 +1,7 @@
 IntegerModularForm
+IntegerModularForm.num_two_mul_bernoulli
+IntegerModularForm.Eis
+IntegerModularForm.dvd_coeff_succ_El
 ModularFormMod
 ModularFormMod.Theta
 ModularFormMod.UOp
@@ -10,7 +13,6 @@ ModularFormMod.coeff_pow_Prime
 UOp_pow_l
 ModularFormMod.Reduce_of_reduce
 ModularFormMod.Filtration_congruence
-IntegerModularForm.Eis
 IntegerModularForm.Delta
 IntegerModularForm.fl
 dim
