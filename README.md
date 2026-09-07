@@ -30,13 +30,21 @@ Formalized :
 
 TODO : 
 There are 8 sorries left.
+
 · `num_two_mul_bernoulli (k : ℕ) : (2 * k / bernoulli k).num = (2 * k / bernoulli k : ℂ)`
+
 · `Delta.carrier_eq`
+
 · `dvd_coeff_succ_El (n) : ↑ℓ ∣ (El ℓ).coeff (n + 1)`
+
 · `Reduce_of_reduce` (it is maybe unnecessary to assume this)
+
 · `Theta.modular`
+
 · `UOp.modular`
+
 · `Filt_Theta_bound : f.Theta.Filtration ≤ f.Filtration + (ℓ + 1)`
+
 · `Filt_Theta_iff : f.Theta.Filtration = f.Filtration + (ℓ + 1) ↔ ¬ ↑ℓ ∣ f.Filtration`
 
 
