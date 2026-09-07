@@ -2,11 +2,13 @@ import Mathlib.AlgebraicTopology.SimplexCategory.Basic
 import Mathlib.NumberTheory.ModularForms.QExpansion
 
 
+/-
+This file defines Integer Modular Forms, proves some basic identities,
+and shows that they form an AddCommGroup and Module over ℤ
+This file is sorry-free
+-/
+
 open ModularForm PowerSeries MatrixGroups UpperHalfPlane Set DirectSum
-
-
--- protected noncomputable def DirectSum.qexp : (⨁ k, ModularForm 𝒮ℒ k) →+* ℂ⟦X⟧ :=
---   qExpansionRingHom (Γ := 𝒮ℒ) 1 zero_lt_one (by simp)
 
 
 noncomputable abbrev ModularForm.qexp {k} := ModularForm.qExpansionAddHom (Γ := 𝒮ℒ) zero_lt_one (by simp) k
@@ -32,16 +34,16 @@ theorem ModularForm.qexp_eq {k} (f : ModularForm 𝒮ℒ k) : f.qexp = ((of _ _ 
 theorem ModularForm.qexp_eq' {k} (f : ModularForm 𝒮ℒ k) : f.qexp = qExpansion 1 f := by
   simp [ModularForm.qexp, qExpansionAddHom]
 
-lemma ModularForm.of_mul {k j : ℤ} (f : ModularForm 𝒮ℒ k) (g : ModularForm 𝒮ℒ j) :
-    of _ _ (f.mul g) = of _ _ f * of _ _ g := by
-  sorry
+-- lemma ModularForm.of_mul {k j : ℤ} (f : ModularForm 𝒮ℒ k) (g : ModularForm 𝒮ℒ j) :
+--     of _ _ (f.mul g) = of _ _ f * of _ _ g := by
+
 
 
 lemma ModularForm.qexp_mul {k j : ℤ} (f : ModularForm 𝒮ℒ k) (g : ModularForm 𝒮ℒ j) :
     (f.mul g).qexp = f.qexp * g.qexp := by
-  repeat rw [qexp_eq, qexp_eq']
-  rw [← qExpansion_of_mul zero_lt_one (by simp)]
-  simp [of_mul]
+  simp only [qexp, qExpansionAddHom, AddMonoidHom.coe_mk,
+    ZeroHom.coe_mk, ModularForm.qExpansion_mul (Γ := 𝒮ℒ) zero_lt_one (by simp)]
+
 
 lemma ModularForm.qexp_pow {k : ℤ} (f : ModularForm 𝒮ℒ k) (j : ℕ) : (f.pow j).qexp = f.qexp ^ j := by
   simp [ModularForm.qexp, qExpansionAddHom]
@@ -60,18 +62,6 @@ carrier : ModularForm 𝒮ℒ k
 
 carrier_eq : carrier.qexp = map (Int.castRingHom ℂ) fourier
 
-
--- #check algebraMap
-
--- structure IntegerModularForm (k : ℤ) where
-
--- fourier : PowerSeries ℤ
-
--- modform :
-
--- modular : ∃ f : ModularForm 𝒮ℒ k, map (Int.castRingHom ℂ) fourier = f.qexp
-
--- #check algebraMap
 
 noncomputable section
 
@@ -204,7 +194,6 @@ variable {k j : ℤ} (z : ℍ) (n : ℕ) (f g : IntegerModularForm k) (h : Integ
 @[simp]
 theorem toFun_eq_coe : ⇑f = (f : ℍ → ℂ) := rfl
 
-
 theorem coe_apply : f.carrier z = f z := rfl
 
 @[simp]
@@ -235,6 +224,13 @@ theorem fourier_mul : (f.mul h).fourier = f.fourier * h.fourier := rfl
 
 theorem coeff_mul : (f.mul h).coeff n = ∑ p ∈ antidiagonal n, f.coeff p.1 * h.coeff p.2 := by
   simp only [coeff, fourier_mul, PowerSeries.coeff_mul]
+
+theorem fourier_inj : Function.Injective (@IntegerModularForm.fourier k) := fun f g h =>
+  ext fun _ => by simp only [coeff, h]
+
+theorem carrier_inj : Function.Injective (@IntegerModularForm.carrier k) := fun f g h =>
+  ext₂ fun _ => by simp only [← coe_apply, h]
+
 
 
 
@@ -436,16 +432,14 @@ theorem coeff_pow_of_leading_zero {f : IntegerModularForm k} (h : f.coeff 0 = 0)
 
 open PowerSeries
 
+@[simp] theorem coeff_zero_mul : (f.mul h).coeff 0 = f.coeff 0 * h.coeff 0 := by
+  simp only [← coeff_def, fourier_mul, coeff_zero_eq_constantCoeff, map_mul]
+
+@[simp] theorem coeff_zero_pow : (f.pow n).coeff 0 = (f.coeff 0) ^ n := by
+  simp only [← coeff_def, fourier_pow, coeff_zero_eq_constantCoeff, map_pow]
 
 
--- Step 0: a helper — the "coeff 1 of a product" formula, i.e. the degree-1
--- Cauchy product has only two terms.
-private lemma coeff_one_mul (φ ψ : ℤ⟦X⟧) :
-    (φ * ψ).coeff 1 = φ.coeff 0 * ψ.coeff 1 + φ.coeff 1 * ψ.coeff 0 := by
-  simp [PowerSeries.coeff_mul, show antidiagonal 1 = {(0, 1), (1, 0)} from rfl]
-
--- Step 1: the clean, unshifted auxiliary lemma (avoids ℕ-subtraction pain)
-private lemma coeff_one_pow_succ (q : ℤ⟦X⟧) :
+private lemma _root_.PowerSeries.coeff_one_pow_succ (q : ℤ⟦X⟧) :
     ∀ n : ℕ, (q ^ (n + 1)).coeff 1 = (n + 1 : ℕ) • q.coeff 1 * (q.coeff 0) ^ n
   | 0 => by simp
   | n + 1 => by
@@ -463,17 +457,22 @@ theorem coeff_succ_pow_of_leading_zero {f : IntegerModularForm k} (h : f.coeff 0
     obtain ⟨q, rfl⟩ := X_dvd_iff.2 h
     simp [mul_pow, add_comm (m + 1), coeff_one_pow_succ]
 
+theorem coeff_one_mul :
+    (f.mul g).coeff 1 = f.coeff 1 * g.coeff 0 + g.coeff 1 * f.coeff 0 := by
+  simpa only [← coeff_def, fourier_mul, coeff_zero_eq_constantCoeff] using
+    PowerSeries.coeff_one_mul _ _
+
+
 
 
 instance : AddCommGroup (IntegerModularForm k) :=
   DFunLike.coe_injective.addCommGroup _ rfl coe_add coe_neg coe_sub coe_smuln coe_smulz
 
-
 @[simps]
-def coeffAddHom : IntegerModularForm k →+ ℕ → ℤ where
+def coeffLinearMap : IntegerModularForm k →ₗ[ℤ] ℕ → ℤ where
   toFun f n := f.coeff n
-  map_zero' := by ext; rw [coeff_zero, Pi.zero_apply]
   map_add' _ _ := rfl
+  map_smul' _ _ := rfl
 
 def coeAddHom : IntegerModularForm k →+ (ℍ → ℂ) where
   toFun f := DFunLike.coe f
@@ -481,7 +480,7 @@ def coeAddHom : IntegerModularForm k →+ (ℍ → ℂ) where
   map_add' _ _ := rfl
 
 instance : Module ℤ (IntegerModularForm k) :=
-  Function.Injective.module ℤ coeAddHom DFunLike.coe_injective fun _ _ ↦ rfl
+  Function.Injective.module ℤ coeAddHom DFunLike.coe_injective fun _ _ => rfl
 
 @[ext (iff := false)]
 theorem gradedMonoid_eq_of_cast {a b : GradedMonoid IntegerModularForm}
@@ -495,70 +494,6 @@ instance : GradedMonoid.GOne (IntegerModularForm) where
 
 instance : GradedMonoid.GMul (IntegerModularForm) where
   mul f g := f.mul g
-
--- open Classical
--- variable ({x | x = 5}) (h : e.Nonempty)
--- #check h.choose
--- #check @Nat.find {x | x = 5} _ h
--- #check Nat.find
-instance : DirectSum.GCommRing (IntegerModularForm) := sorry
-  -- -- mul a b := a.mul b
-  -- -- mul_zero _ := ext₂ fun _ => by simp
-  -- -- zero_mul _ := ext₂  fun _ => by simp
-  -- -- one := 1
-  -- one_mul _ := gradedMonoid_eq_of_cast (zero_add _) (ext₂ fun _ => one_mul _)
-  -- mul_assoc _ _ _ := gradedMonoid_eq_of_cast (add_assoc _ _ _) (ext₂  fun _ => mul_assoc _ _ _)
-  -- mul_zero {_ _} _ := ext₂ fun _ => mul_zero _
-  -- zero_mul {_ _} _ := ext₂ fun _ => zero_mul _
-  -- mul_add {_ _} _ _ _ := ext₂ fun _ => mul_add _ _ _
-  -- add_mul {_ _} _ _ _ := ext₂ fun _ => add_mul _ _ _
-  -- mul_comm _ _ := gradedMonoid_eq_of_cast (add_comm _ _) (ext₂ fun _ => mul_comm _ _)
-  -- natCast := Nat.cast
-  -- natCast_zero := ext₂ fun _ => Nat.cast_zero
-  -- natCast_succ _ := ext₂ fun _ => Nat.cast_succ _
-  -- intCast := Int.cast
-  -- intCast_ofNat _ := ext₂ fun _ => AddGroupWithOne.intCast_ofNat _
-  -- intCast_negSucc_ofNat _ := ext₂ fun _ => AddGroupWithOne.intCast_negSucc _
-  -- mul_one _ := gradedMonoid_eq_of_cast (add_zero _) (ext₂ fun _ => mul_one _)
-  -- mul := mul
-
-
-  -- mul_one:= sorry
-  -- mul_assoc:= sorry
-  -- natCast:= sorry
-  -- natCast_zero:= sorry
-  -- natCast_succ:= sorry
-  -- intCast:= sorry
-  -- intCast_ofNat:= sorry
-  -- intCast_negSucc_ofNat:= sorry
-  -- mul_comm:= sorry
-  -- gnpow_zero' := sorry
-  -- gnpow_succ':= sorry
-
--- lemma mul_comm (a : IntegerModularForm k) (b : IntegerModularForm j) : a.mul b = Icast (add_comm j k) (b.mul a) :=
---   IntegerModularForm.ext₂ _ _ fun z => by simp only [mul_apply, Icast_apply]; ac_rfl
-
-
-
--- instance : DirectSum.GAlgebra ℤ (IntegerModularForm) := sorry
-
--- @[simp] lemma mul_Iconst (c : ℤ) (a : IntegerModularForm k) : a * Iconst c = Icast (add_zero _).symm (c • a) := by
---   ext; rw [Imul_comm, Iconst_mul]; simp only [Icast_apply]
-
-
--- lemma Icast_symm {a : IntegerModularForm k} {b : IntegerModularForm j} (h : k = j) (hb : b = Icast h a) :
---     a = Icast h.symm b := by
---   ext; simp only [hb, Icast_apply]
-
--- @[simp] lemma Icast_Icast {j k i} {a : IntegerModularForm k} (h1 : k = j) (h2 : j = i) :
---     Icast h2 (Icast h1 a) = Icast (h1.trans h2) a := by
---   ext; simp only [Icast_apply]
-
--- @[simp] lemma Icast_id (a : IntegerModularForm k) (h : k = k) : Icast h a = a := rfl
-
--- @[simp]
--- theorem coe_sum {α : Type} [Fintype α] (l : α → IntegerModularForm k) (n : ℕ) : (∑ c, l c) n = ∑ c, (l c) n := by
---   sorry
 
 
 end IntegerModularForm

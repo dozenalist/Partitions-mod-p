@@ -3,6 +3,12 @@ import Mathlib.Data.Fin.Tuple.NatAntidiagonal
 import Mathlib.RingTheory.PowerSeries.Inverse
 import Mathlib.RingTheory.PowerSeries.Order
 
+/-
+This file proves some facts about Power Series that are needed for FluNeZero
+It could probably be condensed or deleted
+This file is sorry-free
+-/
+
 
 open PowerSeries Finset.HasAntidiagonal Finset Nat
 

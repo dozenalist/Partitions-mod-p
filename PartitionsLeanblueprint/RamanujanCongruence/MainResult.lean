@@ -1,181 +1,130 @@
 import PartitionsLeanblueprint.RamanujanCongruence.DescentArgument
 import Mathlib.NumberTheory.LegendreSymbol.Basic
 
-open ModularFormMod hiding mul_one one_mul
-
+/-
+This file proves the main result of the paper, that there does not exists
+a ramanujan congruence for large primes ℓ
+-/
 
 private lemma Oddl (ℓ) [isLargePrime ℓ] : Odd ℓ :=
   let t : ℓ ≥ 5 := Fact.out
   Nat.Prime.odd_of_ne_two Fact.out (by linarith)
 
+
+open ModularFormMod in
 lemma Theta_l_add_three_div_two_fl_delta_add_one {ℓ : ℕ} [isLargePrime ℓ] :
     (Θ^[(ℓ + 3)/2] (fl ℓ)).coeff (δ ℓ + 1) = (δ ℓ + 1) ^ ((ℓ + 3) / 2) := by
-  rw[coeff_Theta_pow, fl_delta_add_one, nsmul_one]; norm_cast
+  rw [coeff_Theta_pow, fl_delta_add_one, nsmul_one]; norm_cast
 
 
--- section private_lemmas
+open IntegerModularForm
 
--- variable {ℓ : ℕ}
-
--- instance institobvious : NeZero (6 * δ ℓ + 2) := ⟨by norm_num⟩
-
--- @[norm_cast] lemma l_add_three [ℓ.AtLeastTwo] : (ℓ + 3 : ℕ) = (4 : ZMod (ℓ - 1)) := by
---   trans ℓ + 3; norm_cast
---   trans (0 + 1 : ℕ) + 3; congr 1; simp
---   norm_num
+variable {ℓ : ℕ}
 
 
+private lemma dim_twelve_delta_add_four : dim (12 * δ ℓ + 4) = δ ℓ + 1 := by
+  rw [dim]
+  aesop
+  norm_cast
+  norm_cast
+  grind
+  grind
+  grind
 
--- private lemma mod_caster [Fact (Nat.Prime ℓ)] [Fact (ℓ ≥ 13)] :
---     ((2 * (6 * δ ℓ + 2) : ℕ) : ZMod (ℓ - 1)) = 12 * ↑(δ ℓ) + ↑((ℓ + 3) / 2) * 2 := by
---   conv => rhs; rhs; norm_cast; rw [Nat.div_mul_cancel (by have := Nat.odd_iff.mp Oddl; omega)]
---   rw [l_add_three, mul_add, ← mul_assoc]; norm_num
-
--- open ModularForm in
--- lemma dim_six_delta_add_two : dim (6 * δ ℓ + 2) = δ ℓ + 1 := by
---   simp [dim, if_neg, Nat.add_div]
---   rw [Nat.ModEq]; omega
-
-
-
--- open ModularForm in
--- private lemma delta_lt_dim : δ ℓ < dim (6 * δ ℓ + 2) := dim_six_delta_add_two ▸ lt_add_one (δ ℓ)
+private lemma delta_lt_dim : δ ℓ < dim (12 * δ ℓ + 4) := by
+  rw [dim_twelve_delta_add_four]; exact lt_add_one (δ ℓ)
 
 
--- open ModularForm in
--- private lemma mod_mod_six : (6 * δ ℓ + 2) %% 6 = 2 := by
---   rw [mod_without_two, if_neg]
---   rw [Nat.add_mod, add_zero]
---   trans (0 + 2) % 6; congr
---   rw [← Nat.dvd_iff_mod_eq_zero]
---   apply Nat.dvd_mul_right_of_dvd <| by norm_num
---   rfl
+private lemma power_eq_zero : ((12 * ↑(δ ℓ) + 4 - (12 * ↑(δ ℓ) + 4 %% 12)).toNat / 4 - 3 * δ ℓ) = 0 := by
+  grind
 
---   suffices t : 6 * δ ℓ + 2 ≡ 0 + 2 [MOD 6] from fun h =>
---     have := h.symm.trans t
---     by rw [Nat.ModEq] at this; omega
 
---   gcongr
---   apply Nat.modEq_zero_iff_dvd.mpr
---   apply Nat.dvd_mul_right_of_dvd <| by norm_num
+variable {k} (f : IntegerModularForm k)
+
+@[simp] lemma Icast_fun {k j} (h : k = j) (f : (k : ℤ) → IntegerModularForm k) : Icast h (f k) = f j := by
+  subst h
+  rfl
+
+@[simp] lemma Icast_pow {m n} (h : m = n) : (f.pow n).Icast (by rw [h]) = f.pow m := by
+  subst h; rfl
+
+-- @[simp] lemma Icast_G {m n : Fin (dim k)} (h : m = n) : G n = G m := by
+--   rw [h]
 
 
 
--- open ModularForm in
--- private lemma Gmk_set_mk_delta : Gmk_set_mk (6 * δ ℓ + 2) (δ ℓ) = (1, 0, δ ℓ) := by
---   simp [Gmk_set_mk, mod_mod_six, Gmk_dim_one, Gmk_twelve_mk]
---   exact Nat.sub_eq_zero_of_le <| le_of_eq <| Nat.div_eq_of_eq_mul_right zero_lt_two <| by ring
-
--- end private_lemmas
-
--- set_option push_neg.use_distrib true in open IntegerModularForm in
-
--- theorem G_delta_add_one : G (h := ⟨by omega⟩) (6 * δ ℓ + 2) ⟨δ ℓ, delta_lt_dim⟩ (δ ℓ + 1) = (241 : ZMod ℓ) := by
---   rw [G_def, Icast_apply, mul_apply]
---   simp; rw [Gmk_set_mk_delta]; dsimp
---   rw [Ipow_one, Ipow_zero, mul_Iconst, one_smul]
---   simp only [Icast_apply]; norm_cast
---   calc
-
---     _ = (∑ x ∈ antidiagonal (δ ℓ + 1) \ {(0, δ ℓ + 1), (1, δ ℓ)}, (Eis 2) x.1 * (Delta**δ ℓ) x.2
---         + (Eis 2 0 * (Delta**δ ℓ) (δ ℓ + 1) + Eis 2 1 * (Delta**δ ℓ) (δ ℓ)) : ZMod ℓ) := by
---       norm_cast; congr
---       rw [sum_sdiff_eq_sub, sum_pair, sub_add_cancel]
---       exact not_eq_of_beq_eq_false rfl
---       intro x; simp only [mem_insert, mem_singleton, mem_antidiagonal];
---       intro h; rcases h with h | h <;> simp only [h, zero_add, add_comm]
-
---     _ = 0 + 241 := by
---       congr; trans ↑(0 : ℤ); congr; apply sum_eq_zero fun x xin => ?_
---       simp only [mem_sdiff, mem_antidiagonal, mem_insert, mem_singleton, not_or] at xin
-
---       have : x.2 ≠ δ ℓ ∧ x.2 ≠ δ ℓ + 1 := by
---         contrapose! xin
---         rw [or_iff_not_imp_left]
---         push_neg; intro h'
---         rcases xin with h | h
---         right; ext <;> omega
---         left; ext <;> omega
-
---       have : x.2 < δ ℓ := by omega
-
---       rw [leading_Ipow_zeros Delta_zero this, mul_zero]
---       exact Lean.Grind.Ring.intCast_zero
-
---       rw [Eis_ne_one_zero, Int.cast_one, one_mul, Eis_two_one,
---         ord_Ipow_ord' _ _ (δ ℓ), ord_Delta, Delta_one, one_pow, Int.cast_one, mul_one]
-
---       rw [← IntegerModularForm.fl, ← ModularFormMod.fl_apply, fl_delta_add_one]; norm_num
-
---       rw [ord_Delta, mul_one]
---       exact Nat.add_one_add_one_ne_one
-
---     _ = 241 := zero_add 241
+@[simp] theorem mod_without_two_four : (4 %% 12) = 4 := rfl
 
 
+theorem G_delta_add_one [isLargePrime ℓ] : (G ⟨δ ℓ, delta_lt_dim⟩).coeff (δ ℓ + 1) = 241 - ℓ ^ 2 := by
+  simp [G]
+
+  set k := 12 * δ ℓ + 4 %% 12 with keq
+  have h4 : (12 * δ ℓ + 4 %% 12) = 4 := by simp only [mod_without_two_two_mul_add]; rfl
+  have h4' : (12 * ↑(δ ℓ) + 4 - (12 * ↑(δ ℓ) + 4 %% 12)) = 12 * δ ℓ := by
+    simp only [mod_without_two_two_mul_add, add_sub_assoc, add_eq_left]; rfl
+
+  conv => rw [coeff_mul]; lhs; rhs; intro p; rw [← coeff_Icast (h := h4), Icast_fun]
+  simp [← coeff_mul, G_dim_one]
+  rw [← zero_add (δ ℓ + 1), ← add_assoc, coeff_mul_ord_add_one]
+  simp [Eis_four_one]
+
+  rw [G_twelve_ord_G_twelve]
+  rw [G_twelve, G_twelve']
+  simp
+  rw [add_comm (δ ℓ)]
+  rw [← Icast_pow _ power_eq_zero]
+  simp_rw [coeff_mul, pow_zero, coeff_Icast, ← coeff_mul, const_mul, coeff_Icast, one_smul]
+  rw [add_comm 1, ← fl, fl_delta_add_one]
+  ring
+
+  rw [ord_Eis_four, CharP.cast_eq_zero]
+  exact ord_G_twelve _ _
 
 
-
--- theorem Theta_l_add_three_div_two (flu : fl ℓ |𝓤 = 0) :
---   Mcast mod_caster.symm (Θ^[(ℓ + 3)/2] (fl ℓ)) = (Reduce ℓ ((δ ℓ ^ ((ℓ + 3) / 2))
---     • IntegerModularForm.G (h := ⟨by decide⟩) (6 * δ ℓ + 2) ⟨δ ℓ, delta_lt_dim⟩)) := by
-
---   set fell := (Mcast (by rw[mod_caster.symm]; norm_cast) (Θ^[(ℓ + 3) / 2] (fl ℓ)) : ModularFormMod ℓ (2 * (6 * δ ℓ + 2 : ℕ))) with fellquall
-
---   have fellply : ∀ n, (Θ^[(ℓ + 3) / 2] (fl ℓ)) n = fell n := fun n => by rw [fellquall, Mcast_apply]
-
---   have fellell : ∀ n < δ ℓ, fell n = 0 := fun n nlt => by
---     simp only [fellquall, Mcast_apply, Theta_pow_apply, fl_lt_delta nlt, mul_zero]
-
---   have : NeZero fell := by
---     rw [fellquall, Mcast_NeZero]
---     infer_instance
+open ModularFormMod
 
 
---   have haw : hasWeight fell (2 * (6 * δ ℓ + 2)) := by
---     have := Weight_of_Filt (Filt_Theta_l_add_three_div_two flu)
---     rw [mul_add, ← mul_assoc]; norm_num; rwa [twelve_delta, fellquall, Weight_Mcast]
+theorem Theta_l_add_three_div_two [isLargerPrime ℓ] (flu : fl ℓ |𝓤 = 0) (n) :
+  (Θ^[(ℓ + 3)/2] (fl ℓ)).coeff n = (Reduce ℓ ((δ ℓ ^ ((ℓ + 3) / 2))
+    • IntegerModularForm.G ⟨δ ℓ, delta_lt_dim⟩)).coeff n := by
 
---   obtain ⟨b', hb, hj, aeq, ordb⟩ := exists_maximal_Reduce fell fellell haw
-
---   ext n; simp only [fellply, aeq, Mcast_apply, Reduce_apply]
-
---   {
---     trans ((b' (δ ℓ) • IntegerModularForm.G (h := ⟨by decide⟩) (6 * δ ℓ + 2) ⟨δ ℓ, delta_lt_dim⟩ n : ℤ) : ZMod ℓ)
-
---     nth_rw 1 [IntegerModularForm.eq_G_of_ord_max b' (hk := ⟨by omega⟩)]
---     simp only [dim_six_delta_add_two, Nat.add_sub_cancel]; congr
---     rw [dim_six_delta_add_two, Nat.add_sub_cancel]
---     rcases ordb.eq_or_gt with ordb | ordb
---     exact ordb
---     suffices b' = 0 from absurd this hb.out
---     apply IntegerModularForm.zero_of_leading_zeros
---     rw [dim_six_delta_add_two]
---     intro n nlt
---     apply IntegerModularForm.lt_ord_apply; omega
+  set fell := (Θ^[(ℓ + 3) / 2] (fl ℓ)) with fellquall
 
 
---     trans ((((δ ℓ) ^ ((ℓ + 3) / 2) : ℤ) • IntegerModularForm.G (h := ⟨by decide⟩) (6 * δ ℓ + 2) ⟨δ ℓ, delta_lt_dim⟩ n : ℤ) : ZMod ℓ)
---     simp only [IntegerModularForm.zsmul_apply, smul_eq_mul, Int.cast_mul]
---     push_cast; congr 2; trans fell (δ ℓ)
---     simp only [aeq, Mcast_apply, Reduce_apply]
---     rw [fellquall, Mcast_apply, Theta_pow_apply, fl_delta, mul_one]
+  have fellell : ∀ n < δ ℓ, fell.coeff n = 0 := fun n nlt => by
+    simp only [fellquall, coeff_Theta_pow, ModularFormMod.fl_lt_delta nlt, smul_zero]
 
---     norm_cast
---   }
+
+  have haw : fell.hasWeight (12 * δ ℓ + 4) := by
+    norm_cast
+    simp_rw [twelve_delta, Nat.cast_add, twelve_delta_cast, Nat.cast_ofNat,
+      ← Filt_Theta_l_add_three_div_two flu]
+    exact Filtration_spec _
+
+  obtain ⟨b', hj, aeq, ordb⟩ := exists_maximal_Reduce fell fellell haw
+
+  rw [aeq, eq_G_of_ord_max _ b']
+  simp_rw [dim_twelve_delta_add_four]
+  simp
+  left
+
+  rw [← coeff_Reduce, ← coeff_Mcast (h := hj), ← aeq, fellquall]
+  simp only [coeff_Theta_pow, ModularFormMod.fl_delta,
+     nsmul_eq_mul, Nat.cast_pow, _root_.mul_one]
+
+  simpa [dim_twelve_delta_add_four]
+
+  rw [dim_twelve_delta_add_four]
+  use 0, Nat.zero_lt_succ (δ ℓ)
 
 
 
 
 
-
-lemma Theta_l_add_three_div_two_eq_241 {ℓ : ℕ} (flu : fl ℓ |𝓤 = 0) :
+lemma Theta_l_add_three_div_two_eq_241 [isLargerPrime ℓ] (flu : fl ℓ |𝓤 = 0) :
     (Θ^[(ℓ + 3)/2] (fl ℓ)).coeff (δ ℓ + 1) = 241 * (δ ℓ) ^ ((ℓ + 3) / 2) := by
-  sorry
-  -- have t := ModularFormMod.ext_iff <| Theta_l_add_three_div_two flu
-  -- specialize t (δ ℓ + 1); simp_all [mul_comm, G_delta_add_one]
-
-
+  simp [Theta_l_add_three_div_two flu, G_delta_add_one, mul_comm]
 
 
 
@@ -188,7 +137,9 @@ private lemma pow_congr_reduce_of_dvd {a c n : ℤ} {b : ℕ} (an0 : a ≠ 0) (a
   have h1 : a * k ≡ -1 [ZMOD n] := by
     trans n ^ 2 - 1; rw[hk]
     trans 0 ^ 2 - 1; gcongr
-    exact Final.Hidden.Int.modEq_self; rfl
+    exact Int.modulus_modEq_zero
+    rfl
+
 
   have h2 : a * (k + 1) ≡ a - 1 [ZMOD n] := calc
       a * (k + 1) = a * k + a := by ring
@@ -214,6 +165,7 @@ private lemma pow_congr_reduce_of_dvd {a c n : ℤ} {b : ℕ} (an0 : a ≠ 0) (a
 
 
 lemma flu_ne_zero {ℓ} [isLargerPrime ℓ] (flu : fl ℓ |𝓤 = 0) : False := by
+
 
   have equel : (δ ℓ + 1) ^ ((ℓ + 3) / 2) ≡ 241 * (δ ℓ) ^ ((ℓ + 3) / 2) [ZMOD ℓ] := by
     suffices (δ ℓ + 1) ^ ((ℓ + 3) / 2) = (241 * (δ ℓ) ^ ((ℓ + 3) / 2) : ZMod ℓ) by
@@ -296,8 +248,7 @@ lemma flu_ne_zero {ℓ} [isLargerPrime ℓ] (flu : fl ℓ |𝓤 = 0) : False := 
        (-23 : ZMod ℓ) ^ 2 * (-23 : ZMod ℓ) ^ ((ℓ - 1) / 2) =
           ↑ ((-23 : ℤ) ^ 2 * (-23 : ℤ) ^ ((ℓ - 1) / 2)) := by zify
 
-      _ = ↑(241 : ℤ) := by
-        rwa[ZMod.intCast_eq_intCast_iff]
+      _ = ↑(241 : ℤ) := by rwa[ZMod.intCast_eq_intCast_iff]
 
       _ = 241 := Int.cast_ofNat 241
 
@@ -306,7 +257,7 @@ lemma flu_ne_zero {ℓ} [isLargerPrime ℓ] (flu : fl ℓ |𝓤 = 0) : False := 
 
   rcases rcases with rcases | rcases
 
-  simp only [even_two, Even.neg_pow, rcases, mul_one] at bindf
+  simp only [even_two, Even.neg_pow, rcases, _root_.mul_one] at bindf
 
   have : ((23 ^ 2: ℕ) : ZMod ℓ) = ((241 : ℕ) : ZMod ℓ) := by
     norm_cast at *
@@ -326,7 +277,7 @@ lemma flu_ne_zero {ℓ} [isLargerPrime ℓ] (flu : fl ℓ |𝓤 = 0) : False := 
   apply Nat.le_of_dvd at lp <;> omega
 
 
-  simp only [even_two, Even.neg_pow, rcases, mul_neg, mul_one] at bindf
+  simp only [even_two, Even.neg_pow, rcases, mul_neg, _root_.mul_one] at bindf
 
   have : (-(23 ^ 2: ℕ) : ZMod ℓ) = ((241 : ℕ) : ZMod ℓ) := mod_cast bindf
 

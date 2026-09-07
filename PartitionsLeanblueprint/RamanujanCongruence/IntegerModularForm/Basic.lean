@@ -1,11 +1,16 @@
-
 import PartitionsLeanblueprint.RamanujanCongruence.IntegerModularForm.Defs
 import PartitionsLeanblueprint.RamanujanCongruence.EventuallyEq
 import Mathlib.NumberTheory.ModularForms.EisensteinSeries.QExpansion
+import Mathlib.NumberTheory.ModularForms.LevelOne.GradedRing
 import Mathlib.NumberTheory.ModularForms.Discriminant
+import Mathlib.Tactic.ModCases
 
 
 /- This file contains the definitions of Δ and fℓ as well as some other information
+It has 3 sorries
+· `num_two_mul_bernoulli (k : ℕ) : (2 * k / bernoulli k).num = (2 * k / bernoulli k : ℂ)`
+· `Delta.carrier_eq`
+· `dvd_coeff_succ_El (n) : ↑ℓ ∣ (El ℓ).coeff (n + 1)`
 -/
 
 
@@ -15,7 +20,6 @@ lemma Finset.finsuppAntidiag.le_right {k n} {x : ℕ →₀ ℕ} (xin : x ∈ (F
   intro xsupp
   apply Nat.ne_of_gt
   exact xin |> Trans.trans <| Finset.single_le_sum_of_canonicallyOrdered yin
-
 
 
 
@@ -84,7 +88,7 @@ lemma not_dvd_filt (ℓ) [Fact (Nat.Prime ℓ)] : ¬ ℓ ∣ (ℓ ^ 2 - 1) / 2 :
   contrapose! h
   exact Nat.not_dvd_of_pos_of_lt (Nat.zero_lt_sub_of_lt lg2) (Nat.sub_one_lt_of_lt lg2)
 
-lemma delta_integer (ℓ) [isLargePrime ℓ]: 24 ∣ ℓ ^ 2 - 1 := by
+lemma delta_integer (ℓ) [hℓ : isLargePrime ℓ]: 24 ∣ ℓ ^ 2 - 1 := by
 
   have lg5 : ℓ ≥ 5 := isLargePrime.AtLeastFive
   have fivesq : 5 * 5 = 25 := rfl
@@ -296,7 +300,7 @@ lemma DeltaProduct_coeff_le' [CommRing α] {n m j : ℕ} (nlm : n ≤ m) (mlj : 
   simp [DeltaProduct, n0]
 
   have npos : n > 0 := zero_lt_of_ne_zero n0
-  simp only [DeltaProduct, coeff_X_mul _ npos];
+  simp only [DeltaProduct, coeff_X_mul _ npos]
   set k := n - 1 with keq; symm; calc
     _ = coeff (R := α) k ((∏ i ∈ Ico 0 m, (1 - X ^ (i + 1)) ^ 24) *
         (∏ i ∈ Ico m j, (1 - X ^ (i + 1)) ^ 24)) := by
@@ -425,6 +429,7 @@ def Delta : IntegerModularForm 12 where
   carrier := CuspForm.discriminant
   carrier_eq := sorry
 
+
 @[inherit_doc] scoped notation "Δ" => Delta
 
 
@@ -509,7 +514,7 @@ theorem flProduct_eventually_sum [CommRing α] (ℓ) :
 @[simp] lemma Delta_two : (Δ).coeff 2 = -24 := by
   simp [coeff_Delta, DeltaProduct, prod_range]
   ring_nf
-  simpa only [map_add, map_sub, PowerSeries.coeff_one, one_ne_zero, ↓reduceIte, coeff_one_mul,
+  simpa only [map_add, map_sub, PowerSeries.coeff_one, one_ne_zero, ↓reduceIte, PowerSeries.coeff_one_mul,
     coeff_one_X, _root_.one_mul, constantCoeff_X, MulZeroClass.mul_zero, add_zero, zero_sub,
     coeff_X_pow_mul', Nat.not_ofNat_le_one, sub_zero, coeff_X_pow, OfNat.one_ne_ofNat,
     Int.reduceNeg, neg_inj, Nat.cast_ofNat] using (map_natCast _ _ : constantCoeff 24 = (24 : ℤ))
@@ -547,16 +552,155 @@ end Delta_fl_Defs
 
 noncomputable section Eisenstein_defs
 
-open ModularForm PowerSeries ArithmeticFunction.sigma UpperHalfPlane
+open ModularForm PowerSeries ArithmeticFunction.sigma UpperHalfPlane MatrixGroups
 
 
--- def Eis (k : ℕ) (hk : 3 ≤ k) : IntegerModularForm k :=
---   (E hk).toIntegerModularForm (by sorry)
+lemma num_two_mul_bernoulli (k : ℕ) : (2 * k / bernoulli k).num = (2 * k / bernoulli k : ℂ) := sorry
 
-def Eis {k : ℕ} (hk : 3 ≤ k) (hk2 : Even k) : IntegerModularForm k where
+def EisNat {k : ℕ} (hk : 3 ≤ k) (hk2 : Even k) : IntegerModularForm k where
   fourier := .mk fun m => if m = 0 then 1 else -(2 * k / bernoulli k).num * (σ (k - 1) m)
   carrier := E hk
-  carrier_eq := sorry
+  carrier_eq := PowerSeries.ext fun m => by
+    simp [qexp_eq', EisensteinSeries.E_qExpansion_coeff hk hk2, num_two_mul_bernoulli]
 
+
+def EisInt {k : ℤ} (hk : 3 ≤ k) (hk2 : Even k) : IntegerModularForm k :=
+  Icast (h := Int.toNat_of_nonneg (by lia)) <| EisNat (k := k.toNat) (show 3 ≤ k.toNat from
+    (Int.le_toNat (by lia)).mpr hk)
+    (show Even k.toNat from (Int.even_coe_nat k.toNat).mp <| by rwa [Int.toNat_of_nonneg (by lia)])
+
+def Eis (k : ℤ) : IntegerModularForm k :=
+  if hk : 3 ≤ k then if hk2 : Even k then EisInt hk hk2 else 0 else 0
+
+theorem coeff_EisNat {k : ℕ} (hk : 3 ≤ k) (hk2 : Even k) (n) :
+    (EisNat hk hk2).coeff n = if n = 0 then 1 else -(2 * k / bernoulli k).num * (σ (k - 1) n) := by
+  rw [EisNat, ← coeff_def, coeff_mk]
+
+
+lemma coeff_eq_EisNat {k : ℕ} (hk : 3 ≤ k) (hk2 : Even k) (n) :
+    (EisNat hk hk2).coeff n = (qExpansion 1 (E hk)).coeff n := by
+  simp [EisensteinSeries.E_qExpansion_coeff hk hk2, ← num_two_mul_bernoulli, coeff_EisNat]
+
+lemma coeff_eq_EisInt {k : ℤ} (hk : 3 ≤ k) (hk2 : Even k) (n) :
+    (EisInt hk hk2).coeff n = (qExpansion 1 (E (show 3 ≤ k.toNat by grind))).coeff n := by
+  simp [EisInt, coeff_eq_EisNat]
+
+lemma coeff_eq_Eis {k : ℤ} (hk : 3 ≤ k) (n) :
+    (Eis k).coeff n = (qExpansion 1 (E (show 3 ≤ k.toNat by grind))).coeff n := by
+  rw [Eis]
+  split_ifs with hk2
+  · rw [coeff_eq_EisInt]
+  · have kodd := Int.not_even_iff_odd.1 hk2
+    lift k to ℕ using by lia
+    simp [ModularForm.levelOne_odd_weight_eq_zero kodd <| E _, qExpansion_zero]
+
+
+lemma coeff_Eis {k} (hk : 3 ≤ k) (hk2 : Even k) (n) :
+    (Eis k).coeff n = if n = 0 then 1 else -(2 * k / bernoulli k.toNat).num * (σ (k.toNat - 1) n) := by
+  lift k to ℕ using by lia
+  simp [Eis, EisInt, dif_pos hk, dif_pos hk2, coeff_EisNat]
+
+lemma Eis_lt_three {k} (hk : k ≤ 2) : Eis k = 0 := dif_neg <| by lia
+
+lemma Eis_Odd {k} (hk : Odd k) : Eis k = 0 := by
+  simpa only [Eis, dite_eq_right_iff] using fun _ hk2 => (Int.not_odd_iff_even.2 hk2) hk |>.elim
+
+lemma Eis_zero {k} (hk : 3 ≤ k) (hk2 : Even k) : (Eis k).coeff 0 = 1 := by
+  rw [coeff_Eis hk hk2, if_pos rfl]
+
+@[simp] theorem Eis_four_zero : (Eis 4).coeff 0 = 1 :=
+  Eis_zero (by decide) (by decide)
+
+@[simp] theorem Eis_six_zero : (Eis 6).coeff 0 = 1 :=
+  Eis_zero (by decide) (by decide)
+
+@[simp] theorem Eis_four_one : (Eis 4).coeff 1 = 240 := by
+  rw [coeff_Eis (by decide) (by decide), if_neg one_ne_zero]
+  simp [bernoulli]
+  norm_num
 
 end Eisenstein_defs
+
+
+
+noncomputable section Eis_sub_one
+
+variable (ℓ : ℕ)
+
+def reduce {k : ℤ} (ℓ : ℕ) : IntegerModularForm k →ₗ[ℤ] PowerSeries (ZMod ℓ) where
+  toFun f := map (Int.castRingHom (ZMod ℓ)) f.fourier
+  map_add' := by simp
+  map_smul' := by simp
+
+
+@[simp] theorem reduce_apply {k} (ℓ) (f : IntegerModularForm k) (n) :
+    (reduce ℓ f).coeff n = f.coeff n := rfl
+
+@[simp]
+theorem reduce_mul {k j : ℤ} (ℓ : ℕ) (f : IntegerModularForm k) (g : IntegerModularForm j) :
+    (f.mul g).reduce ℓ = f.reduce ℓ * g.reduce ℓ := by
+  simp only [reduce, LinearMap.coe_mk, AddHom.coe_mk, fourier_mul, map_mul]
+
+@[simp]
+theorem reduce_pow {k} (ℓ : ℕ) (f : IntegerModularForm k) (m : ℕ) :
+    (f.pow m).reduce ℓ = f.reduce ℓ ^ m := by
+  simp only [reduce, LinearMap.coe_mk, AddHom.coe_mk, fourier_pow, map_pow]
+
+variable [hℓ : isLargePrime ℓ]
+
+abbrev El := EisNat (show 3 ≤ ℓ - 1 by grind [hℓ.AtLeastFive]) (by
+    suffices Odd ℓ by grind [hℓ.AtLeastFive]
+    exact Nat.Prime.odd_iff hℓ.Prime|>.mpr <| show 3 ≤ 5 by norm_num |>.trans hℓ.AtLeastFive)
+
+@[simp] theorem El_zero : (El ℓ).coeff 0 = 1 := by rw [coeff_EisNat, if_pos rfl]
+
+
+
+theorem dvd_coeff_succ_El (n) : ↑ℓ ∣ (El ℓ).coeff (n + 1) := by
+  rw [coeff_EisNat, if_neg n.add_one_ne_zero]
+  apply Int.dvd_mul_of_dvd_left
+  rw [Int.dvd_neg]
+
+  nth_rw 1 [← _root_.pow_one (ℓ : ℤ), padicValInt_dvd_iff_of_ne_one (by sorry)]
+  right; zify
+  calc
+    1 ≤ padicValRat ℓ (2 * ↑(ℓ - 1) / bernoulli (ℓ - 1)) := by
+      sorry
+
+    _ ≤ padicValInt ℓ (2 * ↑(ℓ - 1) / bernoulli (ℓ - 1)).num := by
+      rw [padicValRat.div]
+      norm_cast
+      sorry
+      sorry
+      sorry
+
+
+
+
+theorem reduce_El : (El ℓ).reduce ℓ = 1 :=
+  PowerSeries.ext fun
+    | 0 => by rw [reduce_apply, El_zero ℓ, Int.cast_one, PowerSeries.coeff_one, if_pos rfl]
+    | n + 1 => by
+      rw [reduce_apply, PowerSeries.coeff_one, if_neg n.add_one_ne_zero,
+        ZMod.intCast_zmod_eq_zero_iff_dvd]
+      exact dvd_coeff_succ_El ℓ n
+
+
+theorem reduce_El_pow (m) : ((El ℓ).pow m).reduce ℓ = 1 := by
+  rw [reduce_pow, reduce_El, one_pow]
+
+@[simp] theorem El_pow_zero (m : ℕ) : ((El ℓ).pow m).coeff 0 = 1 := by
+  rw [coeff_zero_pow, El_zero, one_pow]
+
+
+-- theorem dvd_coeff_succ_El_pow (m n) : ↑ℓ ∣ ((El ℓ).pow m).coeff (n + 1) := by
+--   suffices reduce (El ℓ)
+--   have h := dvd_coeff_succ_El ℓ
+--   simp_all only [← coeff_def, fourier_pow]
+
+
+
+
+
+
+end Eis_sub_one

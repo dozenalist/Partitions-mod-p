@@ -5,7 +5,12 @@ import PartitionsLeanblueprint.RamanujanCongruence.ModularFormMod.PowPrime
 
 
 
-
+/-
+This file proves `flu_eq_zero`
+This proof is probably too long and could be shortened 
+by working with the power series instead of the coefficients
+This file is sorry-free
+-/
 
 
 

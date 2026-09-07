@@ -1,25 +1,68 @@
 
 import PartitionsLeanblueprint.RamanujanCongruence.IntegerModularForm.Defs
 
+import PartitionsLeanblueprint.RamanujanCongruence.IntegerModularForm.Basic
 
+/-
+This file defines Modular Forms Mod ℓ, proves some basic identities,
+and shows that they form an AddCommGroup and Module over (ZMod ℓ)
+
+This file is sorry-free
+
+Might want to change ZMod.reduce_set to allow for non-large primes
+-/
 
 noncomputable section
 
 open PowerSeries
 
 
-def IntegerModularForm.reduce {k : ℤ} (ℓ : ℕ) : IntegerModularForm k →ₗ[ℤ] PowerSeries (ZMod ℓ) where
-  toFun f := map (Int.castRingHom (ZMod ℓ)) f.fourier
-  map_add' := by simp
-  map_smul' := by simp
+namespace IntegerModularForm
 
-@[simp]
-theorem IntegerModularForm.reduce_mul {k j : ℤ} (ℓ : ℕ) (f : IntegerModularForm k) (g : IntegerModularForm j) :
-  (f.mul g).reduce ℓ = f.reduce ℓ * g.reduce ℓ := by simp [reduce]
+-- def reduce {k : ℤ} (ℓ : ℕ) : IntegerModularForm k →ₗ[ℤ] PowerSeries (ZMod ℓ) where
+--   toFun f := map (Int.castRingHom (ZMod ℓ)) f.fourier
+--   map_add' := by simp
+--   map_smul' := by simp
 
-def IntegerModularForm.ZMod.reduce_set {ℓ : ℕ} (k : ZMod (ℓ - 1)) : AddSubgroup (PowerSeries (ZMod ℓ)) where
+
+
+-- @[simp]
+-- theorem reduce_mul {k j : ℤ} (ℓ : ℕ) (f : IntegerModularForm k) (g : IntegerModularForm j) :
+--   (f.mul g).reduce ℓ = f.reduce ℓ * g.reduce ℓ := by simp [reduce]
+
+@[simp] theorem reduce_Icast {k j : ℤ} {ℓ : ℕ} (f : IntegerModularForm k) (h : k = j) :
+    reduce ℓ (f.Icast h) = reduce ℓ f := rfl
+
+
+def ZMod.reduce_set {ℓ : ℕ} [hℓ : isLargePrime ℓ] (k : ZMod (ℓ - 1)) : AddSubgroup (PowerSeries (ZMod ℓ)) where
   carrier := ⋃ j ∈ {j : ℤ | ↑j = k}, Set.range (@IntegerModularForm.reduce j ℓ)
-  add_mem' := sorry -- multiply by Eis (ℓ - 1)
+  add_mem' {f g} hf hg := by
+    obtain ⟨i, hi, f', hf'⟩ := by simpa using hf
+    obtain ⟨j, hj, g', hg'⟩ := by simpa using hg
+    wlog ilej : i ≤ j
+    {
+      specialize this k hg hf j hj g' hg' i hi f' hf' (by grind)
+      rwa [add_comm]
+    }
+    have := hℓ.AtLeastFive
+
+    have : ∃ m : ℕ, j = m * (ℓ - 1 : ℕ) + i := by
+      have := ZMod.intCast_eq_intCast_iff_dvd_sub _ _ _ |>.1 (hi.trans hj.symm)
+      obtain ⟨m, hm⟩ := this
+      lift m to ℕ using by
+        have lpos : (ℓ - 1 : ℕ) > (0 : ℤ) := by grind
+        have : (ℓ - 1 : ℕ) * m ≥ 0 := by grind
+        exact Int.nonneg_of_mul_nonneg_right this lpos
+      use m, by grind
+
+
+    obtain ⟨m, jeq⟩ := this
+    simp
+    use j, hj, (((El ℓ).pow m).mul f').Icast jeq.symm + g'
+
+    simp only [map_add, reduce_Icast, reduce_mul, reduce_El_pow, _root_.one_mul, hf', hg']
+
+
   zero_mem' := by simpa using ⟨k.cast, by simp, 0, map_zero _⟩
   neg_mem' {f} h := by
     simp_all only [Set.mem_ofPred_eq, Set.mem_iUnion, Set.mem_range, exists_prop]
@@ -28,10 +71,8 @@ def IntegerModularForm.ZMod.reduce_set {ℓ : ℕ} (k : ZMod (ℓ - 1)) : AddSub
 
 
 
-
-open IntegerModularForm Set
-
-theorem IntegerModularForm.reduce_set_mul_mem {ℓ : ℕ} {k j : ZMod (ℓ - 1)} {f g : (ZMod ℓ)⟦X⟧}
+open Set IntegerModularForm in
+theorem reduce_set_mul_mem {ℓ : ℕ} [isLargePrime ℓ] {k j : ZMod (ℓ - 1)} {f g : (ZMod ℓ)⟦X⟧}
     (hf : f ∈ k.reduce_set) (hg : g ∈ j.reduce_set) : f * g ∈ (k + j).reduce_set := by
     simp_all [ZMod.reduce_set, mem_iUnion]
     obtain ⟨kk, hk, ff, hf⟩ := hf
@@ -40,8 +81,12 @@ theorem IntegerModularForm.reduce_set_mul_mem {ℓ : ℕ} {k j : ZMod (ℓ - 1)}
     use ff.mul gg, by rw [reduce_mul, hf, hg]
 
 
+end IntegerModularForm
 
-structure ModularFormMod (ℓ : ℕ) (k : ZMod (ℓ - 1)) where
+open Set IntegerModularForm
+
+
+structure ModularFormMod (ℓ : ℕ) [isLargePrime ℓ] (k : ZMod (ℓ - 1)) where
 
   fourier : PowerSeries (ZMod ℓ)
 
@@ -50,7 +95,7 @@ structure ModularFormMod (ℓ : ℕ) (k : ZMod (ℓ - 1)) where
 
 namespace ModularFormMod
 
-variable {ℓ : ℕ} {k j : ZMod (ℓ - 1)}
+variable {ℓ : ℕ} [isLargePrime ℓ] {k j : ZMod (ℓ - 1)}
 
 
 instance : Zero (ModularFormMod ℓ k) where
@@ -64,7 +109,7 @@ instance : Zero (ModularFormMod ℓ k) where
 instance : Inhabited (ModularFormMod ℓ k) := ⟨0⟩
 
 
-theorem fourier_inj : Function.Injective (@ModularFormMod.fourier ℓ k) :=
+theorem fourier_inj : Function.Injective (ModularFormMod.fourier (k := k)) :=
   fun f g h => by
   cases f
   cases g
@@ -79,7 +124,7 @@ lemma Exists_reduce (f : ModularFormMod ℓ k) :
 def choose (f : ModularFormMod ℓ k) :=
   f.Exists_reduce.choose_spec.right.choose
 
-def choose_spec (f : ModularFormMod ℓ k) :=
+theorem choose_spec (f : ModularFormMod ℓ k) : f.choose.reduce ℓ = f.fourier :=
   f.Exists_reduce.choose_spec.right.choose_spec
 
 
@@ -216,11 +261,11 @@ theorem coeff_const (x : ZMod ℓ) : (const x).coeff n = if n = 0 then x else 0 
 
 @[simp]
 theorem coeff_const_zero (x : ZMod ℓ) : (const x).coeff 0 = x :=
-  coeff_const _ _ ▸ if_pos rfl
+  coeff_const _ x ▸ if_pos rfl
 
 @[simp]
 theorem coeff_const_succ (x : ZMod ℓ) : (const x).coeff (n + 1) = 0 :=
-  coeff_const _ _ ▸ if_neg (Nat.succ_ne_zero _)
+  coeff_const _ x ▸ if_neg (Nat.succ_ne_zero _)
 
 
 open Finset
@@ -255,6 +300,8 @@ lemma coeff_triangle {k j : ZMod (ℓ -1)} {h : k = j} {n : ℕ} (a : ModularFor
   subst h; rfl
 
 @[simp] theorem Mcast_zero (h : k = j) : (0 : ModularFormMod ℓ k).Mcast h = 0 := rfl
+
+@[simp] theorem Mcast_id (h : k = k) : f.Mcast h = f := rfl
 
 theorem zero_def : (0 : ModularFormMod ℓ k) = ⟨0, zero_mem _⟩ := rfl
 theorem one_def : (1 : ModularFormMod ℓ 0) = const 1 := rfl
@@ -313,22 +360,22 @@ instance : GradedMonoid.GOne (ModularFormMod ℓ) where
 instance : GradedMonoid.GMul (ModularFormMod ℓ) where
   mul f g := f.mul g
 
-instance : DirectSum.GCommRing (ModularFormMod ℓ) := sorry
+-- instance : DirectSum.GCommRing (ModularFormMod ℓ) := sorry
 
-  -- one_mul _ := gradedMonoid_eq_of_cast (zero_add _) (ext fun _ => one_mul _)
-  -- mul_one _ := gradedMonoid_eq_of_cast (add_zero _) (ext fun _ => mul_one _)
-  -- mul_assoc _ _ _ := gradedMonoid_eq_of_cast (add_assoc _ _ _) (ext fun _ => mul_assoc _ _ _)
-  -- mul_zero {_ _} _ := ext fun _ => mul_zero _
-  -- zero_mul {_ _} _ := ext fun _ => zero_mul _
-  -- mul_add {_ _} _ _ _ := ext fun _ => mul_add _ _ _
-  -- add_mul {_ _} _ _ _ := ext fun _ => add_mul _ _ _
-  -- mul_comm f g := gradedMonoid_eq_of_cast (add_comm _ _) (ext fun _ => by sorry)
-  -- natCast := Nat.cast
-  -- natCast_zero := ext fun _ => Nat.cast_zero
-  -- natCast_succ _ := ext fun _ => Nat.cast_succ _
-  -- intCast := Int.cast
-  -- intCast_ofNat _ := ext fun _ => AddGroupWithOne.intCast_ofNat _
-  -- intCast_negSucc_ofNat _ := fourier_inj <| by simp [AddGroupWithOne.intCast_negSucc _]
+--   -- one_mul _ := gradedMonoid_eq_of_cast (zero_add _) (ext fun _ => one_mul _)
+--   -- mul_one _ := gradedMonoid_eq_of_cast (add_zero _) (ext fun _ => mul_one _)
+--   -- mul_assoc _ _ _ := gradedMonoid_eq_of_cast (add_assoc _ _ _) (ext fun _ => mul_assoc _ _ _)
+--   -- mul_zero {_ _} _ := ext fun _ => mul_zero _
+--   -- zero_mul {_ _} _ := ext fun _ => zero_mul _
+--   -- mul_add {_ _} _ _ _ := ext fun _ => mul_add _ _ _
+--   -- add_mul {_ _} _ _ _ := ext fun _ => add_mul _ _ _
+--   -- mul_comm f g := gradedMonoid_eq_of_cast (add_comm _ _) (ext fun _ => by sorry)
+--   -- natCast := Nat.cast
+--   -- natCast_zero := ext fun _ => Nat.cast_zero
+--   -- natCast_succ _ := ext fun _ => Nat.cast_succ _
+--   -- intCast := Int.cast
+--   -- intCast_ofNat _ := ext fun _ => AddGroupWithOne.intCast_ofNat _
+--   -- intCast_negSucc_ofNat _ := fourier_inj <| by simp [AddGroupWithOne.intCast_negSucc _]
 
 
 
@@ -338,25 +385,27 @@ open ModularFormMod
 
 namespace IntegerModularForm
 
-def Reduce {k} (ℓ : ℕ) : IntegerModularForm k →ₗ[ℤ] ModularFormMod ℓ ↑k where
+def Reduce {k} (ℓ : ℕ) [isLargePrime ℓ] : IntegerModularForm k →ₗ[ℤ] ModularFormMod ℓ ↑k where
   toFun f := {
     fourier := f.reduce ℓ
     modular := by simpa [ZMod.reduce_set, mem_iUnion] using ⟨k, rfl, f, rfl⟩ }
-  map_add' _ _ := fourier_inj <| by simp only [map_add, ModularFormMod.fourier_add]
-  map_smul' _ _ := fourier_inj <| by simp
 
-variable {ℓ : ℕ} {k j : ℤ} (f g : IntegerModularForm k) (h : IntegerModularForm j)
+  map_add' _ _ := ModularFormMod.fourier_inj <| by simp only [map_add, ModularFormMod.fourier_add]
+  map_smul' _ _ := ModularFormMod.fourier_inj <| by simp
+
+
+variable {ℓ : ℕ} [isLargePrime ℓ] {k j : ℤ} (f g : IntegerModularForm k) (h : IntegerModularForm j)
 
 @[simp] theorem fourier_Reduce : (f.Reduce ℓ).fourier = f.reduce ℓ := rfl
 
 @[simp, norm_cast] theorem Reduce_Icast (a : IntegerModularForm k) (h : k = j) :
     (a.Icast h).Reduce ℓ = (a.Reduce ℓ).Mcast (h ▸ rfl) :=
-  fourier_inj <| by simp [reduce]
+  ModularFormMod.fourier_inj <| by simp [reduce]
 
 @[simp] theorem coeff_Reduce (n) : (f.Reduce ℓ).coeff n = ↑(f.coeff n) := rfl
 
 theorem Reduce_mul : (f.mul h).Reduce ℓ = ((f.Reduce ℓ).mul (h.Reduce ℓ)).Mcast :=
-  fourier_inj <| by simp
+  ModularFormMod.fourier_inj <| by simp
 
 @[simp] theorem Reduce_pow (m) : (f.Reduce ℓ).pow m = ((f.pow m).Reduce ℓ).Mcast (by norm_cast) :=
-  fourier_inj <| by simp [reduce]
+  ModularFormMod.fourier_inj <| by simp [reduce]

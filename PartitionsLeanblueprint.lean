@@ -36,6 +36,7 @@ import PartitionsLeanblueprint.FinalSection
 import PartitionsLeanblueprint.RamanujanCongruence.IntegerModularForm.Defs
 import PartitionsLeanblueprint.RamanujanCongruence.IntegerModularForm.Basic
 import PartitionsLeanblueprint.RamanujanCongruence.IntegerModularForm.Basis
+import PartitionsLeanblueprint.RamanujanCongruence.IntegerModularForm.Ord
 
 import PartitionsLeanblueprint.RamanujanCongruence.ModularFormMod.Defs
 import PartitionsLeanblueprint.RamanujanCongruence.ModularFormMod.Basic
@@ -48,3 +49,4 @@ import PartitionsLeanblueprint.RamanujanCongruence.FluNeZero
 import PartitionsLeanblueprint.RamanujanCongruence.PreliminaryResults
 import PartitionsLeanblueprint.RamanujanCongruence.PrimaryLemmas
 import PartitionsLeanblueprint.RamanujanCongruence.DescentArgument
+import PartitionsLeanblueprint.RamanujanCongruence.MainResult

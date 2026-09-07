@@ -1,450 +1,142 @@
 import PartitionsLeanblueprint.RamanujanCongruence.IntegerModularForm.Basic
 
 /- This file defines ord, the order of vanishing of an Integer Modular Form,
-and proves some basic facts about it. -/
-
+as the order of its fourier expansion, and proves some basic facts about it.
+This file is sorry-free. -/
 
 noncomputable section ord
 namespace IntegerModularForm
 
 open PowerSeries
 
-variable {k j : ℤ} (f g : IntegerModularForm k) (h : IntegerModularForm j)
+variable {k j : ℤ} (f : IntegerModularForm k) (g : IntegerModularForm j)
 
 
 abbrev ord {k} (f : IntegerModularForm k) : ℕ∞ := f.fourier.order
 
--- @[simp] theorem ord_zero : ord (0 : IntegerModularForm k) = ⊤ := order_zero
+@[simp] theorem ord_zero : ord (0 : IntegerModularForm k) = ⊤ := order_zero
+
+@[simp] theorem ord_one : ord (1 : IntegerModularForm 0) = 0 := order_one
+
+@[simp] theorem ord_mul : ord (f.mul g) = ord f + ord g := order_mul _ _
+
+@[simp] theorem ord_pow (m) : ord (f.pow m) = m • ord f := order_pow _ _
+
+theorem le_ord_smul (c : ℤ) : ord f ≤ ord (c • f) := le_order_smul
+
+theorem coeff_lt_ord (f : IntegerModularForm k) {m : ℕ} (hm : m < ord f) : f.coeff m = 0 :=
+  coeff_of_lt_order m hm
+
+@[simp] theorem ord_eq_zero : ord f = 0 ↔ f.coeff 0 ≠ 0 := by
+  simp [ord, ← coeff_def]
+  contrapose!
+  exact order_ne_zero_iff_constCoeff_eq_zero
+
 
+theorem ord_eq_ord (h : ∀ n, f.coeff n = 0 ↔ g.coeff n = 0) : ord f = ord g := by
 
-
-
--- open scoped Classical
-
-
--- lemma NeZero.exists {α β} [Zero β] {f : α → β} [h : NeZero f] : ∃ n, f n ≠ 0 := by
---   have := h.out
---   contrapose! this
---   ext x; rw [this x, Pi.ofNat_apply]
-
--- open IntegerModularForm
-
--- instance NeZero.fourier {k} {f : IntegerModularForm k} [h : NeZero f] : NeZero f.fourier :=
---   ⟨by
---     have := h.out
---     contrapose! this
---     ext; rw [← coeff_def, this]; rfl⟩
-
--- theorem NeZero.of_coeff_ne_zero {k} {f : IntegerModularForm k} (h : ∃ n, f.coeff n ≠ 0) : NeZero f where
---   out := by contrapose! h; simp only [h, coeff_zero, implies_true]
-
--- theorem NeZero.coeff_ne_zero {k} {f : IntegerModularForm k} [h : NeZero f] :
---     ∃ n, f.coeff n ≠ 0 := have h := h.out; by contrapose! h; exact ext h
-
-
-
--- -- instance NeZero.Mfourier {ℓ k} [NeZero ℓ] (f : ModularFormMod ℓ k) [h : NeZero f] : NeZero f.fourier :=
--- --   ⟨by
--- --     have := h.out
--- --     contrapose! this
--- --     ext n; rw [this]; rfl⟩
-
--- -- @[simp] lemma Mcast_NeZero {ℓ} [NeZero ℓ] {k j : ZMod (ℓ - 1)} (f : ModularFormMod ℓ k) (h : k = j) :
--- --     NeZero (f.Mcast h) ↔ NeZero f := by
--- --   constructor <;> intro hf <;> obtain ⟨n,hn⟩ := (NeZero.Mcoe (h := hf)).exists
--- --   <;> apply ModularFormMod.Exists_ne_zero ⟨n, by contrapose! hn; simp_all only [ModularFormMod.Mcast_apply]⟩
-
-
--- instance {k} : NoZeroSMulDivisors ℤ (IntegerModularForm k) := by
---   apply @IsAddTorsionFree.to_noZeroSMulDivisors_int _ _
---     ⟨ by
---     intro c c0 a b h
---     ext n
---     rw [IntegerModularForm.ext_iff] at h
---     simpa [c0] using h n ⟩
-
--- instance instSmulNeZero {k} (a : IntegerModularForm k) [ha : NeZero a] (c : ℤ) [hc : NeZero c] : NeZero (c • a) where
---   out := by
---     obtain ⟨n, hn⟩ := ha.fourier.exists
---     contrapose! hn
---     have : c = 0 ∨ a = 0 := by refine smul_eq_zero.mp hn
---     rcases this with c0 | a0
---     have := hc.out; contradiction
---     have := ha.out; contradiction
-
--- instance instIconstNeZero (c : ℤ) [h : NeZero c] : NeZero (const c) := by
---   apply NeZero.of_coeff_ne_zero
---   use 0, by simp only [coeff_const_zero, ne_eq, h.out, not_false_eq_true]
-
--- lemma NeZero_mul_left {k j} (a : IntegerModularForm k) (b : IntegerModularForm j) [h : NeZero (a.mul b)] : NeZero a where
---   out := have := h.out; by
---     contrapose! this; rw [this, zero_mul]
-
-
--- lemma NeZero_mul_right {k j} (a : IntegerModularForm k) (b : IntegerModularForm j) [h : NeZero (a.mul b)] : NeZero b where
---   out := have := h.out; by
---     contrapose! this; rw [this, mul_zero]
-
-
--- instance instIcastNeZero {k j} (a : IntegerModularForm k) (h : k = j) [ha : NeZero a] : NeZero (Icast h a) := by
---   obtain ⟨n, hn⟩ := ha.coeff_ne_zero
---   apply NeZero.of_coeff_ne_zero ⟨n, by rwa [coeff_Icast]⟩
-
-
--- -- why can't I make this an instance?
--- lemma NeZero_of_Icast {k j} (a : IntegerModularForm k) (h : k = j) [ha : NeZero (Icast h a)] : NeZero a := by
---   obtain ⟨n, hn⟩ := ha.coeff_ne_zero
---   apply NeZero.of_coeff_ne_zero ⟨n, by rwa [coeff_Icast] at hn⟩
-
--- lemma NeZero_of_Ipow {k} (a : IntegerModularForm k) (j : ℕ) [ha : NeZero (a ** j)] [hj : NeZero j] : NeZero a where
---   out := have := ha.out; by
---     contrapose! this; rw [this, zero_Ipow]
-
-
--- variable {m n : ℕ} {k j : ℤ} {f : IntegerModularForm k} {g : IntegerModularForm j}
---   -- [fn0 : NeZero f] [gn0 : NeZero g]
-
--- /-- The order of vanishing of an integer modular form at infinity.
--- The location of the first non-zero entry. -/
--- -- noncomputable def ord (f : IntegerModularForm k) [h : NeZero f] : ℕ :=
--- --   Nat.find h.coeff_ne_zero
-
--- theorem ord_spec (f : IntegerModularForm k) [h : NeZero f] : f.coeff f.ord.toNat ≠ 0 :=
---   coeff_order h.fourier.out
-
--- theorem coeff_lt_ord (f : IntegerModularForm k) {m : ℕ} (hm : m < ord f) : f.coeff m = 0 :=
---   coeff_of_lt_order m hm
-
-
--- theorem le_ord_iff : m ≤ ord f ↔ ∀ n < m, f.coeff n = 0 := by
---   simp only [ord, ne_eq, Nat.le_find_iff, Decidable.not_not]
-
--- theorem ord_eq_nat (m : ℕ) : ord f = m ↔ f.coeff m ≠ 0 ∧ ∀ n < m, f.coeff n = 0 :=
---   order_eq_nat
-
--- theorem ord_eq (n : ℕ∞) : ord f = n ↔ (∀ i : ℕ, ↑i = n → coeff i f ≠ 0) ∧ ∀ i : ℕ, ↑i < n → coeff i f = 0 :=
---   order_eq
-
-
--- @[simp]
--- theorem ord_eq_zero : ord f = 0 ↔ f.coeff 0 ≠ 0 := by
---   convert! ord_eq_nat 0
---   simp
-
-
--- theorem ord_eq_ord_iff : ord f = ord g ↔ ∃ m, f.coeff m ≠ 0 ∧ ∀ n ≤ m, f.coeff n = 0 ↔ g.coeff n = 0 := by
---   constructor <;> intro h
---   {
---     use ord f; constructor
---     exact ord_spec f
---     intro n nle; constructor <;> intro h0
-
---     have : n + 1 ≤ ord f := by
---       rw [le_ord_iff]
---       rintro m (mle | meq)
---       exact h0
---       exact le_ord_iff.mp nle m meq
---     exact le_ord_iff.mp (h ▸ this) n (Nat.lt_succ_self n)
-
---     have : n + 1 ≤ ord g := by
---       rw [le_ord_iff]
---       rintro m (mle | meq)
---       exact h0
---       exact le_ord_iff.mp (h ▸ nle) m meq
---     exact le_ord_iff.mp (h ▸ this) n (Nat.lt_succ_self n)
---   }
---   {
---     obtain ⟨m, fm0, h⟩ := h
---     apply Nat.find_congr fm0
---     simpa only [not_iff_not]
---   }
-
--- theorem ord_eq_ord' (h : ∀ x, f.coeff x = 0 ↔ g.coeff x = 0) : ord f = ord g := by
---   rw [ord_eq_ord_iff]
---   use ord f, ord_spec f, fun x _ => h x
-
--- @[simp] theorem ord_smul (c : ℤ) [hc : NeZero c] : ord (c • f) = ord f := by
---   apply ord_eq_ord'
---   intro x
---   simp only [coeff_smulz, smul_eq_mul, mul_eq_zero, or_iff_right_iff_imp]
---   intro h
---   simp_all only [neZero_zero_iff_false]
-
--- open Finset in
--- theorem mul_ord_sum_ne_zero {k j} (a : IntegerModularForm k) (b : IntegerModularForm j) [ha: NeZero a] [hb: NeZero b] :
---     (a.mul b).coeff (ord a + ord b) ≠ 0 := by
-
---   rw [mul]; calc
-
---     _ = ∑ x ∈ (antidiagonal (ord a + ord b)) \ {(ord a, ord b)},
---         a x.1 * b x.2 + a (ord a) * b (ord b) := by
---       simp only [singleton_subset_iff, mem_antidiagonal, Nat.add_left_cancel_iff,
---         sum_sdiff_eq_sub, sum_singleton, sub_add_cancel]
-
---     _ = 0 + a (ord a) * b (ord b) := by
---       congr; apply sum_eq_zero fun x xin => ?_
---       obtain ⟨sumeq, xne⟩ := mem_sdiff.mp xin
---       simp_all only [mem_antidiagonal, mem_singleton, mul_eq_zero]
---       have : x.1 < ord a ∨ x.2 < ord b := by
---         have : x.1 ≠ ord a ∨ x.2 ≠ ord b := by
---           contrapose! xne; ext; exacts [xne.1, xne.2]
---         contrapose! sumeq; apply ne_of_gt
---         rcases this with alt | blt
---         apply add_lt_add_of_lt_of_le (lt_of_le_of_ne sumeq.1 alt.symm) sumeq.2
---         apply add_lt_add_of_le_of_lt sumeq.1 (lt_of_le_of_ne sumeq.2 blt.symm)
---       rcases this with lta | ltb
---       left; exact lt_ord_apply a lta
---       right; exact lt_ord_apply b ltb
-
---     _ ≠ 0 := by rw [zero_add]; exact Int.mul_ne_zero (ord_spec a) (ord_spec b)
-
--- open Finset in
--- theorem mul_lt_ord_sum_zero {k j m} (a : IntegerModularForm k) (b : IntegerModularForm j)
---     [ha: NeZero a] [hb: NeZero b] (hm : m < ord a + ord b) : (a * b) m = 0 := by
---   rw [mul_apply]; apply sum_eq_zero fun x xin => ?_
---   rw [mem_antidiagonal] at xin
---   have : x.1 < ord a ∨ x.2 < ord b := by
---     contrapose! hm; rw [← xin]
---     gcongr; exacts [hm.1, hm.2]
---   simp only [mul_eq_zero]
---   rcases this with lta | ltb
---   left; exact lt_ord_apply a lta
---   right; exact lt_ord_apply b ltb
-
-
-
--- instance instMulNeZero {k j} (a : IntegerModularForm k) (b : IntegerModularForm j) [ha: NeZero a] [hb: NeZero b] :
---     NeZero (a * b) where
---   out := by
---     have := mul_ord_sum_ne_zero a b
---     contrapose! this; rw [this, zero_apply]
-
--- instance instPowNeZero {k j} (a : IntegerModularForm k) [ha : NeZero a] : NeZero (a ** j) := by
---   induction j with
---     | zero => rw [Ipow_zero]; exact Exists_ne_zero ⟨0, Iconst_zero 1 ▸ one_ne_zero⟩
---     | succ j ih => rw [Ipow_succ]; infer_instance
-
--- @[simp]
--- theorem ord_Icast {k j} (a : IntegerModularForm k) (h : k = j) [ha : NeZero a] : ord (Icast h a) = ord a := by
---   apply ord_eq_ord'; simp only [Icast_apply, implies_true]
-
--- theorem ord_Icast' {k j} (a : IntegerModularForm k) (h : k = j) [ha : NeZero (Icast h a)] :
---     ord (Icast h a) = ord a (h := NeZero_of_Icast a h) :=
---   ord_Icast a h (ha := NeZero_of_Icast a h)
-
--- @[simp]
--- theorem ord_Iconst (c : ℤ) [hc : NeZero c] : ord (Iconst c) = 0 := by
---   simp only [ord_eq_zero, Iconst_zero, ne_eq, hc.out, not_false_eq_true]
-
-
--- theorem ord_mul {k j} (a : IntegerModularForm k) (b : IntegerModularForm j) [ha: NeZero a] [hb: NeZero b] :
---     ord (a * b) = ord a + ord b :=
---   ord_eq_iff.mpr ⟨mul_ord_sum_ne_zero a b, fun _ => mul_lt_ord_sum_zero a b⟩
-
-
--- theorem ord_mul' {k j} (a : IntegerModularForm k) (b : IntegerModularForm j) [h : NeZero (a * b)] :
---     ord (a * b) = ord a (h := NeZero_mul_left a b) + ord b (h := NeZero_mul_right a b) :=
---   ord_mul a b (ha := NeZero_mul_left a b) (hb := NeZero_mul_right a b)
-
-
--- theorem ord_Ipow {k j} (a : IntegerModularForm k) [ha : NeZero a] : ord (a ** j) = j * ord a := by
---   induction j with
---   | zero => simp only [Nat.mul_zero, Ipow_zero, ord_Iconst, zero_mul]
---   | succ j ih => simp only [Ipow_succ, ord_Icast, ord_mul, ih]; ring
-
-
--- theorem ord_Ipow' {k j} (a : IntegerModularForm k) [ha : NeZero (a ** j)] [hj : NeZero j] :
---     ord (a ** j) = j * ord a (h := NeZero_of_Ipow a j) :=
---   ord_Ipow a (ha := NeZero_of_Ipow a j)
-
--- open Finset in
--- theorem ord_mul_ord (a : IntegerModularForm k) (b : IntegerModularForm j) [ha: NeZero a] [hb: NeZero b] :
---     (a * b) (ord a + ord b) = a (ord a) * b (ord b) := by
---   calc
-
---   _ = ∑ x ∈ antidiagonal (ord a + ord b) \ {(ord a, ord b)},
---     a (x.1) * b (x.2) + a (ord a) * b (ord b) := by simp [mul_apply]
-
---   _ = 0 + a (ord a) * b (ord b) := by
---     congr; apply Finset.sum_eq_zero fun x hx => ?_
---     simp only [mem_sdiff, mem_antidiagonal, mem_singleton] at hx
---     obtain ⟨xsum, xne⟩ := hx
---     have : x.1 ≠ ord a ∨ x.2 ≠ ord b := by contrapose! xne; exact Prod.ext_iff.mpr xne
---     have : x.1 < ord a ∨ x.2 < ord b := by omega
---     rcases this with h | h
---     <;> simp only [lt_ord_apply _ h, mul_zero, zero_mul]
-
---   _ = _ := zero_add _
-
-
--- theorem ord_mul_ord' (a : IntegerModularForm k) (b : IntegerModularForm j) (c : ℕ) [ha: NeZero a] [hb: NeZero b]
---   (hc : c = ord a + ord b) : (a * b) c = a (ord a) * b (ord b) := hc ▸ ord_mul_ord a b
-
--- open Finset Finset.Nat in
--- theorem ord_Ipow_ord (a : IntegerModularForm k) (j : ℕ) [ha : NeZero a] : (a ** j) (j * ord a) = a (ord a) ^ j := by
---   calc
-
---   (a ** j) (j * ord a) = ∑ x ∈ antidiagonalTuple j (j * ord a) \ {fun _ => ord a}, ∏ y, a (x y) + ∏ y, a (ord a) := by
---     rw [Ipow_apply, sum_sdiff_eq_sub, sum_singleton]; ring
---     rw [singleton_subset_iff, mem_antidiagonalTuple, sum_const, smul_eq_mul, card_fin]
-
---   _ = 0 + a (ord a) ^ j := by
---     congr
---     {
---       by_cases j0 : j = 0
---       subst j0; simp
-
---       apply sum_eq_zero fun x xin => ?_
---       rw [prod_eq_zero_iff]
---       rw [mem_sdiff, mem_singleton, mem_antidiagonalTuple] at xin
---       obtain ⟨xsum, xne⟩ := xin
-
-
---       suffices ∃ b, x b < ord a by
---         obtain ⟨b, blt⟩ := this
---         use b, mem_univ b, lt_ord_apply (f := a) blt
---       contrapose! xsum; apply ne_of_gt
---       have : ∃ b, x b ≠ ord a := by contrapose! xne; exact funext xne
---       obtain ⟨b, bne⟩ := this
-
---       calc
---         j * ord a = (j - 1) * ord a + ord a := by
---           apply Nat.eq_add_of_sub_eq
---           exact Nat.le_mul_of_pos_left (ord a) (Nat.pos_of_ne_zero j0)
---           rw [Nat.sub_mul, one_mul]
-
---         _ < (j - 1) * ord a + x b := by
---           have : x b > ord a := lt_of_le_of_ne (xsum b) bne.symm
---           gcongr
-
---         _ ≤ ∑ i ∈ (univ (α := Fin j)).erase b, x i + x b := by
---           gcongr; simp_rw [← smul_eq_mul, ← card_fin j, ← card_erase_of_mem (mem_univ b), ← sum_const]
---           exact sum_le_sum fun b _ => xsum b
-
---         _ = ∑ i, x i := sum_erase_add univ x (mem_univ b)
-
-
---     }
---     rw [prod_const, card_fin]
-
---   _ = a (ord a) ^ j := zero_add _
-
-
--- theorem ord_Ipow_ord' (a : IntegerModularForm k) (j : ℕ) [ha : NeZero a] (k : ℕ) (h : k = j * ord a) :
---     (a ** j) k = a (ord a) ^ j := h ▸ ord_Ipow_ord a j
-
-
--- @[simp] theorem ord_Delta : ord Δ = 1 := by simp [ord_eq_iff]
-
--- @[simp] theorem ord_Eis (j : ℕ) [h : NeZero (j - 1)] : ord (Eis j) = 0 := by
---   have j1 : j ≠ 1 := by have := h.out; omega
---   simp [ord_eq_iff, Eis_ne_one_zero j1]
-
--- @[simp] theorem ord_fl {ℓ : ℕ} : ord (fl ℓ) = δ ℓ := by
---   simp only [fl, ord_Ipow, ord_Delta, mul_one]
-
--- -- why does simp not work
--- @[simp]
--- lemma ord_Eis_mul (a b c : ℕ) : ord (Eis 2 ** a * Eis 3 ** b * Δ ** c) = c := by
---   simp only [ord_mul, ord_Ipow]; simp
-
-
-
-
--- variable {f g : IntegerModularForm k} [fn0 : NeZero f] [gn0 : NeZero g]
-
-
-
--- theorem Fin.cases : ∀ i : Fin 2, i = 0 ∨ i = 1 := by
---   intro i; cases i; expose_names
---   match val with
---   | 0 => left; rfl
---   | 1 => right; rfl
-
-
-
--- theorem not_LI_fin2 {α β} (f g : α) [AddCommGroup α] [CommRing β]
---   [NoZeroDivisors β] [Module β α] [hf : NeZero f] [hg: NeZero g] [NoZeroSMulDivisors β α] :
---     ¬ (LinearIndependent β ![f, g]) ↔ ∃ c d : β, c • f = d • g ∧ (c ≠ 0 ∨ d ≠ 0) := by
---   simp [not_linearIndependent_iff]
---   constructor <;> intro h
---   {
---     obtain ⟨s, l, sumeq, ⟨i, is, hi⟩⟩ := h
---     use l 0, - l 1
---     obtain (rfl | rfl) := Fin.cases i
---     {
---       have sin : 1 ∈ s := by
---         contrapose! hi
---         have seq : s = {0} := by
---           ext x; simp only [Fin.isValue, Finset.mem_singleton]
---           obtain (rfl | rfl) := Fin.cases x <;> simpa
---         subst seq; simp_all
---         rcases sumeq with l0 | f0
---         · exact l0
---         · exact absurd f0 hf.out
-
---       have seq : s = {0,1} := by
---         ext x; obtain rfl | rfl := Fin.cases x <;> simpa
-
---       subst seq; simp_all
---       rwa [eq_neg_iff_add_eq_zero]
---     }
---     {
---       have sin : 0 ∈ s := by
---         contrapose! hi
---         have seq : s = {1} := by
---           ext x; simp only [Fin.isValue, Finset.mem_singleton]
---           obtain rfl | rfl := Fin.cases x <;> simpa
---         subst seq; simp_all
---         rcases sumeq with l0 | g0
---         · exact l0
---         · exact absurd g0 hg.out
-
---       have seq : s = {0,1} := by
---         ext x; obtain rfl | rfl := Fin.cases x <;> simpa
-
---       subst seq; simp_all
---       rwa [eq_neg_iff_add_eq_zero]
---     }
---   }
---   {
---     obtain ⟨c, d, hsmul, h⟩ := h
---     use {1,2}, ![-c,d]; simp
---     constructor
---     rwa [← sub_eq_add_neg, sub_eq_zero, Eq.comm]
---     exact h.symm
---   }
-
-
--- theorem twice_ne_zero {c d : ℤ} (hsmul : c • f = d • g) (h0 : c ≠ 0 ∨ d ≠ 0) : c ≠ 0 ∧ d ≠ 0 := by
---   rcases h0 with c0 | d0
-
---   refine ⟨c0, ?_⟩
---   contrapose! c0; subst c0
---   rw [zero_smul] at hsmul
---   obtain c0 | f0 := eq_zero_or_eq_zero_of_smul_eq_zero hsmul
---   exact c0
---   have := fn0.out; contradiction
-
---   refine ⟨?_, d0⟩
---   contrapose! d0; subst d0
---   rw [zero_smul] at hsmul
---   obtain d0 | f0 := eq_zero_or_eq_zero_of_smul_eq_zero hsmul.symm
---   exact d0
---   have := gn0.out; contradiction
-
-
-
--- theorem LI_of_ne_ord (hfg : ord f ≠ ord g) : LinearIndependent ℤ ![f, g] := by
---   contrapose! hfg
---   obtain ⟨c, d, h, h0⟩ := (not_LI_fin2 f g).mp hfg
-
---   have : NeZero c := ⟨(twice_ne_zero h h0).1⟩
---   have : NeZero d := ⟨(twice_ne_zero h h0).2⟩
---   calc
---     _ = ord (c • f) := (ord_smul c).symm
---     _ = ord (d • g) := by simp_rw [h]
---     _ = ord g := ord_smul d
-
-
--- end IntegerModularForm
+  by_cases h0 : f.fourier = 0
+  ·
+    have hg0 : g.fourier = 0 := by
+      ext n
+      simp
+      rw [← h n, ← coeff_def, h0, map_zero]
+    simp only [ord, h0, hg0]
+  ·
+    have hg0 : g.fourier ≠ 0 := by
+      intro hg
+      apply h0
+      ext n
+      simp
+      rw [h n, ← coeff_def, hg, map_zero]
+
+    simp only [ord, order, dif_neg h0, dif_neg hg0]
+    congr
+    exact funext (propext <| h · |>.not)
+
+
+
+@[simp] theorem ord_smul (c : ℤ) [NeZero c] : ord (c • f) = ord f :=
+  ord_eq_ord _ _ fun n => by
+    simpa only [coeff_smulz, smul_eq_mul, mul_eq_zero, or_iff_right_iff_imp]
+      using (NeZero.out · |>.elim)
+
+@[simp] theorem ord_Delta : ord Δ = 1 := by
+  rw [← Nat.cast_one, order_eq_nat]
+  simp only [coeff_def, Delta_one, ne_eq, one_ne_zero, not_false_eq_true, Order.lt_one_iff,
+    forall_eq, Delta_zero, and_self]
+
+theorem ord_Eis (hk : 3 ≤ k) (hk2 : Even k) : ord (Eis k) = 0 := by
+  rw [← Nat.cast_zero, order_eq_nat]
+  simp only [coeff_def, Eis_zero hk hk2, ne_eq, one_ne_zero, not_false_eq_true, not_lt_zero,
+    IsEmpty.forall_iff, implies_true, and_self]
+
+@[simp] theorem ord_Eis_four : ord (Eis 4) = 0 :=
+  ord_Eis (by decide) (by decide)
+
+@[simp] theorem ord_Eis_six : ord (Eis 6) = 0 :=
+  ord_Eis (by decide) (by decide)
+
+@[simp] theorem ord_Icast (h : k = j) : ord (Icast h f) = ord f := rfl
+
+
+open Finset in
+theorem coeff_mul_ord (n m : ℕ) (hn : ord f = n) (hm : ord g = m) :
+    (f.mul g).coeff (n + m) = f.coeff n * g.coeff m := by
+  rw [coeff_mul]
+  calc
+
+  _ = ∑ x ∈ antidiagonal (n + m) \ {(n, m)},
+    f.coeff (x.1) * g.coeff (x.2) + f.coeff n * g.coeff m := by simp
+
+  _ = 0 + f.coeff n * g.coeff m := by
+    congr; apply Finset.sum_eq_zero fun x hx => ?_
+    simp only [mem_sdiff, mem_antidiagonal, mem_singleton] at hx
+    obtain ⟨xsum, xne⟩ := hx
+    have : x.1 ≠ n ∨ x.2 ≠ m := by contrapose! xne; exact Prod.ext_iff.mpr xne
+    have : x.1 < n ∨ x.2 < m := by omega
+    rcases this with h | h
+    · have : x.1 < f.ord := by rw [hn]; norm_cast
+      rw [← coeff_def, coeff_of_lt_order _ this, MulZeroClass.zero_mul]
+    · have : x.2 < g.ord := by rw [hm]; norm_cast
+      rw [← coeff_def x.2, coeff_of_lt_order _ this, MulZeroClass.mul_zero]
+
+  _ = _ := zero_add _
+
+
+-- clean up the grinds
+theorem coeff_mul_ord_add_one {n m : ℕ} (hn : ord f = n) (hm : ord g = m) :
+    (f.mul g).coeff (n + m + 1) = f.coeff (n + 1) * g.coeff m + g.coeff (m + 1) * f.coeff n := by
+  set f' := PowerSeries.mk fun i => f.coeff (n + i) with f'eq
+  set g' := PowerSeries.mk fun i => g.coeff (m + i) with g'eq
+  simp only [PowerSeries.ext_iff, coeff_mk] at *
+  nth_rw 3 [← add_zero n]
+  nth_rw 2 [← add_zero m]
+  simp only [← f'eq, ← g'eq]
+  simp [← PowerSeries.coeff_one_mul, ← coeff_def]
+  trans ((PowerSeries.mk fun i ↦ coeff (n + i) f) * (PowerSeries.mk fun i ↦ coeff (m + i) g)).coeff 1
+  simp [PowerSeries.coeff_mul]
+  trans ∑ p ∈ (Finset.antidiagonal (n + m + 1)).filter fun p => (p.1 ≥ n ∧ p.2 ≥ m), coeff p.1 f * coeff p.2 g
+  apply Eq.symm <| Finset.sum_filter_of_ne fun x xin => by
+
+    contrapose!
+    intro a
+    have : x.1 < n ∨ x.2 < m := by grind
+    rcases this with h | h
+    rw [coeff_lt_ord f, MulZeroClass.zero_mul]
+    rw [hn]; norm_cast
+    rw [coeff_lt_ord g, MulZeroClass.mul_zero]
+    rw [hm]; norm_cast
+
+
+
+  apply Finset.sum_bij fun a _ => (a.1 - n, a.2 - m)
+
+  simp; grind
+  simp; grind
+  simp; intro a b h
+  use a + n, b + m; grind
+  simp; intro a b h na mb
+  grind
+
+  grind

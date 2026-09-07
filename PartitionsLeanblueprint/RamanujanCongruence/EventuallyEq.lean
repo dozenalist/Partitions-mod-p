@@ -1,7 +1,10 @@
 import Mathlib.RingTheory.PowerSeries.Basic
 import PartitionsLeanblueprint.RamanujanCongruence.PowerSeries
 
-
+/-
+This file defines `EventuallyEq` and proves some basic facts about it
+This file is sorry-free
+-/
 
 open PowerSeries Finset Finset.HasAntidiagonal
 

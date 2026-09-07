@@ -1,12 +1,17 @@
 import PartitionsLeanblueprint.RamanujanCongruence.ModularFormMod.Defs
+import Mathlib.NumberTheory.ModularForms.LevelOne.DimensionFormula
 import Mathlib.RingTheory.PowerSeries.Derivative
 import Mathlib.FieldTheory.Finite.Basic
 
 
+/-
+This file defines the Filtration, Theta, and UOp functions on Modular Forms Mod ℓ
+This file has 2 sorries
+· `Theta.modular`
+· `UOp.modular`
+-/
 
--- attribute [-simp] zsmul_eq_mul nsmul_eq_mul
-
-variable {ℓ : ℕ} {k j : ZMod (ℓ - 1)} (f g : ModularFormMod ℓ k) (h : ModularFormMod ℓ j)
+variable {ℓ : ℕ} [isLargePrime ℓ] {k j : ZMod (ℓ - 1)} (f g : ModularFormMod ℓ k) (h : ModularFormMod ℓ j)
 
 section Filtration
 open IntegerModularForm
@@ -27,19 +32,45 @@ theorem hasWeight.exists {j : ℤ} (h : f.hasWeight j) :
 
 @[simp] theorem hasWeight_Mcast {m} (h : k = j) : (f.Mcast h).hasWeight m ↔ f.hasWeight m := Iff.rfl
 
+theorem exists_hasWeight : {j : ℤ | f.hasWeight j}.Nonempty := by
+  obtain ⟨i, hi, h⟩ := by simpa [ZMod.reduce_set] using f.modular
+  use i
+  simpa only [hasWeight, Set.mem_range, Set.mem_ofPred_eq]
+
 
 noncomputable def Filtration (f : ModularFormMod ℓ k) : ℤ :=
   sInf {j : ℤ | f.hasWeight j}
 
 
+theorem nonempty_hasWeight_set : {j : ℤ | f.hasWeight j}.Nonempty := by
+  obtain ⟨j, -, h⟩ := by simpa [ZMod.reduce_set] using f.modular
+  exact ⟨j, by simpa⟩
+
+theorem BddBelow_hasWeight_set [fn0 : NeZero f] : BddBelow {j : ℤ | f.hasWeight j} := by
+  use 0
+  simp [mem_lowerBounds, hasWeight]
+  intro j g hf
+  have g0 : g ≠ 0 := by
+    have := fn0.out; contrapose! this; rw [this, map_zero] at hf
+    exact fourier_inj <| fourier_zero (ℓ := ℓ) ▸ hf.symm
+
+  contrapose! g0
+  apply carrier_inj
+
+  ext x
+  rw [ModularFormClass.levelOne_neg_weight_eq_zero g0]
+  rfl
+
 theorem Filtration_spec (f : ModularFormMod ℓ k) :
-    f.hasWeight f.Filtration :=
-  have hne : {i : ℤ | f.fourier ∈ Set.range (@reduce i ℓ)}.Nonempty := by
-    obtain ⟨j, -, h⟩ := by simpa [ZMod.reduce_set] using f.modular
-    exact ⟨j, by simpa⟩
-  have hbdd : BddBelow {i : ℤ | f.fourier ∈ Set.range (@reduce i ℓ)} := by
-    sorry
-  Int.csInf_mem hne hbdd
+    f.hasWeight f.Filtration := by
+  by_cases fn0 : f = 0
+  · use 0, by rw [fn0, fourier_zero, map_zero]
+  · exact Int.csInf_mem (nonempty_hasWeight_set f) (BddBelow_hasWeight_set f (fn0 := ⟨fn0⟩))
+
+
+theorem Filtration_le {j} {f : ModularFormMod ℓ k} [fn0 : NeZero f] (hf : hasWeight j f) : f.Filtration ≤ j :=
+  csInf_le (BddBelow_hasWeight_set f) hf
+
 
 
 noncomputable def Filtration_choose (f : ModularFormMod ℓ k) :
@@ -179,9 +210,9 @@ noncomputable def UOp (ℓ : ℕ) : PowerSeries α →ₗ[α] PowerSeries α whe
   map_smul' _ _ := ext fun _ => by
     simp only [map_smul, smul_eq_mul, coeff_mk, RingHom.id_apply]
 
-theorem UOp_apply (f : PowerSeries α) : UOp ℓ f = .mk fun n => f.coeff (ℓ * n) := rfl
+theorem UOp_apply {ℓ} (f : PowerSeries α) : UOp ℓ f = .mk fun n => f.coeff (ℓ * n) := rfl
 
-@[simp] theorem coeff_UOp (f : PowerSeries α) (n) : (UOp ℓ f).coeff n = f.coeff (ℓ * n) := by
+@[simp] theorem coeff_UOp {ℓ} (f : PowerSeries α) (n) : (UOp ℓ f).coeff n = f.coeff (ℓ * n) := by
   rw [UOp_apply, coeff_mk]
 
 end PowerSeries

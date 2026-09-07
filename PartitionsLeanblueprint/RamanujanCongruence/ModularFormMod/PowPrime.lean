@@ -2,7 +2,10 @@ import PartitionsLeanblueprint.RamanujanCongruence.ModularFormMod.Defs
 import Mathlib.RingTheory.PowerSeries.Expand
 import Mathlib.FieldTheory.Finite.Basic
 
-
+/-
+This file proves `coeff_pow_Prime (n) : (f.pow ℓ).coeff n = if ℓ ∣ n then f.coeff (n / ℓ) else 0`
+This file is sorry-free
+-/
 
 open PowerSeries
 
@@ -38,7 +41,7 @@ end PowerSeries.ZMod
 
 namespace ModularFormMod
 
-variable {ℓ : ℕ} [Fact (Nat.Prime ℓ)] {k j : ZMod (ℓ - 1)} (f : ModularFormMod ℓ k)
+variable {ℓ : ℕ} [isLargePrime ℓ] {k j : ZMod (ℓ - 1)} (f : ModularFormMod ℓ k)
 
 
 theorem coeff_pow_Prime (n) : (f.pow ℓ).coeff n = if ℓ ∣ n then f.coeff (n / ℓ) else 0 := by

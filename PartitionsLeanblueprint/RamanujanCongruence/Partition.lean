@@ -1,7 +1,10 @@
 import PartitionsLeanblueprint.RamanujanCongruence.EventuallyEq
 import Mathlib.Combinatorics.Enumerative.Partition.Basic
 
-
+/-
+This file defines the partition function and proves its generating function
+This file is sorry free
+-/
 
 
 
@@ -206,7 +209,7 @@ lemma apart_eq [Field α] (n : ℕ) : ↑(partition n) = (apart n : α) := by
 
 
 def mkUniv : ℕ ↪ ℕ :=
-  ⟨(· + 1), λ _ _ ↦ Nat.add_right_cancel⟩
+  ⟨(· + 1), fun _ _ => Nat.add_right_cancel⟩
 
 lemma mkUniv_apply (n : ℕ) : mkUniv n = n + 1 := rfl
 
