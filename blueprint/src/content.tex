@@ -302,13 +302,27 @@
 % \end{theorem}
 
 \begin{theorem}
+  \label{thm:Reduce_of_reduce}
+  \uses{def:ModularFormMod, def:IntegerModularForm}
+  \lean{ModularFormMod.Reduce_of_reduce}
+  \leanok
+
+  If an integer modular form of $a$ weight $k$ reduces to a modular form mod $\ell$ of weight $j$ 
+  then we must have $k \equiv j \pmod \ell$
+
+\end{theorem}
+
+\begin{theorem}
   \label{thm:Filtration_congruence}
-  \uses{def:Filtration}
+  \uses{def:Filtration, thm:Reduce_of_reduce}
   \lean{ModularFormMod.Filtration_congruence}
   \leanok
   Let a be a modular form mod $\ell$ of weight $k$. Then 
   $\omega (a) \equiv k \mod (\ell - 1)$. 
 \end{theorem}
+\begin{proof}
+  \leanok
+\end{proof}
 
 
 \begin{definition} [Eisenstein Series]
@@ -451,7 +465,7 @@
 
 \begin{theorem}
   \label{thm:G_ord_G}
-  \uses{thm:ord_G, thm:ord_pow_ord, thm:coeff_mul_ord}
+  \uses{thm:ord_G, thm:coeff_mul_ord, thm:coeff_mul_ord}
   \lean{IntegerModularForm.G_ord_G}
   \leanok
   $G_{k,\, c} (c) = 1$.
@@ -484,16 +498,6 @@
   \leanok
 \end{proof}
 
-\begin{theorem}
-  \label{thm:Reduce_of_reduce}
-  \uses{def:ModularFormMod, def:IntegerModularForm}
-  \lean{ModularFormMod.Reduce_of_reduce}
-  \leanok
-
-  If an integer modular form of $a$ weight $k$ reduces to a modular form mod $\ell$ of weight $j$ 
-  then we must have $k \equiv j \pmod \ell$
-
-\end{theorem}
 
 
 \begin{theorem}
@@ -589,7 +593,7 @@
 % \end{proof}
 
 \begin{theorem}
-  \label{Filtration_Theta_pow_sub_one}
+  \label{thm:Filtration_Theta_pow_sub_one}
   \uses{thm:UOp_pow_l, def:Filtration}
   \lean{Filtration_Theta_pow_sub_one}
   \leanok
@@ -920,11 +924,11 @@
 
 
 \begin{theorem}
-  \label{thm:Eis_two_one}
+  \label{thm:Eis_four_one}
   \uses{def:Eis}
   \lean{IntegerModularForm.Eis_four_one}
   \leanok
-  $E_2 (1) = 240$.
+  $E_4 (1) = 240$.
 \end{theorem}
 \begin{proof}
   \leanok
@@ -933,7 +937,7 @@
 
 \begin{theorem}
   \label{thm:G_delta_add_one}
-  \uses{def:G, thm:ord_pow_ord, thm:ord_Delta, lem:fl_delta_add_one, thm:Eis_two_one}
+  \uses{def:G, thm:coeff_mul_ord, thm:ord_Delta, lem:fl_delta_add_one, thm:Eis_four_one}
   \lean{G_delta_add_one}
   \leanok
   $G_{6\delta_\ell + 2, \, \delta_\ell} (\delta_\ell + 1) \equiv 241 \pmod \ell$.

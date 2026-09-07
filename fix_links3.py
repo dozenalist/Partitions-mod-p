@@ -48,8 +48,10 @@ for root, _, files in os.walk(LEAN_SOURCE_DIR):
 
                 # Look for declarations. Allow dots/apostrophes in the "name" token
                 m = re.match(
-                    r"\s*(?:@\[[^\]]*\]\s*)*(?:private|scoped|protected|noncomputable\s+)*\s*"
-                    r"(theorem|def|lemma|structure|class|inductive|abbrev)\s+([A-Za-z0-9_\.']+)",
+                    r"\s*(?:@\[[^\]]*\]\s*)*"
+                    r"(?:(?:private|scoped|protected|noncomputable|unsafe)\s+)*"
+                    r"(theorem|def|lemma|structure|class|inductive|abbrev)\s+"
+                    r"([A-Za-z0-9_.']+)",
                     line
                 )
                 if not m:

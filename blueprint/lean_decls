@@ -8,6 +8,7 @@ ModularFormMod.mul
 ModularFormMod.pow
 ModularFormMod.coeff_pow_Prime
 UOp_pow_l
+ModularFormMod.Reduce_of_reduce
 ModularFormMod.Filtration_congruence
 IntegerModularForm.Eis
 IntegerModularForm.Delta
@@ -23,7 +24,6 @@ IntegerModularForm.ord_G
 IntegerModularForm.G_ord_G
 IntegerModularForm.coeff_trunc_injective
 IntegerModularForm.eq_G_of_ord_max
-ModularFormMod.Reduce_of_reduce
 ModularFormMod.exists_maximal_Reduce
 Filt_fl
 Filt_Theta_bound

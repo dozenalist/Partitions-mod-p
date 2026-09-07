@@ -641,7 +641,7 @@
 
   </div>
 </div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:Filtration_congruence">
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:Reduce_of_reduce">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
@@ -654,7 +654,76 @@
         </div>
     <div class="thm_header_hidden_extras">
 
+    <a class="icon proof" href="index.html#thm:Reduce_of_reduce">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="index.html#def:ModularFormMod">Definition 2</a></li>
+          
+          <li><a href="index.html#def:IntegerModularForm">Definition 1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/ModularFormMod/MaximalReduce.lean#L19" class="lean_decl">ModularFormMod.Reduce_of_reduce</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  
+<p>If an integer modular form of \(a\) weight \(k\) reduces to a modular form mod \(\ell \) of weight \(j\) then we must have \(k \equiv j \pmod\ell \) </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:Filtration_congruence">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">11</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
     <a class="icon proof" href="index.html#thm:Filtration_congruence">#</a>
+    
+    <a class="icon proof" href="index.html#a0000000009"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
     
     
     <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
@@ -670,6 +739,8 @@
         <ul class="uses">
           
           <li><a href="index.html#def:Filtration">Definition 6</a></li>
+          
+          <li><a href="index.html#thm:Reduce_of_reduce">Theorem 10</a></li>
           
         </ul>
     
@@ -704,12 +775,24 @@
 
   </div>
 </div>
+<div class="proof_wrapper" id="a0000000009">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
 <div class="definition_thmwrapper theorem-style-definition" id="def:Eis">
   <div class="definition_thmheading">
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">11</span>
+    <span class="definition_thmlabel">12</span>
     <span class="definition_thmtitle">Eisenstein Series</span>
     <div class="thm_header_extras">
 
@@ -765,7 +848,7 @@
   </div>
   <div class="definition_thmcontent">
   <p>    For \(k \ge 2 \in \mathbb {N}\), the Eisenstein series \(E_k\) is an integer modular form of weight \(2k\) defined by </p>
-<div class="displaymath" id="a0000000009">
+<div class="displaymath" id="a0000000010">
   \[  E_k = 1 - \frac{4k}{B_{2k}} \sum _{n = 1}^{\infty } \sigma _{2k - 1} (n) q ^n  \]
 </div>
 <p> where \(B_k\) is the kth Bernoulli number and \(\sigma _{k} (n)\) is the sum of the kth powers of the divisors of \(n\). </p>
@@ -777,7 +860,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">12</span>
+    <span class="definition_thmlabel">13</span>
     <span class="definition_thmtitle">Delta</span>
     <div class="thm_header_extras">
 
@@ -840,7 +923,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">13</span>
+    <span class="definition_thmlabel">14</span>
     <div class="thm_header_extras">
 
     
@@ -863,7 +946,7 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:Delta">Definition 12</a></li>
+          <li><a href="index.html#def:Delta">Definition 13</a></li>
           
         </ul>
     
@@ -903,7 +986,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">14</span>
+    <span class="definition_thmlabel">15</span>
     <div class="thm_header_extras">
 
     
@@ -946,7 +1029,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">15</span>
+    <span class="definition_thmlabel">16</span>
     <div class="thm_header_extras">
 
         </div>
@@ -967,11 +1050,11 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:Eis">Definition 11</a></li>
+          <li><a href="index.html#def:Eis">Definition 12</a></li>
           
-          <li><a href="index.html#def:Delta">Definition 12</a></li>
+          <li><a href="index.html#def:Delta">Definition 13</a></li>
           
-          <li><a href="index.html#def:dim">Definition 14</a></li>
+          <li><a href="index.html#def:dim">Definition 15</a></li>
           
         </ul>
     
@@ -1004,7 +1087,7 @@
   <div class="definition_thmcontent">
   
 <p>For \( k \ne 1\) and \(c {\lt} \) dim\((k)\), write \(k\) uniquely as \(k = 6\ell + k'\), where \(k' \in \{ 0, 2, 3, 4, 5, 7\} \). \(G_{k,\,  c}\) is a modular form of weight \(2k\) defined as </p>
-<div class="displaymath" id="a0000000010">
+<div class="displaymath" id="a0000000011">
   \[ G_{k,\,  c} = E_2 ^a E_3 ^b E_2 ^{\ell - 3c} \Delta ^c  \]
 </div>
 <p> where \(a, b\) are the unique natural numbers with \(2a + 3b = k'.\) <br />We have that the set of all such \(G_{k,\,  c}\) for fixed \(k\) form a basis for the modular forms of weight \(2k\). </p>
@@ -1016,7 +1099,7 @@
     <span class="definition_thmcaption">
     Definition
     </span>
-    <span class="definition_thmlabel">16</span>
+    <span class="definition_thmlabel">17</span>
     <span class="definition_thmtitle">ord</span>
     <div class="thm_header_extras">
 
@@ -1080,7 +1163,7 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">17</span>
+    <span class="theorem_thmlabel">18</span>
     <div class="thm_header_extras">
 
     
@@ -1090,7 +1173,7 @@
 
     <a class="icon proof" href="index.html#thm:ord_mul">#</a>
     
-    <a class="icon proof" href="index.html#a0000000011"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000012"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -1106,7 +1189,7 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:ord">Definition 16</a></li>
+          <li><a href="index.html#def:ord">Definition 17</a></li>
           
           <li><a href="index.html#def:mulpow">Definition 7</a></li>
           
@@ -1143,7 +1226,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000011">
+<div class="proof_wrapper" id="a0000000012">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -1160,7 +1243,7 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">18</span>
+    <span class="theorem_thmlabel">19</span>
     <div class="thm_header_extras">
 
     
@@ -1170,7 +1253,7 @@
 
     <a class="icon proof" href="index.html#thm:coeff_mul_ord">#</a>
     
-    <a class="icon proof" href="index.html#a0000000012"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000013"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -1186,7 +1269,7 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#thm:ord_mul">Theorem 17</a></li>
+          <li><a href="index.html#thm:ord_mul">Theorem 18</a></li>
           
         </ul>
     
@@ -1221,7 +1304,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000012">
+<div class="proof_wrapper" id="a0000000013">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -1238,7 +1321,7 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">19</span>
+    <span class="theorem_thmlabel">20</span>
     <div class="thm_header_extras">
 
     
@@ -1248,7 +1331,7 @@
 
     <a class="icon proof" href="index.html#thm:ord_Delta">#</a>
     
-    <a class="icon proof" href="index.html#a0000000013"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000014"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -1264,9 +1347,9 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:Delta">Definition 12</a></li>
+          <li><a href="index.html#def:Delta">Definition 13</a></li>
           
-          <li><a href="index.html#def:ord">Definition 16</a></li>
+          <li><a href="index.html#def:ord">Definition 17</a></li>
           
         </ul>
     
@@ -1301,7 +1384,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000013">
+<div class="proof_wrapper" id="a0000000014">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -1318,7 +1401,7 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">20</span>
+    <span class="theorem_thmlabel">21</span>
     <div class="thm_header_extras">
 
     
@@ -1328,7 +1411,7 @@
 
     <a class="icon proof" href="index.html#thm:ord_Eis">#</a>
     
-    <a class="icon proof" href="index.html#a0000000014"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000015"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -1344,9 +1427,9 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:Eis">Definition 11</a></li>
+          <li><a href="index.html#def:Eis">Definition 12</a></li>
           
-          <li><a href="index.html#def:ord">Definition 16</a></li>
+          <li><a href="index.html#def:ord">Definition 17</a></li>
           
         </ul>
     
@@ -1381,7 +1464,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000014">
+<div class="proof_wrapper" id="a0000000015">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -1398,7 +1481,7 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">21</span>
+    <span class="theorem_thmlabel">22</span>
     <div class="thm_header_extras">
 
     
@@ -1408,7 +1491,7 @@
 
     <a class="icon proof" href="index.html#thm:ord_G">#</a>
     
-    <a class="icon proof" href="index.html#a0000000015"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000016"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -1424,13 +1507,13 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:G">Definition 15</a></li>
+          <li><a href="index.html#def:G">Definition 16</a></li>
           
-          <li><a href="index.html#thm:ord_Delta">Theorem 19</a></li>
+          <li><a href="index.html#thm:ord_Delta">Theorem 20</a></li>
           
-          <li><a href="index.html#thm:ord_Eis">Theorem 20</a></li>
+          <li><a href="index.html#thm:ord_Eis">Theorem 21</a></li>
           
-          <li><a href="index.html#thm:ord_mul">Theorem 17</a></li>
+          <li><a href="index.html#thm:ord_mul">Theorem 18</a></li>
           
         </ul>
     
@@ -1465,7 +1548,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000015">
+<div class="proof_wrapper" id="a0000000016">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -1482,7 +1565,7 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">22</span>
+    <span class="theorem_thmlabel">23</span>
     <div class="thm_header_extras">
 
     
@@ -1492,7 +1575,7 @@
 
     <a class="icon proof" href="index.html#thm:G_ord_G">#</a>
     
-    <a class="icon proof" href="index.html#a0000000016"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000017"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -1508,9 +1591,11 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#thm:ord_G">Theorem 21</a></li>
+          <li><a href="index.html#thm:ord_G">Theorem 22</a></li>
           
-          <li><a href="index.html#thm:coeff_mul_ord">Theorem 18</a></li>
+          <li><a href="index.html#thm:coeff_mul_ord">Theorem 19</a></li>
+          
+          <li><a href="index.html#thm:coeff_mul_ord">Theorem 19</a></li>
           
         </ul>
     
@@ -1545,7 +1630,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000016">
+<div class="proof_wrapper" id="a0000000017">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -1562,7 +1647,7 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">23</span>
+    <span class="theorem_thmlabel">24</span>
     <div class="thm_header_extras">
 
     
@@ -1572,7 +1657,7 @@
 
     <a class="icon proof" href="index.html#thm:coeff_trunc_injective">#</a>
     
-    <a class="icon proof" href="index.html#a0000000017"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000018"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -1588,11 +1673,11 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:G">Definition 15</a></li>
+          <li><a href="index.html#def:G">Definition 16</a></li>
           
-          <li><a href="index.html#thm:ord_G">Theorem 21</a></li>
+          <li><a href="index.html#thm:ord_G">Theorem 22</a></li>
           
-          <li><a href="index.html#def:dim">Definition 14</a></li>
+          <li><a href="index.html#def:dim">Definition 15</a></li>
           
         </ul>
     
@@ -1627,7 +1712,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000017">
+<div class="proof_wrapper" id="a0000000018">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -1644,7 +1729,7 @@
     <span class="theorem_thmcaption">
     Theorem
     </span>
-    <span class="theorem_thmlabel">24</span>
+    <span class="theorem_thmlabel">25</span>
     <div class="thm_header_extras">
 
     
@@ -1654,7 +1739,7 @@
 
     <a class="icon proof" href="index.html#thm:eq_G_of_ord_max">#</a>
     
-    <a class="icon proof" href="index.html#a0000000018"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000019"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -1670,9 +1755,9 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#thm:coeff_trunc_injective">Theorem 23</a></li>
+          <li><a href="index.html#thm:coeff_trunc_injective">Theorem 24</a></li>
           
-          <li><a href="index.html#thm:G_ord_G">Theorem 22</a></li>
+          <li><a href="index.html#thm:G_ord_G">Theorem 23</a></li>
           
         </ul>
     
@@ -1707,7 +1792,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000018">
+<div class="proof_wrapper" id="a0000000019">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -1716,72 +1801,6 @@
   </div>
   <div class="proof_content">
   
-
-  </div>
-</div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:Reduce_of_reduce">
-  <div class="theorem_thmheading">
-    <span class="theorem_thmcaption">
-    Theorem
-    </span>
-    <span class="theorem_thmlabel">25</span>
-    <div class="thm_header_extras">
-
-    
-    ✓
-        </div>
-    <div class="thm_header_hidden_extras">
-
-    <a class="icon proof" href="index.html#thm:Reduce_of_reduce">#</a>
-    
-    
-    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
-</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Uses</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="index.html#def:ModularFormMod">Definition 2</a></li>
-          
-          <li><a href="index.html#def:IntegerModularForm">Definition 1</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-    
-    <button class="modal lean">L∃∀N</button>
-        <div class="modal-container">
-      <div class="modal-content">
-        <header>
-          <h1>Lean declarations</h1>
-          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
-</button>
-        </header>
-        
-        <ul class="uses">
-          
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/ModularFormMod/MaximalReduce.lean#L19" class="lean_decl">ModularFormMod.Reduce_of_reduce</a></li>
-          
-        </ul>
-    
-      </div>
-    </div>
-
-    
-        </div>
-  </div>
-  <div class="theorem_thmcontent">
-  
-<p>If an integer modular form of \(a\) weight \(k\) reduces to a modular form mod \(\ell \) of weight \(j\) then we must have \(k \equiv j \pmod\ell \) </p>
 
   </div>
 </div>
@@ -1800,7 +1819,7 @@
 
     <a class="icon proof" href="index.html#thm:exists_maximal_Reduce">#</a>
     
-    <a class="icon proof" href="index.html#a0000000019"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000020"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -1816,11 +1835,11 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#thm:G_ord_G">Theorem 22</a></li>
+          <li><a href="index.html#thm:G_ord_G">Theorem 23</a></li>
           
-          <li><a href="index.html#thm:Reduce_of_reduce">Theorem 25</a></li>
+          <li><a href="index.html#thm:Reduce_of_reduce">Theorem 10</a></li>
           
-          <li><a href="index.html#thm:coeff_trunc_injective">Theorem 23</a></li>
+          <li><a href="index.html#thm:coeff_trunc_injective">Theorem 24</a></li>
           
         </ul>
     
@@ -1855,7 +1874,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000019">
+<div class="proof_wrapper" id="a0000000020">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -1882,7 +1901,7 @@
 
     <a class="icon proof" href="index.html#lem:Filt_fl">#</a>
     
-    <a class="icon proof" href="index.html#a0000000020"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000021"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -1898,7 +1917,7 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:fl">Definition 13</a></li>
+          <li><a href="index.html#def:fl">Definition 14</a></li>
           
           <li><a href="index.html#thm:exists_maximal_Reduce">Theorem 26</a></li>
           
@@ -1935,7 +1954,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000020">
+<div class="proof_wrapper" id="a0000000021">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -2090,7 +2109,7 @@
 
     <a class="icon proof" href="index.html#thm:le_Filt_Theta_fl">#</a>
     
-    <a class="icon proof" href="index.html#a0000000021"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000022"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -2106,9 +2125,9 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:fl">Definition 13</a></li>
+          <li><a href="index.html#def:fl">Definition 14</a></li>
           
-          <li><a href="index.html#thm:Filtration_congruence">Theorem 10</a></li>
+          <li><a href="index.html#thm:Filtration_congruence">Theorem 11</a></li>
           
           <li><a href="index.html#thm:exists_maximal_Reduce">Theorem 26</a></li>
           
@@ -2145,7 +2164,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000021">
+<div class="proof_wrapper" id="a0000000022">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -2157,7 +2176,7 @@
 
   </div>
 </div>
-<div class="theorem_thmwrapper theorem-style-plain" id="Filtration_Theta_pow_sub_one">
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:Filtration_Theta_pow_sub_one">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
@@ -2170,9 +2189,9 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="index.html#Filtration_Theta_pow_sub_one">#</a>
+    <a class="icon proof" href="index.html#thm:Filtration_Theta_pow_sub_one">#</a>
     
-    <a class="icon proof" href="index.html#a0000000022"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000023"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -2225,7 +2244,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000022">
+<div class="proof_wrapper" id="a0000000023">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -2252,7 +2271,7 @@
 
     <a class="icon proof" href="index.html#lem:Filt_Theta_congruence_of_dvd">#</a>
     
-    <a class="icon proof" href="index.html#a0000000023"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000024"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -2268,7 +2287,7 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#thm:Reduce_of_reduce">Theorem 25</a></li>
+          <li><a href="index.html#thm:Reduce_of_reduce">Theorem 10</a></li>
           
           <li><a href="index.html#thm:Filt_Theta_bound">Theorem 28</a></li>
           
@@ -2307,7 +2326,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000023">
+<div class="proof_wrapper" id="a0000000024">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -2334,7 +2353,7 @@
 
     <a class="icon proof" href="index.html#thm:Filt_Theta_l_sub_two">#</a>
     
-    <a class="icon proof" href="index.html#a0000000024"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000025"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -2349,6 +2368,8 @@
         </header>
         
         <ul class="uses">
+          
+          <li><a href="index.html#thm:Filtration_Theta_pow_sub_one">Theorem 31</a></li>
           
           <li><a href="index.html#lem:Filt_fl">Lemma 27</a></li>
           
@@ -2387,7 +2408,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000024">
+<div class="proof_wrapper" id="a0000000025">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -2414,7 +2435,7 @@
 
     <a class="icon proof" href="index.html#lem:Filt_Theta_lel_add_one_div_two">#</a>
     
-    <a class="icon proof" href="index.html#a0000000025"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000026"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -2467,7 +2488,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000025">
+<div class="proof_wrapper" id="a0000000026">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -2494,7 +2515,7 @@
 
     <a class="icon proof" href="index.html#thm:Filt_Theta_l_add_one_div_two">#</a>
     
-    <a class="icon proof" href="index.html#a0000000026"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000027"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -2545,7 +2566,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000026">
+<div class="proof_wrapper" id="a0000000027">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -2609,7 +2630,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/find/#doc/alpha" class="lean_decl">alpha</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/DescentArgument.lean#L208" class="lean_decl">alpha</a></li>
           
         </ul>
     
@@ -2672,7 +2693,7 @@
         
         <ul class="uses">
           
-          <li><a href="https://github.com/dozenalist/Partitions-mod-p/find/#doc/j" class="lean_decl">j</a></li>
+          <li><a href="https://github.com/dozenalist/Partitions-mod-p/blob/main/PartitionsLeanblueprint/RamanujanCongruence/DescentArgument.lean#L239" class="lean_decl">j</a></li>
           
         </ul>
     
@@ -2702,7 +2723,7 @@
 
     <a class="icon proof" href="index.html#lem:alpha_bound">#</a>
     
-    <a class="icon proof" href="index.html#a0000000027"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000028"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -2755,7 +2776,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000027">
+<div class="proof_wrapper" id="a0000000028">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -2782,7 +2803,7 @@
 
     <a class="icon proof" href="index.html#lem:j_bound">#</a>
     
-    <a class="icon proof" href="index.html#a0000000028"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000029"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -2835,7 +2856,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000028">
+<div class="proof_wrapper" id="a0000000029">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -2862,7 +2883,7 @@
 
     <a class="icon proof" href="index.html#lem:Filt_Theta_lej">#</a>
     
-    <a class="icon proof" href="index.html#a0000000029"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000030"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -2919,7 +2940,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000029">
+<div class="proof_wrapper" id="a0000000030">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -2946,7 +2967,7 @@
 
     <a class="icon proof" href="index.html#lem:ldiv_j_add_a">#</a>
     
-    <a class="icon proof" href="index.html#a0000000030"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000031"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -2997,7 +3018,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000030">
+<div class="proof_wrapper" id="a0000000031">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -3024,7 +3045,7 @@
 
     <a class="icon proof" href="index.html#lem:alpha_equal">#</a>
     
-    <a class="icon proof" href="index.html#a0000000031"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000032"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -3079,7 +3100,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000031">
+<div class="proof_wrapper" id="a0000000032">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -3106,7 +3127,7 @@
 
     <a class="icon proof" href="index.html#thm:Filt_Theta_l_add_three_div_two">#</a>
     
-    <a class="icon proof" href="index.html#a0000000032"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000033"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -3157,7 +3178,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000032">
+<div class="proof_wrapper" id="a0000000033">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -3184,7 +3205,7 @@
 
     <a class="icon proof" href="index.html#lem:fl_delta_add_one">#</a>
     
-    <a class="icon proof" href="index.html#a0000000033"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000034"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -3200,7 +3221,7 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:fl">Definition 13</a></li>
+          <li><a href="index.html#def:fl">Definition 14</a></li>
           
           <li><a href="index.html#def:mulpow">Definition 7</a></li>
           
@@ -3237,7 +3258,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000033">
+<div class="proof_wrapper" id="a0000000034">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -3307,7 +3328,7 @@
 
     <a class="icon proof" href="index.html#thm:partitionProduct_eq">#</a>
     
-    <a class="icon proof" href="index.html#a0000000034"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000035"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -3335,14 +3356,14 @@
   </div>
   <div class="theorem_thmcontent">
   <p>  If \(n \:  {\gt} \:  0\) and \(m \ge n\), then \(p (n)\) is equal to the nth coefficient in the product exapansion of </p>
-<div class="displaymath" id="a0000000035">
+<div class="displaymath" id="a0000000036">
   \[  \prod _{i = 0}^{m} (1 - X^{i + 1})^{-1}  \]
 </div>
 <p> Note : In lean, \(p (0) = 0\). </p>
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000034">
+<div class="proof_wrapper" id="a0000000035">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -3412,7 +3433,7 @@
 
     <a class="icon proof" href="index.html#thm:eventuallyEq_mul">#</a>
     
-    <a class="icon proof" href="index.html#a0000000036"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000037"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -3463,7 +3484,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000036">
+<div class="proof_wrapper" id="a0000000037">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -3490,7 +3511,7 @@
 
     <a class="icon proof" href="index.html#lem:coeff_sum_X_pow_mul">#</a>
     
-    <a class="icon proof" href="index.html#a0000000037"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000038"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -3518,13 +3539,13 @@
   </div>
   <div class="lemma_thmcontent">
   <p>  Let \(n, N, \ell \in \mathbb {N}\) with \(n \:  {\lt} \:  N\) and \(\ell \:  {\gt} \:  0\). Let \(a : \mathbb {N} \to \alpha \) be a sequence with coefficients in a semiring \(\alpha \). Then the nth coefficient of </p>
-<div class="displaymath" id="a0000000038">
+<div class="displaymath" id="a0000000039">
   \[  \sum _{i = 0}^{N} a (n) X ^{\ell i} = \begin{cases}  a (n / \ell ) &  \text{ if } \ell \mid n, \\ 0 &  \text{ otherwise.} \end{cases}  \]
 </div>
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000037">
+<div class="proof_wrapper" id="a0000000038">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -3551,7 +3572,7 @@
 
     <a class="icon proof" href="index.html#lem:coeff_sum_squash">#</a>
     
-    <a class="icon proof" href="index.html#a0000000039"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000040"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -3599,13 +3620,13 @@
   </div>
   <div class="lemma_thmcontent">
   <p>   Let \(j, \ell , N, M \in \mathbb {N}\) with \(\ell \:  {\gt} \:  0\) and \(N, M \:  {\gt} \:  \ell j\). Let \(a, b : \mathbb {N} \to \alpha \). Then the \(\ell j\) th coefficient of </p>
-<div class="displaymath" id="a0000000040">
+<div class="displaymath" id="a0000000041">
   \[  \sum _{i = 0}^{N} a (i) X ^i \sum _{i = 0}^{M} b (i) X ^{\ell i} = \sum _{x + y = j} a (\ell x) b (y)  \]
 </div>
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000039">
+<div class="proof_wrapper" id="a0000000040">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -3632,7 +3653,7 @@
 
     <a class="icon proof" href="index.html#lem:coeff_mul_shift_of_zero">#</a>
     
-    <a class="icon proof" href="index.html#a0000000041"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000042"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -3660,13 +3681,13 @@
   </div>
   <div class="lemma_thmcontent">
   <p>  Let \(m, N \in \mathbb {N}\). Let \(f : \mathbb {N} \to \alpha [[X]]\) be a sequence with \(f(0) = 0\), the zero power series. Then </p>
-<div class="displaymath" id="a0000000042">
+<div class="displaymath" id="a0000000043">
   \[  X ^m \sum _{i = 0}^{N} f (i) X ^i = \sum _{i = 0}^{N + m} f (i - m) X ^i  \]
 </div>
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000041">
+<div class="proof_wrapper" id="a0000000042">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -3693,7 +3714,7 @@
 
     <a class="icon proof" href="index.html#lem:coeff_zero_of_ndvd">#</a>
     
-    <a class="icon proof" href="index.html#a0000000043"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000044"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -3721,13 +3742,13 @@
   </div>
   <div class="lemma_thmcontent">
   <p>  Let \(M, \ell , k \in \mathbb {N}\) with \(\ell \nmid k\). Then the kth coefficient of </p>
-<div class="displaymath" id="a0000000044">
+<div class="displaymath" id="a0000000045">
   \[  \prod _{i = 0}^{M} (1 - X ^{\ell (i + 1)}) ^\ell = 0  \]
 </div>
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000043">
+<div class="proof_wrapper" id="a0000000044">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -3754,7 +3775,7 @@
 
     <a class="icon proof" href="index.html#lem:prod_eq_sum">#</a>
     
-    <a class="icon proof" href="index.html#a0000000045"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000046"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -3802,13 +3823,13 @@
   </div>
   <div class="lemma_thmcontent">
   <p>   Let \(\ell , K \in \mathbb {N}\) with \(\ell \:  {\gt} \:  0\). Then there exists a \(c : \mathbb {N} \to \alpha \) and \(M \in \mathbb {N}\) such that </p>
-<div class="displaymath" id="a0000000046">
+<div class="displaymath" id="a0000000047">
   \[  \prod _{i = 0}^{K} (1 - X ^{\ell (i + 1)}) ^\ell = \sum _{i = 0}^{M} c (i) X ^{\ell i}  \]
 </div>
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000045">
+<div class="proof_wrapper" id="a0000000046">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -3835,7 +3856,7 @@
 
     <a class="icon proof" href="index.html#thm:DeltaProduct_eventually_sum">#</a>
     
-    <a class="icon proof" href="index.html#a0000000047"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000048"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -3851,7 +3872,7 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:Delta">Definition 12</a></li>
+          <li><a href="index.html#def:Delta">Definition 13</a></li>
           
           <li><a href="index.html#def:eventuallyEq">Definition 47</a></li>
           
@@ -3885,13 +3906,13 @@
   </div>
   <div class="theorem_thmcontent">
   <p>   The coefficients of the Delta product are eventually equal to the coefficients of the Delta function. In other words, </p>
-<div class="displaymath" id="a0000000048">
+<div class="displaymath" id="a0000000049">
   \[  X \prod _{i \,  \le \:  \cdot } (1 - X ^{i + 1}) ^{24} \longrightarrow \sum _{i \,  \le \:  \cdot } \Delta (i) X ^i  \]
 </div>
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000047">
+<div class="proof_wrapper" id="a0000000048">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -3918,7 +3939,7 @@
 
     <a class="icon proof" href="index.html#thm:flProduct_eventually_sum">#</a>
     
-    <a class="icon proof" href="index.html#a0000000049"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000050"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -3934,7 +3955,7 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:fl">Definition 13</a></li>
+          <li><a href="index.html#def:fl">Definition 14</a></li>
           
           <li><a href="index.html#thm:DeltaProduct_eventually_sum">Theorem 54</a></li>
           
@@ -3970,13 +3991,13 @@
   </div>
   <div class="theorem_thmcontent">
   <p>   If \(\ell \ge 5\) is prime, then the coefficients of the \(f_\ell \) product are eventually equal to the coefficients of the \(f_\ell \: \) function. In other words, </p>
-<div class="displaymath" id="a0000000050">
+<div class="displaymath" id="a0000000051">
   \[  (X ^{\delta _\ell } \prod _{i \,  \le \:  \cdot } (1 - X ^{i + 1}) ^{24 \delta _\ell } \longrightarrow \sum _{i \,  \le \:  \cdot } f_\ell (i) X ^i  \]
 </div>
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000049">
+<div class="proof_wrapper" id="a0000000050">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -4003,7 +4024,7 @@
 
     <a class="icon proof" href="index.html#thm:flu_eq_zero">#</a>
     
-    <a class="icon proof" href="index.html#a0000000051"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000052"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -4066,7 +4087,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000051">
+<div class="proof_wrapper" id="a0000000052">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -4078,7 +4099,7 @@
 
   </div>
 </div>
-<div class="theorem_thmwrapper theorem-style-plain" id="thm:Eis_two_one">
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:Eis_four_one">
   <div class="theorem_thmheading">
     <span class="theorem_thmcaption">
     Theorem
@@ -4091,9 +4112,9 @@
         </div>
     <div class="thm_header_hidden_extras">
 
-    <a class="icon proof" href="index.html#thm:Eis_two_one">#</a>
+    <a class="icon proof" href="index.html#thm:Eis_four_one">#</a>
     
-    <a class="icon proof" href="index.html#a0000000052"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000053"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -4109,7 +4130,7 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:Eis">Definition 11</a></li>
+          <li><a href="index.html#def:Eis">Definition 12</a></li>
           
         </ul>
     
@@ -4140,11 +4161,11 @@
         </div>
   </div>
   <div class="theorem_thmcontent">
-  <p>   \(E_2 (1) = 240\). </p>
+  <p>   \(E_4 (1) = 240\). </p>
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000052">
+<div class="proof_wrapper" id="a0000000053">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -4171,7 +4192,7 @@
 
     <a class="icon proof" href="index.html#thm:G_delta_add_one">#</a>
     
-    <a class="icon proof" href="index.html#a0000000053"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000054"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -4187,13 +4208,15 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:G">Definition 15</a></li>
+          <li><a href="index.html#def:G">Definition 16</a></li>
           
-          <li><a href="index.html#thm:ord_Delta">Theorem 19</a></li>
+          <li><a href="index.html#thm:coeff_mul_ord">Theorem 19</a></li>
+          
+          <li><a href="index.html#thm:ord_Delta">Theorem 20</a></li>
           
           <li><a href="index.html#lem:fl_delta_add_one">Lemma 44</a></li>
           
-          <li><a href="index.html#thm:Eis_two_one">Theorem 57</a></li>
+          <li><a href="index.html#thm:Eis_four_one">Theorem 57</a></li>
           
         </ul>
     
@@ -4228,7 +4251,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000053">
+<div class="proof_wrapper" id="a0000000054">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -4255,7 +4278,7 @@
 
     <a class="icon proof" href="index.html#thm:Theta_l_add_three_div_two">#</a>
     
-    <a class="icon proof" href="index.html#a0000000054"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000055"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -4271,13 +4294,13 @@
         
         <ul class="uses">
           
-          <li><a href="index.html#def:fl">Definition 13</a></li>
+          <li><a href="index.html#def:fl">Definition 14</a></li>
           
           <li><a href="index.html#thm:exists_maximal_Reduce">Theorem 26</a></li>
           
-          <li><a href="index.html#thm:eq_G_of_ord_max">Theorem 24</a></li>
+          <li><a href="index.html#thm:eq_G_of_ord_max">Theorem 25</a></li>
           
-          <li><a href="index.html#thm:Reduce_of_reduce">Theorem 25</a></li>
+          <li><a href="index.html#thm:Reduce_of_reduce">Theorem 10</a></li>
           
           <li><a href="index.html#thm:Filt_Theta_l_add_three_div_two">Theorem 43</a></li>
           
@@ -4315,7 +4338,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000054">
+<div class="proof_wrapper" id="a0000000055">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -4342,7 +4365,7 @@
 
     <a class="icon proof" href="index.html#thm:Theta_l_add_three_div_two_eq_241">#</a>
     
-    <a class="icon proof" href="index.html#a0000000055"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000056"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -4395,7 +4418,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000055">
+<div class="proof_wrapper" id="a0000000056">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -4422,7 +4445,7 @@
 
     <a class="icon proof" href="index.html#thm:flu_ne_zero">#</a>
     
-    <a class="icon proof" href="index.html#a0000000056"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000057"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -4475,7 +4498,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000056">
+<div class="proof_wrapper" id="a0000000057">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof
@@ -4502,7 +4525,7 @@
 
     <a class="icon proof" href="index.html#thm:MainResult">#</a>
     
-    <a class="icon proof" href="index.html#a0000000057"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+    <a class="icon proof" href="index.html#a0000000058"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
 </a>
     
     
@@ -4555,7 +4578,7 @@
 
   </div>
 </div>
-<div class="proof_wrapper" id="a0000000057">
+<div class="proof_wrapper" id="a0000000058">
   <div class="proof_heading">
     <span class="proof_caption">
     Proof

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.6.5)  7 SEP 2026 16:37
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.6.5)  7 SEP 2026 16:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -961,18 +961,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 259--263
 
 [1]
 
-LaTeX Warning: Reference `thm:ord_pow_ord' on page 2 undefined on input line 45
-4.
-
-
-
 [2]
-
-LaTeX Warning: Reference `thm:Filtration_Theta_pow_sub_one' on page 3 undefined
- on input line 620.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 669--676
+Underfull \hbox (badness 10000) in paragraph at lines 673--680
 
  []
 
@@ -982,33 +972,24 @@ Underfull \hbox (badness 10000) in paragraph at lines 669--676
 
 [4]
 
-[5]
-
-LaTeX Warning: Reference `thm:ord_pow_ord' on page 6 undefined on input line 93
-6.
-
-)
+[5])
 
 [6] (C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/print.aux)
  ***********
 LaTeX2e <2025-06-01>
 L3 programming layer <2025-05-26>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
 Package rerunfilecheck Info: File `print.out' has not changed.
 (rerunfilecheck)             Checksum: 6B60783D111D6189AC05B5EB5620E3FE;185.
  ) 
 Here is how much of TeX's memory you used:
- 17049 strings out of 468533
- 311671 string characters out of 5451482
- 918037 words of memory out of 5000000
- 45196 multiletter control sequences out of 15000+600000
+ 17047 strings out of 468533
+ 311625 string characters out of 5451482
+ 919037 words of memory out of 5000000
+ 45194 multiletter control sequences out of 15000+600000
  633412 words of font info for 94 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 90i,12n,107p,542b,481s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 90i,12n,107p,542b,495s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 Output written on C:/Users/carte/lean/partitions-leanblueprint/blueprint/print/
 print.pdf (7 pages).
