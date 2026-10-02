@@ -11,10 +11,10 @@ Formalized :
 - The Definitions of Modular Forms, Integer Modular Forms, and Modular Forms Mod ℓ
   - Modular Forms are functions on the complex plane that satisfy a number of conditions. They have a natural number weight k. 
   - Integer Modular Forms are sequences to the Integers whose infinite q-series is a Modular Form. They have a natural number weight k.
-  - Modular Forms Mod ℓ are sequences to ZMod ℓ such that there exists an Integer Modular Form that reduces to this sequence (mod ℓ). They have a weight that is of type ZMod (ℓ - 1). This is because we can only       add and subtract Modular Forms Mod ℓ whose weights are congruent (mod ℓ - 1).
+  - Modular Forms Mod ℓ are sequences to ZMod ℓ such that there exists an Integer Modular Form that reduces to this sequence (mod ℓ). They have a weight that is of type ZMod (ℓ - 1). This is because we can only add and subtract Modular Forms Mod ℓ whose weights are congruent (mod ℓ - 1).
 
 - The Definitions of addition and multiplication between Modular Forms and exponentiation of Modular Forms
-  - For regular Modular Forms, these are the standard definitions, but Integer Modular Forms and Modular Forms Mod ℓ are trickier, because we have to think of the sequence that results from multiplication of the      overall q-series (which is hidden from the definition). We can multiply two Modular Forms of any weight, and their weights add, but we can only add Modular Forms of the same weight. 
+  - For regular Modular Forms, these are the standard definitions, but Integer Modular Forms and Modular Forms Mod ℓ are trickier, because we have to think of the sequence that results from multiplication of the overall q-series (which is hidden from the definition). We can multiply two Modular Forms of any weight, and their weights add, but we can only add Modular Forms of the same weight. 
 
 - The definitions of the Theta and U operators, both of which act on Modular Forms Mod ℓ
 
@@ -29,19 +29,9 @@ Formalized :
 
 
 TODO : 
-There are 8 sorries left.
+There are 3 sorries left.
 
-· `num_two_mul_bernoulli (k : ℕ) : (2 * k / bernoulli k).num = (2 * k / bernoulli k : ℂ)`
-
-· `Delta.carrier_eq`
-
-· `dvd_coeff_succ_El (n) : ↑ℓ ∣ (El ℓ).coeff (n + 1)`
-
-· `Reduce_of_reduce` (it is maybe unnecessary to assume this)
-
-· `Theta.modular`
-
-· `UOp.modular`
+· `Reduce_of_reduce`
 
 · `Filt_Theta_bound : f.Theta.Filtration ≤ f.Filtration + (ℓ + 1)`
 
