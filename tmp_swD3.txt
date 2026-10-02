@@ -1,0 +1,479 @@
+6                                                                        THE CLASSICAL THEORY
+
+                                                          ∞
+                                  E8 (z) = 1 + 480 ∑ σ7 (n)qn .
+                                                         n =1
+
+    We can use E4 and E6 , whose q–expansions have constant term 1, to construct the
+    first example of cusp form. More precisely, we define the modular discriminant
+
+                                           1
+                                 ∆(z) =        ( E4 (z)3 − E6 (z)2 ) ,
+                                          1728
+
+    which is a cusp form for SL2 (Z) of weight 12. We have normalized ∆ so that the
+    first non-zero coefficient of its q–expansion is 1, but often in the literature the
+    modular discriminant is defined to be (2π )12 ∆ instead of ∆.
+        Let us check that the coefficients of the q–expansion of ∆ are all integers.
+    Observe that 1728 = 26 · 33 , 240 = 24 · 3 · 5 and 540 = 23 · 32 · 7. Looking at the
+    powers of 2 and of 3, it is easy to see that
+                                 ∞               3                     ∞
+           3
+     E4 (z) =       1 + 2 · 3 · 5 ∑ σ3 (n)q
+                         4                    n
+                                                       ≡ 1 + 24 · 32 · 5 ∑ σ3 (n)qn mod 26 · 33
+                                 n =1                                   n =1
+
+    and
+                                 ∞               2                     ∞
+          2
+    E6 (z) =        1 − 2 · 3 · 7 ∑ σ5 (n)q
+                         3   2                n
+                                                       ≡ 1 − 2 · 3 · 7 ∑ σ5 (n)qn mod 26 · 33
+                                                                4   2
+                                 n =1                                   n =1
+
+    (also, we have only modified mod 1728 the coefficients of qn for n ≥ 2, so the
+    coefficients of 1 and q are exactly these ones). One checks that d3 ≡ d5 mod 12
+    for every d ∈ Z, and summing over the positive divisors of n ∈ N we see that
+    24 · 32 · 5 · σ3 (n) + 24 · 32 · 7 · σ5 (n) ≡ 0 mod 26 · 33 . This completes the proof.
+
+    Example 1.6. We can define E2 in a similar way:
+
+                        1           0    1           3                1
+          E2 (z) =            ∑   ∑
+                      2ζ (2) m∈Z n∈Z (mz + n) 2
+                                                = 1+ 2 ∑       ∑
+                                                    π m∈Z\{0} n∈Z (mz + n)2
+                                                                            .
+
+
+    In this case, however, the series is not absolutely convergent and so we must
+    take into account the order of summation. In particular, the previous proof that
+    G2k −z1 = z2k G2k (z) does not carry over to the case k = 1 because we need to
+             
+
+    reverse the order of summation over m and n. Therefore, E2 is not a (classical)
+    modular form for SL2 (Z). Still, it has similar properties which will be useful
+    later (in fact, it is a p–adic modular form of weight 2; see section 2.1 of Serre’s
+    article [18]).
+1.1. Modular forms                                                                     7
+
+
+   The same computation as in proposition 1.4 shows that
+
+                                                         ∞
+                           3            1
+                           π 2 n∑                      ∑ rqmr ,
+                                              2
+                                                = − 12
+                                ∈Z ( mz + n )          r =1
+
+whence
+                                                   ∞     ∞
+                              E2 (z) = 1 − 24 ∑ ∑ rqmr .
+                                                  m =1 r =1
+
+Since |q| < 1, this last double sum is absolutely convergent and we can collect
+powers of q to get the expression
+
+                                                   ∞
+                              E2 (z) = 1 − 24 ∑ σ1 (n)qn .
+                                                  n =1
+
+   Let us see more precisely how E2 fails to be a modular form for SL2 (Z) of
+weight 2. The next result is proposition 7 of chapter 3 of Koblitz’s book [15].
+
+Proposition 1.7. The normalized Eisenstein series of weight 2 satisfies the relation
+                                       −1                    12
+                             z−2 E2            = E2 (z) +          .
+                                        z                     2πiz
+
+Proof. Set
+
+                                   1                 1        1
+             am,n (z) =                        =           −
+                          (mz + n)(mz + n − 1)   mz + n − 1 mz + n
+
+and consider
+                                                                
+                             3                 1
+                E2 (z) = 1 + 2 ∑
+                            π m∈Z\{0} n∑
+                e
+                                                     2
+                                                       − am,n (z) .
+                                       ∈Z ( mz + n )
+
+
+On the one hand, the series ∑n∈Z am,n (z) telescopes to 0 and so E
+                                                                 e2 (z) = E2 (z).
+On the other hand, the double series with general term
+
+             1              1                       −1
+                  −                     =
+         (mz + n)2 (mz + n)(mz + n − 1)   (mz + n)2 (mz + n − 1)
+
+is absolutely convergent, which implies that we can change the order of the
+summation in E e2 (z). That is,
+                                                                  
+                                   3                 1
+             E2 (z) = E2 (z) = 1 + 2 ∑
+                      e                     ∑ (mz + n)2 − am,n (z)
+                                  π n ∈Z m ∈Z \{0}
+8                                                                   THE CLASSICAL THEORY
+
+                                           −1        3
+                                                       π 2 n∑    ∑ am,n (z) .
+                               = z−2 E2            −
+                                             z              ∈Z m∈Z\{0}
+
+
+    It remains to compute this last double sum.
+        As in the proof of proposition 1.4, we find that
+
+                1      1        1         1       4π 2 ∞ 2πirn/z   1
+          ∑ (mz + n)2 z2 ∑
+                     =
+                                  n
+                                     2
+                                        −
+                                          n 2
+                                              = −   2  ∑
+                                                   z r =1
+                                                          re     − 2
+                                                                  n
+        m∈Z\{0}          m ∈Z m + z
+
+
+    and the sum over n of this last expression is absolutely convergent. Thus, the
+    outer sum in ∑n∈Z ∑m∈Z\{0} am,n (z) must also be absolutely convergent (because
+                     e2 (z) is). Therefore, we can compute
+    the sum defining E
+
+                                                        N
+                   ∑     ∑      am,n (z) = lim
+                                             N →∞
+                                                        ∑      ∑       am,n (z)
+                  n∈Z m∈Z\{0}                       n=− N +1 m∈Z\{0}
+                                                                N
+                                          = lim
+                                             N →∞
+                                                        ∑      ∑       am,n (z) .
+                                                    m∈Z\{0} n=− N +1
+
+
+    Using again the formulae introduced in the proof of proposition 1.4,
+
+                           N
+                                                          1
+                                                                    1  
+                  ∑        ∑       am,n (z) =    ∑ mz − N mz + N
+                                                              −
+                m∈Z\{0} n=− N +1              m∈Z\{0}
+                                              2 ∞
+                                                                      
+                                                        1          1
+                                             = ∑ −N          + −N
+                                              z m =1 z − m      z +m
+                                              2 cos −πN
+                                                              
+                                                        z     z
+                                             = π           +     .
+                                              z    sin −πN
+                                                        z
+                                                              N
+
+    In conclusion, the double sum we wanted to compute is
+
+                         cos −πN               e−2πiN/z + 1
+                                  
+                 2π            z      2π                       2πi
+                    lim      −
+                                    =    lim i  − 2πiN/z
+                                                            =−     ,
+                                                         −1
+                                  
+                  z N →∞ sin z πN      z N →∞ e                 z
+
+    whence                           −1                     −1 
+                                                 6i                    12
+                  E2 (z) = z−2 E2            +      = z−2 E2        −      .
+                                      z          πz             z     2πiz
+
+       After having introduced the main examples of modular forms, we describe
+    explicitly the structure of the C–vector spaces Mk (SL2 (Z)). Recall that, by the
+    remarks after definition 1.2, we already know that Mk (SL2 (Z)) = 0 when k is
+    odd and that Sk (SL2 (Z)) has codimension 1 in Mk (SL2 (Z)) when k is even and
+1.1. Modular forms                                                                      9
+
+
+≥ 4 (as the Eisenstein series are not cusp forms). In fact, we can even give an
+explicit basis of each Mk (SL2 (Z)), k ∈ Z.
+
+Theorem 1.8 (valence formula). Let k be an integer and let f be a meromorphic
+modular form for SL2 (Z) of weight k, not identically zero. Then,
+
+                            1             1               ∗             k
+             ord∞ ( f ) +     ordi ( f ) + ordρ ( f ) + ∑ ordP ( f ) =    ,
+                            2             3             P
+                                                                       12
+
+where ∑∗P means a summation over the points of SL2 (Z)\H distinct from the classes of
+           πi
+i and ρ = e 3 .
+
+Proof. This formula can be proved integrating the logarithmic derivative of f
+along a contour which contains in its interior essentially one representative of
+each orbit of SL2 (Z)\H and using the residue theorem. For a detailed proof, see
+theorem 3 of chapter VII of Serre’s book [16].
+
+Corollary 1.9. ∆(z) does not vanish in H and has a simple zero at i∞.
+
+Proof. Since ∆ is a cusp form of weight 12, ordP (∆) ≥ 0 for all P ∈ H\ SL2 (Z)
+and ord∞ (∆) ≥ 1. By theorem 1.8, these numbers add up to 1: this is only
+possible if all the inequalities are equalities.
+
+Proposition 1.10. Multiplication by ∆ defines an isomorphism of Mk−12 (SL2 (Z))
+onto Sk (SL2 (Z)) for every k ∈ Z.
+
+Proof. Clearly, if f ∈ Mk−12 (SL2 (Z)), then f ∆ ∈ Sk (SL2 (Z)). For the converse,
+                                    f
+let f ∈ Sk (SL2 (Z)). We set g = ∆ , which is a meromorphic modular form of
+weight k − 12. By the previous result, ordP ( g) = ordP ( f ) ≥ 0 for every P ∈ H
+and ord∞ ( g) = ord∞ ( f ) − 1 ≥ 0. In conclusion, g ∈ Mk−12 (SL2 (Z)).
+   This proves that multiplication by ∆ gives a bijection between Mk−12 (SL2 (Z))
+and Sk (SL2 (Z)), and it is obviously a linear map.
+
+Proposition 1.11. Let k be an integer.
+  (1) Mk (SL2 (Z)) = 0 if k < 0, k is odd or k = 2.
+  (2) M0 (SL2 (Z)) = C (that is, the only modular forms for SL2 (Z) of weight 0 are
+      the constants).
+  (3) Mk (SL2 (Z)) has dimension 1 and Gk is a basis if k = 4, 6, 8, 10 or 14.
+10                                                                  THE CLASSICAL THEORY
+
+
+     Proof. Recall that, if f is a non-zero modular form of weight k, then
+
+                                 1             1               ∗              k
+                  ord∞ ( f ) +     ordi ( f ) + ordρ ( f ) + ∑ ord p ( f ) =    .
+                                 2             3             p               12
+
+                                                 k
+     Since f is holomorphic, this means that 12      ≥ 0. Moreover, k must be even
+     because the least common denominator of the left-hand side is 6 and k 6= 2
+     because 16 cannot be written in the form a + 2b + 3c with a, b, c ≥ 0.
+        If k ≤ 10, then k − 12 < 0 and Sk (SL2 (Z)) = { 0 } by proposition 1.10. Hence,
+     dim( Mk (SL2 (Z))) ≤ 1. But we already know that 1, G4 , G6 , G8 , G10 are non-zero
+     modular forms for SL2 (Z) of weights 0, 4, 6, 8, 10, respectively; this concludes
+     the proof.
+
+     Corollary 1.12. For any integer k,
+                                   
+                                   
+                                   
+                                    0            if k < 0, k is odd or k = 2 ,
+                                   j k
+         dim( Mk (SL2 (Z))) =          k
+                                                  if k ≥ 0, k is even and 2k ≡ 1 mod 6 ,
+                                   
+                                    j 12 k
+                                    k +1
+                                   
+                                                  if k ≥ 0, k is even and 2k 6≡ 1 mod 6 .
+                                       12
+
+
+     Proof. The result follows by induction on k (the inductive step is performed by
+     increasing k to k + 12 using proposition 1.10).
+
+     Corollary 1.13. The q–expansion of ∆ can be expressed as the infinite product
+
+                                      ∞
+                         ∆(z) = q ∏ (1 − qn )24 ,       where q = e2πiz .
+                                     n =1
+
+     Proof. Define
+                                                ∞
+                                     F (z) = q ∏ (1 − qn )24 .
+                                               n =1
+
+     It suffices to prove that F ∈ S12 (SL2 (Z)), as dim S12 (SL2 (Z)) = 1 and the
+     coefficient of q in both the q–expansions of F and ∆ is 1. Thus, we only need to
+     prove that
+                                        −1 
+                                     F        = z12 F (z) .
+                                          z
+        Observe that the logarithmic differential of F is
+                    ∞ ∞                    ∞         
+        dF                    mn dq                    n dq
+           = 1 − 24 ∑ ∑ q           = 1 − 24 ∑ σ1 (n)q      = E2 (z) · 2πi dz .
+         F          n =1 m =1
+                                  q          n =1
+                                                          q
+1.1. Modular forms                                                                       11
+
+
+Using proposition 1.7, we can compute
+
+       dF −z1
+                       −1  dz                    dz dF (z)     dz
+          −1
+              = 2πiE2         2
+                                 = 2πiE2 (z) dz + 12 =        + 12 .
+        F z               z z                       z   F (z)     z
+
+Hence, the functions F −z1 and z12 F (z) have the same logarithmic differential,
+                               
+
+which implies that F −z1 = λz12 F (z) for some constant λ ∈ C× . Evaluating at
+                           
+
+z = i, we see that 0 6= F (i ) = λF (i ), whence λ = 1.
+
+Theorem 1.14. Let k be a non-negative integer. The vector space Mk (SL2 (Z)) admits
+                                        β
+as a basis the family of monomials E4α E6 with α and β non-negative integers such that
+4α + 6β = k. As a consequence, M(SL2 (Z)) = C[ E4 , E6 ].
+
+Proof. If k is odd, Mk (SL2 (Z)) = 0 and the equation 4α + 6β = k has no solutions,
+so we may assume that k is even.
+   First, we show that these monomials generate Mk (SL2 (Z)) by induction on
+k. This is clear for k ≤ 6, so suppose that k ≥ 8. Choose a pair (α0 , β 0 ) of
+non-negative integers such that 4α0 + 6β 0 = k (this is possible for k ≥ 4). The
+modular form g = E4α0 E6 0 , of weight k, is not a cusp form. Let f ∈ Mk (SL2 (Z)).
+                          β
+
+             f (∞)
+Now f − g(∞) g is a cusp form and, in particular, is of the form ∆h for some
+h ∈ Mk−12 (SL2 (Z)). We can apply the induction hypothesis to h and obtain thus
+f as a linear combination of the desired monomials. (Recall that, by definition,
+∆ = 1728
+       1
+          ( E43 − E62 ).)
+   Now we check that these monomials are linearly independent. Suppose, for
+the sake of contradiction, that there exists a non-trivial linear combination
+
+                                 ∑
+                                                     β
+                                         λα,β E4α E6 = 0 .
+                               4α+6β=k
+
+
+Up to multiplying this linear relation by suitable powers of E4 and of E6 , we may
+assume that k is a multiple of 12. Dividing by E6k/6 , we obtain that
+
+                                               E3 α/3
+                                ∑      λα,β      4
+                                               E62
+                                                          =0
+                             4α+6β=k
+
+
+(where α3 is an integer because 4α = k − 6β is a multiple of 3). That is, the
+meromorphic function E43 /E62 satisfies a non-trivial algebraic equation over C
+and, therefore, must be constant. This gives the desired contradiction because
+the q–expansion of E43 /E62 is not constant.
+12                                                                                   THE CLASSICAL THEORY
+
+
+         There is a more convenient basis for our purpose of reducing q–expansions
+     modulo prime numbers. The next result is based on lemma 2.20 of Stein’s book
+     [20], which he attributes to V. Miller. (Unfortunately, the author of this work was
+     unable to find the thesis of V. Miller where this result first appeared and so there
+     is no proper citation.) Actually we only describe a basis in echelon form, whereas
+     Miller’s basis is in diagonal form (obtained after applying gaussian elimination in
+     the obvious way).
+
+     Theorem 1.15. Let k be an even integer ≥ 4 and let d = dim Sk (SL2 (Z)). Choose
+     two integers α, β ≥ 0 such that 4α + 6β ≤ 14 and 4α + 6β ≡ k mod 12. Define
+                    2(d− j)+ β
+     g j = ∆ j E4α E6          for j = 0, 1, . . . , d. Every f ∈ Mk (SL2 (Z)) whose q–expansion
+     lies in Z[[q]] can be expressed uniquely as a Z–linear combination of g0 , g1 , . . . , gd .
+
+     Proof. By corollary 1.12, we see that
+                                   j k
+                                    k −1                    if k ≡ 2 mod 12 ,
+                                     12
+                                 d= j k
+                                    k                       if k 6≡ 2 mod 12 .
+                                             12
+
+
+     This, together with the conditions for 4α + 6β, shows that k = 12d + 4α + 6β. We
+     deduce that every g j has weight k.
+         On the other hand, the q–expansions of E4 , E6 and ∆ lie in Z[[q]] and their
+     first non-zero coefficient is 1, whence the q–expansion of g j lies in Z[[q]] too
+     and its first coefficients are ai ( g j ) = 0 for i < j and a j ( g j ) = 1. In particular,
+     the g j for j = 0, 1, . . . , d are linearly independent over C and so form a basis
+     of Mk (SL2 (Z)). Furthermore, if f = λ0 g0 + λ1 g1 + · · · + λd gd , then the first
+     coefficients of the q–expansion of f are given by
+
+                    a j ( f ) = λ j + λ j − 1 a j ( g j − 1 ) + · · · + λ 1 a j ( g1 ) + λ 0 a j ( g0 )
+
+     for j = 0, 1, . . . , d. We conclude that the q–expansion of f lies in Z[[q]] if and only
+     if λ0 , λ1 , . . . , λd ∈ Z (for example, using gaussian elimination on the triangular
+     system of linear equations).
+
+
+     1.2     Hecke operators
+     Hecke operators play a fundamental role in the theory of modular forms. They
+     are a family of averaging operators acting on the space of modular forms with
+     particularly simple formulae for the action on q–expansions. Moreover, they are
+1.2. Hecke operators                                                                     13
+
+
+multiplicative and satisfy certain recurrence relations. One can then show that
+the coefficients of the q–expansions of Hecke eigenforms (i.e., eigenvectors of the
+Hecke operators) satisfy similar relations.
+   Hecke operators are defined by means of the modular interpretation of mod-
+ular forms. That is, we think of SL2 (Z)\H as a moduli space parametrizing
+complex elliptic curves with a nowhere vanishing differential 1–form. This inter-
+pretation is very important because it leads to Katz’s generalization of the notion
+of modular forms.
+   A lattice in C is a subgroup of the form Λ = Λ(ω1 , ω2 ) = Zω1 ⊕ Zω2 , where
+ω1 and ω2 are complex numbers which are linearly independent over R. We
+                                                                       
+shall always assume (up to interchanging ω1 and ω2 ) that Im ω      ω2 > 0. Let L
+                                                                     1
+
+
+denote the set of lattices in C. One checks easily that Λ(ω1 , ω2 ) = Λ(ω10 , ω20 ) if
+and only if ω10 = aω1 + bω2 and ω20 = cω1 + dω2 for some ac db ∈ SL2 (Z).
+                                                                  
+
+   Given a lattice Λ, we can form the one-dimensional complex torus C/Λ with
+a holomorphic differential ω = dz (where z is the coordinate on C). Consider the
+function                                                      
+                                1                   1       1
+                     ℘(z; Λ) = 2 + ∑                      −
+                                z    l ∈Λ\{0}
+                                                ( z − l )2 l 2
+
+and the constants
+
+                                     1                                      1
+              g2 (Λ) = 60     ∑      l4
+                                          and       g3 (Λ) = 140        ∑   l6
+                                                                               .
+                            l ∈Λ\{0}                               l ∈Λ\{0}
+
+
+We have an analytic isomorphism from C/Λ to the complex elliptic curve
+
+                       E : Y 2 Z = 4X 3 − g2 (Λ) XZ2 − g3 (Λ) Z3
+
+given by the map
+                              
+                              (℘(z; Λ) : ℘0 (z; Λ) : 1)      if z 6∈ Λ ,
+                  z + Λ 7→
+                               (0 : 1 : 0)                   if z ∈ Λ ,
+
+under which ω corresponds to dxy . Conversely, given an elliptic curve E over C
+together with a nowhere vanishing holomorphic differential ω, we can construct
+a lattice                       Z                    
+                        Λ( E, ω ) =           ω : γ ∈ H1 ( E, Z)    .
+                                          γ
+
+These two constructions are inverse to each other and so give a correspondence
+

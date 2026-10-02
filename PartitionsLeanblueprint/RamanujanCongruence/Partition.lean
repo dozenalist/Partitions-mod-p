@@ -63,7 +63,7 @@ theorem num_series' [Field α] (i : ℕ) :
     cases n with
     | zero => simp [mul_sub, zero_pow, constantCoeff_indicator]
     | succ n =>
-      simp only [coeff_one, if_false, mul_sub, mul_one, coeff_indicator,
+      simp only [coeff_one, ite_false, mul_sub, mul_one, coeff_indicator,
         LinearMap.map_sub, reduceCtorEq]
       simp_rw [coeff_mul, coeff_X_pow, coeff_indicator, @boole_mul _ _ _ _]
       rw [@sum_ite _ _ _ _ _ (fun _ ↦ Classical.propDecidable _), sum_ite]

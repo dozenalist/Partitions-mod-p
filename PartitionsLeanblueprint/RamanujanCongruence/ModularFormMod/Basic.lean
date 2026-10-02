@@ -11,7 +11,7 @@ open ModularFormMod IntegerModularForm BigOperators
 
 namespace ModularFormMod
 
-variable {ℓ : ℕ} [isLargePrime ℓ] {k : ZMod (ℓ - 1)}
+variable {ℓ : ℕ} [isLargePrime ℓ]
 
 noncomputable def Delta : ModularFormMod ℓ 12 :=
   Mcast (Int.cast_ofNat _) <| (Δ).Reduce ℓ
@@ -19,7 +19,7 @@ noncomputable def Delta : ModularFormMod ℓ 12 :=
 scoped notation (priority := high) "Δ" => Delta
 
 
-noncomputable def fl (ℓ) [isLargePrime ℓ]: ModularFormMod ℓ (δ ℓ * 12) :=
+noncomputable def fl (ℓ) [isLargePrime ℓ] : ModularFormMod ℓ (δ ℓ * 12) :=
   Mcast (by rw [Int.cast_mul, Int.cast_natCast, Int.cast_ofNat])
     <| (IntegerModularForm.fl ℓ).Reduce ℓ
 
@@ -60,3 +60,6 @@ theorem fl_lt_delta {n : ℕ} (nlt : n < δ ℓ) : (fl ℓ).coeff n = 0 := by
 
 @[simp] theorem fl_delta_add_one : (fl ℓ).coeff (δ ℓ + 1) = 1 := by
   simp [coeff_fl]
+
+
+end ModularFormMod

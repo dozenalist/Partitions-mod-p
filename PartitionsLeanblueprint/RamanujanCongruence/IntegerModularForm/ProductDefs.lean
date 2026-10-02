@@ -1,0 +1,426 @@
+import PartitionsLeanblueprint.RamanujanCongruence.IntegerModularForm.Defs
+import PartitionsLeanblueprint.RamanujanCongruence.EventuallyEq
+
+import Mathlib.Tactic.ModCases
+
+
+/- This file contains some facts about delta of delta and the definitions of
+DeltaProduct and flProduct and some facts about those
+-/
+
+
+
+
+lemma Finset.finsuppAntidiag.le_right {k n} {x : ℕ →₀ ℕ} (xin : x ∈ (Finset.range k).finsuppAntidiag n) :
+    ∀ {y}, y ∈ Finset.range k → x y ≤ n := fun {y} yin => by
+  rw [Finset.mem_finsuppAntidiag, And.comm] at xin; contrapose! xin
+  intro xsupp
+  apply Nat.ne_of_gt
+  exact xin |> Trans.trans <| Finset.single_le_sum_of_canonicallyOrdered yin
+
+
+
+def delta (ℓ : ℕ) : ℕ := (ℓ^2 - 1) / 24
+
+scoped [IntegerModularForm] notation:max "δ" => delta
+scoped [ModularFormMod] notation:max (priority := high) "δ" => delta
+
+section delta_facts
+
+open scoped IntegerModularForm
+
+class isLargePrime (ℓ : ℕ) where [Prime : ℓ.Prime] [AtLeastFive : ℓ ≥ 5]
+
+class isLargerPrime (ℓ : ℕ) where [Prime : ℓ.Prime] [AtLeastThirteen : ℓ ≥ 13]
+
+instance (ℓ) [h : isLargePrime ℓ] : Fact (ℓ.Prime) := ⟨h.Prime⟩
+instance (ℓ) [h : isLargePrime ℓ] : Fact (ℓ ≥ 5) := ⟨h.AtLeastFive⟩
+instance (ℓ) [h : isLargePrime ℓ] : ℓ.AtLeastTwo := ⟨by grind [h.AtLeastFive]⟩
+instance (ℓ) [h : isLargerPrime ℓ] : Fact (ℓ.Prime) := ⟨h.Prime⟩
+instance (ℓ) [h : isLargerPrime ℓ] : Fact (ℓ ≥ 13) := ⟨h.AtLeastThirteen⟩
+instance (ℓ) [h : isLargerPrime ℓ] : isLargePrime ℓ := {Prime := h.Prime, AtLeastFive := by grind [h.AtLeastThirteen]}
+instance (ℓ) [h : isLargerPrime ℓ] : ℓ.AtLeastTwo := ⟨by grind [h.AtLeastThirteen]⟩
+
+instance (ℓ) [Fact (ℓ.Prime)] [Fact (ℓ ≥ 5)] : isLargePrime ℓ where
+  Prime := Fact.out
+  AtLeastFive := Fact.out
+
+
+lemma delta_cast (ℓ) [NeZero ℓ] : (δ ℓ : ℤ) = ((ℓ : ℤ) ^ 2 - 1)/24 := by
+  rw [delta, Int.natCast_ediv, Nat.cast_ofNat,
+    Int.natCast_pred_of_pos <| pow_two_pos_of_ne_zero NeZero.out, Nat.cast_pow]
+
+lemma not_dvd_filt (ℓ) [Fact (Nat.Prime ℓ)] : ¬ ℓ ∣ (ℓ ^ 2 - 1) / 2 := by
+  intro h
+  by_cases l2 : ℓ = 2
+  simp only [l2, Nat.reducePow, Nat.add_one_sub_one, Nat.reduceDiv, Nat.dvd_one,
+    OfNat.ofNat_ne_one] at h
+
+  have : Odd ℓ := Nat.Prime.odd_of_ne_two Fact.out l2;
+  have h_div_full : ℓ ∣ (ℓ ^ 2 - 1) / 2 * 2 := by
+    exact Nat.dvd_mul_right_of_dvd h 2
+
+  have : ℓ ∣ (ℓ ^ 2 - 1) := by
+    trans (ℓ ^ 2 - 1) / 2 * 2
+    exact Nat.dvd_mul_right_of_dvd h 2
+    apply dvd_of_eq
+
+    apply Nat.div_two_mul_two_of_even
+    apply Nat.Odd.sub_odd (Odd.pow this)
+    exact Nat.odd_iff.mpr rfl
+
+  have don : ℓ ^ 2 - 1 = (ℓ + 1) * (ℓ - 1) := by
+      trans ℓ * ℓ - 1
+      rw[pow_two]
+      exact mul_self_tsub_one ℓ
+
+  rw[don] at this
+  have bla : ℓ ∣ (ℓ + 1) ∨ ℓ ∣ (ℓ - 1) := (Nat.Prime.dvd_mul Fact.out).mp this
+  have lg2 : ℓ ≥ 2 := Nat.Prime.two_le Fact.out
+  rcases bla with h|h
+  contrapose! h
+  refine (Nat.not_dvd_iff_lt_mul_succ (ℓ + 1) ?_).mpr ?_
+  exact Nat.pos_of_neZero ℓ
+  use 1; constructor <;> linarith
+  contrapose! h
+  exact Nat.not_dvd_of_pos_of_lt (Nat.zero_lt_sub_of_lt lg2) (Nat.sub_one_lt_of_lt lg2)
+
+lemma delta_integer (ℓ) [hℓ : isLargePrime ℓ]: 24 ∣ ℓ ^ 2 - 1 := by
+
+  have lg5 : ℓ ≥ 5 := isLargePrime.AtLeastFive
+  have fivesq : 5 * 5 = 25 := rfl
+  have lsq : ℓ ^ 2 ≥ 25 :=
+    fivesq ▸ pow_two ℓ ▸ mul_le_mul lg5 lg5 (Nat.zero_le 5) (Nat.zero_le ℓ)
+  have lprime : Nat.Prime ℓ := Fact.out
+  have don : ℓ ^ 2 - 1 = (ℓ + 1) * (ℓ - 1) := by
+    trans ℓ * ℓ - 1
+    rw[pow_two]
+    exact mul_self_tsub_one ℓ
+
+
+  suffices h : 3 ∣ ℓ ^ 2 - 1 ∧ 8 ∣ ℓ ^ 2 - 1 by
+    have : 24 = 3 * 8 := rfl
+    rw[this]
+    exact Nat.Coprime.mul_dvd_of_dvd_of_dvd rfl h.1 h.2
+  constructor
+
+  have h : 3 ∣ ℓ ∨ 3 ∣ (ℓ - 1) ∨ 3 ∣ (ℓ + 1) := by omega
+  rcases h with h | h | h
+  exfalso
+  simp_all only [ge_iff_le, Nat.reduceMul]
+  have l3 : ℓ = 3 := by
+    obtain ⟨k,rfl⟩ := h
+    rcases lprime.2 rfl with h' | h'
+    simp_all only [isUnit_iff_eq_one, OfNat.ofNat_ne_one]
+    simp_all only [isUnit_iff_eq_one, mul_one]
+  linarith
+  rw[don]; exact Nat.dvd_mul_left_of_dvd h (ℓ + 1)
+  rw[don]; exact Nat.dvd_mul_right_of_dvd h (ℓ - 1)
+
+  have h : 8 ∣ ℓ ∨ 8 ∣ (ℓ - 1) ∨ 8 ∣ (ℓ - 2) ∨ 8 ∣ (ℓ - 3) ∨
+    8 ∣ (ℓ - 4) ∨ 8 ∣ (ℓ - 5) ∨ 8 ∣ (ℓ + 2) ∨ 8 ∣ (ℓ + 1) := by omega
+
+  rcases h with h | h | h | h | h | h | h | h
+
+  {
+    exfalso
+    have l8 : ℓ = 8 := by
+      obtain ⟨k,rfl⟩ := h
+      rcases lprime.2 rfl with h' | h'
+      simp_all only [isUnit_iff_eq_one, OfNat.ofNat_ne_one]
+      simp_all only [isUnit_iff_eq_one, mul_one]
+    rw[l8] at lprime
+    contrapose! lprime
+    decide
+  }
+  { rw[don]; exact Nat.dvd_mul_left_of_dvd h (ℓ + 1) }
+  {
+    exfalso
+    have d2l : 2 ∣ ℓ := by omega
+    have l3 : ℓ = 2 := by
+      obtain ⟨k,rfl⟩ := d2l
+      rcases lprime.2 rfl with h' | h'
+      simp_all only [isUnit_iff_eq_one, OfNat.ofNat_ne_one]
+      simp_all only [isUnit_iff_eq_one, mul_one]
+    linarith
+  }
+  {
+    suffices ℓ ^ 2 ≡ 1 [MOD 8] from
+      (Nat.modEq_iff_dvd' (Nat.one_le_of_lt lsq)).mp (Nat.ModEq.symm this)
+    trans 3 * 3
+    rw[pow_two]; refine Nat.ModEq.symm (Nat.ModEq.mul ?_ ?_) <;>
+    rwa[Nat.modEq_iff_dvd']
+    exact le_of_add_le_right lg5
+    exact le_of_add_le_right lg5
+    rfl
+  }
+  {
+    exfalso
+    have d2l : 2 ∣ ℓ := by omega
+    have l3 : ℓ = 2 := by
+      obtain ⟨k,rfl⟩ := d2l
+      rcases lprime.2 rfl with h' | h'
+      simp_all only [isUnit_iff_eq_one, OfNat.ofNat_ne_one]
+      simp_all only [isUnit_iff_eq_one, mul_one]
+    linarith
+  }
+  {
+    suffices ℓ ^ 2 ≡ 1 [MOD 8] from
+      (Nat.modEq_iff_dvd' (Nat.one_le_of_lt lsq)).mp (id (Nat.ModEq.symm this))
+    trans 5 * 5
+    rw [pow_two]; refine Nat.ModEq.symm (Nat.ModEq.mul ?_ ?_) <;>
+    rwa [Nat.modEq_iff_dvd']
+    rfl
+  }
+  {
+    exfalso
+    have d2l : 2 ∣ ℓ := by omega
+    have l3 : ℓ = 2 := by
+      obtain ⟨k,rfl⟩ := d2l
+      rcases lprime.2 rfl with h' | h'
+      simp_all only [isUnit_iff_eq_one, OfNat.ofNat_ne_one]
+      simp_all only [isUnit_iff_eq_one, mul_one]
+    linarith
+  }
+  { rw[don]; exact Nat.dvd_mul_right_of_dvd h (ℓ - 1) }
+
+
+
+lemma delta_pos (ℓ) [Fact (ℓ ≥ 5)] : (ℓ^2 - 1) / 24 > 0 := by
+  have lg5 : ℓ ≥ 5 := Fact.out
+  have fivesq : 5 * 5 = 25 := rfl
+  have lsq : ℓ ^ 2 ≥ 25 :=
+    fivesq ▸ pow_two ℓ ▸ mul_le_mul lg5 ‹_› (Nat.zero_le 5) (Nat.zero_le ℓ)
+  apply Nat.div_pos
+  omega
+  exact Nat.zero_lt_succ 23
+
+instance delta_ne_zero {n} [Fact (n ≥ 5)] : NeZero (δ n) where
+  out := have := @delta_pos n _
+    by rwa [Nat.ne_zero_iff_zero_lt]
+
+
+lemma twelve_delta (ℓ) [isLargePrime ℓ] : 12*(δ ℓ) = (ℓ^2 - 1) / 2 := by
+  rw[delta]; refine Eq.symm (Nat.div_eq_of_eq_mul_right zero_lt_two ?_)
+  trans 24 * ((ℓ ^ 2 - 1) / 24)
+  exact (Nat.mul_div_cancel' <| delta_integer ℓ).symm
+  rw [← mul_assoc]; rfl
+
+lemma not_dvd_delta (ℓ) [isLargePrime ℓ] : ¬ ℓ ∣ δ ℓ := by
+  have h := not_dvd_filt ℓ
+  contrapose! h; calc
+    _ ∣ 12 * δ ℓ := Nat.dvd_mul_left_of_dvd h 12
+    _ = (ℓ ^ 2 - 1)/2 := twelve_delta ℓ
+
+
+lemma twentyfour_mul_delta (ℓ) [isLargePrime ℓ] : 24 * δ ℓ = ℓ ^ 2 - 1 :=
+  Nat.mul_div_cancel' <| delta_integer ℓ
+
+
+end delta_facts
+
+
+
+
+
+
+
+
+open PowerSeries Finset
+
+noncomputable section ProductDefs
+
+variable {α : Type*} [CommRing α]
+
+/-- The power series generating function for `Δ`. Can be instantiated over any commutative ring -/
+
+def DeltaProduct (m : ℕ) : α ⟦X⟧ :=
+  X * ∏ i ∈ range m, (1 - X ^ (i + 1)) ^ 24
+
+/-- The power series generating function for `fl`. Can be instantiated over any commutative ring -/
+def flProduct (ℓ : ℕ) (m : ℕ) : α ⟦X⟧ :=
+  X ^ (delta ℓ) * ∏ i ∈ range m, (1 - X ^ (i + 1)) ^ (24 * delta ℓ)
+
+
+lemma DeltaProduct_apply (m : ℕ) :
+  DeltaProduct m = (X : α⟦X⟧) * ∏ i ∈ range m, (1 - X ^ (i + 1)) ^ 24 := rfl
+
+lemma flProduct_apply (ℓ : ℕ) (m : ℕ) :
+  flProduct ℓ m = (X : α⟦X⟧) ^ (delta ℓ) * ∏ i ∈ range m, (1 - X ^ (i + 1)) ^ (24 * delta ℓ) := rfl
+
+
+
+lemma flProduct_eq_DeltaProduct_pow (ℓ : ℕ) : (flProduct ℓ : ℕ → α ⟦X⟧) = DeltaProduct ^ (delta ℓ) := by
+  ext1 n; simp_rw [flProduct, Pi.pow_apply, DeltaProduct, pow_mul, mul_pow, prod_pow]
+
+
+@[simp] lemma map_DeltaProduct {R S : Type*} [CommRing R] [CommRing S] (g : R →+* S) (n : ℕ) :
+    map g (DeltaProduct (α := R) n) = DeltaProduct (α := S) n := by
+  simp only [DeltaProduct, map_mul, map_X, map_prod, map_pow, map_sub, map_one]
+
+@[simp] lemma map_coeff_DeltaProduct {R S : Type*} [CommRing R] [CommRing S] (g : R →+* S) (k j : ℕ) :
+    g ((coeff (R := R) k) (DeltaProduct j)) = (coeff (R := S) k) (DeltaProduct j) := by
+  trans (coeff (R := S) k) (map g (DeltaProduct j)); rfl; rw [map_DeltaProduct]
+
+@[simp, norm_cast] lemma Int.cast_coeff_DeltaProduct {S : Type*} [CommRing S] (k j : ℕ) :
+    ((↑) : ℤ → S) ((coeff k) (DeltaProduct j)) = (coeff (R := S) k) (DeltaProduct j) := by
+  trans (Int.castRingHom S) ((coeff k) (DeltaProduct j)); rfl; rw [map_coeff_DeltaProduct]
+
+
+@[simp] lemma map_flProduct {R S : Type*} [CommRing R] [CommRing S] (g : R →+* S) (ℓ n : ℕ) :
+    map g (flProduct (α := R) ℓ n) = flProduct (α := S) ℓ n := by
+  simp only [flProduct_eq_DeltaProduct_pow, map_DeltaProduct, Pi.pow_apply, map_pow]
+
+@[simp] lemma map_coeff_flProduct {R S : Type*} [CommRing R] [CommRing S] (g : R →+* S) (ℓ k j : ℕ) :
+    g ((coeff (R := R) k) (flProduct ℓ j)) = (coeff (R := S) k) (flProduct ℓ j) := by
+  trans (coeff (R := S) k) (map g (flProduct ℓ j)); rfl; rw [map_flProduct]
+
+@[simp, norm_cast] lemma Int.cast_coeff_flProduct {S : Type*} [CommRing S] (ℓ k j : ℕ) :
+    ((↑) : ℤ → S) ((coeff k) (flProduct ℓ j)) = (coeff (R := S) k) (flProduct ℓ j) := by
+  trans (Int.castRingHom S) ((coeff k) (flProduct ℓ j)); rfl; rw [map_coeff_flProduct]
+
+
+end ProductDefs
+
+section Delta_coeff_le
+
+open Nat PowerSeries
+
+variable {α : Type*}
+
+lemma DeltaProduct_coeff_le' [CommRing α] {n m j : ℕ} (nlm : n ≤ m) (mlj : m ≤ j) :
+    coeff (R := α) n (DeltaProduct m) = coeff (R := α) n (DeltaProduct j) := by
+
+  by_cases n0 : n = 0
+  simp [DeltaProduct, n0]
+
+  have npos : n > 0 := zero_lt_of_ne_zero n0
+  simp only [DeltaProduct, coeff_X_mul _ npos]
+  set k := n - 1 with keq; symm; calc
+    _ = coeff (R := α) k ((∏ i ∈ Ico 0 m, (1 - X ^ (i + 1)) ^ 24) *
+        (∏ i ∈ Ico m j, (1 - X ^ (i + 1)) ^ 24)) := by
+      rw [prod_Ico_consecutive, Ico_zero_eq_range]
+      exact Nat.zero_le m; exact mlj
+    _ = _ := by
+      rw [Ico_zero_eq_range, coeff_mul]
+
+      have coeff_eq_ite {k : ℕ} (klt : k < m) :
+          coeff (R := α) k (∏ i ∈ Ico m j, (1 - X ^ (i + 1)) ^ 24) = if k = 0 then 1 else 0 := by
+        split_ifs with k0
+        rw [k0]; simp
+
+        rw [coeff_prod]; apply sum_eq_zero;
+        intro x xin; rw [mem_finsuppAntidiag] at xin
+
+        have exy : ∃ y ∈ Ico m j, x y ≠ 0 ∧ x y < m := by
+          contrapose! xin
+
+          intro sum_eq
+          contrapose! sum_eq
+          have fozer {k} (hk : x k ≠ 0) : k ∈ Ico m j := by
+            have : k ∈ x.support := Finsupp.mem_support_iff.mpr hk
+            exact sum_eq this
+
+          by_cases ex : ∃ y, x y ≠ 0
+          obtain ⟨y, yn0⟩ := ex
+          have : y ≥ m := List.left_le_of_mem_range' (fozer yn0)
+          apply Nat.ne_of_gt; calc
+            _ < m := klt
+            _ ≤ x y := xin y (fozer yn0) yn0
+            _ ≤ (Ico m j).sum ⇑x := single_le_sum_of_canonicallyOrdered <| fozer yn0
+
+
+
+          push Not at ex
+          suffices (Ico m j).sum ⇑x = 0 by symm; rwa[this]
+          exact sum_eq_zero (λ y _ ↦ ex y)
+
+        obtain ⟨y, yin, xyn0, xylm⟩ := exy
+        rw [prod_eq_zero]; use yin
+        rw [coeff_pow]
+        set f : ℕ → α := fun n ↦ (coeff (R := α) n) (1 - X ^ (y + 1)) with hf
+        trans ∑ l ∈ (range 24).finsuppAntidiag (x y), ∏ i ∈ range 24, f (l i); rfl
+
+
+        rw [hf]; dsimp; apply sum_eq_zero; intro z zin
+        obtain ⟨zin, supp⟩ := by simpa using zin
+
+        have exb : ∃ b ∈ range 24, z b > 0 := by
+          contrapose! zin
+          have : (range 24).sum z = 0 := sum_eq_zero λ x h ↦ eq_zero_of_le_zero (zin x h)
+          symm; rwa [this]
+        obtain ⟨b, bin, bn0⟩ := exb
+
+        rw [prod_eq_zero bin]
+
+        have ble : z b < y := by
+          have : z b ≤ (range 24).sum z := single_le_sum_of_canonicallyOrdered bin
+          have : m ≤ y := by rw [mem_Ico] at yin; exact yin.1
+          omega
+
+        simp only [map_sub, coeff_one]; rw [ite_eq_right (Nat.ne_of_gt bn0)]
+        simp only [zero_sub, neg_eq_zero, coeff_pow]
+
+        apply sum_eq_zero; intro x xsum
+        have exc : ∃ c ∈ range (y + 1), x c < 1 := by
+          contrapose! xsum; simp only [mem_finsuppAntidiag, And.comm, not_and]
+          intro xin; apply Nat.ne_of_gt
+          have : (range (y + 1) ).sum 1 ≤ (range (y + 1)).sum x := sum_le_sum <| by simpa using xsum
+          simp only [Pi.one_apply, sum_const, card_range, smul_eq_mul, mul_one, Order.add_one_le_iff] at this
+          omega
+
+        obtain ⟨c, cin, c0⟩ := exc; rw [lt_one_iff] at c0
+        rw [prod_eq_zero cin]
+        rw [c0, coeff_zero_X]
+
+
+      calc
+        _ = ∑ p ∈ antidiagonal k, (coeff (R := α) p.1) (∏ i ∈ range m, (1 - X ^ (i + 1)) ^ 24) *
+            if p.2 = 0 then 1 else 0 := by
+          congr! with p pin
+          have plt : p.2 < m := by
+            have : p.2 ≤ k := HasAntidiagonal.antidiagonal.snd_le pin
+            omega
+          rw [coeff_eq_ite plt]
+
+        _ =  ∑ x ∈ {(k,0)}, (coeff (R := α) x.1) (∏ i ∈ range m, (1 - X ^ (i + 1)) ^ 24) := by
+          simp only [mul_ite, mul_one, mul_zero, sum_ite, sum_const_zero, add_zero]
+          congr with x; simp only [mem_filter, mem_antidiagonal, mem_singleton]
+          simp_all only [gt_iff_lt, k]
+          obtain ⟨fst, snd⟩ := x
+          simp_all only [Prod.mk.injEq, and_congr_left_iff, add_zero, implies_true]
+
+        _ = _ := by simp only [sum_singleton]
+
+
+theorem DeltaProduct_coeff_le [CommRing α] {n m j : ℕ} (nlm : n ≤ m) (nlj : n ≤ j) :
+    coeff (R := α) n (DeltaProduct m) = coeff (R := α) n (DeltaProduct j) :=
+  (Nat.le_total m j).casesOn
+    (DeltaProduct_coeff_le' nlm · )
+    (.symm <| DeltaProduct_coeff_le' nlj ·)
+
+
+theorem flProduct_coeff_le [CommRing α] {ℓ n m j : ℕ} (nlm : n ≤ m) (nlj : n ≤ j) :
+    coeff (R := α) n (flProduct ℓ m) = coeff (R := α) n (flProduct ℓ j) := by
+  simp only [flProduct_eq_DeltaProduct_pow, Pi.pow_apply, coeff_pow]
+  congr! 2 with x xin y yin
+  exact DeltaProduct_coeff_le
+    ((Finset.finsuppAntidiag.le_right xin yin).trans nlm)
+    ((Finset.finsuppAntidiag.le_right xin yin).trans nlj)
+
+
+theorem DeltaProduct_eventually_sum' [CommRing α] :
+    (DeltaProduct ·) ⟶ (∑ i ∈ range ·, (@DeltaProduct α _ i).coeff i • (X : α⟦X⟧) ^ i) := by
+
+  intro n
+  use n + 1; intro k kle j jg
+  have : j > k := Nat.lt_of_le_of_lt kle jg
+  trans (PowerSeries.coeff (R := α) k) (∑ x ∈ range j, C ((PowerSeries.coeff (R := α) x) (DeltaProduct x)) * X ^ x)
+  set f : ℕ → α := fun n ↦ (PowerSeries.coeff (R := α) n) (DeltaProduct n) with feq
+  rw [coeff_sum_X_pow (a := f) this, feq]; symm
+
+  exact DeltaProduct_coeff_le k.le_refl this.le
+  congr! 2 with x -; simp only [map_coeff_DeltaProduct, smul_eq_C_mul]
+
+
+end Delta_coeff_le

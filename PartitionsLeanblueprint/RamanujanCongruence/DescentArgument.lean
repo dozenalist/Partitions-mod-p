@@ -217,7 +217,6 @@ private lemma alpha_bound : α ℓ ≤ (ℓ + 5) / 2 :=
 private lemma alpha_pos : α ℓ > 0 := exists_Filt_Theta_l_add_three_div_two.choose_spec.1
 
 
-
 lemma l_div_Filt_Theta_add (flu : fl ℓ |𝓤 = 0) : ↑ℓ ∣ 𝔀 (Θ^[(ℓ+3)/2 + (ℓ - 7)/2] (fl ℓ)) := by
   have : (ℓ + 3) / 2 + (ℓ - 7) / 2 = ℓ - 2 := by
     trans ((ℓ + 3) + (ℓ - 7)) / 2

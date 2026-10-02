@@ -34,6 +34,13 @@ namespace IntegerModularForm
     reduce ℓ (f.Icast h) = reduce ℓ f := rfl
 
 
+@[simp]
+theorem ZMod.eq_zero_of_char_one (a : ZMod 1) : a = 0 := by
+  cases a
+  cases (0 : ZMod 1)
+  lia
+
+
 def ZMod.reduce_set {ℓ : ℕ} [hℓ : isLargePrime ℓ] (k : ZMod (ℓ - 1)) : AddSubgroup (PowerSeries (ZMod ℓ)) where
   carrier := ⋃ j ∈ {j : ℤ | ↑j = k}, Set.range (@IntegerModularForm.reduce j ℓ)
   add_mem' {f g} hf hg := by
@@ -41,9 +48,43 @@ def ZMod.reduce_set {ℓ : ℕ} [hℓ : isLargePrime ℓ] (k : ZMod (ℓ - 1)) :
     obtain ⟨j, hj, g', hg'⟩ := by simpa using hg
     wlog ilej : i ≤ j
     {
-      specialize this k hg hf j hj g' hg' i hi f' hf' (by grind)
+      specialize this k hg hf j hj g' hg' i hi f' hf' (by lia)
       rwa [add_comm]
     }
+
+    -- by_cases ℓ23 : ℓ = 2 ∨ ℓ = 3
+    -- {
+    --   simp
+    --   obtain (rfl | rfl) := ℓ23
+
+    --   have : ∃ m : ℕ, j = m + i := by
+    --     have := ZMod.intCast_eq_intCast_iff_dvd_sub _ _ _ |>.1 (hi.trans hj.symm)
+    --     obtain ⟨m, hm⟩ := this
+    --     lift m to ℕ using by
+    --       have lpos : (2 : ℕ) > (0 : ℤ) := by grind
+    --       have : (2 : ℕ) * m ≥ 0 := by grind
+    --       exact Int.nonneg_of_mul_nonneg_right this lpos
+    --     use m, by grind
+
+    --   use i + j
+    --   simp
+    --   -- need E_2
+
+
+
+
+
+    --   sorry
+    --   sorry
+    -- }
+
+    -- have hℓ : isLargePrime ℓ := {
+    --   AtLeastFive := by
+    --     have := hℓ.out
+    --     sorry
+    --   Prime := hℓ.out
+
+
     have := hℓ.AtLeastFive
 
     have : ∃ m : ℕ, j = m * (ℓ - 1 : ℕ) + i := by
@@ -338,8 +379,7 @@ theorem one_def : (1 : ModularFormMod ℓ 0) = const 1 := rfl
 theorem mul_comm_Mcast : f.mul g = (g.mul f).Mcast :=
   fourier_inj <| by simp [_root_.mul_comm]
 
-def McastLinearMap (h : k = j) :
-    ModularFormMod ℓ k →ₗ[ZMod ℓ] ModularFormMod ℓ j :=
+def McastLinearMap (h : k = j) : ModularFormMod ℓ k →ₗ[ZMod ℓ] ModularFormMod ℓ j :=
   h ▸ LinearMap.id
 
 @[simp] theorem McastLinearMap_apply (h : k = j) : McastLinearMap h f = f.Mcast h := by

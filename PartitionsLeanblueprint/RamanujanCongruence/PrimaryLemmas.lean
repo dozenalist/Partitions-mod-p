@@ -109,11 +109,11 @@ lemma Filt_Theta_congruence_of_dvd [hℓ : ℓ.AtLeastTwo] [hfT : NeZero f.Theta
 
   have bound := lt_of_le_of_ne (Filt_Theta_bound f) fun h => (Filt_Theta_iff f).1 h ldiv
 
-  have := by simpa only [← AddCommGroup.modEq_iff_intModEq, AddCommGroup.modEq_iff_eq_add_zsmul, smul_eq_mul]
-    using ZMod.intCast_eq_intCast_iff ..|>.1 <| mod_cast (Filt_Theta_congruence f).symm
+  obtain ⟨α, hα⟩ := by simpa only [← AddCommGroup.modEq_iff_intModEq, 
+      AddCommGroup.modEq_iff_eq_add_zsmul, smul_eq_mul]
+    using ZMod.intCast_eq_intCast_iff ..|>.1 <| mod_cast Filt_Theta_congruence f |>.symm
 
   norm_cast at bound
-  obtain ⟨α, hα⟩ := this
   rw [hα, add_lt_iff_neg_left] at bound
   have := this.out.pos
 
@@ -206,7 +206,7 @@ theorem le_Filt_Theta_fl (m) : (fl ℓ).Filtration ≤ ((fl ℓ).Theta_pow m).Fi
 
 
 
-  refine lt_of_lt_of_le ?_ hbord
+  apply lt_of_lt_of_le ?_ hbord
   norm_cast
   lia
 

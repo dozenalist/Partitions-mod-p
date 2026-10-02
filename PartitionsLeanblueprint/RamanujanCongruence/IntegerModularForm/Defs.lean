@@ -16,7 +16,7 @@ noncomputable abbrev ModularForm.qexp {k} := ModularForm.qExpansionAddHom (Γ :=
 theorem ModularForm.qexp_injective {k} : Function.Injective <| ModularForm.qexp (k := k) :=
   fun f g h => sub_eq_zero.1 (by
     rw [← ModularForm.qExpansion_eq_zero_iff zero_lt_one (by simp),
-      coe_sub, ModularForm.qExpansion_sub zero_lt_one (by simp)]
+      FunLike.coe_sub, ModularForm.qExpansion_sub zero_lt_one (by simp)]
     exact sub_eq_zero.mpr h )
 
 
@@ -48,9 +48,6 @@ lemma ModularForm.qexp_mul {k j : ℤ} (f : ModularForm 𝒮ℒ k) (g : ModularF
 lemma ModularForm.qexp_pow {k : ℤ} (f : ModularForm 𝒮ℒ k) (j : ℕ) : (f.pow j).qexp = f.qexp ^ j := by
   simp [ModularForm.qexp, qExpansionAddHom]
   rw [← ModularForm.coe_pow, ModularForm.qExpansion_pow zero_lt_one (by simp), ← qexp_eq']
-
--- theorem qexp_injective {k : ℤ} (f g : ModularForm 𝒮ℒ k) : f.qexp = g.qexp → f = g := by
---   sorry
 
 
 
@@ -155,20 +152,20 @@ instance instSMulZ : SMul ℤ (IntegerModularForm k) where
   smul c a :=
   { fourier := c • a.fourier
     carrier := c • a.carrier
-    carrier_eq := by simp [← a.carrier_eq] }
+    carrier_eq := by simp only [map_zsmul, ← a.carrier_eq] }
 
 
 instance instSMulN : SMul ℕ (IntegerModularForm k) where
   smul c a :=
   { fourier := c • a.fourier
     carrier := c • a.carrier
-    carrier_eq := by simp [← a.carrier_eq] }
+    carrier_eq := by simp only [map_nsmul, ← a.carrier_eq]}
 
 instance instNeg : Neg (IntegerModularForm k) where
   neg := fun a ↦
   { fourier := -a.fourier
     carrier := -a.carrier
-    carrier_eq := by simp [a.carrier_eq] }
+    carrier_eq := by simp only [map_neg, ← a.carrier_eq] }
 
 instance instSub : Sub (IntegerModularForm k) :=
   ⟨fun f g => f + -g⟩
@@ -279,11 +276,11 @@ theorem coeff_const (x : ℤ) : (const x).coeff n = if n = 0 then x else 0 := by
 
 @[simp]
 theorem coeff_const_zero (x : ℤ) : (const x).coeff 0 = x :=
-  coeff_const _ _ ▸ if_pos rfl
+  coeff_const _ _ ▸ ite_eq_left rfl
 
 @[simp]
 theorem coeff_const_succ (x : ℤ) : (const x).coeff (n + 1) = 0 :=
-  coeff_const _ _ ▸ if_neg (Nat.succ_ne_zero _)
+  coeff_const _ _ ▸ ite_eq_right (Nat.succ_ne_zero _)
 
 @[simp]
 theorem zero_apply : (0 : IntegerModularForm k) z = 0 := rfl
@@ -503,7 +500,7 @@ open ModularForm UpperHalfPlane IntegerModularForm
 variable {k : ℤ}
 
 def ModularForm.toIntegerModularForm (f : ModularForm 𝒮ℒ k)
-    (h : qExpansion 1 f ∈ range (map (algebraMap ℤ ℂ))) : IntegerModularForm k where
+    (h : qExpansion 1 f ∈ range (map (Int.castRingHom ℂ))) : IntegerModularForm k where
   fourier := h.choose
   carrier := f
   carrier_eq := by simpa [qExpansionAddHom] using h.choose_spec.symm

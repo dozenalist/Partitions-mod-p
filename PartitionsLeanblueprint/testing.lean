@@ -45,4 +45,17 @@ lemma bla (n) : n ≡ 3 [MOD 3] := by
 
 theorem wrong (α : Prop) : α := sorry
 
-#check id
+
+
+-- theorem SignClass.eq_one_or_neg_one (a : SignClass) : a = ⟦1⟧ ∨ a = ⟦-1⟧ := by
+  -- obtain ⟨k, rfl⟩ := Quotient.exists_rep a
+  -- rcases lt_trichotomy (k : ℝ) 0 with h | h | h
+  -- · right
+  --   apply Quotient.sound
+  --   change k * -1 > (0 : ℝ)
+  --   linarith
+  -- · exact k.ne_zero h |>.elim
+  -- · left 
+  --   apply Quotient.sound
+  --   change k * 1 > (0 : ℝ)
+  --   linarith

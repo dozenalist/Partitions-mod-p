@@ -24,12 +24,18 @@ variable {ℓ : ℕ}
 
 private lemma dim_twelve_delta_add_four : dim (12 * δ ℓ + 4) = δ ℓ + 1 := by
   rw [dim]
-  aesop
-  norm_cast
-  norm_cast
-  grind
-  grind
-  grind
+  simp_all only [Int.modulus_mul_add_modEq_iff]
+  split_ifs with h1 h2 h3
+  · norm_cast
+  · norm_cast
+    lia
+  · norm_cast at h2
+    exact h2 <| by simp only [Nat.even_add, show Even 12 by decide, 
+      Even.mul_right, show Even 4 by decide]
+  · norm_cast at h1
+    exact h1 <| Nat.zero_le _
+
+
 
 private lemma delta_lt_dim : δ ℓ < dim (12 * δ ℓ + 4) := by
   rw [dim_twelve_delta_add_four]; exact lt_add_one (δ ℓ)
@@ -300,3 +306,5 @@ lemma flu_ne_zero {ℓ} [isLargerPrime ℓ] (flu : fl ℓ |𝓤 = 0) : False := 
 
 theorem MainResult (ℓ : ℕ) [isLargerPrime ℓ] : ¬ ramanujan_congruence ℓ :=
   (flu_ne_zero <| flu_eq_zero ·)
+
+

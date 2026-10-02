@@ -1,7 +1,7 @@
 import PartitionsLeanblueprint.RamanujanCongruence.IntegerModularForm.Basic
 
-/- This file defines ord, the order of vanishing of an Integer Modular Form,
-as the order of its fourier expansion, and proves some basic facts about it.
+/- This file defines ord, the order of vanishing of an Integer Modular Form
+as the order of its fourier expansion and proves some basic facts about it.
 This file is sorry-free. -/
 
 noncomputable section ord
@@ -36,14 +36,12 @@ theorem coeff_lt_ord (f : IntegerModularForm k) {m : ℕ} (hm : m < ord f) : f.c
 theorem ord_eq_ord (h : ∀ n, f.coeff n = 0 ↔ g.coeff n = 0) : ord f = ord g := by
 
   by_cases h0 : f.fourier = 0
-  ·
-    have hg0 : g.fourier = 0 := by
+  · have hg0 : g.fourier = 0 := by
       ext n
       simp
       rw [← h n, ← coeff_def, h0, map_zero]
     simp only [ord, h0, hg0]
-  ·
-    have hg0 : g.fourier ≠ 0 := by
+  · have hg0 : g.fourier ≠ 0 := by
       intro hg
       apply h0
       ext n
@@ -68,8 +66,8 @@ theorem ord_eq_ord (h : ∀ n, f.coeff n = 0 ↔ g.coeff n = 0) : ord f = ord g 
 
 theorem ord_Eis (hk : 3 ≤ k) (hk2 : Even k) : ord (Eis k) = 0 := by
   rw [← Nat.cast_zero, order_eq_nat]
-  simp only [coeff_def, Eis_zero hk hk2, ne_eq, one_ne_zero, not_false_eq_true, not_lt_zero,
-    IsEmpty.forall_iff, implies_true, and_self]
+  simp only [coeff_def, Eis_zero hk hk2, ne_eq, not_lt_zero, IsEmpty.forall_iff,
+    implies_true, Int.natCast_eq_zero, Rat.den_ne_zero, not_false_eq_true, and_self]
 
 @[simp] theorem ord_Eis_four : ord (Eis 4) = 0 :=
   ord_Eis (by decide) (by decide)
@@ -127,7 +125,6 @@ theorem coeff_mul_ord_add_one {n m : ℕ} (hn : ord f = n) (hm : ord g = m) :
     rw [hn]; norm_cast
     rw [coeff_lt_ord g, MulZeroClass.mul_zero]
     rw [hm]; norm_cast
-
 
 
   apply Finset.sum_bij fun a _ => (a.1 - n, a.2 - m)

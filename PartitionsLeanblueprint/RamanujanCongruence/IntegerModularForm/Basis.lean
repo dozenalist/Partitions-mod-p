@@ -159,9 +159,8 @@ theorem le_dim_sub_mod_without_two (c) : dim (c - (c %% 12)) ≥ dim c := by
     try grind
   all_goals
 
-
     rw [show (12: ℤ) = (12 : ℕ) by rfl, ← ZMod.intCast_eq_intCast_iff] at *
-    simp_all []
+    simp_all
     norm_cast at *
     try simp_all only [blla, bllla]
     grind
@@ -241,7 +240,7 @@ variable {k : ℤ} (c : Fin (dim k))
 @[simp] theorem ord_G : ord (G c) = c := by
   by_cases hk : dim k > 0
   simp only [G, ord_Icast, ord_mul, ord_G_dim_one_of_dim_pos k hk, ord_G_twelve, zero_add]
-  grind
+  exact hk c.pos |>.elim
 
 
 @[simp] theorem G_ord_G : (G c).coeff c = 1 := by
@@ -269,18 +268,18 @@ theorem G_LI : LinearIndependent ℤ (@G k) := by
 
   induction x using Nat.strong_induction_on with
 
-      | h x ih =>
-        rw [← hl x]; symm; calc
+  | h x ih =>
+    rw [← hl x]; symm; calc
 
-        _ = l ⟨x, xlt⟩ * coeff x (G ⟨x,xlt⟩) := by
-          refine Finset.sum_eq_single _ ?_ fun h => h (Finset.mem_univ _) |>.elim
-          rintro ⟨b, blt⟩ - bne
-          by_cases blx : b > x
-          · rw [coeff_lt_ord, MulZeroClass.mul_zero]
-            rwa [ord_G, Nat.cast_lt]
-          · rw [ih b (by rw [ne_eq, Fin.mk.injEq] at bne; lia) blt, MulZeroClass.zero_mul]
+    _ = l ⟨x, xlt⟩ * coeff x (G ⟨x,xlt⟩) := by
+      refine Finset.sum_eq_single _ ?_ fun h => h (Finset.mem_univ _) |>.elim
+      rintro ⟨b, blt⟩ - bne
+      by_cases blx : b > x
+      · rw [coeff_lt_ord, MulZeroClass.mul_zero]
+        rwa [ord_G, Nat.cast_lt]
+      · rw [ih b (by rw [ne_eq, Fin.mk.injEq] at bne; lia) blt, MulZeroClass.zero_mul]
 
-        _ = _ := by rw [G_ord_G ⟨x,xlt⟩, _root_.mul_one]
+    _ = _ := by rw [G_ord_G ⟨x,xlt⟩, _root_.mul_one]
 
 
 
@@ -306,11 +305,9 @@ theorem upTriangle_coeff_smul_G (f : IntegerModularForm k) :
   apply coeff_trunc_injective
   ext ⟨n, nlt⟩
 
-  simp only [coeff_trunc_apply, ← coeffLinearMap_apply]
-  simp only [map_sum, map_smul, zsmul_eq_mul, Finset.sum_apply, Pi.mul_apply, Pi.intCast_apply,
-    Int.cast_eq]
-
-  simp
+  simp only [coeff_trunc_apply, ← coeffLinearMap_apply, map_sum, map_smul,
+    zsmul_eq_mul, Finset.sum_apply, Pi.mul_apply, Pi.intCast_apply, Int.cast_eq]
+  simp only [coeffLinearMap_apply]
 
   match n with
   | 0 =>
@@ -332,11 +329,10 @@ theorem upTriangle_coeff_smul_G (f : IntegerModularForm k) :
         ∑ x : Fin (dim k) with x.1 < n + 1, f.upTriangle_coeff ↑x * coeff (n + 1) (G x) +
           ∑ (x : Fin (dim k)) with x.1 > n + 1, f.upTriangle_coeff ↑x * coeff (n + 1) (G x) := by
         congr! 3
-        ext a
-        simpa only [Finset.mem_filter, Finset.mem_univ, true_and] using by grind
-        ext a
-        simpa only [Finset.mem_filter, Finset.mem_univ, true_and, Order.lt_add_one_iff]
-          using by grind
+        · ext a
+          simpa only [Finset.mem_filter, Finset.mem_univ, true_and] using by grind
+        · ext a
+          simpa only [Finset.mem_filter, Finset.mem_univ, true_and, Order.lt_add_one_iff] using by grind
         simp only [not_le, gt_iff_lt]
       _ = f.upTriangle_coeff ⟨n + 1, nlt⟩ * coeff (⟨n + 1, nlt⟩ : Fin (dim k)).1 (G ⟨n + 1,nlt⟩) +
           ∑ x : Fin (n + 1), f.upTriangle_coeff ⟨x, x.2.trans nlt⟩ * coeff (n + 1) (G ⟨x.1, x.2.trans nlt⟩) + 0 := by
@@ -391,7 +387,6 @@ theorem finrank_eq_dim : Module.finrank ℤ (IntegerModularForm k) = dim k := by
 
 theorem eq_of_eq_ord_max {f g : IntegerModularForm k} (hao : ord f ≥ dim k - 1)
     (hbo : ord g ≥ dim k - 1) (heq : f.coeff (dim k - 1) = g.coeff (dim k - 1)) : f = g :=
-
   coeff_trunc_injective <| by
     ext ⟨n, nlt⟩
     simp only [coeff_trunc_apply]
@@ -407,7 +402,7 @@ theorem eq_of_eq_ord_max {f g : IntegerModularForm k} (hao : ord f ≥ dim k - 1
 theorem eq_G_of_ord_max (f : IntegerModularForm k) (hord : ord f ≥ dim k - 1) :
     f = f.coeff (dim k - 1) • (G ⟨dim k - 1, by have := c.pos; omega⟩ ) := by
   by_cases f0 : f = 0
-  · simp [f0]
+  · simp only [f0, coeff_zero, zero_smul]
 
   apply eq_of_eq_ord_max hord
   have : NeZero <| f.coeff (dim k - 1) := ⟨ by
@@ -423,7 +418,6 @@ theorem eq_G_of_ord_max (f : IntegerModularForm k) (hord : ord f ≥ dim k - 1) 
   simpa only [ord_smul, ord_G, ENat.natCast_sub, Nat.cast_one] using le_refl _
   rw [coeff_smulz, G_ord_G (c := ⟨dim k - 1, by have := c.pos; omega⟩), zsmul_one]
   rfl
-
 
 
 end IntegerModularForm

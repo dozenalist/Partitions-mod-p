@@ -5,35 +5,36 @@
 /- The files here are arranged approximately in order of import heirarchy -/
 
 /- Would be nice to reorganize and rename the files at some point -/
-import PartitionsLeanblueprint.Basic
+-- import PartitionsLeanblueprint.Basic
 
-import PartitionsLeanblueprint.IVT -- not used
+-- import PartitionsLeanblueprint.IVT -- not used
 
-import PartitionsLeanblueprint.ModularFormDefs
+-- import PartitionsLeanblueprint.ModularFormDefs
 
-import PartitionsLeanblueprint.ModuloDefs2
+-- import PartitionsLeanblueprint.ModuloDefs2
 
-import PartitionsLeanblueprint.BasicOperators
+-- import PartitionsLeanblueprint.BasicOperators
 
-import PartitionsLeanblueprint.PowFacts
+-- import PartitionsLeanblueprint.PowFacts
 
-import PartitionsLeanblueprint.Basis
+-- import PartitionsLeanblueprint.Basis
 
-import PartitionsLeanblueprint.PartitionDefs
+-- import PartitionsLeanblueprint.PartitionDefs
 
-import PartitionsLeanblueprint.Ord
+-- import PartitionsLeanblueprint.Ord
 
-import PartitionsLeanblueprint.Dimension
+-- import PartitionsLeanblueprint.Dimension
 
-import PartitionsLeanblueprint.PreliminaryResults
+-- import PartitionsLeanblueprint.PreliminaryResults
 
-import PartitionsLeanblueprint.PrimaryLemmas
+-- import PartitionsLeanblueprint.PrimaryLemmas
 
-import PartitionsLeanblueprint.DescentArgument
+-- import PartitionsLeanblueprint.DescentArgument
 
-import PartitionsLeanblueprint.FinalSection
+-- import PartitionsLeanblueprint.FinalSection
 
 import PartitionsLeanblueprint.RamanujanCongruence.IntegerModularForm.Defs
+import PartitionsLeanblueprint.RamanujanCongruence.IntegerModularForm.ProductDefs
 import PartitionsLeanblueprint.RamanujanCongruence.IntegerModularForm.Basic
 import PartitionsLeanblueprint.RamanujanCongruence.IntegerModularForm.Basis
 import PartitionsLeanblueprint.RamanujanCongruence.IntegerModularForm.Ord
@@ -50,3 +51,10 @@ import PartitionsLeanblueprint.RamanujanCongruence.PreliminaryResults
 import PartitionsLeanblueprint.RamanujanCongruence.PrimaryLemmas
 import PartitionsLeanblueprint.RamanujanCongruence.DescentArgument
 import PartitionsLeanblueprint.RamanujanCongruence.MainResult
+
+import PartitionsLeanblueprint.RamanujanCongruence.AiAssisted.LdvdBernoulliNum
+import PartitionsLeanblueprint.RamanujanCongruence.AiAssisted.DeltaCarrierEq
+
+import PartitionsLeanblueprint.RamanujanCongruence.AiAssisted.ThetaOperator.DelOperator
+import PartitionsLeanblueprint.RamanujanCongruence.AiAssisted.ThetaOperator.EisLPlusOne
+import PartitionsLeanblueprint.RamanujanCongruence.AiAssisted.ThetaOperator.KummerCongruence

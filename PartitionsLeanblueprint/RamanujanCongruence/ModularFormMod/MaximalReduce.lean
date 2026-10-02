@@ -6,7 +6,7 @@ import PartitionsLeanblueprint.RamanujanCongruence.ModularFormMod.Operators
 /-
 This file proves `exists_maximal_Reduce`
 This file has 1 sorry
-· `Reduce_of_reduce` (it is maybe unnecessary to assume this)
+· `Reduce_of_reduce`
 -/
 
 namespace ModularFormMod
@@ -135,9 +135,6 @@ theorem le_Filtration {p} (f : ModularFormMod ℓ k) [fn0 : NeZero f] (hk : ∀ 
       have : n < p := by grind
       have : n < (p : ℕ∞) := by norm_cast
       grind
-
-
-
 
 
 
