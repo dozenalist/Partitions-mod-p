@@ -170,14 +170,14 @@ instance instNeg : Neg (IntegerModularForm k) where
 instance instSub : Sub (IntegerModularForm k) :=
   ⟨fun f g => f + -g⟩
 
-instance : NatCast (IntegerModularForm 0) where
+instance instNatCast : NatCast (IntegerModularForm 0) where
   natCast n := const n
 
 @[simp]
 lemma coe_natCast (n : ℕ) :
   ⇑(n : IntegerModularForm 0) = n := rfl
 
-instance : IntCast (IntegerModularForm 0) where
+instance instIntCast : IntCast (IntegerModularForm 0) where
   intCast z := const z
 
 @[simp, norm_cast]
@@ -491,6 +491,36 @@ instance : GradedMonoid.GOne (IntegerModularForm) where
 
 instance : GradedMonoid.GMul (IntegerModularForm) where
   mul f g := f.mul g
+
+instance instGCommRing : DirectSum.GCommRing (IntegerModularForm) where
+  mul f g := f.mul g
+  mul_zero _ := ext₂ fun _ => by rw [mul_zero, zero_apply]
+  zero_mul _ := ext₂ fun _ => by rw [zero_mul, zero_apply]
+  mul_add _ _ _ := ext₂ fun _ => by simp only [mul_apply, add_apply, mul_add]
+  add_mul _ _ _ := ext₂ fun _ => by simp only [mul_apply, add_apply, add_mul]
+  one := 1
+  one_mul a := gradedMonoid_eq_of_cast (zero_add a.fst) <|
+    ext₂ fun _ => by simp only [GradedMonoid.fst_mul, GradedMonoid.fst_one,
+      GradedMonoid.snd_mul, GradedMonoid.snd_one, one_mul, Icast_apply]
+  mul_one a := gradedMonoid_eq_of_cast (add_zero a.fst) <|
+    ext₂ fun z => by simp only [GradedMonoid.fst_mul, GradedMonoid.fst_one,
+      GradedMonoid.snd_mul, GradedMonoid.snd_one, mul_one, Icast_apply]
+  mul_assoc a b c := gradedMonoid_eq_of_cast (add_assoc a.fst b.fst c.fst) <|
+    ext₂ fun _ => by simp only [GradedMonoid.fst_mul, GradedMonoid.snd_mul,
+      Icast_apply, mul_apply, mul_assoc]
+  natCast n := n
+  natCast_zero := ext₂ fun _ => by
+    simp only [coe_natCast, Pi.natCast_apply, CharP.cast_eq_zero, zero_apply]
+  natCast_succ _ := ext₂ fun _ => by
+    simp only [coe_natCast, Pi.natCast_apply, Nat.cast_add, Nat.cast_one, add_apply, one_apply]
+  intCast z := z
+  intCast_ofNat _ := ext₂ fun _ => by
+    simp only [coe_intCast, Int.cast_natCast, Pi.natCast_apply, coe_natCast]
+  intCast_negSucc_ofNat _ := ext₂ fun _ => by
+    simp only [coe_intCast, Pi.intCast_apply, Int.cast_negSucc, Nat.cast_add,
+      Nat.cast_one, neg_add_rev, neg_apply, coe_natCast, Pi.natCast_apply]
+  mul_comm a b := gradedMonoid_eq_of_cast (add_comm a.fst b.fst) <| ext₂ fun _ => by
+    simp only [GradedMonoid.fst_mul, GradedMonoid.snd_mul, Icast_apply, mul_apply, mul_comm]
 
 
 end IntegerModularForm

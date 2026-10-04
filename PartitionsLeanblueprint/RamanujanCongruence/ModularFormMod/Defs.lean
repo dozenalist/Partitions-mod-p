@@ -232,8 +232,17 @@ instance instSub : Sub (ModularFormMod ℓ k) :=
 instance : NatCast (ModularFormMod ℓ 0) where
   natCast n := const n
 
+@[simp]
+lemma fourier_natCast (n : ℕ) :
+  (n : ModularFormMod ℓ 0).fourier = n := rfl
+
 instance : IntCast (ModularFormMod ℓ 0) where
   intCast z := const z
+
+@[simp]
+lemma fourier_intCast (n : ℤ) :
+  (n : ModularFormMod ℓ 0).fourier = n := map_intCast' C rfl n
+
 
 variable (f g : ModularFormMod ℓ k) (h : ModularFormMod ℓ j)
 
@@ -400,23 +409,32 @@ instance : GradedMonoid.GOne (ModularFormMod ℓ) where
 instance : GradedMonoid.GMul (ModularFormMod ℓ) where
   mul f g := f.mul g
 
--- instance : DirectSum.GCommRing (ModularFormMod ℓ) := sorry
-
---   -- one_mul _ := gradedMonoid_eq_of_cast (zero_add _) (ext fun _ => one_mul _)
---   -- mul_one _ := gradedMonoid_eq_of_cast (add_zero _) (ext fun _ => mul_one _)
---   -- mul_assoc _ _ _ := gradedMonoid_eq_of_cast (add_assoc _ _ _) (ext fun _ => mul_assoc _ _ _)
---   -- mul_zero {_ _} _ := ext fun _ => mul_zero _
---   -- zero_mul {_ _} _ := ext fun _ => zero_mul _
---   -- mul_add {_ _} _ _ _ := ext fun _ => mul_add _ _ _
---   -- add_mul {_ _} _ _ _ := ext fun _ => add_mul _ _ _
---   -- mul_comm f g := gradedMonoid_eq_of_cast (add_comm _ _) (ext fun _ => by sorry)
---   -- natCast := Nat.cast
---   -- natCast_zero := ext fun _ => Nat.cast_zero
---   -- natCast_succ _ := ext fun _ => Nat.cast_succ _
---   -- intCast := Int.cast
---   -- intCast_ofNat _ := ext fun _ => AddGroupWithOne.intCast_ofNat _
---   -- intCast_negSucc_ofNat _ := fourier_inj <| by simp [AddGroupWithOne.intCast_negSucc _]
-
+instance instGCommRing : DirectSum.GCommRing (ModularFormMod ℓ) where
+  mul f g := f.mul g
+  mul_zero _ := ext fun _ => by rw [mul_zero, coeff_zero]
+  zero_mul _ := ext fun _ => by rw [zero_mul, coeff_zero]
+  mul_add _ _ _ := fourier_inj <| by simp only [fourier_mul, fourier_add, mul_add]
+  add_mul _ _ _ := fourier_inj <| by simp only [fourier_mul, fourier_add, add_mul]
+  one := 1
+  one_mul _ := gradedMonoid_eq_of_cast (zero_add _) <|
+    fourier_inj <| by simp only [GradedMonoid.fst_mul, GradedMonoid.fst_one,
+      GradedMonoid.snd_mul, GradedMonoid.snd_one, one_mul, fourier_Mcast]
+  mul_one _ := gradedMonoid_eq_of_cast (add_zero _) <|
+    fourier_inj <| by simp only [GradedMonoid.fst_mul, GradedMonoid.fst_one,
+      GradedMonoid.snd_mul, GradedMonoid.snd_one, mul_one, fourier_Mcast]
+  mul_assoc _ _ _ := gradedMonoid_eq_of_cast (add_assoc _ _ _) <|
+    fourier_inj <| by simp only [GradedMonoid.fst_mul, GradedMonoid.snd_mul,
+      fourier_Mcast, fourier_mul, mul_assoc]
+  natCast n := n
+  natCast_zero := fourier_inj <| by simp only [fourier_natCast, fourier_zero, Nat.cast_zero]
+  natCast_succ _ := fourier_inj <| by simp only [fourier_natCast, Nat.cast_add, Nat.cast_one]; rfl
+  intCast z := z
+  intCast_ofNat _ := fourier_inj <| by simp only [fourier_intCast, Int.cast_natCast, fourier_natCast]
+  intCast_negSucc_ofNat _ := fourier_inj <| by
+    simp only [fourier_intCast, Int.cast_negSucc, Nat.cast_add,
+      Nat.cast_one, neg_add_rev, fourier_neg, fourier_natCast]
+  mul_comm _ _ := gradedMonoid_eq_of_cast (add_comm _ _) <| fourier_inj <| by
+    simp only [GradedMonoid.fst_mul, GradedMonoid.snd_mul, fourier_Mcast, fourier_mul, mul_comm]
 
 
 end ModularFormMod

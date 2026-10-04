@@ -296,7 +296,7 @@ private lemma normalizedDeriv_periodic {k : ℤ} (f : ModularForm 𝒮ℒ k) :
       UpperHalfPlane.ofComplex_apply_of_im_nonpos hwle,
       UpperHalfPlane.ofComplex_apply_of_im_nonpos hw']
 
-private lemma qexp_normalizedDeriv {k : ℤ} (f : ModularForm 𝒮ℒ k) :
+theorem qexp_normalizedDeriv {k : ℤ} (f : ModularForm 𝒮ℒ k) :
     UpperHalfPlane.qExpansion 1 (Derivative.normalizedDerivOfComplex f) =
       PowerSeries.X * PowerSeries.derivative (UpperHalfPlane.qExpansion 1 f) := by
   let F : ℂ → ℂ := UpperHalfPlane.cuspFunction 1 f
@@ -352,7 +352,7 @@ private lemma qexp_normalizedDeriv {k : ℤ} (f : ModularForm 𝒮ℒ k) :
       ring
 
 
-private lemma qexp_e2 :
+theorem qexp_e2 :
       UpperHalfPlane.qExpansion 1 EisensteinSeries.E2 =
       PowerSeries.map (Int.castRingHom ℂ) e2Fourier := by
   let c : ℕ → ℂ := fun n ↦
@@ -477,6 +477,91 @@ private lemma normalizedDel_carrier_eq (f : IntegerModularForm k) :
       (PowerSeries.map (Int.castRingHom ℂ) f.fourier))
     (PowerSeries.map (Int.castRingHom ℂ) e2Fourier *
       PowerSeries.map (Int.castRingHom ℂ) f.fourier) k
+
+/-- The q-expansion of the scaled Serre derivative on an arbitrary complex
+modular form. This is the analytic identity used to construct its
+`p`-integral version. -/
+theorem qExpansion_twelve_del {k : ℤ} (f : ModularForm 𝒮ℒ k) :
+    UpperHalfPlane.qExpansion 1 (12 • del f) =
+      12 • (PowerSeries.X * PowerSeries.derivative
+        (UpperHalfPlane.qExpansion 1 f)) -
+      k • (PowerSeries.map (Int.castRingHom ℂ) e2Fourier *
+        UpperHalfPlane.qExpansion 1 f) := by
+  let fF : UpperHalfPlane → ℂ := f
+  let dF : UpperHalfPlane → ℂ := Derivative.normalizedDerivOfComplex f
+  let pF : UpperHalfPlane → ℂ := EisensteinSeries.E2 * fF
+  let c : ℂ := (k : ℂ) * (12 : ℂ)⁻¹
+  have hFani : AnalyticAt ℂ (UpperHalfPlane.cuspFunction 1 fF) 0 :=
+    ModularFormClass.analyticAt_cuspFunction_zero f one_pos
+      one_mem_strictPeriods_SL
+  have hEani : AnalyticAt ℂ
+      (UpperHalfPlane.cuspFunction 1 EisensteinSeries.E2) 0 :=
+    UpperHalfPlane.analyticAt_cuspFunction_zero one_pos e2_periodic
+      E2_mdifferentiable EisensteinSeries.isBoundedAtImInfty_E2
+  have hDani : AnalyticAt ℂ
+      (UpperHalfPlane.cuspFunction 1 dF) 0 :=
+    UpperHalfPlane.analyticAt_cuspFunction_zero one_pos
+      (normalizedDeriv_periodic f)
+      (Derivative.normalizedDerivOfComplex_mdifferentiable f.holo')
+      (normalizedDeriv_bdd_at_infty f)
+  have hPani : AnalyticAt ℂ (UpperHalfPlane.cuspFunction 1 pF) 0 := by
+    rw [UpperHalfPlane.cuspFunction_mul hEani.continuousAt hFani.continuousAt]
+    fun_prop
+  have hcPani : AnalyticAt ℂ
+      (UpperHalfPlane.cuspFunction 1 (c • pF)) 0 := by
+    rw [UpperHalfPlane.cuspFunction_smul hPani.continuousAt]
+    exact hPani.const_smul
+  have hDq : UpperHalfPlane.qExpansion 1 dF =
+      PowerSeries.X * PowerSeries.derivative (UpperHalfPlane.qExpansion 1 fF) := by
+    simpa [dF, fF] using qexp_normalizedDeriv f
+  have hdelQ : (del f).qexp =
+      UpperHalfPlane.qExpansion 1 dF - c • UpperHalfPlane.qExpansion 1 pF := by
+    rw [ModularForm.qexp_eq' (del f)]
+    have hdel_fun : (del f : UpperHalfPlane → ℂ) = dF - c • pF := by
+      funext z
+      change Derivative.serreDerivative (k : ℂ) (f : UpperHalfPlane → ℂ) z =
+        Derivative.normalizedDerivOfComplex f z -
+          c * (EisensteinSeries.E2 z * f z)
+      rw [Derivative.serreDerivative_apply]
+      dsimp [c]
+      ring
+    rw [hdel_fun, UpperHalfPlane.qExpansion_sub hDani hcPani,
+      UpperHalfPlane.qExpansion_smul hPani c]
+  have hdel : UpperHalfPlane.qExpansion 1 (del f) =
+      UpperHalfPlane.qExpansion 1 dF - c • UpperHalfPlane.qExpansion 1 pF := by
+    rw [← ModularForm.qexp_eq' (del f)]
+    exact hdelQ
+  have hpq : UpperHalfPlane.qExpansion 1 pF =
+      UpperHalfPlane.qExpansion 1 EisensteinSeries.E2 *
+        UpperHalfPlane.qExpansion 1 fF := by
+    simpa [pF] using UpperHalfPlane.qExpansion_mul hEani hFani
+  calc
+    UpperHalfPlane.qExpansion 1 (12 • del f) =
+        12 • UpperHalfPlane.qExpansion 1 (del f) := by
+      calc
+        UpperHalfPlane.qExpansion 1 (12 • del f) =
+            UpperHalfPlane.qExpansion 1 ((12 : ℂ) • del f) := by
+          congr 1
+          exact (Nat.cast_smul_eq_nsmul ℂ 12
+            (del f : UpperHalfPlane → ℂ)).symm
+        _ = (12 : ℂ) • UpperHalfPlane.qExpansion 1 (del f) :=
+          ModularForm.qExpansion_smul one_pos one_mem_strictPeriods_SL
+            (12 : ℂ) (del f)
+        _ = 12 • UpperHalfPlane.qExpansion 1 (del f) :=
+          Nat.cast_smul_eq_nsmul ℂ 12 _
+    _ = 12 • ((PowerSeries.X * PowerSeries.derivative
+          (UpperHalfPlane.qExpansion 1 f)) -
+          c • (PowerSeries.map (Int.castRingHom ℂ) e2Fourier *
+            UpperHalfPlane.qExpansion 1 f)) := by
+      rw [hdel, hDq, hpq, qexp_e2]
+    _ = 12 • (PowerSeries.X * PowerSeries.derivative
+          (UpperHalfPlane.qExpansion 1 f)) -
+          k • (PowerSeries.map (Int.castRingHom ℂ) e2Fourier *
+            UpperHalfPlane.qExpansion 1 f) := by
+      simpa [c] using twelve_smul_sub
+        (PowerSeries.X * PowerSeries.derivative (UpperHalfPlane.qExpansion 1 f))
+        (PowerSeries.map (Int.castRingHom ℂ) e2Fourier *
+          UpperHalfPlane.qExpansion 1 f) k
 
 def normalizedDel (f : IntegerModularForm k) : IntegerModularForm (k + 2) where
   fourier := normalizedDelFourier f

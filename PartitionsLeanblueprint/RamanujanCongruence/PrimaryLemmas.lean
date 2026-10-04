@@ -1,13 +1,12 @@
 import PartitionsLeanblueprint.RamanujanCongruence.PreliminaryResults
 import PartitionsLeanblueprint.RamanujanCongruence.ModularFormMod.MaximalReduce
+import PartitionsLeanblueprint.RamanujanCongruence.AiAssisted.SwD.Filtration
 
 
 /-
 This file proves the lemmas in the first section of the paper
 It shortcuts lemma 3.3, because we don't need it (see `Filtration_Theta_pow_sub_one`)
-This file has 2 sorries (both lemma 2.1)
-· `Filt_Theta_bound : f.Theta.Filtration ≤ f.Filtration + (ℓ + 1)`
-· `Filt_Theta_iff : f.Theta.Filtration = f.Filtration + (ℓ + 1) ↔ ¬ ↑ℓ ∣ f.Filtration`
+This file is sorry-free, borrowing the long proofs of lemma 2.1 from AiAssisted/SwD
 -/
 
 open ModularFormMod
@@ -17,11 +16,12 @@ noncomputable section
 
 
 
-theorem ZMod.one_ne_zero' {ℓ : ℕ} [h : ℓ.AtLeastTwo] : (1 : ZMod ℓ) ≠ 0 := by
-  haveI : Fact (1 < ℓ) := ⟨h.prop⟩
-  exact one_ne_zero
+theorem ZMod.one_ne_zero' {ℓ : ℕ} [h : ℓ.AtLeastTwo] : (1 : ZMod ℓ) ≠ 0 :=
+  have : Fact (1 < ℓ) := ⟨h.prop⟩; one_ne_zero
+
 
 variable {ℓ : ℕ} [isLargePrime ℓ] {k j : ZMod (ℓ - 1)} (f : ModularFormMod ℓ k)
+
 
 theorem NeZero.of_coeff_ne_zero {k} {f : ModularFormMod ℓ k} (h : ∃ n, f.coeff n ≠ 0) : NeZero f where
   out := by contrapose! h; simp only [h, coeff_zero, implies_true]
@@ -45,7 +45,7 @@ instance NeZero_Mcast (h : k = j) [hf : NeZero f] : NeZero (f.Mcast h) := by
 
 
 
-lemma Filt_Delta [ℓ.AtLeastTwo] : (Δ : ModularFormMod ℓ 12).Filtration = 12 :=
+lemma Filt_Delta : (Δ : ModularFormMod ℓ 12).Filtration = 12 :=
   le_antisymm
     (Filtration_le ⟨IntegerModularForm.Delta, by ext n; simp only [IntegerModularForm.reduce_coeff,
       Delta, fourier_Mcast, IntegerModularForm.fourier_Reduce] ⟩)
@@ -56,10 +56,6 @@ lemma twelve_delta_cast : ((ℓ^2 - 1)/2 : ℕ) = ((ℓ : ℤ)^2 - 1)/2 := by
   rw [Int.natCast_ediv, Nat.cast_ofNat, Int.natCast_pred_of_pos <| pow_two_pos_of_ne_zero NeZero.out, Nat.cast_pow]
 
 
--- lemma Filt_fl' [isLargePrime ℓ] : (fl ℓ).Filtration = (ℓ^2 - 1)/2 := by
---   rw[fl_eq_Delta_pow, Filtration_pow, Filt_Delta, mul_comm]
---   norm_cast; rw [twelve_delta, twelve_delta_cast]
---   rfl
 
 lemma Filt_fl : (fl ℓ).Filtration = (ℓ^2 - 1)/2 :=
   have h1 : (12 : ℤ) * δ ℓ = (ℓ^2 - 1)/2 := by
@@ -74,12 +70,12 @@ lemma Filt_fl : (fl ℓ).Filtration = (ℓ^2 - 1)/2 :=
 --Lemma 2.1
 
 -- (pt 1)
-theorem Filt_Theta_bound : f.Theta.Filtration ≤ f.Filtration + (ℓ + 1) := sorry
+theorem Filt_Theta_bound : f.Theta.Filtration ≤ f.Filtration + (ℓ + 1) :=
+  SwD.Filt_Theta_bound f
 
 -- (pt 2)
-theorem Filt_Theta_iff :
-    f.Theta.Filtration = f.Filtration + (ℓ + 1) ↔ ¬ ↑ℓ ∣ f.Filtration := sorry
-
+theorem Filt_Theta_iff : f.Theta.Filtration = f.Filtration + (ℓ + 1) ↔ ¬ ↑ℓ ∣ f.Filtration :=
+  SwD.Filt_Theta_iff f
 
 
 
@@ -109,7 +105,7 @@ lemma Filt_Theta_congruence_of_dvd [hℓ : ℓ.AtLeastTwo] [hfT : NeZero f.Theta
 
   have bound := lt_of_le_of_ne (Filt_Theta_bound f) fun h => (Filt_Theta_iff f).1 h ldiv
 
-  obtain ⟨α, hα⟩ := by simpa only [← AddCommGroup.modEq_iff_intModEq, 
+  obtain ⟨α, hα⟩ := by simpa only [← AddCommGroup.modEq_iff_intModEq,
       AddCommGroup.modEq_iff_eq_add_zsmul, smul_eq_mul]
     using ZMod.intCast_eq_intCast_iff ..|>.1 <| mod_cast Filt_Theta_congruence f |>.symm
 
@@ -145,15 +141,11 @@ theorem le_Filt_Theta_fl (m) : (fl ℓ).Filtration ≤ ((fl ℓ).Theta_pow m).Fi
   rw [Filt_fl, ← twelve_delta_cast]
   by_contra! filt_lt
   rw [Filtration] at filt_lt
-  apply exists_lt_of_csInf_lt <| exists_hasWeight _ at filt_lt
-  obtain ⟨j, ⟨d,hd⟩, jlt⟩ := filt_lt
+  obtain ⟨j, ⟨d,hd⟩, jlt⟩ := exists_lt_of_csInf_lt (exists_hasWeight _) filt_lt
 
   obtain ⟨h, dr⟩ := Reduce_of_reduce hd
 
-
-
   set f := (Mcast h.symm ((fl ℓ).Theta_pow m) : ModularFormMod ℓ j) with feq
-
 
   have hf : ∀ n < δ ℓ, f.coeff n = 0 := fun n nlt => by
     simp only [feq, coeff_Mcast, coeff_Theta_pow, fl_lt_delta nlt, smul_zero]
@@ -162,13 +154,11 @@ theorem le_Filt_Theta_fl (m) : (fl ℓ).Filtration ≤ ((fl ℓ).Theta_pow m).Fi
     use d; rw [feq]
     rw [hd, fourier_Mcast])
 
-
   suffices b' = 0 by
     subst this
     simp at hj
     rw [feq] at hj
     exact absurd hj NeZero.out
-
 
   apply IntegerModularForm.coeff_trunc_injective
   ext ⟨x, xlt⟩

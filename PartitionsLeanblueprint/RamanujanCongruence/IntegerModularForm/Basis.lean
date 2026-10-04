@@ -27,10 +27,10 @@ theorem ModularForm.rank_eq_dim (k : ℤ) : Module.rank ℂ (ModularForm 𝒮ℒ
   rw [dim]
   split_ifs with hk hk2 kcon
   lift k to ℕ using hk
-  rw [dimension_level_one k (by grind), if_pos (by grind [Nat.ModEq, Int.ModEq])]
+  rw [dimension_level_one k (by grind), ite_eq_left (by grind [Nat.ModEq, Int.ModEq])]
   rfl
   lift k to ℕ using hk
-  rw [dimension_level_one k (by grind), if_neg (by grind [Nat.ModEq, Int.ModEq])]
+  rw [dimension_level_one k (by grind), ite_eq_right (by grind [Nat.ModEq, Int.ModEq])]
   rfl
   simp at hk2
   rw [ModularForm.levelOne_odd_weight_rank_zero hk2, Nat.cast_zero]
@@ -46,7 +46,7 @@ theorem ModularForm.better_sturm_bound_levelOne_nat {k : ℕ} {f : ModularForm �
     by_cases hord : (qExpansion 1 ⇑f).order = 0
     · have : dim k = 0 := by rw [hord] at h; norm_cast at *; exact Nat.eq_zero_of_le_zero h
       rw [← Nat.cast_eq_zero (R := Cardinal.{0}), ← ModularForm.rank_eq_dim, rank_zero_iff_forall_zero] at this
-      simp only [this f, coe_zero, qExpansion_zero, map_zero]
+      simp only [this f, FunLike.coe_zero, qExpansion_zero, map_zero]
     · exact PowerSeries.coeff_of_lt_order _
         (by simpa only [CharP.cast_eq_zero] using pos_iff_ne_zero.mpr hord)
   suffices CuspForm.discriminantEquiv (toCuspForm f h0) = 0 by
@@ -92,7 +92,7 @@ theorem coeff_trunc_injective {k} : Function.Injective <| coeff_trunc (k := k) :
   apply carrier_inj
   show f.carrier - g.carrier = 0
   apply better_sturm_bound_levelOne
-  simp only [ModularForm.coe_sub, ModularForm.qExpansion_sub (Γ := 𝒮ℒ) zero_lt_one (by simp)]
+  simp only [FunLike.coe_sub, ModularForm.qExpansion_sub (Γ := 𝒮ℒ) zero_lt_one (by simp)]
   apply PowerSeries.le_order _ _ fun n nlt => by
     have h' := by simpa only [coeff_trunc_apply] using funext_iff.1 h ⟨n, by norm_cast at *⟩
     simp only [map_sub, ← qexp_eq', f.carrier_eq, g.carrier_eq,
@@ -124,11 +124,11 @@ theorem of_dim_pos (k : ℤ) (hk : dim k > 0) : (k %% 12) ∈ ({0, 4, 6, 8, 10, 
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff]
   rw [dim] at hk
   split_ifs at hk with h1 h2 h3
-  rw [mod_without_two, if_pos h3]
+  rw [mod_without_two, ite_eq_left h3]
   rw [Int.ModEq] at h3
   grind
 
-  rw [mod_without_two, if_neg h3]
+  rw [mod_without_two, ite_eq_right h3]
   rw [Int.ModEq] at h3
   grind
   exact (0).lt_irrefl hk |>.elim
@@ -151,8 +151,6 @@ theorem dim_sub_mod_without_two (c) (hc : Even c) : dim (c - (c %% 12)) = dim c 
 
 
 theorem le_dim_sub_mod_without_two (c) : dim (c - (c %% 12)) ≥ dim c := by
-
-
   simp [dim, mod_without_two]
   split_ifs with h1 h2 h3 h4 h5 h6
   all_goals
@@ -164,7 +162,6 @@ theorem le_dim_sub_mod_without_two (c) : dim (c - (c %% 12)) ≥ dim c := by
     norm_cast at *
     try simp_all only [blla, bllla]
     grind
-
 
 
 noncomputable def G_dim_one : (k : ℤ) → IntegerModularForm k
@@ -212,7 +209,7 @@ theorem ord_G_twelve {k} (c) (hc : c < dim k) : (G_twelve c hc).ord = c := by
   split_ifs with h
   simp
   have : c < dim (k - (k %% 12)) := by grind [le_dim_sub_mod_without_two]
-  rw [dim, if_neg h] at this
+  rw [dim, ite_eq_right h] at this
   exact not_lt_zero this |>.elim
 
 theorem G_twelve_ord_G_twelve {k} (c) (hc : c < dim k) : (G_twelve c hc).coeff c = 1 := by
@@ -227,7 +224,7 @@ theorem G_twelve_ord_G_twelve {k} (c) (hc : c < dim k) : (G_twelve c hc).coeff c
   · simp only [ord_pow, ord_Delta, nsmul_eq_mul, _root_.mul_one]
 
   have : c < dim (k - (k %% 12)) := by grind [le_dim_sub_mod_without_two]
-  rw [dim, if_neg h] at this
+  rw [dim, ite_eq_right h] at this
   exact not_lt_zero this |>.elim
 
 
@@ -255,11 +252,9 @@ variable {k : ℤ} (c : Fin (dim k))
 
 theorem G_LI : LinearIndependent ℤ (@G k) := by
 
-  rw [linearIndependent_iff]
+  simp only [linearIndependent_iff, Finsupp.linearCombination_apply]
   intro l hl
   ext ⟨x,xlt⟩; simp only [Finsupp.coe_zero, Pi.zero_apply]
-
-  rw [Finsupp.linearCombination_apply] at hl
 
   simp_rw [IntegerModularForm.ext_iff, ← coeffLinearMap_apply] at hl
 
@@ -272,8 +267,7 @@ theorem G_LI : LinearIndependent ℤ (@G k) := by
     rw [← hl x]; symm; calc
 
     _ = l ⟨x, xlt⟩ * coeff x (G ⟨x,xlt⟩) := by
-      refine Finset.sum_eq_single _ ?_ fun h => h (Finset.mem_univ _) |>.elim
-      rintro ⟨b, blt⟩ - bne
+      refine Finset.sum_eq_single _ (fun ⟨b, blt⟩ _ bne => ?_) fun h => h (Finset.mem_univ _) |>.elim
       by_cases blx : b > x
       · rw [coeff_lt_ord, MulZeroClass.mul_zero]
         rwa [ord_G, Nat.cast_lt]

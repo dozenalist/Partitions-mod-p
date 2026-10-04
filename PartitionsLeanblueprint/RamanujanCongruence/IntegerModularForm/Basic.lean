@@ -264,7 +264,6 @@ lemma Eis_zero {k} (hk : 3 ≤ k) (hk2 : Even k) : (Eis k).coeff 0 = (2 * k / be
 end Eisenstein_defs
 
 
-
 noncomputable section Eis_sub_one
 
 variable (ℓ : ℕ)

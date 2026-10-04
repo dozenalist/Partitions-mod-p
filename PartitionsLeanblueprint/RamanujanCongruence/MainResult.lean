@@ -30,7 +30,7 @@ private lemma dim_twelve_delta_add_four : dim (12 * δ ℓ + 4) = δ ℓ + 1 := 
   · norm_cast
     lia
   · norm_cast at h2
-    exact h2 <| by simp only [Nat.even_add, show Even 12 by decide, 
+    exact h2 <| by simp only [Nat.even_add, show Even 12 by decide,
       Even.mul_right, show Even 4 by decide]
   · norm_cast at h1
     exact h1 <| Nat.zero_le _
@@ -53,9 +53,6 @@ variable {k} (f : IntegerModularForm k)
 
 @[simp] lemma Icast_pow {m n} (h : m = n) : (f.pow n).Icast (by rw [h]) = f.pow m := by
   subst h; rfl
-
--- @[simp] lemma Icast_G {m n : Fin (dim k)} (h : m = n) : G n = G m := by
---   rw [h]
 
 
 
@@ -306,5 +303,3 @@ lemma flu_ne_zero {ℓ} [isLargerPrime ℓ] (flu : fl ℓ |𝓤 = 0) : False := 
 
 theorem MainResult (ℓ : ℕ) [isLargerPrime ℓ] : ¬ ramanujan_congruence ℓ :=
   (flu_ne_zero <| flu_eq_zero ·)
-
-

@@ -1,27 +1,43 @@
 import PartitionsLeanblueprint.RamanujanCongruence.IntegerModularForm.Basis
 import PartitionsLeanblueprint.RamanujanCongruence.ModularFormMod.Operators
+import PartitionsLeanblueprint.RamanujanCongruence.AiAssisted.SwD.Reduce_of_reduce
 
 
 
 /-
 This file proves `exists_maximal_Reduce`
-This file has 1 sorry
-· `Reduce_of_reduce`
+This file is sorry-free
 -/
 
 namespace ModularFormMod
 
 open IntegerModularForm
 
-variable {ℓ : ℕ} [isLargePrime ℓ] {k : ZMod (ℓ - 1)}
+variable {ℓ : ℕ} [isLargePrime ℓ] {k j : ZMod (ℓ - 1)}
 
 
 theorem Reduce_of_reduce {m} {f : ModularFormMod ℓ k} [hf : NeZero f]
   {b : IntegerModularForm m} (hab : b.reduce ℓ = f.fourier) :
-    ∃ h, f = Mcast h (Reduce ℓ b) := by sorry
+    ∃ h, f = Mcast h (Reduce ℓ b) :=
+  PIntegralModularForm.SwD.Reduce_of_reduce hab
 
+-- nice proof
 theorem Filtration_congruence (f : ModularFormMod ℓ k) [NeZero f] : f.Filtration = k :=
   Reduce_of_reduce f.Filtration_choose_spec.symm |>.1
+
+theorem Weight_eq_of_reduce_eq (f : ModularFormMod ℓ k) (g : ModularFormMod ℓ j)
+    [hf: NeZero f] (h : f.fourier = g.fourier) : k = j := by
+  obtain ⟨a, ha, -, -⟩ := f.Exists_reduce
+  obtain ⟨b, hb, g', hg'⟩ := g.Exists_reduce
+  have := h ▸ hg'
+  rwa [← Reduce_of_reduce this |>.1]
+
+theorem eq_zero_of_Weight_ne (f : ModularFormMod ℓ k) (g : ModularFormMod ℓ j)
+    (h : f.fourier = g.fourier) (hne : k ≠ j) : f = 0 ∧ g = 0 := by
+  contrapose! +distrib hne
+  obtain fn0 | gn0 := hne
+  · exact @Weight_eq_of_reduce_eq _ _ k j f g ⟨fn0⟩ h
+  · exact @Weight_eq_of_reduce_eq _ _ j k g f ⟨gn0⟩ h.symm |>.symm
 
 
 -- we can assume that the function that reduces to a ModularFormMod ℓ has the maximum ord possible
@@ -33,7 +49,6 @@ theorem exists_maximal_Reduce {j p} (f : ModularFormMod ℓ k)
   obtain ⟨c, ceq⟩ := haw
 
   obtain ⟨hj, aeqcr⟩ := Reduce_of_reduce ceq
-
 
   obtain ⟨l, leq⟩ := exists_G_combo c
 
@@ -82,8 +97,6 @@ theorem exists_maximal_Reduce {j p} (f : ModularFormMod ℓ k)
         simp_rw [aeqc, leq, ← coeffLinearMap_apply, map_sum, map_zsmul]
         simp
 
-
-
         trans (l ⟨x, xlt⟩ : ZMod ℓ) • ↑((IntegerModularForm.G ⟨x,xlt⟩).coeff ↑(⟨x,xlt⟩ : Fin (dim j)))
         rw [G_ord_G, Int.cast_one, smul_eq_mul, _root_.mul_one]
 
@@ -101,12 +114,11 @@ theorem exists_maximal_Reduce {j p} (f : ModularFormMod ℓ k)
         rw [ord_G]; norm_cast
     }
     {
-    right
-    apply coeff_lt_ord
-    simp only [ord_G]; norm_cast
-    omega
+      right
+      apply coeff_lt_ord
+      simp only [ord_G]; norm_cast
+      omega
     }
-
   }
 
 

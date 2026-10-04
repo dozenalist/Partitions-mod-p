@@ -34,7 +34,7 @@ theorem Delta_carrier_eq : ModularForm.qexp (CuspForm.discriminant : ModularForm
     obtain ⟨m, hm⟩ := DeltaProduct_eventually_sum' (α := ℂ) d
     refine tendsto_atTop_of_eventually_const (i₀ := max (d + 1) m) ?_
     intro n hn
-    have hdn : d < n := lt_of_lt_of_le (Nat.lt_succ_self d)
+    have hdn : d < n := lt_of_lt_of_le d.lt_succ_self
       (le_trans (le_max_left _ _) hn)
     have hnm : m ≤ n := le_trans (le_max_right _ _) hn
     rw [hm d (le_refl d) n hnm]
