@@ -20,7 +20,7 @@ name = "PartitionsLeanblueprint"
 
 [[require]]
 name = "LeanModularForms"
-git = "https://github.com/CBirkbeck/LeanModularForms.git"
+git = "https://github.com/dozenalist/LeanModularForms.git"
 rev = "master"
 
 

@@ -29,6 +29,9 @@ instance primeIdeal_isPrime : (primeIdeal p).IsPrime :=
 /-- The valuation ring of `ℚ` at the prime ideal `p`. -/
 abbrev CoeffRing := Localization.AtPrime (primeIdeal p)
 
+local notation "ℤ(" p:max ")"  => CoeffRing p
+
+
 /-- The canonical embedding of the p-local integers into `ℂ`, obtained by first mapping into `ℚ`.
 -/
 noncomputable def toComplex : CoeffRing p →+* ℂ :=
@@ -284,7 +287,7 @@ def coeAddHom : PIntegralModularForm p k →+ (ℍ → ℂ) where
   map_add' _ _ := rfl
 
 instance : Module (CoeffRing p) (PIntegralModularForm p k) :=
-  Function.Injective.module (CoeffRing p) coeAddHom DFunLike.coe_injective (by intro a f; rfl)
+  Function.Injective.module (CoeffRing p) coeAddHom DFunLike.coe_injective fun _ _ => rfl
 
 end
 end PIntegralModularForm
