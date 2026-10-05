@@ -380,6 +380,12 @@ theorem one_def : (1 : ModularFormMod ℓ 0) = const 1 := rfl
 @[simp] theorem zero_pow (j : ℕ) [hj : NeZero j] : (0 : ModularFormMod ℓ k).pow j = 0 :=
   fourier_inj <| by simp [hj.out]
 
+theorem pow_succ_eq_Mcast (j : ℕ) : f.pow (j + 1) = ((f.pow j).mul f).Mcast :=
+  fourier_inj <| by simp [pow_succ]
+
+@[simp] theorem const_zero : const (0 : ZMod ℓ) = 0 :=
+  ext fun _ => by rw [coeff_const, ite_self, coeff_zero]
+
 
 @[simp] theorem const_mul (c : ZMod ℓ) (a : ModularFormMod ℓ k) : (const c).mul a = (c • a).Mcast :=
   fourier_inj <| by simp [smul_eq_C_mul]

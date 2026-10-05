@@ -122,7 +122,6 @@ lemma Filt_Theta_congruence_of_dvd [hℓ : ℓ.AtLeastTwo] [hfT : NeZero f.Theta
 
 
 
-
 lemma Filt_Theta_congruence_of_dvd' {m j : ℕ} [hfT : NeZero (f.Theta_pow m)]
   (ldiv: ↑ℓ ∣ (f.Theta_pow j).Filtration) (h : m = j + 1) :
     ∃ α > 0, (f.Theta_pow m).Filtration = (f.Theta_pow j).Filtration + (ℓ + 1) - α * (ℓ - 1) := by
@@ -133,72 +132,9 @@ lemma Filt_Theta_congruence_of_dvd' {m j : ℕ} [hfT : NeZero (f.Theta_pow m)]
 
 
 -- Lemma 3.2
--- This proof is currently bad
 theorem le_Filt_Theta_fl (m) : (fl ℓ).Filtration ≤ ((fl ℓ).Theta_pow m).Filtration := by
-
-  have eq2 : 12 * δ ℓ = 2 * (6 * δ ℓ) := by rw [← mul_assoc]; rfl
-
-  rw [Filt_fl, ← twelve_delta_cast]
-  by_contra! filt_lt
-  rw [Filtration] at filt_lt
-  obtain ⟨j, ⟨d,hd⟩, jlt⟩ := exists_lt_of_csInf_lt (exists_hasWeight _) filt_lt
-
-  obtain ⟨h, dr⟩ := Reduce_of_reduce hd
-
-  set f := (Mcast h.symm ((fl ℓ).Theta_pow m) : ModularFormMod ℓ j) with feq
-
-  have hf : ∀ n < δ ℓ, f.coeff n = 0 := fun n nlt => by
-    simp only [feq, coeff_Mcast, coeff_Theta_pow, fl_lt_delta nlt, smul_zero]
-
-  obtain ⟨b', jeq, hj, hbord⟩ := exists_maximal_Reduce (j := j) f hf (by
-    use d; rw [feq]
-    rw [hd, fourier_Mcast])
-
-  suffices b' = 0 by
-    subst this
-    simp at hj
-    rw [feq] at hj
-    exact absurd hj NeZero.out
-
-  apply IntegerModularForm.coeff_trunc_injective
-  ext ⟨x, xlt⟩
-  simp
-  rw [IntegerModularForm.coeff_lt_ord]
-  have : dim j ≤ δ ℓ := by
-
-    rw [dim]
-    simp_all only [Int.natCast_ediv, Nat.cast_ofNat, fourier_Mcast, IntegerModularForm.fourier_Reduce, coeff_Mcast,
-      IntegerModularForm.coeff_Reduce, ge_iff_le, f]
-    split
-    next h_1 =>
-      split
-      next h_2 =>
-        split
-        next h_3 =>
-          zify; simp
-          rw [delta]
-          grind
-
-        next h_3 =>
-          simp_all only [Order.add_one_le_iff]
-          zify
-          simp
-          simp_all only [sup_of_le_left]
-          refine (Int.ediv_lt_iff_lt_mul (by decide)).mpr ?_
-          rw [mul_comm]
-          norm_cast; rw [twelve_delta]
-          simpa only [Int.natCast_ediv, Nat.cast_ofNat]
-
-
-
-      next h_2 => simp_all only [Int.not_even_iff_odd, zero_le]
-    next h_1 => simp_all only [not_le, zero_le]
-
-
-
-  apply lt_of_lt_of_le ?_ hbord
-  norm_cast
-  lia
+  rw [Filt_fl, ← twelve_delta_cast, ← twelve_delta, Nat.cast_mul, Nat.cast_ofNat]
+  exact le_Filtration _ fun _ nlt => by rw [coeff_Theta_pow, fl_lt_delta nlt, smul_zero]
 
 
 

@@ -40,6 +40,24 @@ theorem eq_zero_of_Weight_ne (f : ModularFormMod ℓ k) (g : ModularFormMod ℓ 
   · exact @Weight_eq_of_reduce_eq _ _ j k g f ⟨gn0⟩ h.symm |>.symm
 
 
+theorem exists_Reduce (f : ModularFormMod ℓ k) : ∃ j : ℤ, ∃ hj : j = k,
+    ∃ g : IntegerModularForm j, f = Mcast hj (g.Reduce ℓ) := by
+  by_cases f0 : f = 0
+  · use k.cast, by simp, 0, by simp [f0]
+  obtain ⟨j, hj, g, hg⟩ := f.Exists_reduce
+  obtain ⟨hj', h⟩ := Reduce_of_reduce hg (hf := ⟨f0⟩)
+  use j, hj, g, h
+
+open PIntegralModularForm in
+theorem exists_Reduce_PIntegralModularForm (f : ModularFormMod ℓ k) :
+  ∃ j : ℤ, ∃ hj : j = k,
+    ∃ g : PIntegralModularForm ℓ j, f = g.Reduce.Mcast hj := by
+  obtain ⟨j, hj, g, hg⟩ := f.exists_Reduce
+  use j, hj, ofInteger g, by rw [Reduce_ofInteger, hg]
+
+
+
+
 -- we can assume that the function that reduces to a ModularFormMod ℓ has the maximum ord possible
 theorem exists_maximal_Reduce {j p} (f : ModularFormMod ℓ k)
   [hf : NeZero f] (hk : ∀ n < p, f.coeff n = 0) (haw : hasWeight j f) :
@@ -147,6 +165,13 @@ theorem le_Filtration {p} (f : ModularFormMod ℓ k) [fn0 : NeZero f] (hk : ∀ 
       have : n < p := by grind
       have : n < (p : ℕ∞) := by norm_cast
       grind
+
+
+theorem Filtration_nonneg (f : ModularFormMod ℓ k) : 0 ≤ f.Filtration := by
+  by_cases f0 : f = 0
+  · rw [f0, Filtration_zero]
+  · trans 12 * (0 : ℕ) ; rfl
+    exact le_Filtration (fn0 := ⟨f0⟩) _ fun n nlt => n.not_lt_zero nlt |>.elim
 
 
 

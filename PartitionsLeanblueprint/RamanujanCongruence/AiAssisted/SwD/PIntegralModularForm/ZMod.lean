@@ -136,5 +136,7 @@ theorem Reduce_ofInteger (f : IntegerModularForm k) :
     (f.Reduce p).fourier
   rw [map_fourier_ofInteger, IntegerModularForm.fourier_Reduce]
 
+
+
 end
 end PIntegralModularForm

@@ -2,7 +2,7 @@ import PartitionsLeanblueprint.RamanujanCongruence.ModularFormMod.Basic
 
 
 
-variable {ℓ : ℕ} [hℓ : isLargePrime ℓ] {k j : ZMod (ℓ - 1)} (f g : ModularFormMod ℓ k) (h : ModularFormMod ℓ j)
+variable {ℓ : ℕ} [hℓ : isLargePrime ℓ] {k j : ZMod (ℓ - 1)} (f : ModularFormMod ℓ k) (g : ModularFormMod ℓ j)
 
 
 @[simp] theorem _root_.ZMod.pred_eq_one [NeZero ℓ] : (ℓ : ZMod (ℓ - 1)) = 1 := by
@@ -51,6 +51,12 @@ theorem exists_hasWeight_ge (j : ℤ) : ∃ i ≥ j, ↑i = k ∧ f.hasWeight i 
   use by simpa, g.mul ((El ℓ).pow (j.toNat + m.natAbs))
   rwa [reduce_mul, reduce_El_pow, MulOneClass.mul_one]
 
+theorem hasWeight_mul {m n} {f : ModularFormMod ℓ k} {g : ModularFormMod ℓ j}
+  (hf : f.hasWeight m) (hg : g.hasWeight n) :
+    (f.mul g).hasWeight (m + n) := by
+  obtain ⟨f', hf'⟩ := hf
+  obtain ⟨g', hg'⟩ := hg
+  use f'.mul g', by rw [reduce_mul, fourier_mul, hf', hg']
 
 
 noncomputable def Filtration (f : ModularFormMod ℓ k) : ℤ :=
@@ -87,7 +93,6 @@ theorem Filtration_le {j} {f : ModularFormMod ℓ k} [fn0 : NeZero f] (hf : hasW
   csInf_le (BddBelow_hasWeight_set f) hf
 
 
-
 noncomputable def Filtration_choose (f : ModularFormMod ℓ k) :
   IntegerModularForm f.Filtration := f.Filtration_spec.choose
 
@@ -104,6 +109,11 @@ theorem coeff_eq_Filtration_choose (f : ModularFormMod ℓ k) (n : ℕ) :
 
 @[simp] theorem Filtration_Mcast (h : k = j) : (f.Mcast h).Filtration = f.Filtration := rfl
 
+
+theorem Filtration_le_Nat {j : ℕ} {f : ModularFormMod ℓ k} (hf : hasWeight j f) : f.Filtration ≤ j := by
+  by_cases f0 : f = 0
+  · rw [f0, Filtration_zero]; exact Int.natCast_nonneg j
+  · exact Filtration_le hf (fn0 := ⟨f0⟩)
 
 theorem Filtration_ext {f : ModularFormMod ℓ k} {g : ModularFormMod ℓ j}
     (h : ∀ n, f.coeff n = g.coeff n) : f.Filtration = g.Filtration := by
