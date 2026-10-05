@@ -31,7 +31,9 @@ Formalized :
 
 
 TODO : 
+
 · Prove the Kimming and Olson result?
+
 · Generalize to more subrings of C and more subgroups of GL(2,R)
 
 
