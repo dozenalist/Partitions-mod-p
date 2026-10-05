@@ -8,6 +8,8 @@ You can find an overview of the definitions and theorems [here](https://dozenali
 
 Formalized : 
 
+- Everything is done. The main theorem is proved with a sorry-free connection down to the axioms.
+
 - The Definitions of Modular Forms, Integer Modular Forms, and Modular Forms Mod ℓ
   - Modular Forms are functions on the complex plane that satisfy a number of conditions. They have a natural number weight k. 
   - Integer Modular Forms are sequences to the Integers whose infinite q-series is a Modular Form. They have a natural number weight k.
@@ -24,31 +26,14 @@ Formalized :
 
 - Information about a basis for the space of Modular Forms. Specifically, the normalized, upper triangular basis consisting of powers of E4, E6, and Delta.
 
-- All of the main results of the paper. Everything from the beginning to the end of the proof of Theorem 1 is fully formalized, assuming some preliminaries.
+- All of the main results of the paper.
 
 
 
 TODO : 
-There are 3 sorries left.
 
-· `Reduce_of_reduce`
+· Prove the Kimming and Olson result?
 
-· `Filt_Theta_bound : f.Theta.Filtration ≤ f.Filtration + (ℓ + 1)`
+· Generalize to more subrings of C and more subgroups of GL(2,R)
 
-· `Filt_Theta_iff : f.Theta.Filtration = f.Filtration + (ℓ + 1) ↔ ¬ ↑ℓ ∣ f.Filtration`
-
-
-
-Note : 
-
-Much of this project is written in the language of == and Mcongr. 
-
-Often it’s necessary to prove something of the form a = b, where a : ModularFormMod ℓ k, and b : ModularFormMod ℓ (k + 0).
-In lean, trying to assert a = b throws an error, because a and b dont have the same type, and equality only works between elements of the same type. 
-
-To get around this, we can assert that a == b, meaning that for all n, a n = b n, or in other words that a and b are the same underlying sequence. I’ve proved that, for most of the things we’d like to use it for, == acts like = .
-
-We can also assert that a = Mcongr b (h : k + 0 = k), where Mcongr casts the type of b to match the type of a, given a proof that these two types are equal. 
-
-When adding or subtracting two Modular Forms whose types are technically different but provably equal, we can use, for example, a +r b (h : (the weight of a) = (the weight of b) ) in which the sum here inherits the type of b, given a proof that the two types are equal. 
 
