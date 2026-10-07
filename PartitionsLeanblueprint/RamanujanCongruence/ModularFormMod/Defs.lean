@@ -156,6 +156,9 @@ theorem fourier_inj : Function.Injective (ModularFormMod.fourier (k := k)) :=
   cases g
   simpa only [mk.injEq] using h
 
+theorem fourier_eq_iff (f g : ModularFormMod ℓ k) : f = g ↔ f.fourier = g.fourier :=
+  ⟨fun h => by congr, fun h => fourier_inj h⟩
+
 
 lemma Exists_reduce (f : ModularFormMod ℓ k) :
     ∃ j : ℤ, ↑j = k ∧ ∃ g : IntegerModularForm j, g.reduce ℓ = f.fourier := by
@@ -311,11 +314,11 @@ theorem coeff_const (x : ZMod ℓ) : (const x).coeff n = if n = 0 then x else 0 
 
 @[simp]
 theorem coeff_const_zero (x : ZMod ℓ) : (const x).coeff 0 = x :=
-  coeff_const _ x ▸ if_pos rfl
+  coeff_const _ x ▸ ite_eq_left rfl
 
 @[simp]
 theorem coeff_const_succ (x : ZMod ℓ) : (const x).coeff (n + 1) = 0 :=
-  coeff_const _ x ▸ if_neg (Nat.succ_ne_zero _)
+  coeff_const _ x ▸ ite_eq_right (Nat.succ_ne_zero _)
 
 
 open Finset
@@ -443,6 +446,18 @@ instance instGCommRing : DirectSum.GCommRing (ModularFormMod ℓ) where
     simp only [GradedMonoid.fst_mul, GradedMonoid.snd_mul, fourier_Mcast, fourier_mul, mul_comm]
 
 
+
+open DirectSum
+
+theorem mul_eq_zero_iff (f : ModularFormMod ℓ k) (g : ModularFormMod ℓ j) :
+    f.mul g = 0 ↔ f = 0 ∨ g = 0 := by
+  simp only [fourier_eq_iff, fourier_mul, fourier_zero, mul_eq_zero]
+
+
+theorem pow_eq_zero_iff (f : ModularFormMod ℓ k) (m : ℕ) (hm : m ≠ 0) :
+    f.pow m = 0 ↔ f = 0 := by
+  simp only [fourier_eq_iff, fourier_pow, fourier_zero, _root_.pow_eq_zero_iff hm]
+
 end ModularFormMod
 
 open ModularFormMod
@@ -465,6 +480,8 @@ variable {ℓ : ℕ} [isLargePrime ℓ] {k j : ℤ} (f g : IntegerModularForm k)
 @[simp, norm_cast] theorem Reduce_Icast (a : IntegerModularForm k) (h : k = j) :
     (a.Icast h).Reduce ℓ = (a.Reduce ℓ).Mcast (h ▸ rfl) :=
   ModularFormMod.fourier_inj <| by simp [reduce]
+
+
 
 @[simp] theorem coeff_Reduce (n) : (f.Reduce ℓ).coeff n = ↑(f.coeff n) := rfl
 

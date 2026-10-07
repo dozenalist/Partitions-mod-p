@@ -23,6 +23,8 @@ theorem dim_neg (k : ℤ) (hk : k < 0) : dim k = 0 := by
   simp_all only [dim, ite_eq_right_iff, isEmpty_Prop, not_le, IsEmpty.forall_iff]
 
 
+theorem dim_le_div_twelve (k : ℤ) : dim k ≤ k.toNat / 12 + 1 := by grind [dim]
+
 theorem ModularForm.rank_eq_dim (k : ℤ) : Module.rank ℂ (ModularForm 𝒮ℒ k) = dim k := by
   rw [dim]
   split_ifs with hk hk2 kcon

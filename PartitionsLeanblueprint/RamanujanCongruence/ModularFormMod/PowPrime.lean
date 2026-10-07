@@ -33,9 +33,10 @@ theorem expand_card (f : PowerSeries (ZMod p)) :
   simpa only [ZMod.card p] using FiniteField.PowerSeries_expand_card f
 
 
-theorem coeff_pow_card  (f : PowerSeries (ZMod p)) (n) :
+theorem coeff_pow_card (f : PowerSeries (ZMod p)) (n) :
     (f ^ p).coeff n = if p ∣ n then f.coeff (n / p) else 0 := by
   rw [← expand_card, coeff_expand]
+
 
 end PowerSeries.ZMod
 

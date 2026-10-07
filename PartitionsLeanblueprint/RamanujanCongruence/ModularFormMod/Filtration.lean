@@ -110,6 +110,7 @@ theorem coeff_eq_Filtration_choose (f : ModularFormMod ℓ k) (n : ℕ) :
 @[simp] theorem Filtration_Mcast (h : k = j) : (f.Mcast h).Filtration = f.Filtration := rfl
 
 
+
 theorem Filtration_le_Nat {j : ℕ} {f : ModularFormMod ℓ k} (hf : hasWeight j f) : f.Filtration ≤ j := by
   by_cases f0 : f = 0
   · rw [f0, Filtration_zero]; exact Int.natCast_nonneg j
@@ -119,6 +120,17 @@ theorem Filtration_ext {f : ModularFormMod ℓ k} {g : ModularFormMod ℓ j}
     (h : ∀ n, f.coeff n = g.coeff n) : f.Filtration = g.Filtration := by
   simpa only [Filtration, hasWeight] using
     congrArg (fun f => (sInf {j : ℤ | f ∈ Set.range ⇑(@reduce j ℓ)})) <| PowerSeries.ext_iff.2 h
+
+
+theorem Filtration_ext' {f : ModularFormMod ℓ k} {g : ModularFormMod ℓ j}
+    (h : ∀ m, f.hasWeight m ↔ g.hasWeight m) : f.Filtration = g.Filtration := by
+  simpa only [Filtration] using congrArg _ <| Set.ext (by exact h ·)
+
+
+@[simp] theorem Filtration_neg : (-f).Filtration = f.Filtration :=
+  Filtration_ext' fun _ =>
+    ⟨fun ⟨f', h⟩ => ⟨-f', by simp [h]⟩, fun ⟨f', h⟩ => ⟨-f', by simp [h]⟩⟩
+
 
 
 

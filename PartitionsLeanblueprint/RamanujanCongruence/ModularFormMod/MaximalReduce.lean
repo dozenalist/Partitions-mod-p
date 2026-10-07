@@ -13,7 +13,7 @@ namespace ModularFormMod
 
 open IntegerModularForm
 
-variable {ℓ : ℕ} [isLargePrime ℓ] {k j : ZMod (ℓ - 1)}
+variable {ℓ : ℕ} [hℓ : isLargePrime ℓ] {k j : ZMod (ℓ - 1)}
 
 
 theorem Reduce_of_reduce {m} {f : ModularFormMod ℓ k} [hf : NeZero f]
@@ -140,6 +140,17 @@ theorem exists_maximal_Reduce {j p} (f : ModularFormMod ℓ k)
   }
 
 
+theorem exists_maximal_Reduce' {p} (f : ModularFormMod ℓ k)
+  [hf : NeZero f] (hk : ∀ n < p, f.coeff n = 0) :
+    ∃ b : IntegerModularForm f.Filtration, ∃ _hb : NeZero b,
+      f = Mcast f.Filtration_congruence (Reduce ℓ b) ∧ ord b ≥ p := by
+  obtain ⟨b, hb, feq, bord⟩ := f.exists_maximal_Reduce hk f.Filtration_spec
+  use b, ⟨fun b0 => by
+    simp only [b0, map_zero, Mcast_zero] at feq;
+    exact hf.out.elim feq⟩
+
+
+
 theorem le_Filtration {p} (f : ModularFormMod ℓ k) [fn0 : NeZero f] (hk : ∀ n < p, f.coeff n = 0) :
     12 * p ≤ f.Filtration := by
 
@@ -171,8 +182,90 @@ theorem Filtration_nonneg (f : ModularFormMod ℓ k) : 0 ≤ f.Filtration := by
   by_cases f0 : f = 0
   · rw [f0, Filtration_zero]
   · trans 12 * (0 : ℕ) ; rfl
-    exact le_Filtration (fn0 := ⟨f0⟩) _ fun n nlt => n.not_lt_zero nlt |>.elim
+    exact le_Filtration (fn0 := ⟨f0⟩) _ fun n nlt => n.not_lt_zero.elim nlt
 
+
+theorem Filtration_add (f g : ModularFormMod ℓ k) :
+    Filtration (f + g) ≤ max f.Filtration g.Filtration := by
+
+  wlog hf : f.Filtration ≤ g.Filtration
+  · simpa only [add_comm, max_comm] using this g f (by lia)
+
+  by_cases! h : f = 0 ∨ g = 0 ∨ f + g = 0
+  · rcases h with h | h | h <;> simp [h, Filtration_nonneg]
+
+  have : NeZero (f + g) := ⟨h.2.2⟩
+  have : NeZero f := ⟨h.1⟩
+  have : NeZero g := ⟨h.2.1⟩
+
+  apply Filtration_le
+  simp_all
+  have h'filt := f.Filtration_congruence.trans g.Filtration_congruence.symm
+  have : ∃ m : ℕ, g.Filtration = f.Filtration + m * (ℓ - 1 : ℕ) := by
+      have := ZMod.intCast_eq_intCast_iff_dvd_sub _ _ _ |>.1 h'filt
+      obtain ⟨m, hm⟩ := this
+      lift m to ℕ using by
+        have lpos : (ℓ - 1 : ℕ) > (0 : ℤ) := by grind [hℓ.AtLeastFive]
+        have : (ℓ - 1 : ℕ) * m ≥ 0 := by grind
+        exact Int.nonneg_of_mul_nonneg_right this lpos
+      use m, by grind
+
+  obtain ⟨m, hm⟩ := this
+  use g.Filtration_choose + (f.Filtration_choose.mul ((El ℓ).pow m)).Icast hm.symm
+  rw [map_add, reduce_Icast, reduce_mul, reduce_El_pow, _root_.mul_one,
+    ← f.Filtration_choose_spec, ← g.Filtration_choose_spec, fourier_add, add_comm]
+
+
+theorem Filtration_sub (f g : ModularFormMod ℓ k) :
+    Filtration (f - g) ≤ max f.Filtration g.Filtration := by
+  rw [sub_eq_add_neg, ← Filtration_neg g]
+  exact Filtration_add _ _
+
+
+theorem Filtration_mul (f : ModularFormMod ℓ k) (g : ModularFormMod ℓ j) :
+    (f.mul g).Filtration ≤ f.Filtration + g.Filtration := by
+  by_cases! h : f = 0 ∨ g = 0 ∨ f.mul g = 0
+  · have fn := f.Filtration_nonneg
+    have gn := g.Filtration_nonneg
+    rcases h with h | h | h <;>
+    simp [h, Filtration_nonneg]
+    grind
+
+  exact Filtration_le (fn0 := ⟨h.2.2⟩) ⟨f.Filtration_choose.mul g.Filtration_choose,
+    by simp only [reduce_mul, ← Filtration_choose_spec, fourier_mul]⟩
+
+
+-- sturm bound mod ℓ
+theorem sturm_bound {f g : ModularFormMod ℓ k} (m : ℤ) (hf : f.Filtration ≤ m)
+    (hg : g.Filtration ≤ m) (h : ∀ n ≤ m.toNat / 12, f.coeff n = g.coeff n) : f = g := by
+
+  rw [← sub_eq_zero]
+  simp_rw [← sub_eq_zero (a := coeff _ f), ← map_sub] at h
+  by_contra hne
+  have : NeZero (f - g) := ⟨hne⟩
+  obtain ⟨F,Fn0,b,c⟩ := exists_maximal_Reduce' (f - g) (hf := ⟨hne⟩) fun n nlt => h n <| n.lt_succ_iff.mp nlt
+  have filtsub : (f - g).Filtration ≤ max f.Filtration g.Filtration := by
+    rw [sub_eq_add_neg]
+    apply (Filtration_add _ _).trans
+    rw [Filtration_neg]
+  have : (f - g).Filtration ≤ m := by
+    trans m
+    apply filtsub.trans
+    simpa using ⟨hf, hg⟩
+    rfl
+
+  have : dim (f - g).Filtration ≤ m.toNat / 12 + 1 := by
+    apply (dim_le_div_twelve _).trans
+    have : m ≥ 0 := (Filtration_nonneg _).trans this
+    grind
+
+  apply Fn0.out.elim
+  apply IntegerModularForm.coeff_trunc_injective <| funext fun ⟨n, nlt⟩ => by
+    simp
+    apply coeff_lt_ord
+    calc
+    _ < ((m.toNat / 12 + 1 : ℕ) : ℕ∞) := by norm_cast; grind
+    _ ≤ F.ord := c
 
 
 

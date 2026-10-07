@@ -303,3 +303,5 @@ lemma flu_ne_zero {ℓ} [isLargerPrime ℓ] (flu : fl ℓ |𝓤 = 0) : False := 
 
 theorem MainResult (ℓ : ℕ) [isLargerPrime ℓ] : ¬ ramanujan_congruence ℓ :=
   (flu_ne_zero <| flu_eq_zero ·)
+
+#print axioms MainResult
