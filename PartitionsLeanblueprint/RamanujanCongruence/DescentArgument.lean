@@ -205,7 +205,7 @@ lemma alpha_bound_ex {α : ℤ}
 
 
 
-private noncomputable def alpha (ℓ) [isLargePrime ℓ] : ℤ :=
+private noncomputable def alpha (ℓ) [isLargePrime ℓ] : ℤ := 
   Exists.choose <| exists_Filt_Theta_l_add_three_div_two (ℓ := ℓ)
 
 local notation "α" => alpha

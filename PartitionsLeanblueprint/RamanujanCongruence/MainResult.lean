@@ -1,4 +1,5 @@
 import PartitionsLeanblueprint.RamanujanCongruence.DescentArgument
+import PartitionsLeanblueprint.RamanujanCongruence.AiAssisted.KOl.Unique
 import Mathlib.NumberTheory.LegendreSymbol.Basic
 
 /-
@@ -304,4 +305,19 @@ lemma flu_ne_zero {ℓ} [isLargerPrime ℓ] (flu : fl ℓ |𝓤 = 0) : False := 
 theorem MainResult (ℓ : ℕ) [isLargerPrime ℓ] : ¬ ramanujan_congruence ℓ :=
   (flu_ne_zero <| flu_eq_zero ·)
 
-#print axioms MainResult
+
+theorem MainResult_verbose (ℓ : ℕ) (h1 : ℓ.Prime) (h2 : ℓ ≥ 13) :
+    ∀ β : ℤ, ∃ n : ℤ, ¬ KOl.standardPartition (ℓ * n + β) ≡ 0 [MOD ℓ] := by
+  have : isLargerPrime ℓ := {Prime := h1, AtLeastThirteen := h2}
+  intro β
+  by_contra! h
+  apply MainResult ℓ
+  apply KOl.ramanujan_congruence_of_shiftedCongruence ℓ
+  apply (KOl.ramanujanCongruence_unique ℓ).mp
+  refine ⟨-β, ?_⟩
+  intro n
+  simpa only [sub_neg_eq_add] using Nat.modEq_zero_iff_dvd.mp (h n)
+
+
+
+#print axioms MainResult_verbose

@@ -244,15 +244,9 @@ theorem sturm_bound {f g : ModularFormMod ℓ k} (m : ℤ) (hf : f.Filtration �
   by_contra hne
   have : NeZero (f - g) := ⟨hne⟩
   obtain ⟨F,Fn0,b,c⟩ := exists_maximal_Reduce' (f - g) (hf := ⟨hne⟩) fun n nlt => h n <| n.lt_succ_iff.mp nlt
-  have filtsub : (f - g).Filtration ≤ max f.Filtration g.Filtration := by
-    rw [sub_eq_add_neg]
-    apply (Filtration_add _ _).trans
-    rw [Filtration_neg]
   have : (f - g).Filtration ≤ m := by
-    trans m
-    apply filtsub.trans
-    simpa using ⟨hf, hg⟩
-    rfl
+    grw [Filtration_sub]
+    simpa only [sup_le_iff] using ⟨hf, hg⟩
 
   have : dim (f - g).Filtration ≤ m.toNat / 12 + 1 := by
     apply (dim_le_div_twelve _).trans
@@ -261,11 +255,10 @@ theorem sturm_bound {f g : ModularFormMod ℓ k} (m : ℤ) (hf : f.Filtration �
 
   apply Fn0.out.elim
   apply IntegerModularForm.coeff_trunc_injective <| funext fun ⟨n, nlt⟩ => by
-    simp
+    simp only [coeff_trunc_apply, IntegerModularForm.coeff_zero]
     apply coeff_lt_ord
-    calc
-    _ < ((m.toNat / 12 + 1 : ℕ) : ℕ∞) := by norm_cast; grind
-    _ ≤ F.ord := c
+    grw [c]; norm_cast; grind
+
 
 
 

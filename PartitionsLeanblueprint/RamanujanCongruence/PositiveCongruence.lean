@@ -54,15 +54,9 @@ theorem ramanujan_congruence_11 : ramanujan_congruence 11 := by
       Nat.cast_ofNat, map_sub, coeff_Mcast, coeff_zero]
     intro n nle
     rw [coeff_Theta_pow, nsmul_eq_mul, Nat.cast_pow, sub_eq_zero]
-    interval_cases n
-    all_goals
-      try rw [fl_lt_delta (by decide)]
-      try decide
-    · rw [show 5 = δ 11 by rfl, fl_delta]
-      decide
-    · rw [show 6 = δ 11 + 1 by rfl, fl_delta_add_one]
-      decide
-    all_goals
-      rw [show (_ : ZMod 11) ^ 10 = 1 by decide, _root_.one_mul]
+    interval_cases n <;> first
+    | rw [fl_lt_delta (by decide), MulZeroClass.mul_zero]
+    | rw [show (_ : ZMod 11) ^ 10 = 1 by decide, _root_.one_mul]
+
 
 #print axioms ramanujan_congruence_11
