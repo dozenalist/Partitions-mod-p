@@ -1,5 +1,5 @@
 import PartitionsLeanblueprint.RamanujanCongruence.EventuallyEq
-import Mathlib.Combinatorics.Enumerative.Partition.Basic
+import PartitionsLeanblueprint.RamanujanCongruence.AiAssisted.KOl.PartitionDefs
 
 /-
 This file defines the partition function and proves its generating function
@@ -10,24 +10,35 @@ This file is sorry free
 
 open Nat
 
-/-- The partition function, with `p 0 = 0` -/
-def partition : ℕ → ℕ
-  | 0 => 0
-  | n => Fintype.card (Partition n)
-
--- needed for later (the paper assumes p (n) = 0 for n < 0)
-lemma partition_zero : partition 0 = 0 := rfl
+/-- The standard partition function on integers, with `p 0 = 1` and
+`p n = 0` for negative `n`. -/
+def partition : ℤ → ℕ
+  | Int.ofNat n => Fintype.card n.Partition
+  | Int.negSucc _ => 0
 
 
-def ramanujan_congruence' (ℓ β : ℕ) : Prop :=
-  ∀ n, ℓ ∣ partition (ℓ*n - β)
+@[simp] lemma partition_ofNat (n : ℕ) : partition n = natpart n := rfl
 
+@[simp] lemma partition_zero : partition 0 = 1 := by
+  simpa using partition_ofNat 0
 
--- lemma ramanujan_congruence_unique (ℓ : ℕ) [Fact (Nat.Prime ℓ)] :
---     ∃ β, ramanujan_congruence' ℓ β → ramanujan_congruence' ℓ (δ ℓ) := by
---   sorry
+lemma partition_of_nonneg {n : ℤ} (hn : 0 ≤ n) :
+    partition n = natpart n.toNat := by
+  cases n with
+  | ofNat n => rfl
+  | negSucc n => omega
 
-abbrev ramanujan_congruence ℓ := ramanujan_congruence' ℓ ((ℓ^2 - 1) / 24)
+lemma partition_of_neg {n : ℤ} (hn : n < 0) : partition n = 0 := by
+  cases n with
+  | ofNat n => exact (not_lt_of_ge (Nat.cast_nonneg (α := ℤ) n) hn).elim
+  | negSucc n => rfl
+
+/-- A partition congruence on the entire integer progression with shift `β`. -/
+def ramanujan_congruence' (ℓ : ℕ) (β : ℤ) : Prop :=
+  ∀ n : ℤ, ℓ ∣ partition ((ℓ : ℤ) * n - β)
+
+abbrev ramanujan_congruence (ℓ : ℕ) :=
+  ramanujan_congruence' ℓ (((ℓ^2 - 1) / 24 : ℕ) : ℤ)
 
 
 noncomputable section ProductExpansion
@@ -189,21 +200,20 @@ def partitionProduct (m : ℕ) [Field α] :=
 
 
 
-def ppart [Field α] : ℕ → α ⟦X⟧
-  | 0 => 0
-  | n => Fintype.card (Partition n)
+def ppart [Field α] (n : ℕ) : α ⟦X⟧ := natpart n
 
-lemma ppart_zero [Field α] : ppart 0 = (0 : α ⟦X⟧) := rfl
+lemma ppart_zero [Field α] : ppart 0 = (1 : α ⟦X⟧) := by
+  simp [ppart]
 
 lemma ppart_eq [Field α] (n : ℕ) : ↑(partition n) = (ppart n : α ⟦X⟧) := by
-  cases n; rw [partition_zero, cast_zero]; rfl; rfl
+  rw [partition_ofNat]
+  rfl
 
-def apart [Field α] : ℕ → α
-  | 0 => 0
-  | n => Fintype.card (Partition n)
+def apart [Field α] (n : ℕ) : α := natpart n
 
 lemma apart_eq [Field α] (n : ℕ) : ↑(partition n) = (apart n : α) := by
-  cases n; rw [partition_zero, cast_zero]; rfl; rfl
+  rw [partition_ofNat]
+  rfl
 
 
 
@@ -246,13 +256,10 @@ lemma Partition.part_le_sum {n j} {p : Partition n} (hj : j ∈ p.parts) : j ≤
   exact this |> Trans.trans <| Multiset.le_sum_of_mem hj
 
 
-/- having npos here is inconvenient, but we can get around it using `natpart`
-and some shenanigans in the proof of flu_eq_zero -/
-
-theorem partitionProduct_eq [Field α] {n m : ℕ} (npos : n > 0) (h : n ≤ m) :
+theorem partitionProduct_eq [Field α] {n m : ℕ} (h : n ≤ m) :
     partition n = coeff (R := α) n (partitionProduct m) := by
 
-  rw [← partitionGF_prop, partition]
+  rw [← partitionGF_prop, partition_ofNat, natpart]
 
   have to_set : (Fintype.card n.Partition) = #{c : n.Partition | True} := by
     refine Eq.symm (card_eq_of_equiv_fintype ?_); refine Equiv.subtypeUnivEquiv ?_
@@ -268,28 +275,18 @@ theorem partitionProduct_eq [Field α] {n m : ℕ} (npos : n > 0) (h : n ≤ m) 
 
   rw[mkUniv_apply, Nat.sub_add_cancel]; exact Partition.parts_pos _ jin
 
-  show n ≠ 0; rwa [← Nat.pos_iff_ne_zero]
+lemma natpart_eq_partition (n : ℕ) : natpart n = partition n :=
+  (partition_ofNat n).symm
 
+lemma natpart_succ (n : ℕ) : natpart (n + 1) = partition ((n + 1 : ℕ) : ℤ) :=
+  natpart_eq_partition (n + 1)
 
-def natpart (n : ℕ) : ℕ :=
-  Fintype.card (Partition n)
-
-lemma natpart_zero : natpart 0 = 1 := by
-  unfold natpart; rw [Fintype.card_unique]
-
-lemma natpart_succ (n : ℕ) : natpart (n + 1) = partition (n + 1) := rfl
-
-lemma natpart_of_ne_zero {n : ℕ} (n0 : n ≠ 0) : natpart n = partition n := by
-  have : ∃ k, n = k + 1 := exists_eq_succ_of_ne_zero n0
-  obtain ⟨k,rfl⟩ := this; exact natpart_succ k
+lemma natpart_of_ne_zero {n : ℕ} (_n0 : n ≠ 0) : natpart n = partition n := by
+  exact natpart_eq_partition n
 
 theorem partitionProduct_eq_natpart [Field α] {n m : ℕ} (h : n ≤ m) :
     natpart n = coeff (R := α) n (partitionProduct m) := by
-  by_cases n0 : n = 0
-  simp [n0, natpart_zero, partitionProduct]
-  rw [natpart_of_ne_zero n0]
-  rw [← ne_eq, ← pos_iff_ne_zero] at n0
-  exact partitionProduct_eq n0 h
+  simpa only [partition_ofNat] using (partitionProduct_eq (α := α) h)
 
 
 theorem partitionProduct_eventually_natpart_sum [Field α] :

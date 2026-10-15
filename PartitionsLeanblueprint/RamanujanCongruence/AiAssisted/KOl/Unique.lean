@@ -4,9 +4,8 @@ import PartitionsLeanblueprint.RamanujanCongruence.AiAssisted.KOl.PartitionBridg
 /-!
 Uniqueness of the Ramanujan progression, using the convention of
 Kiming--Olsson: `p(0) = 1` and `p(n) = 0` for negative integers.
-Both the shift and the progression index range over integers. The namespace
-keeps this convention distinct from the project's historical natural-number
-definition, which assigns zero at zero.
+Both the shift and the progression index range over integers, as in the
+project's public partition and Ramanujan-congruence definitions.
 -/
 
 namespace KOl
@@ -34,18 +33,9 @@ theorem ramanujanCongruence_unique (ell : ℕ) [isLargePrime ell] :
   · intro h
     exact ⟨delta ell, h⟩
 
-/-- Restrict the integer progression to the project's natural-number convention. -/
+/-- The K--O congruence is the project's Ramanujan congruence. -/
 lemma ramanujan_congruence_of_shiftedCongruence (ℓ : ℕ) :
-    shiftedCongruence ℓ (delta ℓ) → ramanujan_congruence ℓ := by
-  intro h n
-  change ℓ ∣ partition (ℓ * n - delta ℓ)
-  by_cases hn : delta ℓ < ℓ * n
-  · have harg : (ℓ : ℤ) * (n : ℤ) - (delta ℓ : ℤ) =
-        ((ℓ * n - delta ℓ : ℕ) : ℤ) := by
-      rw [Nat.cast_sub hn.le, Nat.cast_mul]
-    have hpart := h (n : ℤ)
-    rw [harg, standardPartition_ofNat, natpart_of_ne_zero (by omega)] at hpart
-    exact hpart
-  · simp [Nat.sub_eq_zero_of_le (by omega : ℓ * n ≤ delta ℓ), partition_zero]
+    shiftedCongruence ℓ (delta ℓ) → ramanujan_congruence ℓ :=
+  id
 
 end KOl

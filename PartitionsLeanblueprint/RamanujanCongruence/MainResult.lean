@@ -307,7 +307,7 @@ theorem MainResult (ℓ : ℕ) [isLargerPrime ℓ] : ¬ ramanujan_congruence ℓ
 
 
 theorem MainResult_verbose (ℓ : ℕ) (h1 : ℓ.Prime) (h2 : ℓ ≥ 13) :
-    ∀ β : ℤ, ∃ n : ℤ, ¬ KOl.standardPartition (ℓ * n + β) ≡ 0 [MOD ℓ] := by
+    ∀ β : ℤ, ∃ n : ℤ, ¬ partition (ℓ * n + β) ≡ 0 [MOD ℓ] := by
   have : isLargerPrime ℓ := {Prime := h1, AtLeastThirteen := h2}
   intro β
   by_contra! h
@@ -317,7 +317,6 @@ theorem MainResult_verbose (ℓ : ℕ) (h1 : ℓ.Prime) (h2 : ℓ ≥ 13) :
   refine ⟨-β, ?_⟩
   intro n
   simpa only [sub_neg_eq_add] using Nat.modEq_zero_iff_dvd.mp (h n)
-
 
 
 #print axioms MainResult_verbose

@@ -787,8 +787,10 @@
   \label{def:ramanujan_congruence}
   \lean{ramanujan_congruence}
   \leanok
-  Let $p$ be the partion function. We say that there is a Ramanujan congruence mod a prime $\ell$ if 
-  $\forall n \in \mathbb{N}, \: \ell \mid p (\ell n - \delta_\ell).$
+  Let $p : \mathbb{Z} \to \mathbb{N}$ be the partition function, with $p(0) = 1$
+  and $p(n) = 0$ for $n < 0$. For an integer shift $\beta$, a congruence mod a prime
+  $\ell$ means $\forall n \in \mathbb{Z}, \: \ell \mid p(\ell n - \beta)$.
+  The Ramanujan congruence is the case $\beta = \delta_\ell$.
 \end{definition}
 
 
@@ -796,9 +798,9 @@
   \label{thm:partitionProduct_eq}
   \lean{partitionProduct_eq}
   \leanok
-  If $n \: > \: 0$ and $m \ge n$, then $p (n)$ is equal to the nth coefficient in the product exapansion of
-  \[ \prod_{i = 0}^{m} (1 - X^{i + 1})^{-1} \]
-  Note : In lean, $p (0) = 0$.
+  If $n \in \mathbb{N}$ and $m \ge n$, then $p(n)$ is equal to the nth coefficient in the product expansion of
+  \[ \prod_{0 \le i < m} (1 - X^{i + 1})^{-1}. \]
+  This includes $n = 0$, where the coefficient is $p(0) = 1$.
 \end{theorem}
 \begin{proof}
   \leanok
@@ -932,7 +934,7 @@
 \begin{theorem} 
   \label{thm:flu_eq_zero}
   \uses{def:UOp, def:ramanujan_congruence, thm:flProduct_eventually_sum, 
-    thm:partitionProduct_eq, lem:prod_eq_sum, lem:coeff_mul_shift_of_zero, lem:coeff_sum_squash}
+    thm:partitionProduct_eq}
   \lean{flu_eq_zero}
   \leanok
   Let $\ell \ge 5$ be prime. If there is a ramanujan congruence mod $\ell$,

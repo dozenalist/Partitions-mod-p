@@ -14,10 +14,9 @@ import PartitionsLeanblueprint.RamanujanCongruence.AiAssisted.KOl.PropositionThr
 Statements extracted from Kiming--Olsson, *Congruences like Ramanujan's for
 powers of the partition function* (Arch. Math. 59 (1992), 348--360).
 
-Only the ordinary partition function is used here.  The function `natpart` in
-`Partition.lean` is the usual partition function, including `p(0) = 1`.
-The auxiliary function below extends it to negative integers by the standard
-convention `p(n) = 0` for `n < 0`.
+Only the ordinary partition function is used here.  The project's `partition`
+function includes `p(0) = 1` and the convention
+`p(n) = 0` for negative integers.
 
 The partition-product bridge and the final uniqueness theorem are in
 `PartitionProduct.lean` and `Unique.lean`.
@@ -27,26 +26,18 @@ namespace KOl
 
 open scoped IntegerModularForm
 
-/-- The usual partition function on integers, with `p(n) = 0` for `n < 0`. -/
-def standardPartition (n : ℤ) : ℕ :=
-  if _h : 0 ≤ n then natpart n.toNat else 0
-
-@[simp] lemma standardPartition_ofNat (n : ℕ) :
-    standardPartition n = natpart n := by
-  simp [standardPartition]
-
 /-- A congruence for `p` at the residue class `a (mod ell)`. -/
 def congruenceAt (ell a : ℕ) : Prop :=
-  ∀ n : ℕ, ell ∣ standardPartition (ell * (n : ℤ) + a)
+  ∀ n : ℕ, ell ∣ partition (ell * (n : ℤ) + a)
 
 /-- A congruence on the whole integer progression with shift `beta`.
 Negative partition arguments contribute zero. -/
-def shiftedCongruence (ell : ℕ) (beta : ℤ) : Prop :=
-  ∀ n : ℤ, ell ∣ standardPartition (ell * n - beta)
+abbrev shiftedCongruence (ell : ℕ) (beta : ℤ) : Prop :=
+  ramanujan_congruence' ell beta
 
 /-- The ordinary partition-function version of the Ramanujan progression. -/
 abbrev ramanujanCongruence (ell : ℕ) : Prop :=
-  shiftedCongruence ell (delta ell)
+  ramanujan_congruence ell
 
 /-! ### Elementary normalization of progressions -/
 
@@ -81,7 +72,9 @@ lemma shiftedCongruence_neg_iff_congruenceAt {ell a : ℕ} (ha : a < ell) :
       have ha' : (a : ℤ) < ell := by exact_mod_cast ha
       have harg : (ell : ℤ) * n + (a : ℤ) < 0 := by
         nlinarith [mul_le_mul_of_nonneg_left hn' (Nat.cast_nonneg (α := ℤ) ell)]
-      simp [standardPartition, not_le.mpr harg]
+      change ell ∣ partition ((ell : ℤ) * n - -(a : ℤ))
+      rw [sub_neg_eq_add, partition_of_neg harg]
+      exact dvd_zero ell
 
 lemma shiftedCongruence_iff_of_pos_of_lt {ell beta : ℕ}
     (hbeta : 0 < beta) (hbetaell : beta < ell) :
@@ -116,7 +109,7 @@ lemma shiftedCongruence_normalize {ell : ℕ} {beta : ℤ}
     by_contra! ha
     have ha0 : a = 0 := by omega
     have hzero := hAt 0
-    simp [ha0, standardPartition, natpart_zero] at hzero
+    simp [ha0] at hzero
     omega
   exact ⟨a, hapos, halt, hAt, hclass⟩
 

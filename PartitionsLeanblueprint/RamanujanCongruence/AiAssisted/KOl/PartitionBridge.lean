@@ -12,30 +12,22 @@ open scoped IntegerModularForm
 
 variable {ell a : ℕ}
 
-lemma standardPartition_of_nonneg (n : ℤ) (hn : 0 ≤ n) :
-    standardPartition n = natpart n.toNat := by
-  simp [standardPartition, hn]
-
-lemma standardPartition_of_neg (n : ℤ) (hn : n < 0) :
-    standardPartition n = 0 := by
-  simp [standardPartition, hn]
-
 lemma congruenceAt_iff_zmod (ha : a < ell) :
     congruenceAt ell a ↔
-      ∀ n : ℕ, (standardPartition (ell * (n : ℤ) + a) : ZMod ell) = 0 := by
+      ∀ n : ℕ, (partition (ell * (n : ℤ) + a) : ZMod ell) = 0 := by
   constructor
   · intro h n
-    exact (ZMod.natCast_eq_zero_iff (standardPartition (ell * (n : ℤ) + a)) ell).2
+    exact (ZMod.natCast_eq_zero_iff (partition (ell * (n : ℤ) + a)) ell).2
       (h n)
   · intro h n
-    apply (ZMod.natCast_eq_zero_iff (standardPartition (ell * (n : ℤ) + a)) ell).1
+    apply (ZMod.natCast_eq_zero_iff (partition (ell * (n : ℤ) + a)) ell).1
     exact h n
 
 lemma congruenceAt_zero_false {ell : ℕ} (hell : 1 < ell) :
     ¬ congruenceAt ell 0 := by
   intro h
   have h0 := h 0
-  have : ell = 1 := by simpa [standardPartition, natpart_zero] using h0
+  have : ell = 1 := by simpa using h0
   omega
 
 lemma congruenceAt_pos_of_congruenceAt {ell a : ℕ}

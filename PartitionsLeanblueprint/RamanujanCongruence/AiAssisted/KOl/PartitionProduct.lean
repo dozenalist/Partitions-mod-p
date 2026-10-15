@@ -74,7 +74,7 @@ lemma partition_progression_coeff_zero {ell a : ℕ} [isLargePrime ell]
   have h := hcong (n / ell)
   have hcast : (ell : ℤ) * ((n / ell : ℕ) : ℤ) + a = (n : ℤ) := by
     exact_mod_cast hnform.symm
-  rw [hcast, standardPartition_ofNat] at h
+  rw [hcast, partition_ofNat] at h
   exact h
 
 /-- A partition congruence gives a discriminant congruence at the class

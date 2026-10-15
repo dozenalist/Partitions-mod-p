@@ -45,10 +45,8 @@ theorem ramanujan_congruence_11 : ramanujan_congruence 11 := by
   rw [← flu_eq_zero_iff, ← pow_eq_zero_iff _ 11 (by decide), UOp_pow_l]
   apply sturm_bound 110
   · grw [Filtration_sub]
-    simp only [Nat.add_one_sub_one, Filtration_Mcast, sup_le_iff]
-    constructor
-    · rw [Filt_fl]; decide
-    · exact Filt_Theta_10_le
+    simpa only [Nat.add_one_sub_one, Filtration_Mcast, sup_le_iff]
+      using ⟨by rw [Filt_fl]; decide, Filt_Theta_10_le⟩
   · rw [Filtration_zero]; decide
   · simp only [Int.reduceToNat, Nat.reduceDiv, Nat.add_one_sub_one,
       Nat.cast_ofNat, map_sub, coeff_Mcast, coeff_zero]
@@ -59,4 +57,20 @@ theorem ramanujan_congruence_11 : ramanujan_congruence 11 := by
     | rw [show (_ : ZMod 11) ^ 10 = 1 by decide, _root_.one_mul]
 
 
-#print axioms ramanujan_congruence_11
+theorem ramanujan_congruence_5_verbose (n : ℤ) :
+    partition (5 * n + 4) ≡ 0 [MOD 5] := by
+  rw [Nat.modEq_zero_iff_dvd, show 5 * n + 4 = 5 * (n + 1) - 1 by ring]
+  exact ramanujan_congruence_5 (n + 1)
+
+theorem ramanujan_congruence_7_verbose (n : ℤ) :
+    partition (7 * n + 5) ≡ 0 [MOD 7] := by
+  rw [Nat.modEq_zero_iff_dvd, show 7 * n + 5 = 7 * (n + 1) - 2 by ring]
+  exact ramanujan_congruence_7 (n + 1)
+
+theorem ramanujan_congruence_11_verbose (n : ℤ) :
+    partition (11 * n + 6) ≡ 0 [MOD 11] := by
+  rw [Nat.modEq_zero_iff_dvd, show 11 * n + 6 = 11 * (n + 1) - 5 by ring]
+  exact ramanujan_congruence_11 (n + 1)
+
+
+#print axioms ramanujan_congruence_11_verbose
