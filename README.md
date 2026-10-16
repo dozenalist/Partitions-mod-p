@@ -1,10 +1,13 @@
 # Partitions mod p
 
-The primary goal of this project was to formalize the first section of [this paper](https://people.math.sc.edu/boylan/reprints/nomoreramafinal.pdf) by Ahlgren and Boylan on the congurences of the partition function modulo a prime. This goal has been completed, and we are now trying to formalize some of the theorems prior to this paper, as well as information about Modular Forms Mod ℓ more generally.
+The primary goal of this project was to formalize the first section of [this paper](https://people.math.sc.edu/boylan/reprints/nomoreramafinal.pdf) by Ahlgren and Boylan on the congruences of the partition function modulo a prime. This goal has been completed, and we are now trying to formalize some of the theorems prior to this paper, as well as information about Modular Forms Mod ℓ more generally.
+
 
 You can find an overview of the definitions and theorems [here](https://dozenalist.github.io/Partitions-mod-p/)
 
 [Graph of Delarations](https://dozenalist.github.io/Partitions-mod-p/dep_graph_document.html)
+
+Every line of code outside of the AiAssisted folder was written by hand, without AiAssistance.
 
 Formalized : 
 
@@ -27,10 +30,6 @@ Formalized :
 - Information about a basis for the space of Modular Forms. Specifically, the normalized, upper triangular basis consisting of powers of E4, E6, and Delta.
 
 - All of the main results of the paper.
-
-
-
-TODO : 
 
 · Prove the Kimming and Olson result?
 
