@@ -31,8 +31,8 @@ Formalized :
 
 - All of the main results of the paper.
 
-· Prove the Kimming and Olson result?
+TODO :
 
-· Generalize to more subrings of C and more subgroups of GL(2,R)
+· Generalize to more subrings of C and more subgroups of GL(2,R) (see https://github.com/dozenalist/ModularFormsMod)
 
 
